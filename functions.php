@@ -24,6 +24,7 @@ $ordner_name = basename(realpath('.'));
 	$DARF_PROJEKT_EDIT		=  project_check_rights('projekt_'.$ordner_name.'_edit',$user_id);
 	$DARF_PROJEKT_DEL		=  project_check_rights('projekt_'.$ordner_name.'_del',$user_id);
 ////////////////////////////////////////////////
+/*
 if ( $ADMIN->check(GLOBAL_ADMIN))
 {
 	$DARF_PROJEKT_VIEW 		= 1;
@@ -31,7 +32,7 @@ if ( $ADMIN->check(GLOBAL_ADMIN))
 	$DARF_PROJEKT_EDIT		= 1;
 	$DARF_PROJEKT_DEL		= 1;
 }
-
+*/
 
 
 // ########################################################################
