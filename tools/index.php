@@ -14,6 +14,7 @@ else{
   $output .= "<h3>Sonstiges</h3>";
   $output .= "<ul>";
   $output .= "  <li><a href='freeze'>Freeze</a> (DB-Funktionen die vor/nach dem Einspielen ins Intranet ausgef&uuml;hrt werden m&uuml;ssen)</li>";
+  $output .= "  <li><a href='gaesteserver'>G&auml;steserver Mails verschicken</a></li>";
   $output .= "</ul>";
 }
 $PAGE->render($output);
