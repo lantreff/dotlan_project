@@ -1,6 +1,7 @@
 <?php
 include_once("../../../../global.php");
 require_once("../../functions.php");
+require_once("../../config.php");
 $PAGE->sitetitle = $PAGE->htmltitle = _("Gästeserver");
 $event_id = $EVENT->next;
 $event_name = $DB->query_one("SELECT name FROM events WHERE id = '$event_id' LIMIT 1");
@@ -79,39 +80,12 @@ if($ADMIN->check(ADMIN_USER)){
   $output .= "<table>";
   $output .= "  <tr>";
   $output .= "    <th>Betreff</th>";
-  $output .= "    <td><input type='text' name='betreff' size=50 value='".$event_name." :: Serversettings'></td>";  #TODO
+  $output .= "    <td><input type='text' name='betreff' size=50 value='".$event_name." :: Serversettings'></td>";
   $output .= "  </tr>";
   $output .= "  <tr>";
   $output .= "    <th>Mail:</th>";
   $output .= "    <td><textarea name=text cols=70 rows=20>";
-  $output .= "Hi <nick>,
-
-du hattest auf www.maxlan.de angegeben, du würdest einen Server
-zur Maxlan mitbringen.
-Folgende Einstellungen solltest du schon VOR der LAN einstellen.
-Auf der LAN kannst du den Server beim Support im Orgabereich abgeben, er
-wird dann in den Serverbereich gestellt. (Deswegen sollte der Server
-natürlich übers Netzwerk ferngesteuert werden)
-
-IP: 		<ip>
-Subnetz: 	255.255.240.0
-Gateway: 	10.10.1.1
-1.DNS:		10.10.1.253
-2.DNS:		10.10.1.1
-WINS: 		10.10.1.253
-Computername:	<name>
-Arbeitsgruppe:	LAN
-
-Diese Einstellungen MÜSSEN eingehalten werden, ansonsten wird der Port
-gesperrt!
-
-Wenn Steam auf der Kiste laufen soll, bitte unbedingt VOR der LAN updaten!
-
-Ansonsten viel Spaß auf der maxlan :)
-
-
-Dein maxlan-Team
-(automatisch generierte Mail)";
+  $output .= $gaesteserver_mail;
   $output .= "    </textarea></td>";
   $output .= "  </tr>";
   $output .= "  <tr>";
