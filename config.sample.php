@@ -1,4 +1,6 @@
 <?php
+# Um das Projekt komplett in Betrieb nehmen zu können, muss diese Datei in config.php umbenannt werden
+
 ## Webmail Settings
 $webmail_user = "info@email.de";
 $webmail_pw = "passwort";
