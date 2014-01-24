@@ -39,6 +39,7 @@ $location = get_location();
 
 sqsession_is_active();
 
+
 /** Autologin Patch for maxlan.de Integration */
 if($_GET["autologin"] == "true"){
   $_POST["login_username"] = $_SESSION["webmail"]["user"];
@@ -46,6 +47,7 @@ if($_GET["autologin"] == "true"){
   $_POST["js_autodetect_results"] = 1;
   $_POST["just_logged_in"] = 1;
 }
+
 
 sqsession_unregister ('user_is_logged_in');
 sqsession_register ($base_uri, 'base_uri');
