@@ -3,6 +3,7 @@ include_once("../../../../global.php");
 require_once("../../functions.php");
 $PAGE->sitetitle = $PAGE->htmltitle = _("Gästeserver");
 $event_id = $EVENT->next;
+$event_name = $DB->query_one("SELECT name FROM events WHERE id = '$event_id' LIMIT 1");
 
 if($ADMIN->check(ADMIN_USER)){
   if(!empty($_POST["submit"])){
