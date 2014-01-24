@@ -15,12 +15,12 @@ include("../functions.php");
 $PAGE->sitetitle = $PAGE->htmltitle = _("Projekt Rechteverwaltung");
 $event_id		= $EVENT->next;			// ID des anstehenden Event's
 
-// auslesen der einzelnen Werte die Ã¼ber die Adresszeile Ã¼bergeben werden
+// auslesen der einzelnen Werte die über die Adresszeile übergeben werden
 	$id				= $_GET['id'];
 ////////////////////////////////////////////////
 
 // Sortierung //
-// Variablen fÃ¼r die Sortierfunktion
+// Variablen für die Sortierfunktion
 	$sort			= "name"; // Standardfeld das zum Sortieren genutzt wird
 	$order			= "ASC"; // oder DESC | Sortierung aufwerts, abwerts
 
@@ -40,9 +40,12 @@ Admin PAGE
 */
 
 
-if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  // Ist der angemeldete Benutzer Globaler Admin oder hat er Ã¼ber die Rechteverwaltung Berechtigungen dann darf er die Seite eehen sonst Error-Message.
+if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  // Ist der angemeldete Benutzer Globaler Admin oder hat er über die Rechteverwaltung Berechtigungen dann darf er die Seite eehen sonst Error-Message.
 else
 {
+		$a = 'shortbarbit';
+		$a1 = 'shortbarlink';
+
 	if($DARF_PROJEKT_VIEW || $ADMIN->check(GLOBAL_ADMIN))
 	{ //$ADMIN
 
@@ -57,6 +60,24 @@ else
 
 				";
 
+							if($DARF_PROJEKT_ADD || $DARF_PROJEKT_EDIT)
+			{
+			$output .= "
+	<table  width='10%' cellspacing='1' cellpadding='2' border='0' class='shortbar'>
+	  <tbody>
+			<tr class='shortbarrow'>";
+			if($DARF_PROJEKT_ADD )
+			{
+				$output .= "
+				<td width='".$breite."' class='".$a."'><a href='admin.php' class='".$a1."'>Bereiche verwalten</a></td>";
+			}
+		}
+		$output .= "
+		
+			</tr>
+		</tbody>
+	</table>
+	<br>";
 
 		if($_GET['hide'] != 1) // solange die variable "hide" ungleich eins ist wird die Standardmaske angezeigt. Ist der Wert eins dann wird diese Maske ausgeblendet, um z.B. die Editmaske anzuzeigen oder um Meldungen auf der Seite auszugeben.
 		{
@@ -170,7 +191,7 @@ else
 			{
 				if (!$DARF_PROJEKT_EDIT ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
-					if($_GET['action'] == 'edit' and $_GET['comand'] == 'senden'){
+					if($_GET['action'] == 'add' and $_GET['comand'] == 'senden'){
 
 
 						$sql_rechte = $DB->query("
@@ -332,21 +353,34 @@ else
 									<table  width='100%' cellspacing='0' cellpadding='0' border='0'>
 										<tbody>
 											<tr valign=bottom>
-												<td class='msghead3'>
-													Bereich
-												</td>
-												<td class='msghead3' width='25' align='center'  style='border-left: 1px solid #FFFFFF;'>
-													A<br>D<br>D
-												</td>
-												<td class='msghead3'  width='25' align='center' style='border-left: 1px solid #FFFFFF;'>
-													D<br>E<br>L
-												</td>
-												<td class='msghead3'  width='25' align='center' style='border-left: 1px solid #FFFFFF;'>
-													E<br>D<br>I<br>T
-												</td>
-												<td class='msghead3' width='25' align='center' style='border-left: 1px solid #FFFFFF;'>
-													V<br>I<br>E<br>W
-												</td>
+											<td  class='msghead3'>
+											Bereich
+											</td>
+											";
+												$sql_rechte_namen = $DB->query("
+																				SELECT *
+																				FROM `project_rights_rights`
+																				GROUP BY recht
+																				ORDER BY recht ASC;
+																			");
+
+												while($out_rechte_namen = $DB->fetch_array($sql_rechte_namen))
+												{// begin while
+												$name= str_split($out_rechte_namen['recht']);
+
+$output .="											
+												
+												<td width='5' align='center' class='msghead3'>";
+				foreach($name as &$b) {
+$output .= strtoupper($b)."<br>" ;
+				}
+												
+				
+$output .="										</td>
+												";
+												}
+$output .="												
+												
 											</tr>";
 							while($out_sql_rechte = $DB->fetch_array($sql_rechte))
 							{// begin while
@@ -362,37 +396,47 @@ else
 												<td style='border-bottom: 1px solid #FFFFFF;'>
 													".$bereiche[1]."
 												</td>";
+												$sql_rechte_namen1 = $DB->query("
+																				SELECT *
+																				FROM `project_rights_rights`
+																				GROUP BY recht
+																				ORDER BY recht ASC;
+																			");
+												
+																			
+																									
+												while($out_rechte_namen1 = $DB->fetch_array($sql_rechte_namen1))
+												{// begin while
+												
 												$sql_user_bereich_rechte = $DB->query("
 																				SELECT *
 																				FROM `project_rights_rights`
-																				WHERE `name` LIKE '%projekt_".$bereiche[1]."%'
-																				ORDER BY `name` ASC;
+																				WHERE `name` LIKE '%projekt_".$bereiche[1]."_".$out_rechte_namen1['recht']."%'
+																				ORDER BY `recht` ASC;
 																			");
+												
+												
 
 												while($out_user_bereich_rechte = $DB->fetch_array($sql_user_bereich_rechte))
 												{// begin while
-												$test1 = 0;
-												$test2 = 0;
-												$test3 = 0;
-
+												
+												
 													$user_bereich_rechte = explode("_",$out_user_bereich_rechte['name']);
 													//$output .= "<br><br>2__".$out_user_bereich_rechte['name']." Test1 --> ".$test1." Test2 --> ".$test2." Test3 --> ".$test3;
 
 
 													$sql_user_rechte = $DB->query("
-																					SELECT `r`.`name`
+																					SELECT `r`.`name`, `r`.`recht`
 																					FROM `project_rights_user_rights` AS `ur`
 																					LEFT OUTER JOIN `project_rights_rights` AS `r` ON `r`.`id`=`ur`.`right_id`
 																					WHERE `ur`.`user_id`= '".$id."'
-																					AND `r`.`name` LIKE '%projekt_".$bereiche[1]."_".$user_bereich_rechte[2]."%'
-																					ORDER BY `r`.`name` ASC;
+																					AND `r`.`name` LIKE '%projekt_".$bereiche[1]."_".$out_rechte_namen1['recht']."%'
+																					ORDER BY `r`.`recht` ASC;
 																			");
 
 													while($out_user_rechte = $DB->fetch_array($sql_user_rechte))
 													{// begin while
-														$test3 = 3;
-														$test1 = 1;
-														$test2 = 2;
+														
 														$user_rechte = explode("_",$out_user_rechte['name']);
 
 														if($out_user_rechte['name'] == $out_user_bereich_rechte['name'])
@@ -409,20 +453,33 @@ else
 
 
 													}
+												
+													
+													if(mysql_num_rows($sql_user_rechte) == 0)
+													{
+													//$output .= " <br>4_____ ".$out_user_rechte['name']." == ".$out_user_bereich_rechte['name'];
+													$output .="
 
-													if($test1  == 0 and $test2 == 0 and $test3 == 0)
-															{
-															//$output .= " <br>4_____ ".$out_user_rechte['name']." == ".$out_user_bereich_rechte['name'];
-															$output .="
-
-															<td class='msgrow' align='center' style='border-left: 1px solid #FFFFFF; border-bottom: 1px solid #FFFFFF;'>
-																<input type='checkbox' name='".$out_user_bereich_rechte['name']."' value='".$out_user_bereich_rechte['id']."' >
-															</td>";
-															}
-
+													<td class='msgrow' align='center' style='border-left: 1px solid #FFFFFF; border-bottom: 1px solid #FFFFFF;'>
+													<input type='checkbox' name='".$out_user_bereich_rechte['name']."' value='".$out_user_bereich_rechte['id']."' >
+													</td>";
+													}	
+													
+												
+											
 
 												}
+												if(mysql_num_rows($sql_user_bereich_rechte) == 0)
+													{
+													//$output .= " <br>4_____ ".$out_user_rechte['name']." == ".$out_user_bereich_rechte['name'];
+													$output .="
 
+													<td class='msgrow' align='center' style='border-left: 1px solid #FFFFFF; border-bottom: 1px solid #FFFFFF;'>
+													&nbsp;
+													</td>";
+													}	
+												
+												}
 
 
 									$output .="
