@@ -16,53 +16,27 @@ function timestamp_mysql2german($date) {
     return $stamp;
 }
 
-$user_id 		= $CURRENT_USER->id;	// ID des aktuell Angemeldeten User
-$ordner_name = basename(realpath('.'));
 // Rechteverwaltung
-	$DARF_PROJEKT_VIEW 		=  project_check_rights('projekt_'.$ordner_name.'_view',$user_id);
-	$DARF_PROJEKT_ADD 		=  project_check_rights('projekt_'.$ordner_name.'_add',$user_id);
-	$DARF_PROJEKT_EDIT		=  project_check_rights('projekt_'.$ordner_name.'_edit',$user_id);
-	$DARF_PROJEKT_DEL		=  project_check_rights('projekt_'.$ordner_name.'_del',$user_id);
+if(!$MODUL_NAME) $MODUL_NAME = basename(realpath('.')); // Temporäre Umgehung als Kompatibilität
+$DARF = project_get_rights($MODUL_NAME);
+	$DARF_PROJEKT_VIEW 		=  $DARF["view"]; // Temporäre Umgehung als Kompatibilität
+	$DARF_PROJEKT_ADD 		=  $DARF["add"]; // Temporäre Umgehung als Kompatibilität
+	$DARF_PROJEKT_EDIT		=  $DARF["edit"]; // Temporäre Umgehung als Kompatibilität
+	$DARF_PROJEKT_DEL		=  $DARF["del"]; // Temporäre Umgehung als Kompatibilität
 ////////////////////////////////////////////////
+function project_get_rights($bereich){
+  global $DB, $CURRENT_USER;
 
-if ( $ADMIN->check(GLOBAL_ADMIN))
-{
-	$DARF_PROJEKT_VIEW 		= 1;
-	$DARF_PROJEKT_ADD 		= 1;
-	$DARF_PROJEKT_EDIT		= 1;
-	$DARF_PROJEKT_DEL		= 1;
+  $rechte = array();
+  $query = $DB->query("SELECT * FROM project_rights_rights WHERE bereich = '".$bereich."'");
+  while($row = $DB->fetch_array($query)){
+    $query2 = $DB->query("SELECT * FROM project_rights_user_rights WHERE user_id = '".$CURRENT_USER->id."' AND right_id = '".$row["id"]."' LIMIT 1");
+    if($DB->num_rows($query2) < 1) $rechte[$row["recht"]] = false;
+    else $rechte[$row["recht"]] = true;
+  }
+  return $rechte;
 }
 
-
-
-// ########################################################################
-// # Laden der Projekt-Rechteverwaltung made by Christian Egbers          #
-// ########################################################################
-
-
-function project_check_rights($right,$user_id){
-	global $DB;
-
- 	$sql_rights_name = $DB->query("
-									SELECT `r`.`name` 
-									FROM `project_rights_user_rights` AS `ur` 
-									LEFT OUTER JOIN `project_rights_rights` AS `r` ON `r`.`id`=`ur`.`right_id`
-									WHERE `ur`.`user_id`='".$user_id."';
-								");
-
-	while($out = $DB->fetch_array($sql_rights_name))
-	{ $laufer = 0;
-
-		$recht_name[$laufer] = $out['name'];
-		
-		if($recht_name[$laufer] == $right )
-		{
-			return TRUE ;
-		}
-	  $laufer ++;
-	}
-
-}
 function project_check_queue_view($queueid1,$user1_id){
 	global $DB,$ADMIN;
 	
