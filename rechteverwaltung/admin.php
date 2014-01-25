@@ -5,6 +5,7 @@
 # Copyright (C) 2013 Christian Egbers <christian@3gg3.de>                #
 #                                                                        #
 #########################################################################
+$MODUL_NAME = "rechteverwaltung";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -17,7 +18,7 @@ $name    = security_number_int_input($_POST['name'],"","");
 $rechte  = security_string_input($_POST['rechte']);
 $bereich = !empty($_POST["bereich1"]) ? security_string_input($_POST['bereich1']) : security_string_input($_POST['bereich']);
 ###########################################################################################
-if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  
+if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  
 
 $a = 'shortbarbit';
 $a1 = 'shortbarlink';
@@ -34,7 +35,7 @@ if($_GET['action'] == 'add'){
   $d1 = 'shortbarlink';
 }
 
-if($DARF_PROJEKT_VIEW || $ADMIN->check(GLOBAL_ADMIN)){ //$ADMIN
+if($DARF["view"] || $ADMIN->check(GLOBAL_ADMIN)){ //$ADMIN
   $output .= "<a name='top' >
       <a href='/admin/projekt/'>Administration</a>
       &raquo;
@@ -43,7 +44,7 @@ if($DARF_PROJEKT_VIEW || $ADMIN->check(GLOBAL_ADMIN)){ //$ADMIN
       <hr class='newsline' width='100%' noshade=''>
       <br />";
 
-  if($DARF_PROJEKT_ADD){
+  if($DARF["add"]){
     $output .= "<table  width='10%' cellspacing='1' cellpadding='2' border='0' class='shortbar'>
       <tbody>
         <tr class='shortbarrow'>
@@ -61,7 +62,7 @@ if($DARF_PROJEKT_VIEW || $ADMIN->check(GLOBAL_ADMIN)){ //$ADMIN
             <tr>
               <td class=\"msghead\">Bereich</td>
               <td class=\"msghead\">Rechte</td>";
-    if($DARF_PROJEKT_EDIT) $output .= "<td class=\"msghead\">admin</td>";
+    if($DARF["edit"]) $output .= "<td class=\"msghead\">admin</td>";
     $output .= "</tr>";
 
     $sql_list_bereich = $DB->query("SELECT bereich FROM project_rights_rights GROUP BY bereich");
@@ -81,7 +82,7 @@ if($DARF_PROJEKT_VIEW || $ADMIN->check(GLOBAL_ADMIN)){ //$ADMIN
           
       $output .="</td>";
       
-      if($DARF_PROJEKT_EDIT){
+      if($DARF["edit"]){
         $sql_list_recht_id = $DB->query_one("SELECT id FROM project_rights_rights WHERE bereich = '".$out_list_bereich['bereich']."' LIMIT 1");
         $output .= "<td width='5' valign='top' align='right'><a href='?hide=1&action=edit&id=".$sql_list_recht_id."' target='_parent'><img src='../images/16/edit.png' title='Recht &auml;ndern' ></a></td>";
       }
@@ -99,7 +100,7 @@ if($_GET['hide'] == "1"){
   # Recht loeschen
   ##################
   if($_GET['action'] == 'del'){
-    if(!$DARF_PROJEKT_DEL) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+    if(!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
     if($_GET['comand'] == 'senden'){
       $DB->query("DELETE FROM project_rights_user_rights WHERE right_id = '".$_GET['id']."'");
@@ -129,7 +130,7 @@ if($_GET['hide'] == "1"){
   # Recht hinzufuegen
   ##################
   if($_GET['action'] == 'add'){
-    if(!$DARF_PROJEKT_ADD) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+    if(!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
     if($_GET['action'] == 'add' && $_GET['comand'] == 'senden'){
       $output .= "Daten wurden gesendet";
@@ -178,7 +179,7 @@ if($_GET['hide'] == "1"){
   # Recht editieren
   ##################
   if($_GET['action'] == 'edit'){
-    if (!$DARF_PROJEKT_EDIT) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+    if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
     if($_GET['action'] == 'edit' && $_GET['comand'] == 'senden'){
       $all_rights = $_POST['rechte'];

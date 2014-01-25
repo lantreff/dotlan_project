@@ -6,13 +6,14 @@
 #                                                                        #
 # admin/Rechteverwaltung/index.php - Version 1.0                         #
 #########################################################################
+$MODUL_NAME = "rechteverwaltung";
 include_once("../../../global.php");
 include("../functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Projekt Rechteverwaltung");
 
 ###########################################################################################
-if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  // Ist der angemeldete Benutzer Globaler Admin oder hat er über die Rechteverwaltung Berechtigungen dann darf er die Seite eehen sonst Error-Message.
+if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  // Ist der angemeldete Benutzer Globaler Admin oder hat er über die Rechteverwaltung Berechtigungen dann darf er die Seite eehen sonst Error-Message.
 
 $a = 'shortbarbit';
 $a1 = 'shortbarlink';
@@ -25,12 +26,12 @@ $output .= "<a name='top' >
       <hr class='newsline' width='100%' noshade=''>
       <br />";
 
-if($DARF_PROJEKT_ADD || $DARF_PROJEKT_EDIT){
+if($DARF["add"] || $DARF["edit"]){
   $output .= "
 <table  width='10%' cellspacing='1' cellpadding='2' border='0' class='shortbar'>
   <tbody>
     <tr class='shortbarrow'>";
-  if($DARF_PROJEKT_ADD){
+  if($DARF["add"]){
     $output .= "<td width='".$breite."' class='".$a."'><a href='admin.php' class='".$a1."'>Bereiche verwalten</a></td>";
   }
 }
@@ -49,7 +50,7 @@ if($_GET['hide'] != 1){ // solange die variable "hide" ungleich eins ist wird di
                   <td  width='100' class='msghead' align='center'><b>Name</b></td>
                   <td width='350'  class='msghead' align='center'><b>&Uuml;bersicht</b></td>";
 
-  if($DARF_PROJEKT_EDIT ){
+  if($DARF["edit"] ){
     $output .="   <td width='20' class='msghead' align='center'><b>admin</b></td>";
   }
   $output .="   </tr>";
@@ -73,7 +74,7 @@ if($_GET['hide'] != 1){ // solange die variable "hide" ungleich eins ist wird di
     }
     $output .= "'>Hier mit der Maus hin :-)</td>";
 
-    if($DARF_PROJEKT_EDIT){
+    if($DARF["edit"]){
       $output .= "<td align='center'><a href='?hide=1&action=edit&id=".$out_orga_data['id']."' target='_parent'> <img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' > </a></td>";
     }
 
@@ -89,7 +90,7 @@ if($_GET['hide'] != 1){ // solange die variable "hide" ungleich eins ist wird di
 if($_GET['hide'] == "1"){
   /////////////////////////////////////////////// EDIT ///////////////////////////////////////////////
   if($_GET['action'] == 'edit'){
-    if (!$DARF_PROJEKT_EDIT ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+    if (!$DARF["edit"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
     ####
     # Rechte wurden editiert und werden jetzt gespeichert ...
