@@ -18,12 +18,7 @@ function timestamp_mysql2german($date) {
 }
 
 // Rechteverwaltung
-if(!$MODUL_NAME) $MODUL_NAME = basename(realpath('.')); // Temporäre Umgehung als Kompatibilität
 $DARF = project_get_rights($MODUL_NAME);
-	$DARF_PROJEKT_VIEW 		=  $DARF["view"]; // Temporäre Umgehung als Kompatibilität
-	$DARF_PROJEKT_ADD 		=  $DARF["add"]; // Temporäre Umgehung als Kompatibilität
-	$DARF_PROJEKT_EDIT		=  $DARF["edit"]; // Temporäre Umgehung als Kompatibilität
-	$DARF_PROJEKT_DEL		=  $DARF["del"]; // Temporäre Umgehung als Kompatibilität
 ////////////////////////////////////////////////
 function project_get_rights($bereich){
   global $DB, $CURRENT_USER;
