@@ -7,7 +7,7 @@
 # admin/notiz/index.php - Version 1.0                                  #
 ########################################################################
 
-
+$MODUL_NAME = "notiz";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -55,7 +55,7 @@ Admin PAGE
 */
 
 
-if(!$DARF_PROJEKT_VIEW ) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+if(!$DARF["view"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 else
 {// !$module_admin_check
 		$a = 'shortbarbit';
@@ -63,7 +63,7 @@ else
 
 
 
- 		if($DARF_PROJEKT_VIEW)
+ 		if($DARF["view"])
 		{ //$ADMIN
 
 			$output .= "<a name='top' >
@@ -184,7 +184,7 @@ else
 								<td width='150' class='msghead'>
 									Ge&auml;ndert
 								</td>";
-						if($DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL)
+						if($DARF["edit"] || $DARF["del"])
 						{ // Global Admin
 							$output .="
 								<td width='70' class='msghead'>
@@ -213,12 +213,12 @@ else
 									<td class='shortbarbit_left'>
 										".$out_list_note['last_work']."
 									</td>";
-							if($DARF_PROJEKT_EDIT || $DARF_PROJEKT_DELL)
+							if($DARF["edit"] || $DARF["del"])
 							{ // Global Admin
 								$output .="
 										<td class='shortbarbit_left'>";
 
-									if($DARF_PROJEKT_EDIT )
+									if($DARF["edit"] )
 									{ //  Admin
 										$output .="
 
@@ -226,7 +226,7 @@ else
 											<img src='/images/projekt/16/edit.png' title='Deteils anzeigen / &auml;ndern' ></a>
 									";
 									}
-									if($DARF_PROJEKT_DEL )
+									if($DARF["del"] )
 									{ //  Admin
 										$output .="
 											<a href='?hide=1&action=del&id=".$out_list_note['id']."' target='_parent'>
@@ -260,7 +260,7 @@ if($_GET['hide'] == "1")
 {
 	if($_GET['action'] == 'del')
 	{
-		if (!$DARF_PROJEKT_DEL) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 			if($_GET['comand'] == 'senden')
 
@@ -298,7 +298,7 @@ if($_GET['hide'] == "1")
 
 	if($_GET['action'] == 'add')
 	{
-		if (!$DARF_PROJEKT_ADD) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 		if($_GET['comand'] == 'senden')
 
@@ -387,7 +387,7 @@ $output .= "
 
 	if($_GET['action'] == 'edit')
 	{
-		if (!$DARF_PROJEKT_EDIT) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 		$sql_edit_note = $DB->query("SELECT * FROM project_notizen WHERE id = ".$id."");
 		//$sql_note_historie = $DB->query("SELECT * FROM project_notizen_historie WHERE notiz_id = ".$id." ORDER BY datum DESC");
@@ -541,7 +541,7 @@ $output .= "
 
 }
 
-	if($_GET['action'] == 'show' && $DARF_PROJEKT_VIEW )
+	if($_GET['action'] == 'show' && $DARF["view"] )
 	{
 		$sql_show_note = $DB->query("SELECT * FROM project_notizen WHERE id = ".$id."");
 
@@ -558,7 +558,7 @@ $output .= "
 									Bezeichnung
 									
 ";										
-if($DARF_PROJEKT_EDIT )
+if($DARF["edit"] )
 	{
 $output .= "										
 											<a href='?hide=1&action=edit&id=".$out_show_note['id']."&event=".$selectet_event_id."' target='_parent'>
