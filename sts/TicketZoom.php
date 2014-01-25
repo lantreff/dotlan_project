@@ -420,7 +420,7 @@ $output .=
 
 ";
 
-if($out_ticket_zoom_data['agent'] == $user_id || $DARF["del"]L )
+if($out_ticket_zoom_data['agent'] == $user_id || $DARF["del"])
 			{
 $output .=
 "  			-
@@ -755,7 +755,7 @@ $output .=
 															<td colspan='2'>
 															<li><a  href='TicketCompose.php?ticketid=".$out_ticket_zoom['id']."'>Standard-Antwort</a></li>
 ";
-													if($out_ticket_zoom_data['agent'] == $user_id || $DARF["del"]L )
+													if($out_ticket_zoom_data['agent'] == $user_id || $DARF["del"] )
 													{
 $output .=
 "
