@@ -160,7 +160,7 @@ else
 									{
 										$output .= "
 													<td align='center'>
-												<a href='?hide=1&action=edit&id=".$out_orga_data['id']."' target='_parent'> <img src='/images/projekt/16/edit.png' title='Details anzeigen/&auml;ndern' > </a>
+												<a href='?hide=1&action=edit&id=".$out_orga_data['id']."' target='_parent'> <img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' > </a>
 
 										</td>";
 									}

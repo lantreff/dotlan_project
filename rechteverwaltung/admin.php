@@ -160,7 +160,7 @@ $sql_list_bereich = $DB->query("SELECT bereich FROM project_rights_rights GROUP 
 						
 						$output .= $recht[2]."
 							<a href='?hide=1&action=del&id=".$out_list_recht['id']."' target='_parent'>
-								<img src='/images/projekt/16/editdelete.png' title='".$recht[2]." l&ouml;schen'>
+								<img src='../images/16/editdelete.png' title='".$recht[2]." l&ouml;schen'>
 							</a>
 						<br>";
 						}
@@ -174,7 +174,7 @@ $i ++;
 				$output .= " 
 					<td width='5' valign='top' align='right'>
 						<a href='?hide=1&action=edit&id=".$sql_list_recht_id['id']."' target='_parent'>
-							<img src='/images/projekt/16/edit.png' title='Recht &auml;ndern' >
+							<img src='../images/16/edit.png' title='Recht &auml;ndern' >
 						</a>
 											</td>";
 						
@@ -420,7 +420,7 @@ $output .= "
 										<input name='rechte[]' value='".$rechte1[2]."' type='text' maxlength='30'>
 											
 											<a href='?hide=1&action=del&id=".$out_list_rechte['id']."' target='_parent'>
-												<img src='/images/projekt/16/editdelete.png' title='Recht l&ouml;schen'>
+												<img src='../images/16/editdelete.png' title='Recht l&ouml;schen'>
 											</a>
 											
 											<br>
