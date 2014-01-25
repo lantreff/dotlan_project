@@ -227,10 +227,10 @@ else
 										";
 											 if ( $_GET['order'] == "ASC" && $_GET['sort'] == "name" )
 												{
-													$output .= "<b>Sponsor</b> <a href='?sort=name&order=DESC' > <img src='/images/projekt/16/minisort2.gif' alt='Sortieren nach Sponsor' border='0'/> </a>";
+													$output .= "<b>Sponsor</b> <a href='?sort=name&order=DESC' > <img src='../images/16/minisort2.gif' alt='Sortieren nach Sponsor' border='0'/> </a>";
 												}
 												else{
-													$output .= "<b>Sponsor</b> <a href='?sort=name&order=ASC' > <img src='/images/projekt/16/minisort.gif' alt='Sortieren nach Sponsor' border='0'/> </a>";
+													$output .= "<b>Sponsor</b> <a href='?sort=name&order=ASC' > <img src='../images/16/minisort.gif' alt='Sortieren nach Sponsor' border='0'/> </a>";
 													}
 
 											$output .= "
@@ -245,10 +245,10 @@ else
 										";
 											 if ( $_GET['order'] == "ASC"  && $_GET['sort'] == "admin" )
 												{
-													$output .= "<b>Verantwortlicher</b> <a href='?sort=admin&order=DESC' > <img src='/images/projekt/16/minisort2.gif' alt='Sortieren nach Verantwortlicher' border='0'/> </a>";
+													$output .= "<b>Verantwortlicher</b> <a href='?sort=admin&order=DESC' > <img src='../images/16/minisort2.gif' alt='Sortieren nach Verantwortlicher' border='0'/> </a>";
 												}
 												else{
-													$output .= "<b>Verantwortlicher</b> <a href='?sort=admin&order=ASC' > <img src='/images/projekt/16/minisort.gif' alt='Sortieren nach Verantwortlicher' border='0'/> </a>";
+													$output .= "<b>Verantwortlicher</b> <a href='?sort=admin&order=ASC' > <img src='../images/16/minisort.gif' alt='Sortieren nach Verantwortlicher' border='0'/> </a>";
 													}
 
 											$output .= "
@@ -392,12 +392,12 @@ else
 							if( $DARF["edit"] )
 							{ // EDIT
 							$output .="<a href='?hide=1&action=edit&id=".$out['id']."' target='_parent'>
-										<img src='/images/projekt/16/edit.png' title='Details anzeigen/&auml;ndern' ></a>";
+										<img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' ></a>";
 							}
 							if( $DARF["del"])
 							{ // DEL
 							$output .="<a href='?hide=1&action=del&id=".$out['id']."' target='_parent'>
-										<img src='/images/projekt/16/editdelete.png' title='L&ouml;schen'></a>";
+										<img src='../images/16/editdelete.png' title='L&ouml;schen'></a>";
 							}
 							$output .= "</td>";
 						}

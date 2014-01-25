@@ -496,15 +496,15 @@ $output .=
 ";
 		if($menge_out_ticket_count_user >= 3)
 		{
-			$led = "/images/projekt/16/status_unknown.png";
+			$led = "../images/16/status_unknown.png";
 		}
 		if($menge_out_ticket_count_user >= 5)
 		{
-			$led = "/images/projekt/16/stop.png";
+			$led = "../images/16/stop.png";
 		}
 		else
 		{
-			$led = "/images/projekt/16/submit.png";
+			$led = "../images/16/submit.png";
 		}
 $output .=
 "

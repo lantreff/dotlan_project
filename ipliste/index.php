@@ -162,12 +162,12 @@ else
 				if(substr($out_list_category['category'],0,5)  == 'Block')
 				{
 					$display = "style=' display:none'\" ";
-					$imgupdown = "/images/projekt/sts/collapse-up.png";
+					$imgupdown = "../images/sts/collapse-up.png";
 				}
 				else
 				{
 					$display = "";
-					$imgupdown = "/images/projekt/sts/expand-down.png";
+					$imgupdown = "../images/sts/expand-down.png";
 				}
 				
 					$output .= "
@@ -221,7 +221,7 @@ else
 												{
 										$output .= "
 												<a href='?hide=1&action=add&add_cat=".$out_list_category['category']."' >
-												<img src='/images/projekt/16/db_add.png' title='IP-Adresse in der Kategorie ".$out_list_category['category']." anlegen' align='right'></a>";
+												<img src='../images/16/db_add.png' title='IP-Adresse in der Kategorie ".$out_list_category['category']." anlegen' align='right'></a>";
 												}
 
 												$output .= "
@@ -298,14 +298,14 @@ $output .= "
 										{ //  Admin
 											$output .="
 														<a href='?hide=1&action=edit&id=".$out_list_ip_DNS1['id']."' target='_parent'>
-														<img src='/images/projekt/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>
+														<img src='../images/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>
 														";
 											}
 										if($DARF["del"] )
 										{ //  Admin
 											$output .="
 														<a href='?hide=1&action=del&id=".$out_list_ip_DNS1['id']."' target='_parent'>
-														<img src='/images/projekt/16/editdelete.png' title='IP l&ouml;schen'></a>
+														<img src='../images/16/editdelete.png' title='IP l&ouml;schen'></a>
 														<br>
 													";
 										}
@@ -343,13 +343,13 @@ $output .= "
 								{ //  Admin
 									$output .="
 											<a href='?hide=1&action=edit&id=".$out_list_ip['id']."' target='_parent'>
-											<img src='/images/projekt/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>";
+											<img src='../images/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>";
 								}
 								if($DARF["del"] )
 								{ //  Admin
 								$output .="
 											<a href='?hide=1&action=del&id=".$out_list_ip['id']."&category=".$out_list_ip['category']."' target='_parent'>
-											<img src='/images/projekt/16/editdelete.png' title='IP l&ouml;schen'></a>
+											<img src='../images/16/editdelete.png' title='IP l&ouml;schen'></a>
 										";
 								}
 								$output .="
@@ -377,7 +377,7 @@ $output .= "
 												{
 										$output .= "
 												<a href='?hide=1&action=add&ip=".$ip_plus1[0].".".$ip_plus1[1].".".$ip_plus1[2].".".$ip_neu."&add_cat=".$out_list_category['category']."' >
-												<img src='/images/projekt/16/db_add.png' title='IP-Adresse ".$ip_plus1[0].".".$ip_plus1[1].".".$ip_plus1[2].".".$ip_neu." in dem Bereich ".$out_list_category['category']." anlegen'></a>";
+												<img src='../images/16/db_add.png' title='IP-Adresse ".$ip_plus1[0].".".$ip_plus1[1].".".$ip_plus1[2].".".$ip_neu." in dem Bereich ".$out_list_category['category']." anlegen'></a>";
 												}
 
 												$output .= "

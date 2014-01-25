@@ -71,35 +71,35 @@ $output .=
 	<tbody>
 		<tr align='left' class='contenthead'>
                         <th width='10%'>Prio<br>
-                        <a href='?queueid=".$queueid."&sort=prio&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='/images/projekt/sts/up-small.png'></a> /
-                        <a  href='?queueid=".$queueid."&sort=prio&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='/images/projekt/sts/down-small.png'></a>
+                        <a href='?queueid=".$queueid."&sort=prio&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='../images/sts/up-small.png'></a> /
+                        <a  href='?queueid=".$queueid."&sort=prio&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='../images/sts/down-small.png'></a>
                         </th>
                         <th width='15%'>Ticket#<br>
-                        <a href='?queueid=".$queueid."&sort=id&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='/images/projekt/sts/up-small.png'></a> /
-                        <a  href='?queueid=".$queueid."&sort=id&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='/images/projekt/sts/down-small.png'></a>
+                        <a href='?queueid=".$queueid."&sort=id&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='../images/sts/up-small.png'></a> /
+                        <a  href='?queueid=".$queueid."&sort=id&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='../images/sts/down-small.png'></a>
                         </th>
                         <th width='15%'>Alter<br>
-                        <a href='?queueid=".$queueid."&sort=erstellt&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='/images/projekt/sts/up-small.png'></a> /
-                        <a  href='?queueid=".$queueid."&sort=erstellt&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='/images/projekt/sts/down-small.png'></a>
+                        <a href='?queueid=".$queueid."&sort=erstellt&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='../images/sts/up-small.png'></a> /
+                        <a  href='?queueid=".$queueid."&sort=erstellt&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='../images/sts/down-small.png'></a>
                         </th>
 <!--start RecordTicketTitleHeader-->
                         <th width='40%'>Von/Titel</th>
 <!--stop RecordTicketTitleHeader -->
                         <th width='5%'>Status<br>
-                        <a href='?queueid=".$queueid."&sort=status&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='/images/projekt/sts/up-small.png'></a> /
-                        <a  href='?queueid=".$queueid."&sort=status&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='/images/projekt/sts/down-small.png'></a>
+                        <a href='?queueid=".$queueid."&sort=status&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='../images/sts/up-small.png'></a> /
+                        <a  href='?queueid=".$queueid."&sort=status&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='../images/sts/down-small.png'></a>
                         </th>
                         <th width='5%'>Bearbeitung<br>
-                        <a href='?queueid=".$queueid."&sort=sperre&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='/images/projekt/sts/up-small.png'></a> /
-                        <a  href='?queueid=".$queueid."&sort=sperre&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='/images/projekt/sts/down-small.png'></a>
+                        <a href='?queueid=".$queueid."&sort=sperre&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='../images/sts/up-small.png'></a> /
+                        <a  href='?queueid=".$queueid."&sort=sperre&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='../images/sts/down-small.png'></a>
                         </th>
                         <th width='10%'>Queue<br>
-                        <a href='?queueid=".$queueid."&sort=queue&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='/images/projekt/sts/up-small.png'></a> /
-                        <a  href='?queueid=".$queueid."&sort=queue&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='/images/projekt/sts/down-small.png'></a>
+                        <a href='?queueid=".$queueid."&sort=queue&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='../images/sts/up-small.png'></a> /
+                        <a  href='?queueid=".$queueid."&sort=queue&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='../images/sts/down-small.png'></a>
                         </th>
                         <th width='15%'>Besitzer<br>
-                        <a href='?queueid=".$queueid."&sort=agent&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='/images/projekt/sts/up-small.png'></a> /
-                        <a  href='?queueid=".$queueid."&sort=agent&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='/images/projekt/sts/down-small.png'></a>
+                        <a href='?queueid=".$queueid."&sort=agent&order=ASC&seite=".$seite."' name='OverviewControl'><img border='0' alt='aufw&auml;rts' src='../images/sts/up-small.png'></a> /
+                        <a  href='?queueid=".$queueid."&sort=agent&order=DESC&seite=".$seite."' name='OverviewControl'><img border='0' alt='abw&auml;rts' src='../images/sts/down-small.png'></a>
                         </th>
                     </tr>
 ";

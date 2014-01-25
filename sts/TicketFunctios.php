@@ -210,7 +210,7 @@ $sql1 = $DB->query($uebergabe);
 	$output .=
 	"
 			<div>
-				&nbsp;<img border='0' alt='Keine neuen Nachrichten' title='Keine neuen Nachrichten' src='/images/projekt/sts/ticket_no_new_messages.png'  >
+				&nbsp;<img border='0' alt='Keine neuen Nachrichten' title='Keine neuen Nachrichten' src='../images/sts/ticket_no_new_messages.png'  >
 			</div>
 	";
 		}
@@ -220,7 +220,7 @@ $sql1 = $DB->query($uebergabe);
 	$output .=
 	"
 				<div>
-					&nbsp;<img border='0' alt='Neuen Nachrichten' title='Neuen Nachrichten' src='/images/projekt/sts/ticket_new_messages.png'  >
+					&nbsp;<img border='0' alt='Neuen Nachrichten' title='Neuen Nachrichten' src='../images/sts/ticket_new_messages.png'  >
 				</div>
 	";
 		}
@@ -268,7 +268,7 @@ $sql1 = $DB->query($uebergabe);
 					$output .=
 							"<td width='32' align='center' valign='middle'>
 							<a title='' href='TicketZoom.php?ticketid=".$out_tickets_neu['id']."'>
-							&nbsp;<img src='/images/projekt/sts/ticket_processing.png'>
+							&nbsp;<img src='../images/sts/ticket_processing.png'>
 							&nbsp;".$out_tickets_neu['id']."
 							</a>
 							</td>
@@ -279,7 +279,7 @@ $sql1 = $DB->query($uebergabe);
 					$output .=
 							"<td width='32' align='center' valign='middle'>
 							<a title='in Bearbeitung!' href='TicketZoom.php?ticketid=".$out_tickets_neu['id']."'>
-							&nbsp;<img src='/images/projekt/sts/ticket_processing.png'>
+							&nbsp;<img src='../images/sts/ticket_processing.png'>
 							&nbsp;".$out_tickets_neu['id']."
 							</a>
 							</td>

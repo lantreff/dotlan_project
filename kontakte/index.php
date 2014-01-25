@@ -159,10 +159,10 @@ else
 							<td width='70'    class='msghead' align='center'>";
 							 if ( $_GET['order'] == "ASC" && $_GET['sort'] == "p_vorname"  )
 								{
-									$output .= "<b>Vorname</b> <a href='?sort=p_vorname&order=DESC' > <img src='/images/projekt/16/minisort2.gif' alt='Sortieren nach Vorname' border='0'/></a>";
+									$output .= "<b>Vorname</b> <a href='?sort=p_vorname&order=DESC' > <img src='../images/16/minisort2.gif' alt='Sortieren nach Vorname' border='0'/></a>";
 								}
 								else{
-									$output .= "<b>Vorname</b> <a href='?sort=p_vorname&order=ASC' > <img src='/images/projekt/16/minisort.gif' alt='Sortieren nach Vorname' border='0'/> </a>";
+									$output .= "<b>Vorname</b> <a href='?sort=p_vorname&order=ASC' > <img src='../images/16/minisort.gif' alt='Sortieren nach Vorname' border='0'/> </a>";
 									}
 
 							$output .= "
@@ -171,10 +171,10 @@ else
 							";
 							 if ( $_GET['order'] == "ASC"  && $_GET['sort'] == "p_name")
 								{
-									$output .= "<b>Nachname</b> <a href='?sort=p_name&order=DESC' > <img src='/images/projekt/16/minisort2.gif' alt='Sortieren nach Nachname' border='0'/> </a>";
+									$output .= "<b>Nachname</b> <a href='?sort=p_name&order=DESC' > <img src='../images/16/minisort2.gif' alt='Sortieren nach Nachname' border='0'/> </a>";
 								}
 								else{
-									$output .= "<b>Nachname</b> <a href='?sort=p_name&order=ASC' > <img src='/images/projekt/16/minisort.gif' alt='Sortieren nach Nachname' border='0'/> </a>";
+									$output .= "<b>Nachname</b> <a href='?sort=p_name&order=ASC' > <img src='../images/16/minisort.gif' alt='Sortieren nach Nachname' border='0'/> </a>";
 									}
 
 							$output .= "
@@ -184,10 +184,10 @@ else
 								";
 							 if ( $_GET['order'] == "ASC"  && $_GET['sort'] == "fa_name")
 								{
-									$output .= "<b>Firma</b> <a href='?sort=fa_name&order=DESC' > <img src='/images/projekt/16/minisort2.gif' alt='Sortieren nach Firma' border='0'/> </a>";
+									$output .= "<b>Firma</b> <a href='?sort=fa_name&order=DESC' > <img src='../images/16/minisort2.gif' alt='Sortieren nach Firma' border='0'/> </a>";
 								}
 								else{
-									$output .= "<b>Firma</b> <a href='?sort=fa_name&order=ASC' > <img src='/images/projekt/16/minisort.gif' alt='Sortieren nach Firma' border='0'/>  </a>";
+									$output .= "<b>Firma</b> <a href='?sort=fa_name&order=ASC' > <img src='../images/16/minisort.gif' alt='Sortieren nach Firma' border='0'/>  </a>";
 									}
 
 							$output .= "
@@ -197,11 +197,11 @@ else
 								";
 							 if ( $_GET['order'] == "ASC"  && $_GET['sort'] == "fa_funktion")
 								{
-									$output .= "<b>Funktion</b> <a href='?sort=fa_funktion&order=DESC' > <img src='/images/projekt/16/minisort2.gif' alt='Sortieren nach Funktion' border='0'/> </a>";
+									$output .= "<b>Funktion</b> <a href='?sort=fa_funktion&order=DESC' > <img src='../images/16/minisort2.gif' alt='Sortieren nach Funktion' border='0'/> </a>";
 								}
 								else
 								{
-									$output .= "<b>Funktion</b> <a href='?sort=fa_funktion&order=ASC' > <img src='/images/projekt/16/minisort.gif' alt='Sortieren nach Funktion' border='0'/> </a>";
+									$output .= "<b>Funktion</b> <a href='?sort=fa_funktion&order=ASC' > <img src='../images/16/minisort.gif' alt='Sortieren nach Funktion' border='0'/> </a>";
 								}
 							$output .= "
 							</td>";
@@ -249,13 +249,13 @@ else
 									if($DARF["edit"] )
 									{
 										$output .= "
-										<a href='?hide=1&action=edit&id=".$out_list_category['contactid']."' target='_parent'> <img src='/images/projekt/16/edit.png' title='Details anzeigen/&auml;ndern' > </a>
+										<a href='?hide=1&action=edit&id=".$out_list_category['contactid']."' target='_parent'> <img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' > </a>
 										";
 									}
 									if($DARF["del"] )
 									{
 										$output .= "
-										<a href='?hide=1&action=del&id=".$out_list_category['contactid']."' target='_parent'> <img src='/images/projekt/16/editdelete.png' title='Kontakt löschen' > </a>
+										<a href='?hide=1&action=del&id=".$out_list_category['contactid']."' target='_parent'> <img src='../images/16/editdelete.png' title='Kontakt löschen' > </a>
 										";
 									}
 								$output .= "

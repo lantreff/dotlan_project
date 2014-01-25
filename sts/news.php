@@ -49,7 +49,7 @@ $output .=
     <td width='25' align='right' class='contentbody'>
 
 <!--start Warning-->
-      <img border='0' alt='Info' src='/images/projekt/sts/warning.png'>
+      <img border='0' alt='Info' src='../images/sts/warning.png'>
 <!--stop Warning -->
 
     </td>

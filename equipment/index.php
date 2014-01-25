@@ -155,7 +155,7 @@ $output .= "
 												{
 										$output .= "
 												<a href='?hide=1&action=add&add_cat=".$out_list_category[$group_by]."' >
-												<img src='/images/projekt/16/db_add.png' title='Artikel in der Kategorie ".$out_list_category[$group_by]." anlegen' ></a>";
+												<img src='../images/16/db_add.png' title='Artikel in der Kategorie ".$out_list_category[$group_by]." anlegen' ></a>";
 												}
 
 												$output .= "</td>
@@ -210,7 +210,7 @@ $output .= "
 									</td>
 									<td >
 										<a href='?hide=1&action=show&bezeichnung1=".$out_list_bezeichnung['bezeichnung']."&show_cat=".$out_list_bezeichnung[$group_by]."&group_by=".$group_by."' target='_parent'><!-- KA  -->
-											<img src='/images/projekt/16/lists.png' title='Alle [".$out_list_bezeichnung['bezeichnung']."] anzeigen!' ></a>
+											<img src='../images/16/lists.png' title='Alle [".$out_list_bezeichnung['bezeichnung']."] anzeigen!' ></a>
 									</td>
 
 								</tr>
@@ -623,7 +623,7 @@ if($_GET['action'] == 'show')
 														{
 												$output .= "
 														<a href='?hide=1&action=add&add_cat=".$show_article[$group_by]."' >
-														<img src='/images/projekt/16/db_add.png' title='Artikel in der Kategorie ".$show_article[$group_by]." anlegen' ></a>";
+														<img src='../images/16/db_add.png' title='Artikel in der Kategorie ".$show_article[$group_by]." anlegen' ></a>";
 														}
 														$output .= "
 														</td>";
@@ -695,14 +695,14 @@ if($_GET['action'] == 'show')
 											$output .= "
 
 											<a href='?hide=1&action=edit&id=".$out_show_article['id']."' target='_parent'>
-												<img src='/images/projekt/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>
+												<img src='../images/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>
 												";
 										}
 										if($DARF["del"] )
 										{
 											$output .= "
 											<a href='?hide=1&action=del&id=".$out_show_article['id']."' target='_parent'>
-												<img src='/images/projekt/16/editdelete.png' title='".$out_show_article['invnr']." l&ouml;schen'>
+												<img src='../images/16/editdelete.png' title='".$out_show_article['invnr']." l&ouml;schen'>
 											</a>
 											";
 										}

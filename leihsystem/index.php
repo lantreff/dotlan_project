@@ -628,14 +628,14 @@ if($_GET['hide'] == "1")
 								{ //$ADMIN
 						$output .= "
 									<a href='?hide=1&action=edit&id=".$out_list_kategorie['id']."' target='_parent'>
-									<img src='/images/projekt/16/edit.png' title='Artikel editieren' ></a>
+									<img src='../images/16/edit.png' title='Artikel editieren' ></a>
 								";
 								}
 								if($DARF["del"])
 								{ //$ADMIN
 						$output .= "
 									<a href='?hide=1&action=del&id=".$out_list_kategorie['id']."' target='_parent'>
-									<img src='/images/projekt/16/editdelete.png' title='Artikel löschen' ></a>
+									<img src='../images/16/editdelete.png' title='Artikel löschen' ></a>
 								";
 								}
 						$output .= "	

@@ -65,15 +65,15 @@ $output .=
         <tbody><tr>
 			<td valign='top' align='center' class='nav'>
             <div title='Agent Dashboard'>
-            <a href='Dashboard.php'><img border='0' alt='Alle Tickets' src='/images/projekt/sts/ticket_all_tickets.png'><br>Alle Tickets</a>
+            <a href='Dashboard.php'><img border='0' alt='Alle Tickets' src='../images/sts/ticket_all_tickets.png'><br>Alle Tickets</a>
             </div>
           </td>
           </td>
-		  <td valign='middle'>&nbsp;<img border='0' alt='-' src='/images/projekt/sts/h-line.png'>&nbsp;</td>
+		  <td valign='middle'>&nbsp;<img border='0' alt='-' src='../images/sts/h-line.png'>&nbsp;</td>
 <!--start Item-->
           <td valign='top' align='center' class='nav'>
             <div title='&Uuml;bersicht &uuml;ber alle Tickets in Bearbeitung'>
-            <a  href='TicketQueue.php'><img border='0' alt='Bereiche' src='/images/projekt/sts/ticket_queues.png'><br>Bereiche</a>
+            <a  href='TicketQueue.php'><img border='0' alt='Bereiche' src='../images/sts/ticket_queues.png'><br>Bereiche</a>
             </div>
           </td>
 <!--stop Item -->
@@ -85,7 +85,7 @@ $output .=
 <!--start Item-->
           <td valign='top' align='center' class='nav'>
             <div title='Neues Ticket wird erstellt'>
-            <a href='TicketAdd.php'><img border='0' alt='Ticket anlegen' src='/images/projekt/sts/ticket_new_ticket.png'><br>Ticket anlegen</a>
+            <a href='TicketAdd.php'><img border='0' alt='Ticket anlegen' src='../images/sts/ticket_new_ticket.png'><br>Ticket anlegen</a>
             </div>
           </td>
 <!--stop Item -->
@@ -96,7 +96,7 @@ $output .=
 <!--start ItemPersonal-->
           <td valign='top' align='center' class='nav'>
             <div title='Meine Tickets (".$count_my_ticket.")'>
-            <a href='TicketLocked.php'><img border='0' alt='Meine Tickets (".$count_my_ticket.")' src='/images/projekt/sts/ticket_my_processing_tickets.png'><br>Meine Tickets (".$count_my_ticket.")</a>
+            <a href='TicketLocked.php'><img border='0' alt='Meine Tickets (".$count_my_ticket.")' src='../images/sts/ticket_my_processing_tickets.png'><br>Meine Tickets (".$count_my_ticket.")</a>
             </div>
           </td>
 ";
@@ -105,13 +105,13 @@ if( $ADMIN->check(GLOBAL_ADMIN) )
 $output .=
 "
 <!--start Item-->
-		  <td valign='middle'>&nbsp;<img border='0' alt='-' src='/images/projekt/sts/h-line.png'>&nbsp;</td>
+		  <td valign='middle'>&nbsp;<img border='0' alt='-' src='../images/sts/h-line.png'>&nbsp;</td>
           <td valign='top' align='center' class='nav'>
             <div title='TTS-Rechte'>
-            <a href='./admin'><img border='0' alt='Ticket anlegen' src='/images/projekt/sts/ticket_orga_rights.png'><br>TTS-Rechte</a>
+            <a href='./admin'><img border='0' alt='Ticket anlegen' src='../images/sts/ticket_orga_rights.png'><br>TTS-Rechte</a>
             </div>
           </td>
-		  		  <td valign='middle'>&nbsp;<img border='0' alt='-' src='/images/projekt/sts/h-line.png'>&nbsp;</td>
+		  		  <td valign='middle'>&nbsp;<img border='0' alt='-' src='../images/sts/h-line.png'>&nbsp;</td>
 <!--stop Item -->
 ";
 }

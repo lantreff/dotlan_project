@@ -223,18 +223,18 @@ else
 										$output .="
 
 											<a href='?hide=1&action=edit&id=".$out_list_note['id']."&event=".$selectet_event_id."&event=".$selectet_event_id."' target='_parent'>
-											<img src='/images/projekt/16/edit.png' title='Deteils anzeigen / &auml;ndern' ></a>
+											<img src='../images/16/edit.png' title='Deteils anzeigen / &auml;ndern' ></a>
 									";
 									}
 									if($DARF["del"] )
 									{ //  Admin
 										$output .="
 											<a href='?hide=1&action=del&id=".$out_list_note['id']."' target='_parent'>
-											<img src='/images/projekt/16/editdelete.png' title='Notiz l&ouml;schen'></a>";
+											<img src='../images/16/editdelete.png' title='Notiz l&ouml;schen'></a>";
 									}
 									$output .="
 											<a href='export.php?id=".$out_list_note['id']."' target='_blank'>
-											<img src='/images/projekt/16/download.png' title='export / download'></a>
+											<img src='../images/16/download.png' title='export / download'></a>
 										</td>";
 							}
 								$output .="
@@ -562,7 +562,7 @@ if($DARF["edit"] )
 	{
 $output .= "										
 											<a href='?hide=1&action=edit&id=".$out_show_note['id']."&event=".$selectet_event_id."' target='_parent'>
-												<img align='right' src='/images/projekt/16/edit.png' title='Deteils anzeigen / &auml;ndern' >
+												<img align='right' src='../images/16/edit.png' title='Deteils anzeigen / &auml;ndern' >
 											</a>
 										
 ";			

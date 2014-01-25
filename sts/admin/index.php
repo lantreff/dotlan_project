@@ -268,13 +268,13 @@ else
 															);
 				if($out_pm_mail_checked['wert'] == 1 )
 				{ $name = "Es werden Mails versendet!";
-					$output .= "Es werden <img src='/images/projekt/16/mail_send.png'> versendet!
+					$output .= "Es werden <img src='../images/16/mail_send.png'> versendet!
 					
 					";
 				}
 				else
 				{$name = "Es werden Privatnachrichten versendet!";
-					$output .= "Es werden <img src='/images/projekt/16/irc_protocol.png'> versendet!
+					$output .= "Es werden <img src='../images/16/irc_protocol.png'> versendet!
 					
 					";
 				}
