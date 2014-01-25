@@ -1,5 +1,6 @@
 <?
 $datum 	= date("Y-m-d H:i:s");
+$user_id = $CURRENT_USER->id;
 
 function timestamp_mysql2german($date) {
     
