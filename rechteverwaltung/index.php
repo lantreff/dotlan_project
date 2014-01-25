@@ -147,10 +147,11 @@ if($_GET['hide'] == "1"){
     while($row = $DB->fetch_array($query)) $alle_user_rechte[] = $row["right_id"];
 
     // Zeilen mit Bereichen und Rechten
+    $i = 0;
     $query_bereich = $DB->query("SELECT bereich FROM project_rights_rights GROUP BY bereich");
     while($row_bereich = $DB->fetch_array($query_bereich)){
       $output .= "
-              <tr class='msgrow2'>
+              <tr class=\"msgrow".(($i%2)?1:2)."\">
                 <td style='border-bottom: 1px solid #FFFFFF;'>".$row_bereich["bereich"]."</td>";
 
       $rechte = array();
@@ -172,6 +173,7 @@ if($_GET['hide'] == "1"){
         }
       }
       $output .= "</tr>";
+      $i++;
     }
 
     // Select all - Zeile
