@@ -11,6 +11,7 @@ $dev_link = 'http://development.serious-networx.net/?page_id=15';
 
 $iCounter = 0;
 
+$MODUL_NAME = "kontakte";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -70,12 +71,12 @@ Admin PAGE
 */
 
 
-if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {
 
-	if($DARF_PROJEKT_VIEW)
+	if($DARF["view"])
 	{ //$ADMIN
 
 			$output .= "<a name='top' >
@@ -127,7 +128,7 @@ else
 												");
 			}
 			
-			if($DARF_PROJEKT_ADD)
+			if($DARF["add"])
 			{
 				$output .= "
 					<table width='50%' cellspacing='1' cellpadding='2' border='0' class='shortbar'>
@@ -204,7 +205,7 @@ else
 								}
 							$output .= "
 							</td>";
-							if($DARF_PROJEKT_EDIT  or $DARF_PROJEKT_DEL )
+							if($DARF["edit"]  or $DARF["del"] )
 							{ //  Admin
 							$output .="
 							<td width='40' class='msghead' align='center'>
@@ -241,17 +242,17 @@ else
 							<td>
 								".$out_list_category['fa_funktion']."
 							</td>";
-							if($DARF_PROJEKT_EDIT  or $DARF_PROJEKT_DEL )
+							if($DARF["edit"]  or $DARF["del"] )
 							{
 								$output .= "
 								<td align='center'>";
-									if($DARF_PROJEKT_EDIT )
+									if($DARF["edit"] )
 									{
 										$output .= "
 										<a href='?hide=1&action=edit&id=".$out_list_category['contactid']."' target='_parent'> <img src='/images/projekt/16/edit.png' title='Details anzeigen/&auml;ndern' > </a>
 										";
 									}
-									if($DARF_PROJEKT_DEL )
+									if($DARF["del"] )
 									{
 										$output .= "
 										<a href='?hide=1&action=del&id=".$out_list_category['contactid']."' target='_parent'> <img src='/images/projekt/16/editdelete.png' title='Kontakt löschen' > </a>
@@ -276,7 +277,7 @@ else
 
 			if($_GET['action'] == 'del')
 			{
-				if (!$DARF_PROJEKT_DEL ) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"] ) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 					if($_GET['comand'] == 'senden')
 
@@ -322,7 +323,7 @@ else
 
 			if($_GET['action'] == 'add' or $_GET['action'] == 'edit' )
 			{
-				if ( (!$DARF_PROJEKT_ADD and $_GET['action'] == 'add'  ) or (!$DARF_PROJEKT_EDIT and $_GET['action'] == 'edit')) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if ( (!$DARF["add"] and $_GET['action'] == 'add'  ) or (!$DARF["edit"] and $_GET['action'] == 'edit')) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 				if($_GET['action'] == 'edit'){
 					$out_edit = $DB->fetch_array( $DB->query("SELECT * FROM project_contact_contacts WHERE contactid = ".$id."") );
@@ -461,7 +462,7 @@ else
 							//
 				}
 
-				if ($DARF_PROJEKT_EDIT  or  $DARF_PROJEKT_ADD)
+				if ($DARF["edit"]  or  $DARF["add"])
 				{
 					$output .="
 							<form name='addkontakt' action='?hide=1&action=".$_GET['action']."&comand=senden&id=".$out_edit['contactid']."' method='POST'>
@@ -775,7 +776,7 @@ else
 							</tbody>
 						</table>";
 
-					if ($DARF_PROJEKT_EDIT or $DARF_PROJEKT_ADD)
+					if ($DARF["edit"] or $DARF["add"])
 					{
 					$output .="
 								<input name='senden' value='Daten senden' type='submit'>
