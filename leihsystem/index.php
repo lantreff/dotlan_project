@@ -6,7 +6,7 @@
 #																		#
 #########################################################################
 
-
+$MODUL_NAME = "leihsystem";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -60,7 +60,7 @@ Admin PAGE
 */
 
 
-if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {
@@ -138,7 +138,7 @@ else
 
 
 
- 		if($DARF_PROJEKT_VIEW)
+ 		if($DARF["view"])
 		{ //$ADMIN
 
 			$output .= "
@@ -157,7 +157,7 @@ else
   						<tbody>
 							<tr class='shortbarrow'>";
 							
-							if($DARF_PROJEKT_ADD)
+							if($DARF["add"])
 							{ //$ADMIN
 							$output .= "
 								<td width='20%' class='".$a."'><a href='?hide=1&action=add' class='".$a1."'>Artikel Anlegen</a></td>";
@@ -592,7 +592,7 @@ if($_GET['hide'] == "1")
 								<td class='shortbarbit_left_big'>
 									Besitzer
 								</td>";
-					if($DARF_PROJEKT_ADD || $DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL)
+					if($DARF["add"] || $DARF["edit"] || $DARF["del"])
 						{ //$ADMIN
 
 						$output .= "
@@ -618,20 +618,20 @@ if($_GET['hide'] == "1")
 								<td class='shortbarbit_left'>
 									".$out_list_kategorie['besitzer']."
 								</td>";
-						if($DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL)
+						if($DARF["edit"] || $DARF["del"])
 						{ //$ADMIN
 
 						$output .= "
 								<td class='shortbarbit_left'>
 								";
-									if($DARF_PROJEKT_EDIT)
+									if($DARF["edit"])
 								{ //$ADMIN
 						$output .= "
 									<a href='?hide=1&action=edit&id=".$out_list_kategorie['id']."' target='_parent'>
 									<img src='/images/projekt/16/edit.png' title='Artikel editieren' ></a>
 								";
 								}
-								if($DARF_PROJEKT_DEL)
+								if($DARF["del"])
 								{ //$ADMIN
 						$output .= "
 									<a href='?hide=1&action=del&id=".$out_list_kategorie['id']."' target='_parent'>

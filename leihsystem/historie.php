@@ -6,6 +6,7 @@
 #																		#
 #########################################################################
 
+$MODUL_NAME = "leihsystem";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -39,7 +40,7 @@ $out_historie_event		= $DB->fetch_array($DB->query("SELECT * FROM events WHERE i
 
 
 
-if($DARF_PROJEKT_VIEW)
+if($DARF["view"])
 { // darf sehen
 $output .= "	<a name='top' >
 				<a href='/admin/projekt/'>Projekt</a>
@@ -54,7 +55,7 @@ $output .= "	<a name='top' >
 			<tbody>
 				<tr class='shortbarrow'>";
 				
-				if($DARF_PROJEKT_ADD)
+				if($DARF["add"])
 				{ //$ADMIN
 				$output .= "
 					<td width='20%' class='shortbarbit'><a href='./?hide=1&action=add' class='shortbarlink'>Artikel Anlegen</a></td>";
@@ -224,7 +225,7 @@ $output .= "</div>";
 else // darf nicht view
 {
 
-$PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+$PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 } // ende darf nicht View
 
