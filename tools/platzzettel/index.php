@@ -6,13 +6,13 @@
 #                                                                      #
 ########################################################################
 
+$MODUL_NAME = "tools";
 include("../../../../global.php");
 include("../../functions.php");
 require('../../fpdf16/fpdf.php');
 $event_id = $EVENT->next;
-//$event_id = 6;
 
-if(!$module_admin_check && !$ADMIN->check(IS_ADMIN)) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["platzzettel"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 $sitze = array();
 $bloecke = array("A","B","C","D","E","F","G","H");

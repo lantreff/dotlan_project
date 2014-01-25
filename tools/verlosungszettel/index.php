@@ -7,12 +7,14 @@
 # admin/dienstplan/export.php - Version 1.0                            #
 ########################################################################
 
+$MODUL_NAME = "tools";
 include("../../../../global.php");
 include("../../functions.php");
 require('../../fpdf16/fpdf.php');
 
+if(!$DARF["verlosungszettel"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+
 $event_id = $EVENT->next;
-//$event_id = 6;
 
 $out_event = $DB->fetch_array( $DB->query("SELECT * FROM `events` WHERE id = ".$event_id." LIMIT 1 ") );
 $sql_user_anwesend = $DB->query("SELECT * FROM `event_teilnehmer` WHERE event_id = ".$event_id." AND anwesend > '".$out_event['begin']."' AND anwesend < '".$out_event['end']."' ");
