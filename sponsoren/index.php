@@ -9,6 +9,7 @@
 $version = 'Version 1.4';
 $dev_link = 'http://development.serious-networx.net/?page_id=15';
 
+$MODUL_NAME = "sponsoren";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -81,7 +82,7 @@ Admin PAGE
 */
 
 
-if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {
@@ -99,7 +100,7 @@ else
 
 
 
-	if($DARF_PROJEKT_VIEW)
+	if($DARF["view"])
 	{ //$ADMIN
 
 			$output .= "<a name='top' >
@@ -110,7 +111,7 @@ else
 				<hr class='newsline' width='100%' noshade=''>
 				<br />";
 
-			if($DARF_PROJEKT_ADD)
+			if($DARF["add"])
 			{
 	$output .= "
 				<table width='100%' cellspacing='1' cellpadding='2' border='0'>
@@ -253,7 +254,7 @@ else
 											$output .= "
 									</td>
 									";
-						if($DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL)
+						if($DARF["edit"] || $DARF["del"])
 						{ //  Admin
 							$output .="
 								<td width='50' class='msghead' align='center'>
@@ -384,16 +385,16 @@ else
 										$output .= "
 									</td>
 									";
-						if($DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL)
+						if($DARF["edit"] || $DARF["del"])
 						{ // Admin
 							$output .="
 									<td align='center'>";
-							if( $DARF_PROJEKT_EDIT )
+							if( $DARF["edit"] )
 							{ // EDIT
 							$output .="<a href='?hide=1&action=edit&id=".$out['id']."' target='_parent'>
 										<img src='/images/projekt/16/edit.png' title='Details anzeigen/&auml;ndern' ></a>";
 							}
-							if( $DARF_PROJEKT_DEL)
+							if( $DARF["del"])
 							{ // DEL
 							$output .="<a href='?hide=1&action=del&id=".$out['id']."' target='_parent'>
 										<img src='/images/projekt/16/editdelete.png' title='L&ouml;schen'></a>";
@@ -426,7 +427,7 @@ else
 /////////////////////////////////////////////// DEL ///////////////////////////////////////////////
 			if($_GET['action'] == 'del')
 			{
-				if (!$DARF_PROJEKT_DEL) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 					if($_GET['comand'] == 'senden')
 
@@ -484,7 +485,7 @@ else
 		/////////////////////////////////////////////// DEL_NAME ///////////////////////////////////////////////
 			if($_GET['action'] == 'del_name')
 			{
-				if (!$DARF_PROJEKT_DEL) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 					if($_GET['comand'] == 'senden')
 
@@ -533,7 +534,7 @@ else
 
 			if($_GET['action'] == 'add' || $_GET['action'] == 'edit' )
 			{
-				if ( (!$DARF_PROJEKT_ADD && $_GET['action'] == 'add'  ) || (!$DARF_PROJEKT_EDIT && $_GET['action'] == 'edit')) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if ( (!$DARF["add"] && $_GET['action'] == 'add'  ) || (!$DARF["edit"] && $_GET['action'] == 'edit')) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 				if($_GET['action'] == 'edit')
 					{
@@ -868,7 +869,7 @@ else
 															Mobil
 													   </td> ";
 
-														if($DARF_PROJEKT_DEL)
+														if($DARF["del"])
 															{ // Global Admin
 																$output .="<td class='msghead'> &nbsp; </td>";
 													 }
@@ -889,7 +890,7 @@ else
 																".$out_list_contact['fa_mobil']."
 															</td>";
 
-														if($DARF_PROJEKT_DEL)
+														if($DARF["del"])
 															{ // Global Admin
 																$output .="
 																		<td class='msgrow1' align='right'>
@@ -915,7 +916,7 @@ else
 										</tr>
 
 											";
-													if( $DARF_PROJEKT_EDIT )
+													if( $DARF["edit"] )
 														{ // EDIT
 														$output .="
 													<tr>
@@ -1055,7 +1056,7 @@ else
 															$output .= "	".$out_sql_artikel['sp_art_anz']." mal ".$out_sql_artikel['sp_art_name']." je ".$out_sql_artikel['sp_art_wert']." Euro
 																		</td>";
 
-															if($DARF_PROJEKT_DEL)
+															if($DARF["del"])
 															{ // Global Admin
 																$output .="
 																		<td align='right' >
@@ -1172,7 +1173,7 @@ else
 															$output .= "	<b>".$out_sql_stats['status'].":</b> ".$status_text." - ".$out_stats_user['vorname']." ".$out_stats_user['nachname']." (".$out_stats_user['nick'].") - ".date_mysql2german($out_sql_stats['date'])." - ".$out_sql_stats['time']." Uhr
 																		</td>";
 
-															if($DARF_PROJEKT_DEL)
+															if($DARF["del"])
 															{ // Global Admin
 																$output .="
 																		<td align='right' >
@@ -1214,7 +1215,7 @@ else
 			if($_GET['action'] == 'add_name')
 			{
 
-				if (!$DARF_PROJEKT_ADD) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 				if($_GET['comand'] == 'senden')
 
@@ -1241,7 +1242,7 @@ else
 
 			if($_GET['action'] == 'edit_stats')
 			{
-				if (!$DARF_PROJEKT_EDIT) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 				//$sql_edit_stats = $DB->query("SELECT * FROM project_sponsoren_stats WHERE s_id = ".$sid."");
 
 				if($_GET['comand'] == 'senden')
@@ -1287,7 +1288,7 @@ else
 
 			if($_GET['action'] == 'edit_art')
 			{
-				if (!$DARF_PROJEKT_EDIT) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 
 				if($_GET['comand'] == 'senden')
@@ -1336,7 +1337,7 @@ else
 				$wert			= $_POST['wert'];
 				$admn			= $_POST['admin'];
 
-				if (!$DARF_PROJEKT_EDIT) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 				$out_edit_sponsor = $DB->fetch_array( $DB->query("SELECT * FROM project_sponsoren WHERE id = ".$id."") );
 				$sponsor_name = $out_edit_sponsor['name'];
 
@@ -1369,7 +1370,7 @@ else
 
 			if($_GET['action'] == 'del_stats')
 			{
-				if (!$DARF_PROJEKT_DEL) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 					if($_GET['comand'] == 'senden')
 
@@ -1403,7 +1404,7 @@ else
 
 			if($_GET['action'] == 'del_artikel')
 			{
-				if (!$DARF_PROJEKT_DEL) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 					if($_GET['comand'] == 'senden')
 
