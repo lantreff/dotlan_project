@@ -11,20 +11,6 @@ include("../functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Projekt Rechteverwaltung");
 
-// Sortierung //
-// Variablen für die Sortierfunktion
-$sort      = "name"; // Standardfeld das zum Sortieren genutzt wird
-$order     = "ASC"; // oder DESC | Sortierung aufwerts, abwerts
-
-if (IsSet ($_GET['sort'])){
-  $sort    = $_GET['sort'];
-}
-if (IsSet ($_GET['order'])){
-  $order    = $_GET['order'];
-}
-////////////////////////////////////////////////
-
-
 ###########################################################################################
 if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  // Ist der angemeldete Benutzer Globaler Admin oder hat er über die Rechteverwaltung Berechtigungen dann darf er die Seite eehen sonst Error-Message.
 
@@ -79,7 +65,7 @@ if($_GET['hide'] != 1){ // solange die variable "hide" ungleich eins ist wird di
                           FROM `project_rights_user_rights` AS `ur`
                           LEFT OUTER JOIN `project_rights_rights` AS `r` ON `r`.`id`=`ur`.`right_id`
                           WHERE `ur`.`user_id`= '".$out_orga_data['id']."'
-                          ORDER BY `r`.`".$sort."` ".$order.";");
+                          ORDER BY bereich;");
 
     $output .= "<td align='center' title='";
     while($out_user_rechte_main = $DB->fetch_array($sql_user_rechte_main)){// begin while

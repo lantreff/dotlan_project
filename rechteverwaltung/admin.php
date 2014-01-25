@@ -16,26 +16,7 @@ $id      = $_GET['id'];
 $name    = security_number_int_input($_POST['name'],"","");
 $rechte  = security_string_input($_POST['rechte']);
 $bereich = !empty($_POST["bereich1"]) ? security_string_input($_POST['bereich1']) : security_string_input($_POST['bereich']);
-////////////////////////////////////////////////
-
-// Sortierung //
-// Variablen für die Sortierfunktion
-$sort       = "name"; // Standardfeld das zum Sortieren genutzt wird
-$order      = "ASC"; // oder DESC | Sortierung aufwerts, abwerts
-
-if (IsSet ($_GET['sort'])){
-  $sort    = $_GET['sort'];
-}
-if (IsSet ($_GET['order'])){
-  $order    = $_GET['order'];
-}
-$breite = "150";
-
 ###########################################################################################
-/*
-Admin PAGE
-*/
-
 if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  
 
 $a = 'shortbarbit';
@@ -66,7 +47,7 @@ if($DARF_PROJEKT_VIEW || $ADMIN->check(GLOBAL_ADMIN)){ //$ADMIN
     $output .= "<table  width='10%' cellspacing='1' cellpadding='2' border='0' class='shortbar'>
       <tbody>
         <tr class='shortbarrow'>
-          <td width='".$breite."' class='".$a."'><a href='?hide=1&action=add' class='".$a1."'>Recht Anlegen</a></td>
+          <td width='150' class='".$a."'><a href='?hide=1&action=add' class='".$a1."'>Recht Anlegen</a></td>
         </tr>
       </tbody>
     </table>
@@ -235,9 +216,7 @@ if($_GET['hide'] == "1"){
 
     $sql_list_rechte = $DB->query("SELECT * FROM project_rights_rights WHERE bereich = '".$out_edit_rechteverwaltung['bereich']."' ");
     while($out_list_rechte = $DB->fetch_array($sql_list_rechte)){// begin while
-$recht = explode("_", $out_list_rechte['name']);
-//        $output .="<input name='rechte[]' value='".$out_list_rechte['recht']."' type='text' maxlength='30'>
-      $output .="<input name='rechte[".$out_list_rechte['id']."]' value='".$recht[2]."' type='text' maxlength='30'>
+      $output .="<input name='rechte[]' value='".$out_list_rechte['recht']."' type='text' maxlength='30'>
                  <a href='?hide=1&action=del&id=".$out_list_rechte['id']."' target='_parent'><img src='../images/16/editdelete.png' title='Recht l&ouml;schen'></a>
                  <br>
                  <input name='rechte_ids[]' value='".$out_list_rechte['id']."' type='hidden'>";
