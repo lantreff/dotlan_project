@@ -8,6 +8,7 @@
 ########################################################################
 
 
+$MODUL_NAME = "equipment";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -61,11 +62,11 @@ Admin PAGE
 */
 
 
-if(!$DARF_PROJEKT_VIEW ) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+if(!$DARF["view"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 else
 {
 
- 		if($DARF_PROJEKT_VIEW)
+ 		if($DARF["view"])
 		{ //$ADMIN
 $output .= "
 				<a name='top' >
@@ -93,7 +94,7 @@ $output .= "
 					 <tbody>
 						<tr class='shortbarrow'>";
 
-						if($DARF_PROJEKT_ADD )
+						if($DARF["add"] )
 							{$breite = "24%";
 							$output .= "
 							<td width='".$breite."' class='shortbarbit'><a href='?hide=1&action=add' class='shortbarlink'>Neu Anlegen</a></td>
@@ -150,7 +151,7 @@ $output .= "
 												Details
 											</td>
 											<td width='10' class='msghead'>";
-											if($DARF_PROJEKT_ADD )
+											if($DARF["add"] )
 												{
 										$output .= "
 												<a href='?hide=1&action=add&add_cat=".$out_list_category[$group_by]."' >
@@ -239,7 +240,7 @@ if($_GET['hide'] == "1")
 // DEL BEGIN
 	if($_GET['action'] == 'del'  )
 	{
-		if (!$DARF_PROJEKT_DEL) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 			if($_GET['comand'] == 'senden')
 
@@ -281,7 +282,7 @@ if($_GET['hide'] == "1")
 
 	if($_GET['action'] == 'add' )
 	{
-		if (!$DARF_PROJEKT_ADD) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 		if($_GET['action'] == 'add' && $_GET['comand'] == 'senden')
 
@@ -393,7 +394,7 @@ if($_GET['hide'] == "1")
 
 	if($_GET['action'] == 'edit' )
 	{
-		if (!$DARF_PROJEKT_EDIT) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 		$sql_edit_epuipment = $DB->query("SELECT * FROM project_equipment WHERE id = ".$id."");
 
@@ -514,7 +515,7 @@ $output .= "
 
 	if($_GET['action'] == 'edit_cat')
 	{
-		if (!$DARF_PROJEKT_EDIT) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 		$sql_edit_epuipment_category = $DB->query("SELECT * FROM project_equipment WHERE category = '".$edit_cat."' GROUP BY category");
 
@@ -613,12 +614,12 @@ if($_GET['action'] == 'show')
 											<td width='100' class='msghead'>
 												Lagerort
 											</td>";
-											if($DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL )
+											if($DARF["edit"] || $DARF["del"] )
 											{
 												$output .= "
 													<td width='45' class='msghead'>	";
 
-													if($DARF_PROJEKT_ADD )
+													if($DARF["add"] )
 														{
 												$output .= "
 														<a href='?hide=1&action=add&add_cat=".$show_article[$group_by]."' >
@@ -683,13 +684,13 @@ if($_GET['action'] == 'show')
 										".$out_show_article['lagerort']."
 									</td>";
 
-									if($DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL )
+									if($DARF["edit"] || $DARF["del"] )
 									{
 										$output .= "
 
 										<td >";
 
-										if($DARF_PROJEKT_EDIT )
+										if($DARF["edit"] )
 										{
 											$output .= "
 
@@ -697,7 +698,7 @@ if($_GET['action'] == 'show')
 												<img src='/images/projekt/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>
 												";
 										}
-										if($DARF_PROJEKT_DEL )
+										if($DARF["del"] )
 										{
 											$output .= "
 											<a href='?hide=1&action=del&id=".$out_show_article['id']."' target='_parent'>
