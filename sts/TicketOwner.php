@@ -1,5 +1,6 @@
 <?
 
+$MODUL_NAME = "sts";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -102,7 +103,7 @@ if($_GET['action'] == "agent")
 Admin PAGE
 */
 
-if(!$DARF_PROJEKT_EDIT) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {

@@ -1,5 +1,6 @@
 <?
 
+$MODUL_NAME = "sts";
 include_once("../../../../global.php");
 include("../../functions.php");
 
@@ -29,7 +30,7 @@ $sql_list_orga = $DB->query("
 Admin PAGE
 */
 
-if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {

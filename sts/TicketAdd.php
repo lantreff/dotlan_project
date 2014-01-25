@@ -1,5 +1,6 @@
 <?
 
+$MODUL_NAME = "sts";
 include_once("../../../global.php");
 include("../functions.php");
 global $global;
@@ -80,7 +81,7 @@ if($_GET['action'] == "add")
 Admin PAGE
 */
 
-if(!$DARF_PROJEKT_ADD) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {

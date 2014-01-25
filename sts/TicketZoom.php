@@ -1,7 +1,6 @@
 <?
 
-
-
+$MODUL_NAME = "sts";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -303,7 +302,7 @@ if($_GET['action'] == "freigeben")
 Admin PAGE
 */
 
-if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {
@@ -371,7 +370,7 @@ $output .=
         <td width='70%' class='menu'>
             <a href='Dashboard.php'>[ Zur&uuml;ck ]</a> |
 			";
-			if( ( $out_ticket_zoom_data['sperre'] == "1" && $out_ticket_zoom_data['agent'] <> $user_id ) || ( $out_ticket_zoom_data['sperre'] == "1" &&  $DARF_PROJEKT_EDIT ) )
+			if( ( $out_ticket_zoom_data['sperre'] == "1" && $out_ticket_zoom_data['agent'] <> $user_id ) || ( $out_ticket_zoom_data['sperre'] == "1" &&  $DARF["edit"] ) )
 			{
 			$output .=
 			"
@@ -382,7 +381,7 @@ $output .=
 			-
 			";
 			}
-			if( ( $out_ticket_zoom_data['sperre'] == "2" && $out_ticket_zoom_data['agent'] == $user_id ) || ( $out_ticket_zoom_data['sperre'] == "2" && $DARF_PROJEKT_EDIT ) )
+			if( ( $out_ticket_zoom_data['sperre'] == "2" && $out_ticket_zoom_data['agent'] == $user_id ) || ( $out_ticket_zoom_data['sperre'] == "2" && $DARF["edit"] ) )
 			{
 			$output .=
 			"
@@ -395,7 +394,7 @@ $output .=
 			}
 
 
-			if($out_ticket_zoom_data['agent'] == $user_id || $DARF_PROJEKT_EDIT )
+			if($out_ticket_zoom_data['agent'] == $user_id || $DARF["edit"] )
 			{
 $output .=
 "
@@ -421,7 +420,7 @@ $output .=
 
 ";
 
-if($out_ticket_zoom_data['agent'] == $user_id || $DARF_PROJEKT_DELL )
+if($out_ticket_zoom_data['agent'] == $user_id || $DARF["del"]L )
 			{
 $output .=
 "  			-
@@ -742,7 +741,7 @@ $output .=
 											<td>
 						<!--start AgentAnswer-->
 ";
-					if($out_ticket_zoom_data['agent'] == $user_id || $DARF_PROJEKT_EDIT )
+					if($out_ticket_zoom_data['agent'] == $user_id || $DARF["edit"] )
 					{
 $output .=
 "
@@ -756,7 +755,7 @@ $output .=
 															<td colspan='2'>
 															<li><a  href='TicketCompose.php?ticketid=".$out_ticket_zoom['id']."'>Standard-Antwort</a></li>
 ";
-													if($out_ticket_zoom_data['agent'] == $user_id || $DARF_PROJEKT_DELL )
+													if($out_ticket_zoom_data['agent'] == $user_id || $DARF["del"]L )
 													{
 $output .=
 "

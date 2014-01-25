@@ -78,7 +78,7 @@ $output .=
           </td>
 <!--stop Item -->
 ";
-if($user_id || $DARF_PROJEKT_ADD )
+if($user_id || $DARF["add"] )
 {
 $output .=
 "

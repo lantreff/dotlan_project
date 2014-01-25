@@ -1,5 +1,6 @@
 <?
 
+$MODUL_NAME = "sts";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -101,7 +102,7 @@ if($_GET['action'] == "close")
 Admin PAGE
 */
 
-if(!$DARF_PROJEKT_DEL) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {
