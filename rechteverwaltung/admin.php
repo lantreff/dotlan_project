@@ -127,7 +127,7 @@ if($_GET['hide'] == "1"){
     }
 
     $new_id = $_GET['id'];
-    $recht = $DB->query_one("SELECT recht FROM project_rights_rights WHERE id = '".$new_id."' LIMIT 1");
+    $recht = $DB->query_first("SELECT recht, bereich FROM project_rights_rights WHERE id = '".$new_id."' LIMIT 1");
     $output .=" 
         <h2 style='color:RED;'>Achtung!!!!<h2>
         <br />
@@ -135,7 +135,7 @@ if($_GET['hide'] == "1"){
         <p>Sind Sie sicher?
         <br>
         Das Recht: 
-        <font style='color:RED;'>".$recht[2]."</font> des Bereiches ".ucfirst($recht[1])." l&ouml;schen?</p>
+        <font style='color:RED;'>".$recht['recht']."</font> des Bereiches ".ucfirst($recht['bereich'])." l&ouml;schen?</p>
         <br />
         <a href='?hide=1&action=del&comand=senden&id=".$new_id."' target='_parent'>
         <input value='l&ouml;schen' type='button'></a>
@@ -255,5 +255,5 @@ $recht = explode("_", $out_list_rechte['name']);
           </form>";
   }
 }
-$PAGE->render(utf8_decode(utf8_encode($output) ));
+$PAGE->render($output);
 ?>
