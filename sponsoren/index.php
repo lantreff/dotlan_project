@@ -427,7 +427,7 @@ else
 /////////////////////////////////////////////// DEL ///////////////////////////////////////////////
 			if($_GET['action'] == 'del')
 			{
-				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 					if($_GET['comand'] == 'senden')
 
@@ -485,7 +485,7 @@ else
 		/////////////////////////////////////////////// DEL_NAME ///////////////////////////////////////////////
 			if($_GET['action'] == 'del_name')
 			{
-				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 					if($_GET['comand'] == 'senden')
 
@@ -534,7 +534,7 @@ else
 
 			if($_GET['action'] == 'add' || $_GET['action'] == 'edit' )
 			{
-				if ( (!$DARF["add"] && $_GET['action'] == 'add'  ) || (!$DARF["edit"] && $_GET['action'] == 'edit')) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if ( (!$DARF["add"] && $_GET['action'] == 'add'  ) || (!$DARF["edit"] && $_GET['action'] == 'edit')) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 				if($_GET['action'] == 'edit')
 					{
@@ -1215,7 +1215,7 @@ else
 			if($_GET['action'] == 'add_name')
 			{
 
-				if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 				if($_GET['comand'] == 'senden')
 
@@ -1242,7 +1242,7 @@ else
 
 			if($_GET['action'] == 'edit_stats')
 			{
-				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 				//$sql_edit_stats = $DB->query("SELECT * FROM project_sponsoren_stats WHERE s_id = ".$sid."");
 
 				if($_GET['comand'] == 'senden')
@@ -1288,7 +1288,7 @@ else
 
 			if($_GET['action'] == 'edit_art')
 			{
-				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 
 				if($_GET['comand'] == 'senden')
@@ -1337,7 +1337,7 @@ else
 				$wert			= $_POST['wert'];
 				$admn			= $_POST['admin'];
 
-				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 				$out_edit_sponsor = $DB->fetch_array( $DB->query("SELECT * FROM project_sponsoren WHERE id = ".$id."") );
 				$sponsor_name = $out_edit_sponsor['name'];
 
@@ -1370,7 +1370,7 @@ else
 
 			if($_GET['action'] == 'del_stats')
 			{
-				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 					if($_GET['comand'] == 'senden')
 
@@ -1404,7 +1404,7 @@ else
 
 			if($_GET['action'] == 'del_artikel')
 			{
-				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 					if($_GET['comand'] == 'senden')
 

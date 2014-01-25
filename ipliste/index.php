@@ -1261,7 +1261,7 @@ $output .= "
 	{
 		if($_GET['action'] == 'del')
 		{
-			if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+			if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 				if($_GET['comand'] == 'senden')
 
@@ -1300,7 +1300,7 @@ $output .= "
 
 		if($_GET['action'] == 'add')
 		{
-			if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+			if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 			if($_GET['action'] == 'add' && $_GET['comand'] == 'senden')
 
@@ -1397,7 +1397,7 @@ $output .= "
 
 		if($_GET['action'] == 'edit' )
 		{
-			if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+			if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 			$sql_edit_ipliste = $DB->query("SELECT * FROM project_ipliste WHERE id = ".$id."");
 

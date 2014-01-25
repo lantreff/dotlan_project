@@ -260,7 +260,7 @@ if($_GET['hide'] == "1")
 {
 	if($_GET['action'] == 'del')
 	{
-		if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 			if($_GET['comand'] == 'senden')
 
@@ -298,7 +298,7 @@ if($_GET['hide'] == "1")
 
 	if($_GET['action'] == 'add')
 	{
-		if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 		if($_GET['comand'] == 'senden')
 
@@ -387,7 +387,7 @@ $output .= "
 
 	if($_GET['action'] == 'edit')
 	{
-		if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 		$sql_edit_note = $DB->query("SELECT * FROM project_notizen WHERE id = ".$id."");
 		//$sql_note_historie = $DB->query("SELECT * FROM project_notizen_historie WHERE notiz_id = ".$id." ORDER BY datum DESC");

@@ -240,7 +240,7 @@ if($_GET['hide'] == "1")
 // DEL BEGIN
 	if($_GET['action'] == 'del'  )
 	{
-		if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 			if($_GET['comand'] == 'senden')
 
@@ -282,7 +282,7 @@ if($_GET['hide'] == "1")
 
 	if($_GET['action'] == 'add' )
 	{
-		if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 		if($_GET['action'] == 'add' && $_GET['comand'] == 'senden')
 
@@ -394,7 +394,7 @@ if($_GET['hide'] == "1")
 
 	if($_GET['action'] == 'edit' )
 	{
-		if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 		$sql_edit_epuipment = $DB->query("SELECT * FROM project_equipment WHERE id = ".$id."");
 
@@ -515,7 +515,7 @@ $output .= "
 
 	if($_GET['action'] == 'edit_cat')
 	{
-		if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+		if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 		$sql_edit_epuipment_category = $DB->query("SELECT * FROM project_equipment WHERE category = '".$edit_cat."' GROUP BY category");
 

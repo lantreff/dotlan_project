@@ -277,7 +277,7 @@ else
 
 			if($_GET['action'] == 'del')
 			{
-				if (!$DARF["del"] ) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if (!$DARF["del"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 					if($_GET['comand'] == 'senden')
 
@@ -323,7 +323,7 @@ else
 
 			if($_GET['action'] == 'add' or $_GET['action'] == 'edit' )
 			{
-				if ( (!$DARF["add"] and $_GET['action'] == 'add'  ) or (!$DARF["edit"] and $_GET['action'] == 'edit')) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+				if ( (!$DARF["add"] and $_GET['action'] == 'add'  ) or (!$DARF["edit"] and $_GET['action'] == 'edit')) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 				if($_GET['action'] == 'edit'){
 					$out_edit = $DB->fetch_array( $DB->query("SELECT * FROM project_contact_contacts WHERE contactid = ".$id."") );

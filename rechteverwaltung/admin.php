@@ -100,7 +100,7 @@ if($_GET['hide'] == "1"){
   # Recht loeschen
   ##################
   if($_GET['action'] == 'del'){
-    if(!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+    if(!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
     if($_GET['comand'] == 'senden'){
       $DB->query("DELETE FROM project_rights_user_rights WHERE right_id = '".$_GET['id']."'");
@@ -130,7 +130,7 @@ if($_GET['hide'] == "1"){
   # Recht hinzufuegen
   ##################
   if($_GET['action'] == 'add'){
-    if(!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+    if(!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
     if($_GET['action'] == 'add' && $_GET['comand'] == 'senden'){
       $output .= "Daten wurden gesendet";
@@ -179,7 +179,7 @@ if($_GET['hide'] == "1"){
   # Recht editieren
   ##################
   if($_GET['action'] == 'edit'){
-    if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+    if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
     if($_GET['action'] == 'edit' && $_GET['comand'] == 'senden'){
       $all_rights = $_POST['rechte'];
