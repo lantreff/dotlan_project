@@ -43,12 +43,10 @@ $event_id		= $EVENT->next;			// ID des anstehenden Event's
 if($_POST['bereich1'] <> "" )
 {
 	$bereich = $cat1;
-
 }
 else
 {
 	$bereich = $cat;
-
 }
 $breite = "150";
 
@@ -201,7 +199,8 @@ $output .= "
 				if($_GET['comand'] == 'senden')
 
 			{
-				$del=$DB->query("DELETE FROM project_rights_rights WHERE id = '".$_GET['id']."'");
+				$DB->query("DELETE FROM project_rights_user_rights WHERE right_id = '".$_GET['id']."'");
+				$DB->query("DELETE FROM project_rights_rights WHERE id = '".$_GET['id']."'");
 				$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/rechteverwaltung/#".$bereich."'>";
 			}
 
