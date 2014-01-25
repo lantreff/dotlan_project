@@ -8,6 +8,7 @@
 ########################################################################
 
 
+$MODUL_NAME = "ipliste";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -47,7 +48,7 @@ Admin PAGE
 */
 
 
-if(!$DARF_PROJEKT_VIEW) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {
@@ -72,7 +73,7 @@ else
 
 
 
- 		if($DARF_PROJEKT_VIEW )
+ 		if($DARF["view"] )
 		{ //$ADMIN
 
 			$output .= "<a name='top' >
@@ -83,13 +84,13 @@ else
 				<hr class='newsline' width='100%' noshade=''>
 				<br />";
 
-			if($DARF_PROJEKT_ADD || $DARF_PROJEKT_EDIT)
+			if($DARF["add"] || $DARF["edit"])
 			{
 			$output .= "
 	<table width='100%' cellspacing='1' cellpadding='2' border='0' class='shortbar'>
 	  <tbody>
 			<tr class='shortbarrow'>";
-			if($DARF_PROJEKT_ADD )
+			if($DARF["add"] )
 			{
 				$output .= "
 				<td width='".$breite."' class='".$a."'><a href='?hide=1&action=add' class='".$a1."'>IP Anlegen</a></td>";
@@ -209,14 +210,14 @@ else
 									<td width='80' class='msghead'>
 										DNS
 									</td>";
-							if($DARF_PROJEKT_EDIT  || $DARF_PROJEKT_DEL )
+							if($DARF["edit"]  || $DARF["del"] )
 							{  // Admin
 								$output .="
 									<td width='45' class='msghead'>
 										admin";
 										
 										
-										if($DARF_PROJEKT_ADD )
+										if($DARF["add"] )
 												{
 										$output .= "
 												<a href='?hide=1&action=add&add_cat=".$out_list_category['category']."' >
@@ -287,20 +288,20 @@ $output .= "							<a href='http://".$out_list_ip_DNS['dns'].".".$out_list_ip_DN
 								}										
 $output .= "
 										</td>";
-							if($DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL )
+							if($DARF["edit"] || $DARF["del"] )
 							{ //  Admin
 								$output .="
 										<td >";
 								while($out_list_ip_DNS1 = $DB->fetch_array($sql_list_ip_DNS1))
 									{
-										if($DARF_PROJEKT_EDIT )
+										if($DARF["edit"] )
 										{ //  Admin
 											$output .="
 														<a href='?hide=1&action=edit&id=".$out_list_ip_DNS1['id']."' target='_parent'>
 														<img src='/images/projekt/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>
 														";
 											}
-										if($DARF_PROJEKT_DEL )
+										if($DARF["del"] )
 										{ //  Admin
 											$output .="
 														<a href='?hide=1&action=del&id=".$out_list_ip_DNS1['id']."' target='_parent'>
@@ -333,18 +334,18 @@ $output .= "
 										<td >
 											  <a href='http://".$out_list_ip['dns'].".".$out_list_ip['lan']."' target='_new'>".$out_list_ip['dns'].".".$out_list_ip['lan']."</a>
 										</td>";
-							if($DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL )
+							if($DARF["edit"] || $DARF["del"] )
 							{ //  Admin
 								$output .="
 										<td >";
 
-								if($DARF_PROJEKT_EDIT )
+								if($DARF["edit"] )
 								{ //  Admin
 									$output .="
 											<a href='?hide=1&action=edit&id=".$out_list_ip['id']."' target='_parent'>
 											<img src='/images/projekt/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>";
 								}
-								if($DARF_PROJEKT_DEL )
+								if($DARF["del"] )
 								{ //  Admin
 								$output .="
 											<a href='?hide=1&action=del&id=".$out_list_ip['id']."&category=".$out_list_ip['category']."' target='_parent'>
@@ -372,7 +373,7 @@ $output .= "
 										
 										$ip_plus1 = explode(".", $out_add_new_ip['ip']);
 										$ip_neu = ( $ip_plus1[3] + 1);
-										if($DARF_PROJEKT_ADD)
+										if($DARF["add"])
 												{
 										$output .= "
 												<a href='?hide=1&action=add&ip=".$ip_plus1[0].".".$ip_plus1[1].".".$ip_plus1[2].".".$ip_neu."&add_cat=".$out_list_category['category']."' >
@@ -1260,7 +1261,7 @@ $output .= "
 	{
 		if($_GET['action'] == 'del')
 		{
-			if (!$DARF_PROJEKT_DEL) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+			if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 				if($_GET['comand'] == 'senden')
 
@@ -1299,7 +1300,7 @@ $output .= "
 
 		if($_GET['action'] == 'add')
 		{
-			if (!$DARF_PROJEKT_ADD) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+			if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 			if($_GET['action'] == 'add' && $_GET['comand'] == 'senden')
 
@@ -1396,7 +1397,7 @@ $output .= "
 
 		if($_GET['action'] == 'edit' )
 		{
-			if (!$DARF_PROJEKT_EDIT) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+			if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
 
 			$sql_edit_ipliste = $DB->query("SELECT * FROM project_ipliste WHERE id = ".$id."");
 
