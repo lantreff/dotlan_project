@@ -7,7 +7,7 @@
 # - Version 1.0                                    #
 ########################################################################
 
-
+$MODUL_NAME = "dienstplan";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -52,7 +52,7 @@ Admin PAGE
 */
 
 
-if(!$DARF_PROJEKT_VIEW){ $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));}
+if(!$DARF["view"]){ $PAGE->error_die($HTML->gettemplate("error_nopermission"));}
 else
 {
 
@@ -110,7 +110,7 @@ else
 
 <table class='shortbar' cellspacing='1' cellpadding='2' border='0'>
   <tbody>";
-if($DARF_PROJEKT_DEL )
+if($DARF["del"] )
 {
   	$output .= "
 	<tr>
@@ -143,7 +143,7 @@ $output .= "
 				<br />
 				";
 
-	if($_GET['action'] == 'clear_all' && $DARF_PROJEKT_DEL)
+	if($_GET['action'] == 'clear_all' && $DARF["del"])
 	{
 		$clear=$DB->query("TRUNCATE TABLE project_dienstplan");
 
@@ -161,7 +161,7 @@ $output .= "
 	$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=Freitag'>";
 	}
 
-	if($_GET['action'] == 'add01' && $DARF_PROJEKT_ADD)
+	if($_GET['action'] == 'add01' && $DARF["add"])
 	{
 		 $sql_get_ids = $DB->query("SELECT * FROM project_dienstplan WHERE `std` = '".$std."' AND `plan` = '".$plan."';");
 		  $check = true;
@@ -189,7 +189,7 @@ $output .= "
 		}
 
 	}
-	if($_GET['action'] == 'add02' && $DARF_PROJEKT_ADD)
+	if($_GET['action'] == 'add02' && $DARF["add"])
 
 	{
 	$sql_get_ids = $DB->query("SELECT * FROM project_dienstplan WHERE `std` = '".$std."' AND `plan` = '".$plan."';");
@@ -220,7 +220,7 @@ $output .= "
 
 
 
-	if($_GET['action'] == 'rem01' && $DARF_PROJEKT_DEL)
+	if($_GET['action'] == 'rem01' && $DARF["del"])
 
 	{
 	$update=$DB->query(	"UPDATE project_dienstplan SET `u_01` = '0' WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
@@ -229,7 +229,7 @@ $output .= "
 
 	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
 	}
-	if($_GET['action'] == 'rem02' && $DARF_PROJEKT_DEL)
+	if($_GET['action'] == 'rem02' && $DARF["del"])
 
 	{
 	$update=$DB->query(	"UPDATE project_dienstplan SET `u_02` = '0' WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
@@ -238,7 +238,7 @@ $output .= "
 
 	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
 	}
-	if($_GET['action'] == 'sperren' &&  ( $DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL ))
+	if($_GET['action'] == 'sperren' &&  ( $DARF["edit"] || $DARF["del"] ))
 
 	{
 	$update=$DB->query(	"UPDATE project_dienstplan SET `u_01` = ''  WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
@@ -247,7 +247,7 @@ $output .= "
 
 	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
 	}
-	if($_GET['action'] == 'sperren1' && ( $DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL ))
+	if($_GET['action'] == 'sperren1' && ( $DARF["edit"] || $DARF["del"] ))
 
 	{
 	$update=$DB->query(	"UPDATE project_dienstplan SET `u_02` = ''  WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
@@ -256,7 +256,7 @@ $output .= "
 
 	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
 	}
-		if($_GET['action'] == 'entsperren' && ( $DARF_PROJEKT_EDIT ||$DARF_PROJEKT_DEL ))
+		if($_GET['action'] == 'entsperren' && ( $DARF["edit"] ||$DARF["del"] ))
 
 	{
 	$update=$DB->query(	"UPDATE project_dienstplan SET `u_01` = '0'  WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
@@ -265,7 +265,7 @@ $output .= "
 
 	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
 	}
-	if($_GET['action'] == 'entsperren1' && ( $DARF_PROJEKT_EDIT ||$DARF_PROJEKT_DEL ))
+	if($_GET['action'] == 'entsperren1' && ( $DARF["edit"] ||$DARF["del"] ))
 
 	{
 	$update=$DB->query(	"UPDATE project_dienstplan SET `u_02` = '0'  WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
@@ -274,7 +274,7 @@ $output .= "
 
 	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
 	}
-if($_GET['action'] == 'zuweisen' && ( $DARF_PROJEKT_EDIT ||$DARF_PROJEKT_DEL ))
+if($_GET['action'] == 'zuweisen' && ( $DARF["edit"] ||$DARF["del"] ))
 	{
 		$sql_user_orga = $DB->query("SELECT * FROM user_orga ORDER BY user_id ASC");
 
@@ -332,7 +332,7 @@ if($_GET['action'] == 'zuweisen' && ( $DARF_PROJEKT_EDIT ||$DARF_PROJEKT_DEL ))
 
 
 }
-if($_GET['action'] == 'zuweisen1' && ( $DARF_PROJEKT_EDIT || $DARF_PROJEKT_DEL ))
+if($_GET['action'] == 'zuweisen1' && ( $DARF["edit"] || $DARF["del"] ))
 	{
 		$sql_user_orga = $DB->query("SELECT * FROM user_orga ORDER BY user_id ASC");
 
