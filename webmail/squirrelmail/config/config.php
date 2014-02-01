@@ -27,7 +27,7 @@ $squirrelmail_default_language = 'en_US';
 $default_charset       = 'iso-8859-1';
 $lossy_encoding        = false;
 
-$domain                 = 'maxlan.de';
+$domain                 = 'localhost';
 $imapServerAddress      = 'localhost';
 $imapPort               = 143;
 $useSendmail            = false;
@@ -61,8 +61,8 @@ $auto_create_special            = true;
 $delete_folder                  = false;
 $noselect_fix_enable            = false;
 
-$data_dir                 = '/var/www/vhosts/maxlan.de/httpdocs/admin/projekt/webmail/data/';
-$attachment_dir           = '/var/www/vhosts/maxlan.de/httpdocs/admin/projekt/webmail/attach/';
+$data_dir                 = getcwd().'/../../data/';
+$attachment_dir           = getcwd().'/../../attach/';
 $dir_hash_level           = 0;
 $default_left_size        = '200';
 $force_username_lowercase = false;

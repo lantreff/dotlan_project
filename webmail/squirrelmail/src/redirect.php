@@ -46,6 +46,7 @@ if($_GET["autologin"] == "true"){
   $_POST["secretkey"] = $_SESSION["webmail"]["pw"];
   $_POST["js_autodetect_results"] = 1;
   $_POST["just_logged_in"] = 1;
+  $imapServerAddress = $_SESSION["webmail"]["host"];
 }
 
 
