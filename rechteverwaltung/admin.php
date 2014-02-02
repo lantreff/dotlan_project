@@ -136,6 +136,7 @@ if($_GET['hide'] == "1"){
       $output .= "Daten wurden gesendet";
       $all_rights = $_POST['recht'];
       foreach($all_rights as &$a ) {
+        if(empty($a)) continue; // Leere Eingaben ueberspringen
         $DB->query("INSERT INTO `project_rights_rights` (bereich, recht) VALUES ('".$bereich."', '".$a."')");
       }
       $output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/rechteverwaltung/admin.php'>";
