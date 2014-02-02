@@ -135,7 +135,7 @@ if(isset($_GET["wsdl"])){
     }
 
     ## Funktionen registrieren
-    $server = new SoapServer($soap_url."?wsdl");
+    $server = new SoapServer($soap_url."?wsdl",array('encoding'=>'ISO-8859-1'));
     foreach($wsdl_funktionen as $fkt => $val) $server->addFunction($fkt);
     $server->handle();
   }
