@@ -1,4 +1,4 @@
-<?
+<?php
 
 $data = $DB->query("SELECT * FROM `catering_order_part` WHERE DATE_FORMAT( `time_added`, '%j' ) BETWEEN DATE_FORMAT( NOW() , '%j' )  AND DATE_FORMAT( DATE_ADD( NOW(), INTERVAL 1 HOUR), '%j') AND `status` = '4' ORDER BY time_added DESC");
 

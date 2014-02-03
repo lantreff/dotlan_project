@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 $count_mesage = 0;
 $sql_queue_count_my_tickets = $DB->query	("

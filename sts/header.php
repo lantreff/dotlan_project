@@ -1,4 +1,4 @@
-<?
+<?php
 
 $sql_queue_count_my_tickets = $DB->query	("
 												SELECT

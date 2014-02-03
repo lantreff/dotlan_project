@@ -1,4 +1,4 @@
-<?
+<?php
 $MODUL_NAME = "anwesenheit";
 include_once("../../../global.php");
 include("../functions.php");

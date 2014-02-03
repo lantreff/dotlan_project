@@ -1,4 +1,4 @@
-<?
+<?php
 
 function ticket_output_bereiche($uebergabe,$label,$sortierung,$eintraege_pro_seite){
 global $DB, $CURRENT_USER;

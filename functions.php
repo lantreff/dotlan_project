@@ -1,4 +1,4 @@
-<?
+<?php
 $datum 	= date("Y-m-d H:i:s");
 $user_id = $CURRENT_USER->id;
 

@@ -1,4 +1,4 @@
-<?
+<?php
 
 
 $MODUL_NAME = "sts";
