@@ -41,7 +41,7 @@ $user_anwesend = array();
 $event_data = array();
 $query = $DB->query("SELECT * FROM project_anwesenheit WHERE event_id = '".$event_id."' ORDER BY name");
 while($row = $DB->fetch_array($query)){
-  if($row["user_id"] == 0) $event_data[$row["tag"]] = $row;
+  if($row["user_id"] == 0) $event_data[$row["tag"]][] = $row;
   else{
     if($row["abwesend"] == 1) $user_abwesend[] = $row["user_id"];
     else $user_anwesend[] = $row["user_id"];
@@ -80,7 +80,7 @@ foreach($tage as $tag){
   // Events anzeigen
   foreach($event_data[$tag] as $event){
     $output .= "<tr class='msgrow".(($z%2)+1)."'>";
-    $output .= "  <td>".$row["name"]."</td>";
+    $output .= "  <td><b>".$event["name"]."</b></td>";
     for($i=0; $i<24; $i++){
       $output .= "<td bgcolor='".($event["ab_$i"] == 1 ? "#000099" : "")."'>&nbsp;</td>";
     }
@@ -148,6 +148,9 @@ $output .= "    <td colspan='25' align='center'><input type='checkbox' name='abw
 $output .= "  </tr>";
 $output .= "</table>";
 $output .= "</form>";
+
+// Event-Link
+if($DARF["edit"]) $output .= "<a href='edit.php'>Events editieren</a>";
 
 // Abwesende / nicht eingetragene User
 $abwesend = "";
