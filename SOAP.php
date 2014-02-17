@@ -19,6 +19,11 @@ $wsdl_funktionen = array(
     ),
     "return" => "array",
   ),
+  "getTurniere" => array(
+    "parameter" => array(
+    ),
+    "return" => "array",
+  ),
 );
 
 if(isset($_GET["wsdl"])){
@@ -131,6 +136,20 @@ if(isset($_GET["wsdl"])){
         $event = $DB->query_first("SELECT sitz_nr FROM event_teilnehmer WHERE user_id = '".mysql_real_escape_string($id)."' AND event_id = '".$event_id."'");
         if(is_array($event)) $user = array_merge($user,$event);
         return $user;
+      }else return false;
+    }
+
+    ####
+    # Gibt alle Turniere des aktuellen Events zurueck
+    ####
+    function getTurniere(){
+      global $DB, $DARF, $MODUL_NAME, $event_id;
+
+      if($MODUL_NAME == "mx_router" && $DARF["view"]){
+        $turniere = array();
+        $query = $DB->query("SELECT tid, tname FROM t_turnier WHERE teventid = '".$event_id."' ORDER BY tname");
+        while($row = $DB->fetch_array($query)) $turniere[$row["tid"]] = $row["tname"];
+        return $turniere;
       }else return false;
     }
 
