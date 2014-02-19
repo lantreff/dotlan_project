@@ -24,6 +24,12 @@ $wsdl_funktionen = array(
     ),
     "return" => "array",
   ),
+  "checkContestsFinished" => array(
+    "parameter" => array(
+      "tcids" => "array",
+    ),
+    "return" => "array",
+  ),
 );
 
 if(isset($_GET["wsdl"])){
@@ -76,6 +82,7 @@ if(isset($_GET["wsdl"])){
   echo "</definitions>";
 }else{
   include_once("../../global.php");
+  include_once("config.php");
   
   $logged_in = false;
   $user_id = -1;
@@ -83,7 +90,7 @@ if(isset($_GET["wsdl"])){
   $MODUL_NAME = $_SERVER['HTTP_USER_AGENT'];
   
   if(in_array($MODUL_NAME,$soap_module) && isset($_SERVER['PHP_AUTH_USER'])){
-    if($_SERVER['PHP_AUTH_USER'] == $soap_module && !empty($soap_secrets[$soap_module]) && $soap_secrets[$soap_module] == $_SERVER['PHP_AUTH_PW']){
+    if($_SERVER['PHP_AUTH_USER'] == $MODUL_NAME && !empty($soap_secrets[$MODUL_NAME]) && $soap_secrets[$MODUL_NAME] == $_SERVER['PHP_AUTH_PW']){
       $logged_in = true;
     }else{
       $id = $DB->query_one("SELECT id FROM user WHERE LOWER(nick) = LOWER('".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'])."') AND passwort = '".md5($_SERVER['PHP_AUTH_PW'])."' LIMIT 1");
@@ -155,6 +162,20 @@ if(isset($_GET["wsdl"])){
         while($row = $DB->fetch_array($query)) $turniere[$row["tid"]] = $row["tname"];
         return $turniere;
       }else return false;
+    }
+
+    ####
+    # Kontrolliert, ob die angegebenen Contests bereits beendet sind
+    # Gibt die tcid's zurueck, die bereits beendet sind
+    ####
+    function checkContestsFinished($tcids){
+      global $DB;
+
+      $finished = array();
+      $query = $DB->query("SELECT tcid FROM t_contest WHERE won > 0 AND tcid IN (".mysql_real_escape_string(implode(",",$tcids)).")");
+      while($row = $DB->fetch_array($query)) $finished[] = $row["tcid"];
+ 
+      return $finished;
     }
 
     ## Funktionen registrieren
