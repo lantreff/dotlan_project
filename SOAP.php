@@ -78,17 +78,21 @@ if(isset($_GET["wsdl"])){
   include_once("../../global.php");
   
   $logged_in = false;
-  $user_id = 0;
+  $user_id = -1;
   $event_id = $EVENT->next;
   $MODUL_NAME = $_SERVER['HTTP_USER_AGENT'];
   
   if(in_array($MODUL_NAME,$soap_module) && isset($_SERVER['PHP_AUTH_USER'])){
-    $id = $DB->query_one("SELECT id FROM user WHERE LOWER(nick) = LOWER('".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'])."') AND passwort = '".md5($_SERVER['PHP_AUTH_PW'])."' LIMIT 1");
-    if($id){
-      $orga = $DB->num_rows($DB->query("SELECT id FROM user_orga WHERE user_id = '".$id."' LIMIT 1"));
-      if($orga == 1){
-        $user_id = $id;
-        $logged_in = true;
+    if($_SERVER['PHP_AUTH_USER'] == $soap_module && !empty($soap_secrets[$soap_module]) && $soap_secrets[$soap_module] == $_SERVER['PHP_AUTH_PW']){
+      $logged_in = true;
+    }else{
+      $id = $DB->query_one("SELECT id FROM user WHERE LOWER(nick) = LOWER('".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'])."') AND passwort = '".md5($_SERVER['PHP_AUTH_PW'])."' LIMIT 1");
+      if($id){
+        $orga = $DB->num_rows($DB->query("SELECT id FROM user_orga WHERE user_id = '".$id."' LIMIT 1"));
+        if($orga == 1){
+          $user_id = $id;
+          $logged_in = true;
+        }
       }
     }
   }

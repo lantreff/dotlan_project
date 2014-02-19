@@ -6,6 +6,14 @@ $webmail_host = "localhost";
 $webmail_user = "info@email.de";
 $webmail_pw = "passwort";
 
+## SOAP Settings
+# Hier werden "passwoerter" fuer die jeweiligen Systeme vergeben, die per SOAP Zugriff bekommen sollen
+# WICHTIG: Der String muss moeglichst sicher sein - macht den ruhig richtig lang - den darf keiner wissen
+$soap_secrets = array(
+#  "mx_router" => "",
+#  "gameserver_webinterface" => "",
+);
+
 ## Gaesteserver Modul
 $gaesteserver_mail = "Hi <nick>,
 
