@@ -6,6 +6,20 @@ $webmail_host = "localhost";
 $webmail_user = "info@email.de";
 $webmail_pw = "passwort";
 
+## IP Berechnung
+$ip_prefix = "10.10.";
+$ip_block = array(
+  "A" => "2",
+  "B" => "3",
+  "C" => "4",
+  "D" => "5",
+  "E" => "6",
+  "F" => "7",
+  "G" => "8",
+  "H" => "9",
+  "V" => "10"
+);
+
 ## SOAP Settings
 # Hier werden "passwoerter" fuer die jeweiligen Systeme vergeben, die per SOAP Zugriff bekommen sollen
 # WICHTIG: Der String muss moeglichst sicher sein - macht den ruhig richtig lang - den darf keiner wissen

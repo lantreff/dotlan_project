@@ -314,6 +314,19 @@ $datum 	= date("Y-m-d H:i:s");
 		
 }
 
+###
+# Berechnung der IP aus dem Sitz
+##
+function sitz_to_ip($sitz){
+  global $ip_prefix, $ip_block;
+
+  if(preg_match("/([A-HV])\-([0-9][0-9]?)$/",$sitz,$matches) && $matches[1] && $matches[2]){
+    $block = $matches[1];
+    $platz = (int) $matches[2];
+    return $ip_prefix.$ip_block[$block].".".$platz;
+  } else return false;
+}
+
 // BOXEN LEFT / RIGHT AUSBLENDEN !!!!!
 $output .="
 <style type='text/css'> #content_left { display:none } #content_right { display:none } </style>

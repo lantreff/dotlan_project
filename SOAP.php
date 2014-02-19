@@ -13,9 +13,8 @@ $wsdl_funktionen = array(
     ),
     "return" => "array",
   ),
-  "getUserById" => array(
+  "getUserIps" => array(
     "parameter" => array(
-      "id" => "int",
     ),
     "return" => "array",
   ),
@@ -83,6 +82,7 @@ if(isset($_GET["wsdl"])){
 }else{
   include_once("../../global.php");
   include_once("config.php");
+  include_once("functions.php");
   
   $logged_in = false;
   $user_id = -1;
@@ -136,16 +136,19 @@ if(isset($_GET["wsdl"])){
     $DARF = getRechte();
 
     ####
-    # Gibt Informationen zu einem User zueruck - Suche per user_id
+    # Gibt Informationen zu allen Usern des Events inkl. deren IP
     ####
-    function getUserById($id){
-      global $DB, $DARF, $MODUL_NAME, $event_id;
+    function getUserIps(){
+      global $DB, $DARF, $MODUL_NAME, $event_id, $ip_prefix, $ip_block;
 
       if($MODUL_NAME == "mx_router" && $DARF["view"]){
         $user = array();
-        $user = $DB->query_first("SELECT nick, vorname, nachname FROM user WHERE id ='".mysql_real_escape_string($id)."' LIMIT 1");
-        $event = $DB->query_first("SELECT sitz_nr FROM event_teilnehmer WHERE user_id = '".mysql_real_escape_string($id)."' AND event_id = '".$event_id."'");
-        if(is_array($event)) $user = array_merge($user,$event);
+        $query = $DB->query("SELECT nick, vorname, nachname, sitz_nr FROM user AS u, event_teilnehmer AS e WHERE event_id = '".$event_id."' AND u.id = e.user_id AND sitz_nr <> ''");
+        while($row = $DB->fetch_array($query)){
+          $tmp = $row;
+          $tmp["ip"] = sitz_to_ip($row["sitz_nr"]);
+          $user[] = $tmp;
+        }
         return $user;
       }else return false;
     }
@@ -154,14 +157,12 @@ if(isset($_GET["wsdl"])){
     # Gibt alle Turniere des aktuellen Events zurueck
     ####
     function getTurniere(){
-      global $DB, $DARF, $MODUL_NAME, $event_id;
+      global $DB, $event_id;
 
-      if($MODUL_NAME == "mx_router" && $DARF["view"]){
-        $turniere = array();
-        $query = $DB->query("SELECT tid, tname FROM t_turnier WHERE teventid = '".$event_id."' ORDER BY tname");
-        while($row = $DB->fetch_array($query)) $turniere[$row["tid"]] = $row["tname"];
-        return $turniere;
-      }else return false;
+      $turniere = array();
+      $query = $DB->query("SELECT tid, tname FROM t_turnier WHERE teventid = '".$event_id."' ORDER BY tname");
+      while($row = $DB->fetch_array($query)) $turniere[$row["tid"]] = $row["tname"];
+      return $turniere;
     }
 
     ####
