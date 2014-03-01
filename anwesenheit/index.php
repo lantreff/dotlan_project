@@ -78,14 +78,16 @@ foreach($tage as $tag){
   $output .= $thead;
 
   // Events anzeigen
-  foreach($event_data[$tag] as $event){
-    $output .= "<tr class='msgrow".(($z%2)+1)."'>";
-    $output .= "  <td><b>".$event["name"]."</b></td>";
-    for($i=0; $i<24; $i++){
-      $output .= "<td bgcolor='".($event["ab_$i"] == 1 ? "#000099" : "")."'>&nbsp;</td>";
+  if(is_array($event_data[$tag])){
+    foreach($event_data[$tag] as $event){
+      $output .= "<tr class='msgrow".(($z%2)+1)."'>";
+      $output .= "  <td><b>".$event["name"]."</b></td>";
+      for($i=0; $i<24; $i++){
+        $output .= "<td bgcolor='".($event["ab_$i"] == 1 ? "#000099" : "")."'>&nbsp;</td>";
+      }
+      $output .= "</tr>";
+      $z++;
     }
-    $output .= "</tr>";
-    $z++;
   }
 
   // User anzeigen
