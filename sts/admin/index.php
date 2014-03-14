@@ -1,5 +1,4 @@
-<?
-
+<?php
 $MODUL_NAME = "sts";
 include_once("../../../../global.php");
 include("../../functions.php");
@@ -114,9 +113,111 @@ else
 								ON 
 								
 								o.user_id=u.id
+								ORDER BY 
+									u.vorname ASC
 								
 							
 						");
+						
+		$output .= "
+		<h1 style='margin: 5px 0px 5px;'>
+			Bereiche verwalten
+		</h1>
+		";
+		if($_GET['action'] != "add_bereich") {
+		$output .= "
+			<a href='?action=add_bereich' target='_parent'><input  value=\"Bereich hinzuf&uuml;gen\" type=button></a>
+			<br>
+		";
+		}
+		$bereich = $_POST['bereich'];
+		if( $_GET['type'] == "bereich_speichern" )
+			{
+				
+				$save_bereich = $DB->query("
+											INSERT INTO  `project_ticket_queue` (
+											`id` ,
+											`name`
+											)
+											VALUES (
+												NULL ,
+												'".$bereich."'
+											);
+
+										");
+				
+						//	$raus =	 debug_backtrace();
+							
+			$output .= " Bereich wurde gespeichert! <br>";
+			//$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sts/admin/'>";
+			}
+		if($_GET['action'] == "add_bereich") { 
+			
+			
+			
+		$output .= " <form action=\"?type=bereich_speichern\" method=\"post\"> Name: <input name='bereich' value='' size='25' type='text' maxlength='50'>  <input name=\"add_bereich\" value=\"Bereich hinzuf&uuml;gen\" type=submit>  </form>"; }
+		
+		$output .= "
+	
+		<br>
+		<table cellspacing='0' cellpadding='2' border='0'>
+			";
+			
+			$sql_orga_queue1 = $DB->query("
+											SELECT
+												*
+											FROM
+												`project_ticket_queue`
+											ORDER BY
+												name ASC
+										");
+			while($out_orga_queue1 = $DB->fetch_array($sql_orga_queue1))
+			{// begin while
+			
+		$output .= "
+			<tr>
+				<td>
+					".$out_orga_queue1['name']."
+				</td>
+				<td>
+					<a href='?action=edit_".$out_orga_queue1['id']."&id=".$out_orga_queue1['id']."' target='_parent'><img src='../../images/16/edit.png' title='Bereich &auml;ndern' ></a>
+					<a href='?action=del_".$out_orga_queue1['id']."&id=".$out_orga_queue1['id']."' onClick='return confirm(\"Bereich ".$out_orga_queue1['name']." wirklich l&ouml;schen?\");'><img src='../../images/16/editdelete.png' title='Bereich ".$out_orga_queue1['name']." l&ouml;schen?' ></a>
+				";
+			
+			if($_GET['action'] == "edit_".$out_orga_queue1['id']) { 
+			
+			if( $_GET['type'] == "save_bereich_".$out_orga_queue1['id'])
+			{
+				$save_bereich = $DB->query(" UPDATE `project_ticket_queue` SET `name` = '".$_POST['name']."' WHERE `id` = '".$_GET['id']."' ;");
+				
+				$output .= " Bereich wurde gespeichert!" ;
+				$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sts/admin/'>";
+			}
+			
+		$output .= " <form action=?action=edit_".$out_orga_queue1['id']."&type=save_bereich_".$out_orga_queue1['id']."&id=".$out_orga_queue1['id']." method=\"post\"> Name: <input name='name' value='' size='25' type='text' maxlength='50'>  <input name=\"edit_bereich\" value=\"Bereich speichern\" type=submit>  </form>";}
+			
+			if($_GET['action'] == "del_".$out_orga_queue1['id']) { 
+			
+			
+				$del_bereich = $DB->query(" DELETE FROM `project_ticket_queue` WHERE `project_ticket_queue`.`id` = '".$_GET['id']."' ;");
+				$del_user_aus_bereich = $DB->query(" DELETE FROM `project_ticket_agent_queue` WHERE `project_ticket_agent_queue`.`queueid` = '".$_GET['id']."' ;");
+				
+				$output .= " Bereich wurde gel&ouml;scht!" ;
+				$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sts/admin/'>";
+			
+			}
+			
+			$output .= "			
+				</td>
+			</tr>
+				";
+			}
+		$output .= "
+			
+		</table>
+		";
+		
+		
 		$output .= "
 				<h1 style='margin: 5px 0px 5px;'>
 					Zuordnung der User zu den einzelnen Bereichen im Ticket System
@@ -130,6 +231,8 @@ else
 												*
 											FROM
 												`project_ticket_queue`
+											ORDER BY
+												name ASC
 										");
 			while($out_orga_queue = $DB->fetch_array($sql_orga_queue))
 			{// begin while
@@ -168,6 +271,8 @@ else
 												*
 											FROM
 												`project_ticket_queue`
+												ORDER BY
+													name ASC
 										");
 			
 			while($out_orga_queue = $DB->fetch_array($sql_orga_queue))
@@ -268,13 +373,13 @@ else
 															);
 				if($out_pm_mail_checked['wert'] == 1 )
 				{ $name = "Es werden Mails versendet!";
-					$output .= "Es werden <img src='../images/16/mail_send.png'> versendet!
+					$output .= "Es werden <img src='../../images/16/mail_send.png'> versendet!
 					
 					";
 				}
 				else
 				{$name = "Es werden Privatnachrichten versendet!";
-					$output .= "Es werden <img src='../images/16/irc_protocol.png'> versendet!
+					$output .= "Es werden <img src='../../images/16/irc_protocol.png'> versendet!
 					
 					";
 				}
