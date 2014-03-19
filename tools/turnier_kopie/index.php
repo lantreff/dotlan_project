@@ -15,6 +15,7 @@ if(!$_POST["step2"] && !$_POST["kopieren"]){
   $query = $DB->query("SELECT id, name FROM events ORDER BY id DESC");
   while($row = $DB->fetch_array($query)) $events[$row["id"]] = $row["name"];
   
+  $output .= "Mit dem <b>'String im Namen ersetzen'</b> kann man so Sachen wie 'mx22' durch 'mx23' ersetzen.<br><br>";
   $output .= "<form action='index.php' method='POST'>";
   $output .= "<table>";
   $output .= "  <tr>";
@@ -85,7 +86,7 @@ if(!$_POST["step2"] && !$_POST["kopieren"]){
     $output .= "    <th class='forumhead'>Ziel</th>";
     $output .= "  </tr>";
   
-    $query = $DB->query("SELECT tid, tname FROM t_turnier WHERE teventid = '".$quell_event."'");
+    $query = $DB->query("SELECT tid, tname FROM t_turnier WHERE teventid = '".$quell_event."' ORDER BY tname");
     while($row = $DB->fetch_array($query)){
       $output .= "<tr>";
       $output .= "  <td align='center'><input id='chk_".$row["tid"]."' type='checkbox' name='tids[]' value='".$row["tid"]."'></td>";
