@@ -109,6 +109,9 @@ if(!$_POST["step2"] && !$_POST["kopieren"]){
   $ziel_string = mysql_real_escape_string($_POST["ziel_string"]);
   $tids = $_POST["tids"];
 
+  $tmp = explode(" ",$DB->query_one("SELECT begin FROM events WHERE id = '$ziel_event' LIMIT 1"));
+  $event_start = $tmp[0];
+
   if(!is_array($tids) || count($tids) < 1) $output .= "<b>Du hast keine Turniere selektiert.</b>";
   else{
     foreach($tids as $tid){
@@ -116,7 +119,7 @@ if(!$_POST["step2"] && !$_POST["kopieren"]){
 
       $tname = str_replace($quell_string,$ziel_string,$vals["tname"]);
       $tmp = explode(" ",$vals["tstart"]);
-      $turnierstart = date("Y-m-d")." ".$tmp[1];
+      $turnierstart = $event_start." ".$tmp[1];
 
       $DB->query("INSERT INTO `t_turnier` 
         (`tgroupid`, `tactive`, `topen`, `tclosed`, `tpause`, `teventid`, `tname`, `tplaytype`, 
