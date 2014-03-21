@@ -110,7 +110,12 @@ if(!$_POST["step2"] && !$_POST["kopieren"]){
   $tids = $_POST["tids"];
 
   $tmp = explode(" ",$DB->query_one("SELECT begin FROM events WHERE id = '$ziel_event' LIMIT 1"));
-  $event_start = $tmp[0];
+  $event_start = strtotime($tmp[0]);
+  $week_days = array();
+  for($i=0;$i<7;$i++){
+    $week_days[date("w",$event_start)] = date("Y-m-d",$event_start);
+    $event_start += 86400; // Einen Tag weiter
+  }
 
   if(!is_array($tids) || count($tids) < 1) $output .= "<b>Du hast keine Turniere selektiert.</b>";
   else{
@@ -119,7 +124,7 @@ if(!$_POST["step2"] && !$_POST["kopieren"]){
 
       $tname = str_replace($quell_string,$ziel_string,$vals["tname"]);
       $tmp = explode(" ",$vals["tstart"]);
-      $turnierstart = $event_start." ".$tmp[1];
+      $turnierstart = $week_days[date("w",strtotime($tmp[0]))]." ".$tmp[1]; // Passenden Event-Tag nehmen
 
       $DB->query("INSERT INTO `t_turnier` 
         (`tgroupid`, `tactive`, `topen`, `tclosed`, `tpause`, `teventid`, `tname`, `tplaytype`, 
