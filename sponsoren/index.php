@@ -8,7 +8,6 @@
 ########################################################################
 $version = 'Version 1.4';
 $dev_link = 'http://development.serious-networx.net/?page_id=15';
-
 $MODUL_NAME = "sponsoren";
 include_once("../../../global.php");
 include("../functions.php");
@@ -104,7 +103,7 @@ else
 	{ //$ADMIN
 
 			$output .= "<a name='top' >
-				<a href='/admin/projekt/'>Projekt</a>
+				<a href='/admin/projekt'>Projekt</a>
 				&raquo;
 				<a href='/admin/projekt/sponsoren'>Sponsoren</a>
 				&raquo; ".$_GET['action']."
@@ -215,7 +214,7 @@ else
 
 			$output .= "
 			<form name='suche' action='' method='POST'>
-				<input name='suche'  style='width: 25%;' type='text' maxlength='50'>
+				<input name='suche'  style='width: 25%;' type='text'>
 				<input name='senden' value='Suchen' type='submit'>
 			</form>
 
@@ -234,6 +233,9 @@ else
 													}
 
 											$output .= "
+									</td>
+									<td   class='msghead' align='center'>
+											<b>Ansprechpartner</b>
 									</td>
 									<td   class='msghead' align='center'>
 											<b>Status</b>
@@ -277,6 +279,7 @@ else
 			$iCount = 0;
 			while($out = $DB->fetch_array($sql_sponsor))
 			{// begin while
+			
 							if($iCount % 2 == 0)
 							{
 								$currentRowClass = "msgrow2";
@@ -286,12 +289,29 @@ else
 							{
 								$currentRowClass = "msgrow1";
 							}
+							$out_Apartnet = 
+								 $DB->fetch_array(
+													$DB->query("
+																	SELECT
+																			*
+																	FROM
+																		project_contact_contacts
+																	WHERE
+																		sponsor_id = '".$out['id']."'
+																	LIMIT
+																		1;
+																")
+												);
 
 				$output .= "
 								<tr VALIGN=TOP  class='".$currentRowClass."'>
 									<td  >
 									<a name='".$out['name']."'>
 										<a target='_blank' href='".$out['homepage']."'>".$out['name']."</a>
+									</td>
+									<td  >
+									<a>
+										<a href='mailto:".$out_Apartnet['fa_email']."'>".$out_Apartnet['p_vorname']." ".$out_Apartnet['p_name']."</a>
 									</td>
 									<td align='center'>";
 									$sql_status_main = $DB->query("
@@ -319,32 +339,54 @@ else
 																$out_stat_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$out_status_main['s_id']."' "));
 
 																$status_text = wordwrap( $out_status_main['comment'], 100, '<br>', true );
-
+																
+																$bg_color ="'FFFFFF";
+																
 																if($out_status_main['status'] ==  'Absage')
 																	{
-																		$img ="/images/admin/projekt_status_absage.gif";
+																		$bg_color = "#FF0000";
+																	}
+																if($out_status_main['status'] ==  'keine Antwort')
+																	{
+																		$bg_color = "#FF0000";
 																	}
 																if($out_status_main['status'] ==  'Zusage')
 																	{
-																		$img ="/images/admin/projekt_status_zusage.gif";
+																		$bg_color = "#90EE90";
+																	}
+																if($out_status_main['status'] ==  'News geschrieben')
+																	{
+																		$bg_color = "#006400";
 																	}
 																if($out_status_main['status'] ==  'Zurückgestellt')
 																	{
-																		$img ="/images/admin/projekt_status_zuruekgestellt.gif";
+																		$bg_color = "#8B4513";
 																	}
 																if($out_status_main['status'] ==  'undef')
 																	{
-																		$img ="/images/admin/projekt_status_undef.gif";
+																		$bg_color = "#000000";
 																	}
-																if($out_status_main['status'] !=  'Absage' &&  $out_status_main['status'] !=  'Zusage' &&  $out_status_main['status'] !=  'Zurückgestellt' &&  $out_status_main['status'] !=  'undef')
+																if($out_status_main['status'] ==  'News geschrieben')
 																	{
-																		$img ="/images/admin/projekt_status_other.gif";
+																		$bg_color = "#00FF00";
+																	}
+																if($out_status_main['status'] ==  'Soll Geschenk bekommen')
+																	{
+																		$bg_color = "#ADD8E6";
+																	}
+																if($out_status_main['status'] ==  'Hat Geschenk bekommen')
+																	{
+																		$bg_color = "#0000CD";
+																	}	
+																if($out_status_main['status'] ==  'Angeschrieben')
+																	{
+																		$bg_color = "#FFA500";
 																	}
 
-																$output .= " <img  src='".$img."'
+																$output .= " <p style='margin-top: 0px; margin-bottom: 0px; height:18px; width:18px;  background-color: ".$bg_color."' 
 																				title='".$out_status_main['status']." : ".$out_status_main['comment']." - ".$out_stats_user['vorname']." ".$out_stats_user['nachname']." (".$out_stats_user['nick'].") - ".date_mysql2german($out_status_main['date'])." - ".$out_status_main['time']." Uhr'
 																				alt='".$out_status_main['status']." : ".$out_status_main['comment']." - ".$out_stats_user['vorname']." ".$out_stats_user['nachname']." (".$out_stats_user['nick'].") - ".date_mysql2german($out_status_main['date'])." - ".$out_status_main['time']." Uhr'
-																			>
+																			></p>
 ";
 
 															}
@@ -355,7 +397,7 @@ else
 
 
 						$output .= "
-									</td>
+									</td>									
 									<td align='right'>
 									";
 									$sql_warenwert = $DB->query("SELECT * FROM project_sponsoren_artikel WHERE s_id = ".$out['id']." AND event_id = ".$selectet_event_id." ");
@@ -376,7 +418,7 @@ else
 									</td>
 
 									</td>
-									<td>";
+									<td align='right'>";
 									$sql_admin_z = $DB->query("SELECT * FROM user WHERE id = '".$out['admin']."' ");
 									while ($out_admin_z = $DB->fetch_array($sql_admin_z))
 									{
@@ -678,32 +720,32 @@ else
 											<td colspan='2'>
 												<table width='100%'>
 													<tbody>
-														<tr >
-															<td >
+														<tr>
+															<td width='30%'>
 																Firma:
 															</td>
-															<td >
-																<input name='name' style='width: 98%;' type='text' maxlength='50' value='".$out_edit['name']."'>
+															<td width='70%'>
+																<input name='name' style='width: 100%;' type='text'  value='".$out_edit['name']."'>
 															</td>
 														</tr>
 														<tr style='height: 5px;'>
 
 														</tr>
 														<tr >
-															<td >
+															<td width='30%'>
 																E-Mail:
 															</td>
-															<td >
-																<input name='email' style='width: 98%;' type='text' maxlength='50' value='".$out_edit['email']."'>
+															<td width='70%'>
+																<input name='email' style='width: 100%;' type='text' value='".$out_edit['email']."'>
 															</td>
 														</tr>
 														<tr >
-															<td >
+															<td width='30%'>
 																Tel.:
 															</td>
 
-															<td >
-																<input name='tel' style='width: 98%;' type='text' maxlength='15' value='".$out_edit['tel']."'>
+															<td width='70%'>
+																<input name='tel' style='width: 100%;' type='text' value='".$out_edit['tel']."'>
 															</td>
 
 														</tr>
@@ -712,32 +754,55 @@ else
 														</tr>
 
 														<tr >
-															<td >
+															<td width='30%'>
 																Straße & Hausnr.:
 															</td>
-															<td >
-
-																<input name='str' style='width: 87%;' type='text' maxlength='50' value='".$out_edit['str']."'> <input name='hnr' style='width: 9%;' type='text' maxlength='5' value='".$out_edit['hnr']."'>
+															<td width='70%'>
+																<table width='100%' cellspacing='0' cellpadding='0' border='0'>
+																	<tbody>
+																		<tr>
+																			<td width='100%'>
+																				<input type='text' value='".$out_edit['str']."' style='width:100%' size='36' name='str'>
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>
+																			<input type='text'   value='".$out_edit['hnr']."' name='hnr' size='5'>
+																			</td>
+																			
+																		</tr>
+																	</tbody>
+																</table>
 															</td>
 
 														</tr>
 														<tr >
-															<td >
+															<td width='30%'>
 																PLZ & Ort:
 
 															</td>
-															<td >
-																<input name='plz'  style='width: 9%;' type='text' maxlength='5' value='".$out_edit['plz']."'> <input name='ort'  style='width: 87%;' type='text' maxlength='50' value='".$out_edit['ort']."'>
-
+															<td width='70%'>
+																<table width='100%' cellspacing='0' cellpadding='0' border='0'>
+																	<tbody>
+																		<tr>
+																			<td>
+																			<input type='text'   value='".$out_edit['plz']."' name='plz' size='5'>
+																			</td>
+																			<td>&nbsp;</td>
+																			<td width='100%'>
+																				<input type='text' value='".$out_edit['ort']."' style='width:100%' size='36' name='ott'>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
 															</td>
 														</tr>
 														<tr >
-															<td >
+															<td width='30%'>
 																Land:
 
 															</td>
-															<td >																
-															<select name='land' style='width: '>
+															<td width='70%'>																
+															<select name='land' style='width:100%'>
 																	<option value='1'>w&auml;hlen</option>";
 																		$sql_list_land = $DB->query("SELECT * FROM project_countryTable ORDER BY name ASC");
 																		while($out_list_land = $DB->fetch_array($sql_list_land))
@@ -764,11 +829,11 @@ else
 															</td>
 														</tr>
 														<tr >
-															<td >
+															<td width='30%'>
 																Marke:
 															</td>
-															<td >
-																<input name='marke' style='width: 20%;' type='text' maxlength='50' value='".$out_edit['marke']."'>
+															<td width='70%'>
+																<input name='marke' style='width: 100%;' type='text'  value='".$out_edit['marke']."'>
 															</td>
 														</tr>
 														<tr style='height: 5px;'>
@@ -777,19 +842,19 @@ else
 														</tr>
 														
 														<tr >
-															<td >
+															<td width='30%'>
 																Website:
 															</td>
-															<td >
-																<input name='homepage' style='width: 98%;' type='text' maxlength='50' value='".$out_edit['homepage']."'>
+															<td width='70%'>
+																<input name='homepage' style='width: 100%;' type='text'  value='".$out_edit['homepage']."'>
 															</td>
 														</tr>
 														<tr >
-															<td >
+															<td width='30%'>
 																Kontaktformular:
 															</td>
-															<td >
-																<input name='formular' style='width: 98%;' type='text' maxlength='50' value='".$out_edit['formular']."'>
+															<td width='70%'>
+																<input name='formular' style='width: 100%;' type='text'  value='".$out_edit['formular']."'>
 															</td>
 														</tr>
 													</tbody>
@@ -820,7 +885,7 @@ else
 																<td>
 																	<select name='add_kontakt_id' style='width: '>
 																		<option value='1'>w&auml;hlen</option>";
-																			$sql_list_contact = $DB->query("SELECT * FROM project_contact_contacts");
+																			$sql_list_contact = $DB->query("SELECT * FROM project_contact_contacts WHERE sponsor_id = 0 ORDER BY p_vorname");
 																			while($out_list_contact = $DB->fetch_array($sql_list_contact))
 																			{// begin while
 																				$output .="
@@ -926,7 +991,7 @@ else
 																	<tbody>
 																		<tr>
 																			<td>
-																				<input name='comment' value=''  style='width: 70%;' type='text' maxlength='200'>
+																				<input name='comment' value=''  style='width: 70%;' type='text' >
 																				<select name='status' style='width:80px;' >
 																					<option value='undef' selected='selected'>undef</option>
 																					<option value='Angeschrieben'>Angeschrieben</option>
@@ -963,14 +1028,14 @@ else
 												<table width='100%'>
 													<tbody>
 														<tr>
-															<td class='msghead' width='50'>
+															<td class='msghead' width='55'>
 																Anzahl
 															</td>
-															<td  class='msghead'>
+															<td  class='msghead'  width='400'>
 																Artikelbezeichnung
 															</td>
 															<td  class='msghead'>
-																Warenwert (Englische Schreibweise 'Bsp. 12.50')
+																Warenwert pro St&uuml;ck (Englische Schreibweise 'Bsp. 12.50')
 															</td>
 															<td  class='msghead'>
 
@@ -979,13 +1044,13 @@ else
 														<tr>
 															<form name='editart' action='?hide=1&action=edit_art&comand=senden&event_id=".$selectet_event_id."&id=".$out_edit['id']."' method='POST'>
 																<td class='msgrow1' >
-																	<input name='sp_art_anz' value=''  style='width: 100%;' type='text' maxlength='10'>
+																	<input name='sp_art_anz' value=''  style='width: 100%;' type='text' >
 																</td>
 																<td class='msgrow1'>
-																	<input name='sp_art_name' value=''  style='width: 100%;' type='text' maxlength='200'>
+																	 <input name='sp_art_name' value=''  style='width: 100%;' type='text'>
 																</td>
 																<td class='msgrow1'>
-																	<input name='sp_art_wert' value=''  style='width: 100%;' type='text' maxlength='200'>
+																	 <input name='sp_art_wert' value=''  style='width: 10%;' type='text' >
 																</td>
 																<td class='msgrow1' align='right'>
 																	<input name='senden' value='Artikel hinzuf&uuml;gen' type='submit' style='text-align:right;' >
@@ -1145,31 +1210,53 @@ else
 															$out_stats_user = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_sql_stats['u_id']."' "));
 															$out_stat_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$out_sql_stats['s_id']."' "));
 
+																	$bg_color = "#FFFFFF";
+																
 															if($out_sql_stats['status'] ==  'Absage')
-																{
-																	$bg_colour ="bgcolor='#c32222'";
-																}
-															if($out_sql_stats['status'] ==  'Zusage')
-																{
-																	$bg_colour ="bgcolor='#259e27'";
-																}
-															if($out_sql_stats['status'] ==  'Zurückgestellt')
-																{
-																	$bg_colour ="bgcolor='#F6A644'";
-																}
-															if($out_sql_stats['status'] ==  'undef')
-																{
-																	$bg_colour = "bgcolor='#4d5457'";
-																}
-															if($out_sql_stats['status'] !=  'Absage' &&  $out_sql_stats['status'] !=  'Zusage' &&  $out_sql_stats['status'] !=  'Zurückgestellt' &&  $out_sql_stats['status'] !=  'undef')
-																{
-																	$bg_colour = "bgcolor='#6fb2d4'";
-																}
+																	{
+																		$bg_color = "#FF0000";
+																	}
+																if($out_sql_stats['status'] ==  'keine Antwort')
+																	{
+																		$bg_color = "#FF0000";
+																	}
+																if($out_sql_stats['status'] ==  'Zusage')
+																	{
+																		$bg_color = "#90EE90";
+																	}
+																if($out_sql_stats['status'] ==  'News geschrieben')
+																	{
+																		$bg_color = "#006400";
+																	}
+																if($out_sql_stats['status'] ==  'Zurückgestellt')
+																	{
+																		$bg_color = "#8B4513";
+																	}
+																if($out_sql_stats['status'] ==  'undef')
+																	{
+																		$bg_color = "#000000";
+																	}
+																if($out_sql_stats['status'] ==  'News geschrieben')
+																	{
+																		$bg_color = "#00FF00";
+																	}
+																if($out_sql_stats['status'] ==  'Soll Geschenk bekommen')
+																	{
+																		$bg_color = "#ADD8E6";
+																	}
+																if($out_sql_stats['status'] ==  'Hat Geschenk bekommen')
+																	{
+																		$bg_color = "#0000CD";
+																	}	
+																if($out_sql_stats['status'] ==  'Angeschrieben')
+																	{
+																		$bg_color = "#FFA500";
+																	}
 																	$status_text = wordwrap( $out_sql_stats['comment'], 100, '<br>', true );
 
 															$output .= "
-																	<tr ".$bg_colour.">
-																		<td  height='18'>";
+																	<tr style=' background-color: ".$bg_color.";'>
+																		<td  height='18' style=' color:#000000;'>";
 															$output .= "	<b>".$out_sql_stats['status'].":</b> ".$status_text." - ".$out_stats_user['vorname']." ".$out_stats_user['nachname']." (".$out_stats_user['nick'].") - ".date_mysql2german($out_sql_stats['date'])." - ".$out_sql_stats['time']." Uhr
 																		</td>";
 
