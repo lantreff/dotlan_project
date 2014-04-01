@@ -6,8 +6,7 @@
 #                                                                      #
 # admin/sponsoren/index.php					                           #
 ########################################################################
-$version = 'Version 1.4';
-$dev_link = 'http://development.serious-networx.net/?page_id=15';
+
 $MODUL_NAME = "sponsoren";
 include_once("../../../global.php");
 include("../functions.php");
@@ -44,7 +43,7 @@ $time			= date("H:i:s");
 // Sponsoren Artikel auslesen
 	$sp_art_anz		= security_number_int_input($_POST['sp_art_anz'],"","");
 	$sp_art_name	= security_string_input($_POST['sp_art_name']);
-	$sp_art_wert	= security_number_int_input($_POST['sp_art_wert'],"","");
+	$sp_art_wert	= security_number_int_input(str_replace(',','.',$_POST['sp_art_wert']),"","");
 ////////////////////////////////////////////////
 
 // Sortierung //
@@ -66,15 +65,17 @@ $time			= date("H:i:s");
     	$d    =    explode("-",$date1);
 	return    sprintf("%02d.%02d.%04d", $d[2], $d[1], $d[0]);
 }
-
-if (isset($_POST['event']))
+$selectet_event_id = $EVENT->next;
+if (isset($_GET['event']))
+{
+$selectet_event_id = $_GET['event'];
+}
+if (isset($_POST['event']) )
 {
 $selectet_event_id = $_POST['event'];
 }
-else
-{
-$selectet_event_id = $EVENT->next;
-}
+
+
 
  /*###########################################################################################
 Admin PAGE
@@ -103,9 +104,9 @@ else
 	{ //$ADMIN
 
 			$output .= "<a name='top' >
-				<a href='/admin/projekt'>Projekt</a>
+				<a href='".$global['project_path']."'>Projekt</a>
 				&raquo;
-				<a href='/admin/projekt/sponsoren'>Sponsoren</a>
+				<a href='".$global['project_path']."sponsoren'>Sponsoren</a>
 				&raquo; ".$_GET['action']."
 				<hr class='newsline' width='100%' noshade=''>
 				<br />";
@@ -307,7 +308,74 @@ else
 								<tr VALIGN=TOP  class='".$currentRowClass."'>
 									<td  >
 									<a name='".$out['name']."'>
-										<a target='_blank' href='".$out['homepage']."'>".$out['name']."</a>
+										<a target='_blank' href='".$out['homepage']."'>".$out['name']."</a><br>
+										
+										";
+										
+										$sql_artikel = $DB->query("
+																					SELECT
+																							*
+																					FROM
+																						project_sponsoren_artikel
+																					WHERE
+																						s_id = '".$out['id']."'
+																					AND
+																						event_id = '".$selectet_event_id."'
+																					ORDER BY
+																						date DESC,
+																						time DESC
+																				");
+									if( mysql_num_rows($sql_artikel) != 0)
+									{
+							$output .="
+												<table  width='100%' cellspacing='0' cellpadding='0' border='0'>
+													<tbody>";
+
+
+														while($out_sql_artikel = $DB->fetch_array($sql_artikel))
+														{// begin while
+															$out_stats_user = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_sql_artikel['u_id']."' "));
+															$out_stat_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$out_sql_artikel['s_id']."' "));
+															$ges_wert = $ges_wert + $out_sql_artikel['sp_art_wert'];
+															$output .="<tr>";
+															$output .= "
+																		<!--
+																		<td  class='msgrow1'  height='18'>
+																			".$out_sql_artikel['sp_art_anz']."
+																		</td>
+																		-->
+																		<td>
+																			".$out_sql_artikel['sp_art_name']." 
+																		</td>
+																		<!--
+																		<td>
+																			je 
+																		</td>
+																		<td>
+																			".$out_sql_artikel['sp_art_wert']." Euro
+																		</td>
+																		-->
+																		";
+
+															$output .="</tr>
+															";
+
+														}
+
+										$output .="	<!-- 
+													<tr>
+														<td colspan='5' align='right'>
+															Gesammt: ".$ges_wert." Euro
+														</td>
+													</tr>
+													-->
+													</tbody>
+												</table>
+
+									";
+									}
+$output .="										
+									
 									</td>
 									<td  >
 									<a>
@@ -364,7 +432,7 @@ else
 																	}
 																if($out_status_main['status'] ==  'undef')
 																	{
-																		$bg_color = "#000000";
+																		$bg_color = "#FFFFFF";
 																	}
 																if($out_status_main['status'] ==  'News geschrieben')
 																	{
@@ -433,7 +501,7 @@ else
 									<td align='center'>";
 							if( $DARF["edit"] )
 							{ // EDIT
-							$output .="<a href='?hide=1&action=edit&id=".$out['id']."' target='_parent'>
+							$output .="<a href='?hide=1&action=edit&id=".$out['id']."&event=".$selectet_event_id."' target='_parent'>
 										<img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' ></a>";
 							}
 							if( $DARF["del"])
@@ -494,7 +562,7 @@ else
 
 					}
 
-					$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."'>";
 				}
 
 				 $new_id = $_GET['id'];
@@ -542,7 +610,7 @@ else
 											WHERE
 												`contactid` = \"$new_id\"
 										");
-					$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/?hide=1&action=edit&id=".$s_id."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$s_id."'>";
 				}
 
 					$new_id = $_GET['id'];
@@ -636,7 +704,7 @@ else
 														);"
 												);
 							$output .= "Daten wurden gesendet";
-							$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/'>";
+							$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."'>";
 						}
 					if($_GET['action'] == 'edit' && $_GET['comand'] == 'senden')
 						{
@@ -665,7 +733,7 @@ else
 											`id` = \"$id\";
 									");
 							$output .= "Daten wurden ge&auml;ndert";
-							$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/?hide=1&action=edit&id=".$out_edit['id']."'>";
+							$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$out_edit['id']."'>";
 						}
 
 						$output .= "
@@ -998,7 +1066,6 @@ else
 																					<option value='Zusage'>Zusage</option>
 																					<option value='Absage'>Absage</option>
 																					<option value='keine Antwort'>keine Antwort</option>
-																					<option value='Erinnerungsmail'>Erinnerungsmail</option>
 																					<option value='Soll Geschenk bekommen'>Soll Geschenk bekommen</option>
 																					<option value='Hat Geschenk bekommen'>Hat Geschenk bekommen</option>
 																					<option value='News geschrieben'>News geschrieben</option>
@@ -1035,7 +1102,7 @@ else
 																Artikelbezeichnung
 															</td>
 															<td  class='msghead'>
-																Warenwert pro St&uuml;ck (Englische Schreibweise 'Bsp. 12.50')
+																Warenwert pro St&uuml;ck
 															</td>
 															<td  class='msghead'>
 
@@ -1063,25 +1130,8 @@ else
 													</tbody>
 												</table>
 											</td>
-										</tr>
+										</tr>";
 										
-										
-											<tr >
-											<td class='msghead' colspan='2'>
-												<b>Gesponserte Artikel-Historie:</b>
-											</td>
-										</tr>
-														";
-										$sql_events1 = $DB->query("
-																	SELECT
-																			*
-																	FROM
-																		events
-																	ORDER BY
-																		begin DESC
-																");
-													while($out_event1 = $DB->fetch_array($sql_events1))
-													{// begin while
 														$sql_artikel = $DB->query("
 																					SELECT
 																							*
@@ -1090,14 +1140,19 @@ else
 																					WHERE
 																						s_id = '".$out_edit['id']."'
 																					AND
-																						event_id = '".$out_event1['id']."'
+																						event_id = '".$selectet_event_id."'
 																					ORDER BY
 																						date DESC,
 																						time DESC
 																				");
 									if( mysql_num_rows($sql_artikel) != 0)
 									{
-							$output .="
+							$output .="											<tr >
+											<td class='msghead' colspan='2'>
+												<b>Gesponserte Artikel-Liste:</b>
+											</td>
+										</tr>
+														
 										<tr>
 															<td class='msgrow2' >
 																<b>".$out_event1['name']."</b>
@@ -1142,58 +1197,33 @@ else
 										</tr>";
 									}
 									
-									}//////
-
-
-							$output .="
+									
+									$sql_stats_event = $DB->query("
+												SELECT
+														*
+												FROM
+													project_sponsoren_stats
+												WHERE
+													s_id 		= '".$out_edit['id']."'
+												AND
+													event_id = '".$selectet_event_id."'
+												ORDER BY
+													date DESC,
+													time DESC
+											");
+								
+								if( mysql_num_rows($sql_stats_event) != 0)
+								{
+								$output .="
 										<tr >
 											<td class='msghead' colspan='2'>
-												<b>Status-Historie:</b>
+												<b>Status-Liste:</b>
 											</td>
 										</tr>
 										<tr>
 											<td class='msgrow1' colspan='2'>
 												<table width='100%'>
-													<tbody>";
-
-													$sql_events = $DB->query("
-																	SELECT
-																			*
-																	FROM
-																		events
-																	ORDER BY
-																		begin DESC
-																");
-													while($out_event = $DB->fetch_array($sql_events))
-													{// begin while
-													
-														$sql_stats_event = $DB->query("
-																	SELECT
-																			*
-																	FROM
-																		project_sponsoren_stats
-																	WHERE
-																		s_id 		= '".$out_edit['id']."'
-																	AND
-																		event_id = '".$out_event['id']."'
-																	ORDER BY
-																		date DESC,
-																		time DESC
-																");
-													/*	$out_events_name =  $DB->fetch_array(
-																								$DB->query("
-																											SELECT
-																													*
-																											FROM
-																												events
-																											WHERE
-																												id = '".$selectet_event_id."'
-																										")
-																							);
-													*/
-													if( mysql_num_rows($sql_stats_event) != 0)
-													{
-													$output .="
+													<tbody>
 														<tr>
 															<td class='msgrow2' >
 																<b>".$out_event['name']."</b>
@@ -1234,7 +1264,7 @@ else
 																	}
 																if($out_sql_stats['status'] ==  'undef')
 																	{
-																		$bg_color = "#000000";
+																		$bg_color = "#FFFFFF";
 																	}
 																if($out_sql_stats['status'] ==  'News geschrieben')
 																	{
@@ -1277,7 +1307,7 @@ else
 														</td>
 													</tr>";
 										}
-										}
+										
 											$output .="
 													</tbody>
 												</table>
@@ -1319,7 +1349,7 @@ else
 
 
 				$output .= "Daten wurden gesendet";
-				$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/?hide=1&action=edit&id=".$id."'>";
+				$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$id."'>";
 
 				}
 			}
@@ -1364,7 +1394,7 @@ else
 								);
 
 
-					$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/?hide=1&action=edit&id=".$id."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$id."'>";
 
 				}
 			}
@@ -1410,7 +1440,7 @@ else
 									");
 
 
-					$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/?hide=1&action=edit&id=".$id."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$id."'>";
 
 				}
 			}
@@ -1446,7 +1476,7 @@ else
 					$output .= "Kommentar: ".$kommentar."<br>";
 					$output .= "Wert: ".$wert."<br>";
 					$output .= "admin: ".$admin."<br>";
-					$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/#".$sponsor_name."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."#".$sponsor_name."'>";
 
 				}
 			}
@@ -1463,7 +1493,7 @@ else
 
 				{
 					$del=$DB->query("DELETE FROM project_sponsoren_stats WHERE id = '".$_GET['id']."'");
-					$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/?hide=1&action=edit&id=".$_GET['s_id']."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$_GET['s_id']."'>";
 				}
 
 				 $new_id = $_GET['id'];
@@ -1498,7 +1528,7 @@ else
 				{
 					$out_list_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$_GET['s_id']."' LIMIT 1"));
 					$del=$DB->query("DELETE FROM project_sponsoren_artikel WHERE id = '".$_GET['id']."'");
-					$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sponsoren/?hide=1&action=edit&id=".$out_list_name['id']."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$out_list_name['id']."'>";
 				}
 
 				 $new_id = $_GET['id'];
