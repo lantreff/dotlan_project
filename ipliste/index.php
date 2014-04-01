@@ -21,7 +21,7 @@ $läufer1 =0;
 
 $ipadresse		= security_number_int_input($_POST['ip'],"","");
 $bezeichnung	= security_string_input($_POST['bezeichnung']);
-$mac			= strtoupper ( security_string_input($_POST['mac']) );
+$mac			= preg_replace("/[^a-zA-Z0-9\: ]/",":",strtoupper ( security_string_input($_POST['mac']) ));
 $cat			= security_string_input($_POST['category']);
 $cat1			= security_string_input($_POST['category1']);
 $update_domain	= $_POST['update_domain'];
