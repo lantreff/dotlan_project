@@ -24,6 +24,7 @@ $bezeichnung	= security_string_input($_POST['bezeichnung']);
 $mac			= strtoupper ( security_string_input($_POST['mac']) );
 $cat			= security_string_input($_POST['category']);
 $cat1			= security_string_input($_POST['category1']);
+$update_domain	= $_POST['update_domain'];
 $category = "";
 
 if($_POST['category1'] <> "" )
@@ -75,9 +76,9 @@ else
 		{ //$ADMIN
 
 			$output .= "<a name='top' >
-				<a href='/admin/'>Administration</a>
+				<a href='".$global['project_path']."'>Projekt</a>
 				&raquo;
-				<a href='/admin/ipliste'>Ip-Liste</a>
+				<a href='".$global['project_path']."ipliste'>Ip-Liste</a>
 				&raquo; ".$_GET['action']."
 				<hr class='newsline' width='100%' noshade=''>
 				<br />";
@@ -96,18 +97,22 @@ else
 			$output .="
 				<td width='4' class='shortbarbitselect'>&nbsp;</td>
 				<td width='".$breite."' class='shortbarbit'><a href='export.php' target='_new' class='shortbarlink'>export</a></td>
-				<td width='".$breite."' class='shortbarbit'><a href='export_zonefiles.php' target='_parent' class='shortbarlink'>generate dns zonefiles</a></td>";
-			if (file_exists('lan.txt'))
+				<td width='".$breite."' class='shortbarbit'><a href='export_zonefiles.php' target='_parent' class='shortbarlink'>hotsts-Datei erstellen</a></td>";
+			if (file_exists('hosts'))
 				{
 					$output .="
-					<td width='".$breite."' class='shortbarbit'><a href='lan.txt' target='_new' class='shortbarlink'>open lan zonefile</a></td>";
+					<td width='".$breite."' class='shortbarbit'><a href='hosts' target='_new' class='shortbarlink'>hosts-Datei &ouml;ffnen</a></td>";
 
 
 				}
 	$output .="</tr>
 		</tbody>
 	</table>
+			
 			<hr>
+			<form name='update_domain' action='?hide=1&action=update_domain&comand=senden' method='POST' >
+			<input name='update_domain' value='' size='50' type='text' maxlength='500'><input name='senden' value='Domain &auml;ndern' type='submit'>
+			</form>
 			<br>
 			<b>Subnetsmaske:</b> 255.255.240.0 - <b>F&uuml;r Switches:</b> 255.255.254.0
 			<br>
@@ -245,19 +250,19 @@ else
 							$sql_check_ip = $DB->query("SELECT * FROM project_ipliste WHERE ip = '".$out_list_ip['ip']."'");
 							
 							$sql_list_ip_Bezeichnung = $DB->query("SELECT * FROM project_ipliste WHERE ip = '".$out_list_ip['ip']."'");
-							$sql_list_ip_MAC = $DB->query("SELECT * FROM project_ipliste WHERE bezeichnung = '".$out_list_ip['bezeichnung']."'");
-							$sql_list_ip_DNS = $DB->query("SELECT * FROM project_ipliste WHERE bezeichnung = '".$out_list_ip['bezeichnung']."'");
-							$sql_list_ip_DNS1 = $DB->query("SELECT * FROM project_ipliste WHERE bezeichnung = '".$out_list_ip['bezeichnung']."'");
-							$sql_list_ip_DNS2 = $DB->query("SELECT * FROM project_ipliste WHERE bezeichnung = '".$out_list_ip['bezeichnung']."'");
+							$sql_list_ip_MAC = $DB->query("SELECT mac FROM project_ipliste WHERE ip = '".$out_list_ip['ip']."'");
+							$sql_list_ip_DNS = $DB->query("SELECT * FROM project_ipliste WHERE ip = '".$out_list_ip['ip']."'");
+							$sql_list_ip_DNS1 = $DB->query("SELECT * FROM project_ipliste WHERE ip = '".$out_list_ip['ip']."'");
+							//$sql_list_ip_DNS2 = $DB->query("SELECT lan FROM project_ipliste WHERE bezeichnung = '".$out_list_ip['bezeichnung']."'");
 							if (mysql_num_rows($sql_check_ip) > 1)
 							{
 								$currentRowClass = "msgrowRED";
-								$text = "!! IP doppelt vergeben !!";
+								
 							$output .= "
 
 								<tr class='".$currentRowClass."'>
 										<td >
-											".$out_list_ip['ip']."  ".$text."
+											".$out_list_ip['ip']." 
 										</td>
 										<td >";
 							while($out_list_ip_Bezeichnung = $DB->fetch_array($sql_list_ip_Bezeichnung))
@@ -278,11 +283,17 @@ $output .= "							".htmlentities($out_list_ip_MAC['mac'])."<br>";
 $output .= "
 										</td>
 										<td >";
+							
 							while($out_list_ip_DNS = $DB->fetch_array($sql_list_ip_DNS))
-								{
-										
-$output .= "							<a href='http://".$out_list_ip_DNS['dns'].".".$out_list_ip_DNS['lan']."' target='_new'>".$out_list_ip_DNS['dns'].".".$out_list_ip_DNS['lan']."</a> <br>";
-								}										
+							{
+								$teile = explode(",", str_replace(' ','',$out_list_ip_DNS['dns']));
+								
+								foreach($teile as $list_dns)
+									{
+											
+	$output .= "							<a href='http://".$list_dns.".".$out_list_ip_DNS['lan']."' target='_new'>".$list_dns.".".$out_list_ip_DNS['lan']."</a><br>";
+									}																
+							}
 $output .= "
 										</td>";
 							if($DARF["edit"] || $DARF["del"] )
@@ -295,14 +306,14 @@ $output .= "
 										{ //  Admin
 											$output .="
 														<a href='?hide=1&action=edit&id=".$out_list_ip_DNS1['id']."' target='_parent'>
-														<img src='../images/16/edit.png' title='Deteils anzeigen/&auml;ndern' ></a>
+														<img src='../images/16/edit.png' title='\"".$out_list_ip_DNS1['bezeichnung']."\" anzeigen/&auml;ndern' ></a>
 														";
 											}
 										if($DARF["del"] )
 										{ //  Admin
 											$output .="
 														<a href='?hide=1&action=del&id=".$out_list_ip_DNS1['id']."' target='_parent'>
-														<img src='../images/16/editdelete.png' title='IP l&ouml;schen'></a>
+														<img src='../images/16/editdelete.png' title='\"".$out_list_ip_DNS1['bezeichnung']."\" l&ouml;schen'></a>
 														<br>
 													";
 										}
@@ -315,12 +326,12 @@ $output .= "
 							}
 							else
 							{
-							$text = "";
+							
 												$output .= "
 
 								<tr class='".$currentRowClass."'>
 										<td >
-											".$out_list_ip['ip']."  ".$text."
+											".$out_list_ip['ip']."  
 										</td>
 										<td >
 											".htmlentities($out_list_ip['bezeichnung'])."
@@ -329,7 +340,18 @@ $output .= "
 											".$out_list_ip['mac']."
 										</td>
 										<td >
-											  <a href='http://".$out_list_ip['dns'].".".$out_list_ip['lan']."' target='_new'>".$out_list_ip['dns'].".".$out_list_ip['lan']."</a>
+											 ";
+							
+						
+								$teile = explode(",", str_replace(' ','',$out_list_ip['dns']));
+								
+								foreach($teile as $list_dns)
+									{
+											
+	$output .= "							<a href='http://".$list_dns.".".$out_list_ip['lan']."' target='_new'>".$list_dns.".".$out_list_ip['lan']."</a><br>";
+									}																
+						
+$output .= "
 										</td>";
 							if($DARF["edit"] || $DARF["del"] )
 							{ //  Admin
@@ -1258,13 +1280,13 @@ $output .= "
 	{
 		if($_GET['action'] == 'del')
 		{
-			if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+			if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 				if($_GET['comand'] == 'senden')
 
 			{
 				$del=$DB->query("DELETE FROM project_ipliste WHERE id = '".$_GET['id']."'");
-				$output .= "<meta http-equiv='refresh' content='0; URL=/admin/ipliste/#".$category."'>";
+				$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."#".$category."'>";
 			}
 
 			 $new_id = $_GET['id'];
@@ -1281,7 +1303,7 @@ $output .= "
 					<a href='?hide=1&action=del&comand=senden&id=".$new_id."' target='_parent'>
 					<input value='l&ouml;schen' type='button'></a>
 					 \t
-					<a href='/admin/ipliste/#".$category."' target='_parent'>
+					<a href='/admin/projekt/ipliste/#".$category."' target='_parent'>
 					<input value='Zur&uuml;ck' type='button'></a>
 
 
@@ -1292,12 +1314,30 @@ $output .= "
 
 
 		}
+		
+		if($_GET['action'] == 'update_domain')
+		{ $out_list_name = $DB->fetch_array($DB->query("SELECT * FROM project_ipliste"));
+			if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+
+			if($_GET['comand'] == 'senden')
+
+			{
+				$update=$DB->query("ALTER TABLE  `project_ipliste` CHANGE  `lan`  `lan` VARCHAR( 255 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '".$update_domain."'");
+				$update=$DB->query("UPDATE `project_ipliste` SET `lan`= '".$update_domain."' WHERE lan = '".$out_list_name['lan']."';");
+				$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."'>";
+			}
+			$output .=	"
+						<p>Daten wurden gesendet!</p>					
+						
+						";
+		
+		}
 
 
 
 		if($_GET['action'] == 'add')
 		{
-			if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+			if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 			if($_GET['action'] == 'add' && $_GET['comand'] == 'senden')
 
@@ -1314,7 +1354,7 @@ $output .= "
 								<br />
 							   ";
 
-					$output .= "<meta http-equiv='refresh' content='4; URL=/admin/ipliste/#".$category."'>";
+					$output .= "<meta http-equiv='refresh' content='4; URL=/admin/projekt/ipliste/#".$category."'>";
 
 				}
 				else
@@ -1323,7 +1363,7 @@ $output .= "
 						$insert=$DB->query("INSERT INTO `project_ipliste` (id, ip, bezeichnung, mac, dns, category) VALUES (NULL, '".$ipadresse."','".$bezeichnung."', '".$mac."', '".$dns."', '".$category."')");
 						//Echo "VALUES (NULL, '".$ipadresse."','".$bezeichnung."', '".$mac."', '".$dns."', '".$category."')";
 						$output .= "Daten wurden gesendet";
-						$output .= "<meta http-equiv='refresh' content='0; URL=/admin/ipliste/#".$category."'>";
+						$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."#".$category."'>";
 				//}
 			}
 
@@ -1387,14 +1427,14 @@ $output .= "
 								</table>
 
 									<input name='senden' value='Daten senden' type='submit'> \t
-									<br /><br /><a href='/admin/ipliste/' target='_parent'>Zur&uuml;ck zur &Uuml;bersicht</a>
+									<br /><br /><a href='".$dir."' target='_parent'>Zur&uuml;ck zur &Uuml;bersicht</a>
 									</form>";
 		}
 
 
 		if($_GET['action'] == 'edit' )
 		{
-			if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_rechtesystem"));
+			if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 			$sql_edit_ipliste = $DB->query("SELECT * FROM project_ipliste WHERE id = ".$id."");
 
@@ -1412,7 +1452,7 @@ $output .= "
 									<br />
 								   ";
 
-						$output .= "<meta http-equiv='refresh' content='4; URL=/admin/ipliste/#".$category."'>";
+						$output .= "<meta http-equiv='refresh' content='4; URL=".$dir."#".$category."'>";
 
 					}
 					else
@@ -1420,7 +1460,7 @@ $output .= "
 
 						$update=$DB->query(	"UPDATE project_ipliste SET `ip` = '".$ipadresse."',`bezeichnung` = '".$bezeichnung."', `mac` = '".$mac."', `dns` = '".$dns."', `category` = '".$category."' WHERE `id` = '".$id."';");
 
-						$output .= "<meta http-equiv='refresh' content='0; URL=/admin/ipliste/#".$category."'>
+						$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."#".$category."'>
 				";
 					//}
 
@@ -1488,7 +1528,7 @@ $output .= "
 							</table>
 
 									<input name='senden' value='Daten senden' type='submit'> \t
-									<br /><br /><a href='/admin/ipliste/' target='_parent'>Zur&uuml;ck zur &Uuml;bersicht</a>
+									<br /><br /><a href='".$dir."#".$out_edit_ipliste['category']."' target='_parent'>Zur&uuml;ck zu ".$out_edit_ipliste['category']."</a>
 									</form>";
 			}
 		}
@@ -1500,8 +1540,6 @@ $output .= "
 
 
 	}
-	$output .= "<div align='center'><br><a href='/admin/' target='_parent'>Zur&uuml;ck zur Administration</a></div>";
-
 /*###########################################################################################
 ENDE Admin PAGE
 */

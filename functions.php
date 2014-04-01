@@ -1,6 +1,7 @@
 <?php
-$datum 	= date("Y-m-d H:i:s");
-$user_id = $CURRENT_USER->id;
+$datum 		= date("Y-m-d H:i:s");
+$user_id 	= $CURRENT_USER->id;
+$dir 		= dirname($_SERVER['PHP_SELF'])."/";
 
 function timestamp_mysql2german($date) {
     

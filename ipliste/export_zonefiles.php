@@ -19,7 +19,7 @@ include_once("../../../global.php");
 include("../functions.php");
 
 $event_id = $EVENT->next;
-$datei = "lan.txt";
+$datei = "hosts";
 $TTL = "\$TTL";
 if (file_exists($datei))
 {
@@ -94,14 +94,18 @@ $sql_list_category = $DB->query("SELECT category FROM project_ipliste WHERE ip L
 			while($out_list_ip = $DB->fetch_array($sql_list_ip))
 						{// begin while
 
-							$text = $out_list_ip['ip']."\t\t".$out_list_ip['dns'].".".$out_list_ip['lan']."\t\t#".umlaute_ersetzen($out_list_ip['bezeichnung'])."\n";
-
-
-							// Datei öffnen,
-							// wenn nicht vorhanden dann wird die Datei erstellt.
-							$handler = fopen($datei , "a+");
-							// Dateiinhalt in die Datei schreiben
-							fWrite($handler , $text);
+							$teile = explode(",", str_replace(' ','',$out_list_ip['dns']));
+							
+							foreach($teile as $list_dns)
+								{
+									$text = $out_list_ip['ip']."\t\t".$list_dns.".".$out_list_ip['lan']."\t\t#".umlaute_ersetzen($out_list_ip['bezeichnung'])."\n";
+								
+									// Datei öffnen,
+									// wenn nicht vorhanden dann wird die Datei erstellt.
+									$handler = fopen($datei , "a+");
+									// Dateiinhalt in die Datei schreiben
+									fWrite($handler , $text);
+								}
 							fClose($handler); // Datei schließen
 
 						}
@@ -110,5 +114,5 @@ $sql_list_category = $DB->query("SELECT category FROM project_ipliste WHERE ip L
 				
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-echo "<meta http-equiv='refresh' content='0; URL=/admin/projekt/ipliste/'>";
+echo "<meta http-equiv='refresh' content='0; URL=".$dir."'>";
 ?>

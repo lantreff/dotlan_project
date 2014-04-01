@@ -13,7 +13,7 @@ include("../functions.php");
 
 $event_id = $EVENT->next;
 
-$sql_list_category = $DB->query("SELECT category FROM project_ipliste GROUP BY category");
+$sql_list_category = $DB->query("SELECT category FROM project_ipliste GROUP BY category  ORDER BY inet_aton(ip)");
 
 
 
@@ -52,14 +52,20 @@ $sql_list_category = $DB->query("SELECT category FROM project_ipliste GROUP BY c
 #Table
 			while($out_list_ip = $DB->fetch_array($sql_list_ip))
 						{// begin while
+							
+							$teile = explode(",", str_replace(' ','',$out_list_ip['dns']));
+							
+							foreach($teile as $list_dns)
+								{
 
-						  $pdf->SetFont('Arial','',10);
-						  $pdf->Cell(30,4,$out_list_ip['ip'],1);
-						  $pdf->SetFont('Arial','',10);
-						  $pdf->Cell(100,4,$out_list_ip['bezeichnung'],1);
-						  $pdf->SetFont('Arial','',10);
-						  $pdf->Cell(0,4,$out_list_ip['dns'],1);
-						  $pdf->Ln();
+									  $pdf->SetFont('Arial','',10);
+									  $pdf->Cell(30,4,$out_list_ip['ip'],1);
+									  $pdf->SetFont('Arial','',10);
+									  $pdf->Cell(100,4,$out_list_ip['bezeichnung'],1);
+									  $pdf->SetFont('Arial','',10);
+									  $pdf->Cell(0,4,$list_dns.".".$out_list_ip['lan'],1);
+									  $pdf->Ln();
+								}
 
 						}
 					   	#Leerraum
