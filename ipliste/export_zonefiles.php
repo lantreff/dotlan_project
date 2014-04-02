@@ -7,14 +7,7 @@
 # admin/ipliste/export_dns.php - Version 1.0                           #
 ########################################################################
 
-function umlaute_ersetzen($text){
-$such_array  = array ('ä', 'ö', 'ü', 'ß');
-$ersetzen_array = array ('ae', 'oe', 'ue', 'ss');
-$neuer_text  = str_replace($such_array, $ersetzen_array, $text);
-return $neuer_text;
-}
-
-
+$MODUL_NAME = "ipliste";
 include_once("../../../global.php");
 include("../functions.php");
 

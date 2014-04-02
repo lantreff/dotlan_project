@@ -1,7 +1,14 @@
 <?php
-$datum 		= date("Y-m-d H:i:s");
-$user_id 	= $CURRENT_USER->id;
+$datum 	= date("Y-m-d H:i:s");
+$user_id = $CURRENT_USER->id;
 $dir 		= dirname($_SERVER['PHP_SELF'])."/";
+
+function umlaute_ersetzen($text){
+$such_array  = array ('ä', 'ö', 'ü', 'ß');
+$ersetzen_array = array ('ae', 'oe', 'ue', 'ss');
+$neuer_text  = str_replace($such_array, $ersetzen_array, $text);
+return $neuer_text;
+}
 
 function timestamp_mysql2german($date) {
     

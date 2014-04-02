@@ -7,7 +7,7 @@
 # admin/ipliste/export.php - Version 1.0                               #
 ########################################################################
 
-
+$MODUL_NAME = "ipliste";
 include_once("../../../global.php");
 include("../functions.php");
 
