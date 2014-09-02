@@ -1,7 +1,23 @@
 <?php
+date_default_timezone_set('Europe/Berlin');
 $datum 	= date("Y-m-d H:i:s");
 $user_id = $CURRENT_USER->id;
 $dir 		= dirname($_SERVER['PHP_SELF'])."/";
+//$event_id = $EVENT->next;
+
+$event_id_next = $EVENT->next;
+
+if($event_id_next == 0)
+{
+	$data_event = $DB->fetch_array( $DB->query("SELECT * FROM events ORDER BY id DESC LIMIT 1"));
+	
+	$event_id = $data_event['id'];
+}
+else 
+{
+$event_id = $EVENT->next;
+
+}
 
 function umlaute_ersetzen($text){
 $such_array  = array ('ä', 'ö', 'ü', 'ß');

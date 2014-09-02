@@ -104,7 +104,29 @@ else
 				</div>
 				";
 /////////////////////////////////////				
+/////////////////////////////////////				
 
+				$output .= "
+				
+				<div style=' float:left; min-height: 200px;
+				background-color:#DDDDDD;
+				border: solid 1px #000000;
+			  	margin-top: 	5px;
+				margin-right: 	2.5px;
+				margin-left: 	2.5px;
+				margin-bottom:	5px;
+			  	padding-bottom:	10px;
+				padding-left:	5px;
+				padding-right:	5px;
+				padding-top:	10px;
+				'>
+				<h3>Geburtstage der User</h3>
+
+			";
+				include($verz.'/geburtstag/view.php');
+
+			
+/////////////////////////////////////		
 
 	closedir ($handle);
 
