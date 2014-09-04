@@ -246,9 +246,11 @@ if($_GET['hide'] == "1"){
 	
 	if($_GET['action'] == 'give_all' && $_GET['comand'] == 'senden'){
 		  // alle bereits vorhandenen Rechte mit der ausgewählten ID entfernen, damit keine doppelten Einträge entstehen!!
+		  $output .= "Vorhandene Rechte der Orgas entfernen, damit keine doppelten Einträge entstehen <br>";
 		  $query = $DB->query("DELETE FROM `project_rights_user_rights` WHERE `project_rights_user_rights`.`right_id` = ".$id."");
-		  
+		 
 		  // hinzufügen der Rechte für alle Orgas!
+		  $output .= "Das Recht wird nun für alle Orgas aktiviert! <br>";
 		  $query = $DB->query("	SELECT u.id AS id
 								FROM user AS u, user_orga AS o
 								WHERE o.user_id = u.id
@@ -257,7 +259,7 @@ if($_GET['hide'] == "1"){
 				$DB->query("INSERT IGNORE INTO `project_rights_user_rights` (`user_id`, `right_id`) VALUES ('".$row['id']."', '".$id ."')");
 				//$output .= "INSERT IGNORE INTO `project_rights_user_rights` (`user_id`, `right_id`) VALUES ('".$row['id']."', '".$id ."')<br>";
 			}
-			$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/rechteverwaltung/admin.php'>";
+			$output .= "<meta http-equiv='refresh' content='1; URL=/admin/projekt/rechteverwaltung/admin.php'>";
 	}
    
      
@@ -273,7 +275,7 @@ if($_GET['hide'] == "1"){
         Das Recht: 
         <font style='color:RED;'>".$recht['recht']."</font> des Bereiches ".ucfirst($recht['bereich'])." f&uumlr alle Orgas zu Aktivieren?</p>
         <br />
-        <a href='?hide=1&action=del&comand=senden&id=".$new_id."' target='_parent'>
+        <a href='?hide=1&action=give_all&comand=senden&id=".$new_id."' target='_parent'>
         <input value='Aktivieren' type='button'></a>
          \t
         <a href='/admin/projekt/rechteverwaltung/admin.php' target='_parent'>
