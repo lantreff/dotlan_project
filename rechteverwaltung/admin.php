@@ -243,7 +243,8 @@ if($_GET['hide'] == "1"){
   ######################################
   if($_GET['action'] == 'give_all'){
     if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
-
+	
+	if($_GET['action'] == 'give_all' && $_GET['comand'] == 'senden'){
 		  // alle bereits vorhandenen Rechte mit der ausgewählten ID entfernen, damit keine doppelten Einträge entstehen!!
 		  $query = $DB->query("DELETE FROM `project_rights_user_rights` WHERE `project_rights_user_rights`.`right_id` = ".$id."");
 		  
@@ -257,7 +258,28 @@ if($_GET['hide'] == "1"){
 				//$output .= "INSERT IGNORE INTO `project_rights_user_rights` (`user_id`, `right_id`) VALUES ('".$row['id']."', '".$id ."')<br>";
 			}
 			$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/rechteverwaltung/admin.php'>";
-    
+	}
+   
+     
+
+    $new_id = $_GET['id'];
+    $recht = $DB->query_first("SELECT recht, bereich FROM project_rights_rights WHERE id = '".$new_id."' LIMIT 1");
+    $output .=" 
+        <h2 style='color:RED;'>Achtung!!!!<h2>
+        <br />
+
+        <p>Sind Sie sicher?
+        <br>
+        Das Recht: 
+        <font style='color:RED;'>".$recht['recht']."</font> des Bereiches ".ucfirst($recht['bereich'])." f&uumlr alle Orgas zu Aktivieren?</p>
+        <br />
+        <a href='?hide=1&action=del&comand=senden&id=".$new_id."' target='_parent'>
+        <input value='Aktivieren' type='button'></a>
+         \t
+        <a href='/admin/projekt/rechteverwaltung/admin.php' target='_parent'>
+        <input value='Zur&uuml;ck' type='button'></a>";
+ 
+   
   }
   
 }
