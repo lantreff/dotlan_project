@@ -77,7 +77,9 @@ if($DARF["view"] || $ADMIN->check(GLOBAL_ADMIN)){ //$ADMIN
       $sql_list_recht = $DB->query("SELECT * FROM project_rights_rights WHERE bereich = '".$out_list_bereich['bereich']."' ");
       while($out_list_recht = $DB->fetch_array($sql_list_recht)){// begin while
         $recht = $out_list_recht['recht'];
-        $output .= $recht." <a href='?hide=1&action=del&id=".$out_list_recht['id']."' target='_parent'><img src='../images/16/editdelete.png' title='".$recht." l&ouml;schen'></a><br>";
+        $output .= $recht." <a href='?hide=1&action=del&id=".$out_list_recht['id']."' target='_parent'><img src='../images/16/editdelete.png' title='".$recht." l&ouml;schen'></a>
+							<a href='?hide=1&action=give_all&id=".$out_list_recht['id']."' target='_parent'><img src='../images/16/package_settings.png' title='".$recht." f&uuml;r alle Orgas aktivieren!'></a>
+							<br>";
       }
           
       $output .="</td>";
@@ -235,6 +237,29 @@ if($_GET['hide'] == "1"){
           <br/><br/><a href='/admin/projekt/rechteverwaltung/admin.php' target='_parent'>Zur&uuml;ck zur &Uuml;bersicht</a>
           </form>";
   }
+  
+   ####################################
+  # Recht für alle Orgas aktivieren
+  ######################################
+  if($_GET['action'] == 'give_all'){
+    if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+
+		  // alle bereits vorhandenen Rechte mit der ausgewählten ID entfernen, damit keine doppelten Einträge entstehen!!
+		  $query = $DB->query("DELETE FROM `project_rights_user_rights` WHERE `project_rights_user_rights`.`right_id` = ".$id."");
+		  
+		  // hinzufügen der Rechte für alle Orgas!
+		  $query = $DB->query("	SELECT u.id AS id
+								FROM user AS u, user_orga AS o
+								WHERE o.user_id = u.id
+								ORDER BY  `u`.`id` ASC");
+			while($row = $DB->fetch_array($query)){
+				$DB->query("INSERT IGNORE INTO `project_rights_user_rights` (`user_id`, `right_id`) VALUES ('".$row['id']."', '".$id ."')");
+				//$output .= "INSERT IGNORE INTO `project_rights_user_rights` (`user_id`, `right_id`) VALUES ('".$row['id']."', '".$id ."')<br>";
+			}
+			$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/rechteverwaltung/admin.php'>";
+    
+  }
+  
 }
 $PAGE->render($output);
 ?>
