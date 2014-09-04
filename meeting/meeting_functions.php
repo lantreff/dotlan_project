@@ -1,6 +1,10 @@
 <?php
 $MODUL_NAME = "meeting";
 include_once("../../../global.php");
+// sql abfragen
+$sql_event_ids = $DB->query("SELECT * FROM events ORDER BY begin DESC");
+
+///////////////
 
 function meeting_list($edit,$del,$event_id){
 
@@ -13,10 +17,10 @@ while ($row = mysql_fetch_array($query)){
 $output .=  '<tr class="msgrow'.(($i%2)?1:2).'" ><td  style="text-align:center;">';
   if($row["gewesen"] == 1){
     if(!$edit) $output .=  'Ja';
-    else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=0">Ja</a>';
+    else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=0&event='.$event_id.'">Ja</a>';
   }else{
     if(!$edit) $output .=  'Nein';
-    else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=1">Nein</a>';
+    else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=1&event='.$event_id.'">Nein</a>';
   }
   $date_ger = date("d.m.Y H:i:s",strtotime($row["datum"]));
   $date = explode(" ", $date_ger);
@@ -24,9 +28,9 @@ $output .=  '</td><td nowrap="nowrap">'.$date[0].'<br>'.$date[1].' </td><td  now
  $output .=  '</td><td align="center">'.get_cal_links("meeting",$row["ID"]).'</td>';
  $output .=  '<td  align="center" nowrap="nowrap">';
 if($edit)
-  $output .=  '<a href="index.php?hide=1&action=change&id='.$row['ID'].'"><img src="../images/16/lists.png" title="Meeting --> ['.$row["location"].'] bearbeiten!" ></a> ';
+  $output .=  '<a href="index.php?hide=1&action=change&id='.$row['ID'].'&event='.$event_id.'"><img src="../images/16/lists.png" title="Meeting --> ['.$row["location"].'] bearbeiten!" ></a> ';
 if($del)
-  $output .=  ' <a href="index.php?action=delete&id='.$row['ID'].'&moep='.$row['datum'].'"><img src="../images/16/editdelete.png" title="'.$row["location"].' l&ouml;schen"></a>';
+  $output .=  ' <a href="index.php?action=delete&id='.$row['ID'].'&moep='.$row['datum'].'&event='.$event_id.'"><img src="../images/16/editdelete.png" title="'.$row["location"].' l&ouml;schen"></a>';
   
 
 $output .=  '</tr>';

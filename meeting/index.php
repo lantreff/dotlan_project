@@ -15,6 +15,7 @@ include("meeting_functions.php");
 
 include('header.php');
 
+
 if(!$DARF["view"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 else
 {// $module_admin_check
