@@ -7,24 +7,27 @@ $sql_event_ids = $DB->query("SELECT * FROM events ORDER BY begin DESC");
 ///////////////
 
 function meeting_list($edit,$del,$event_id){
+global $DB;
 
-$query = mysql_query("SELECT * FROM project_meeting_liste WHERE projekt_id = '".$event_id."' ORDER BY datum DESC;");
-$output .=  '<tr><td class="msghead" nowrap="nowrap"><b>Gewesen</b></td><td class="msghead"><b>Datum / Uhrzeit&nbsp;</b></td><td width="100" class="msghead"><b>Location&nbsp;</b></td><td width="100" class="msghead" nowrap="nowrap"><b>Adresse&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Anwesenheitsliste&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Geplant&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Protokoll&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Kalender&nbsp;</b></td>';
+$query = $DB->query("SELECT * FROM project_meeting_liste WHERE event_id = '".$event_id."' ORDER BY datum DESC;");
+$output .=  '<tr><td class="msghead" nowrap="nowrap"><b>Gewesen</b></td><td width="100" class="msghead"><b>Titel&nbsp;</b></td><td class="msghead"><b>Datum / Uhrzeit&nbsp;</b></td><td width="100" class="msghead"><b>Location&nbsp;</b></td><td width="100" class="msghead" nowrap="nowrap"><b>Adresse&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Anwesenheitsliste&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Geplant&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Protokoll&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Kalender&nbsp;</b></td>';
 if($edit || $del)
   $output .=  '<td class="msghead" nowrap="nowrap"><b>Action&nbsp;</b></td>';
 $output .=  '<td></td></tr>';
+if(mysql_num_rows($query) != 0)
+{
 while ($row = mysql_fetch_array($query)){
 $output .=  '<tr class="msgrow'.(($i%2)?1:2).'" ><td  style="text-align:center;">';
   if($row["gewesen"] == 1){
-    if(!$edit) $output .=  'Ja';
+    if((!$edit || !$del)) $output .=  'Ja';
     else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=0&event='.$event_id.'">Ja</a>';
   }else{
-    if(!$edit) $output .=  'Nein';
+    if((!$edit || !$del)) $output .=  'Nein';
     else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=1&event='.$event_id.'">Nein</a>';
   }
   $date_ger = date("d.m.Y H:i:s",strtotime($row["datum"]));
   $date = explode(" ", $date_ger);
-$output .=  '</td><td nowrap="nowrap">'.$date[0].'<br>'.$date[1].' </td><td  nowrap="nowrap">'.$row["location"].'</td><td nowrap="nowrap"><a target="new" href="https://www.google.de/maps/place/'.$row["adresse"].'"> '.nl2br($row["adresse"]).'</a></td><td nowrap="nowrap" style="text-align:center;"><a href="meetings_anwesenheitsliste.php?id='.$row["ID"].'">< klick ></a></td><td  nowrap="nowrap" style="text-align:center;"><a href="meetings_texte.php?typ=1&id='.$row["ID"].'">< klick ></a></td><td  nowrap="nowrap" style="text-align:center;"><a href="meetings_texte.php?typ=2&id='.$row["ID"].'">< klick ></a></td>';
+$output .=  '</td><td nowrap="nowrap">'.$row["titel"].' </td><td nowrap="nowrap">'.$date[0].'<br>'.$date[1].' </td><td  nowrap="nowrap">'.$row["location"].'</td><td nowrap="nowrap"><a target="new" href="https://www.google.de/maps/place/'.$row["adresse"].'"> '.nl2br($row["adresse"]).'</a></td><td nowrap="nowrap" style="text-align:center;"><a href="meetings_anwesenheitsliste.php?id='.$row["ID"].'">< klick ></a></td><td  nowrap="nowrap" style="text-align:center;"><a href="meetings_texte.php?typ=1&id='.$row["ID"].'">< klick ></a></td><td  nowrap="nowrap" style="text-align:center;"><a href="meetings_texte.php?typ=2&id='.$row["ID"].'">< klick ></a></td>';
  $output .=  '</td><td align="center">'.get_cal_links("meeting",$row["ID"]).'</td>';
  $output .=  '<td  align="center" nowrap="nowrap">';
 if($edit)
@@ -36,10 +39,11 @@ if($del)
 $output .=  '</tr>';
 $i++;
 }
+}
 return $output;
 }
 
-function meeting_input($add,$edit,$datum,$meeting_datum,$location,$adresse,$geplant){
+function meeting_input($add,$edit,$titel,$datum,$meeting_datum,$location,$adresse,$geplant){
 
 
 		if ($add || $edit)
@@ -50,6 +54,10 @@ function meeting_input($add,$edit,$datum,$meeting_datum,$location,$adresse,$gepl
 			<table class="msg">
 			  <tr>
 				<td colspan="2" class="msghead" nowrap="nowrap"><b>Meeting anlegen:</b></td>
+			  </tr>
+			   <tr class="msgrow1">
+				<td class="anmeldung_typ" nowrap="nowrap"><b>Titel</b>&nbsp;</td>
+				<td class="anmeldung_typ" nowrap="nowrap"><input class="editbox" type="text" name="titel" size="20" value="'.$titel.'"></td>
 			  </tr>
 			  <tr>
 				<td class="anmeldung_typ" nowrap="nowrap"><b>Datum / Uhrzeit</b>&nbsp;</td>';
@@ -88,7 +96,7 @@ return $output;
 }
 
 function meeting_insert($post,$event_id){
-  mysql_query("INSERT INTO project_meeting_liste SET projekt_id = '".$event_id."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."'") or die(mysql_error());
+  mysql_query("INSERT INTO project_meeting_liste SET event_id = '".$event_id."', titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."'") or die(mysql_error());
 }
 
 function meeting_del($id){
@@ -97,7 +105,7 @@ function meeting_del($id){
 }
 
 function meeting_update($post,$id){
-  mysql_query("UPDATE project_meeting_liste SET datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."' WHERE ID = ".$id.";");
+  mysql_query("UPDATE project_meeting_liste SET titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."' WHERE ID = ".$id.";");
 }
 
 function meeting_chg_gewesen($id,$gewesen){
@@ -113,7 +121,11 @@ function meeting_showtext($id,$typ,$edit){
     $query = mysql_query("SELECT protokoll,datum FROM project_meeting_liste WHERE ID = $id LIMIT 1;");
 	$query2 = mysql_query("SELECT text,date FROM project_notizen WHERE id = '".mysql_result($query,0,"protokoll")."' LIMIT 1;");
    if(mysql_num_rows($query2)!=0) $output .=  '<tr><td class="msghead" nowrap="nowrap"><b>Protokoll</b></td></tr><tr><td class="msgrow1" nowrap="nowrap">'. nl2br(mysql_result($query2,0,"text")).'</td></tr>';
-   else $output .= 'Kein Protokoll gefunden, bitte Protokoll über "bearbeiten" auswählen!';
+   else $output .= 'Kein Protokoll gefunden';
+   if($edit)
+   {
+		$output .= ', bitte Protokoll über "bearbeiten" auswählen!';
+	}
   }
   if ($edit){
     $output .=  '<tr><td width="900" nowrap="nowrap" style="text-align:center;"><b><a href="meetings_texte.php?action=change&typ='.$_GET["typ"].'&id='.$_GET["id"].'">bearbeiten</a></b></td></tr>';

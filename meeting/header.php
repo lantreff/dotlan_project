@@ -41,7 +41,7 @@ $output .= "
 						if($DARF["add"] )
 							{$breite = "120";
 							$output .= "
-							<td width='".$breite."' class='".$b."'> <a href='?hide=1&action=add' class='".$b1."'>Neu Anlegen</a></td>
+							<td width='".$breite."' class='".$b."'> <a href='index.php?hide=1&action=add' class='".$b1."'>Neu Anlegen</a></td>
 							<td width='2' class='shortbarbitselect'>&nbsp;</td>
 							";
 							}

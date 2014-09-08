@@ -1,4 +1,4 @@
-<?
+<?php
 ########################################################################
 # Meeting Modul for dotlan             			                   	   #
 #                                                                      #
@@ -33,6 +33,7 @@ else
 			
 			if($_GET["action"] == "change"){
 			  $query =$DB->query("SELECT * FROM project_meeting_liste WHERE `ID` = ".$_GET["id"]." LIMIT 1;");
+			  $titel = mysql_result($query,0,"titel");
 			  $meeting_datum = mysql_result($query,0,"datum");
 			  $location = mysql_result($query,0,"location");
 			  $adresse = mysql_result($query,0,"adresse");
@@ -60,7 +61,7 @@ $output .= 	'
 }
 if($_GET['action'] == 'add' || $_GET['action'] == 'change')
 {
-	$output .= meeting_input($DARF["add"],$DARF["edit"],$datum,$meeting_datum,$location,$adresse,$geplant);
+	$output .= meeting_input($DARF["add"],$DARF["edit"],$titel,$datum,$meeting_datum,$location,$adresse,$geplant);
 }
 		
 
