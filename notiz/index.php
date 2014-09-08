@@ -13,7 +13,7 @@ include("../functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Notizen");
 
-$event_id = $EVENT->next;
+//$event_id = $EVENT->next; // in functions.php ausgelagert!
 $EVENT->getevent($event_id);
 
 $bezeichnung	= security_string_input($_POST['bezeichnung']);
@@ -47,7 +47,7 @@ $selectet_event_id = $_GET['event'];
 }
 else
 {
-$selectet_event_id = $EVENT->next;
+$selectet_event_id = $event_id;
 }
 
  /*###########################################################################################
@@ -223,18 +223,18 @@ else
 										$output .="
 
 											<a href='?hide=1&action=edit&id=".$out_list_note['id']."&event=".$selectet_event_id."&event=".$selectet_event_id."' target='_parent'>
-											<img src='../images/16/edit.png' title='Deteils anzeigen / &auml;ndern' ></a>
+											<img src='/images/projekt/16/edit.png' title='Deteils anzeigen / &auml;ndern' ></a>
 									";
 									}
 									if($DARF["del"] )
 									{ //  Admin
 										$output .="
 											<a href='?hide=1&action=del&id=".$out_list_note['id']."' target='_parent'>
-											<img src='../images/16/editdelete.png' title='Notiz l&ouml;schen'></a>";
+											<img src='/images/projekt/16/editdelete.png' title='Notiz l&ouml;schen'></a>";
 									}
 									$output .="
 											<a href='export.php?id=".$out_list_note['id']."' target='_blank'>
-											<img src='../images/16/download.png' title='export / download'></a>
+											<img src='/images/projekt/16/download.png' title='export / download'></a>
 										</td>";
 							}
 								$output .="
@@ -346,7 +346,7 @@ $output .= "
 						$output .="
 									</select>
 										oder neu eintragen
-										<input name='kategorie1' value='' size='20' type='text' maxlength='25'>
+										<input name='kategorie1' value='".$_GET['kategorie']."' size='20' type='text' maxlength='25'>
 									</td>
 									<td class='msgrow1'>";
 					
@@ -562,7 +562,7 @@ if($DARF["edit"] )
 	{
 $output .= "										
 											<a href='?hide=1&action=edit&id=".$out_show_note['id']."&event=".$selectet_event_id."' target='_parent'>
-												<img align='right' src='../images/16/edit.png' title='Deteils anzeigen / &auml;ndern' >
+												<img align='right' src='/images/projekt/16/edit.png' title='Deteils anzeigen / &auml;ndern' >
 											</a>
 										
 ";			
