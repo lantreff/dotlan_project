@@ -1,838 +1,546 @@
 <?php
 ########################################################################
-# Dienstplan Modul for dotlan                                		   #
+# Dienstplan Modul for dotlan             			                   	   #
 #                                                                      #
-# Copyright (C) 2010 Christian Egbers <christian@3gg3.de>              #
+# Copyright (C) 2013 Christian Egbers <christian@3gg3.de>              #
 #                                                                      #
-# - Version 1.0                                    #
+# Version 1.0                                                          #
 ########################################################################
 
 $MODUL_NAME = "dienstplan";
 include_once("../../../global.php");
 include("../functions.php");
+include("./dienstplan_function.php");
+//$output .= "TEST ".  $event_id;
 
+include('header.php');
 
-$PAGE->sitetitle = $PAGE->htmltitle = _("Dienstplan");
-
-$event_id = $EVENT->next;
-$EVENT->getevent($event_id);
-
-
-$plan			= security_string_input($_GET['plan']);
-$bereich		= security_string_input($_GET['bereich']);
-$u_nick			= $CURRENT_USER->nick;
-$std			= security_number_int_input($_GET['std'],"","");
-$zWuser_id		= security_number_int_input($_POST['user_id'],"","");
-$zWuser_id1		= security_number_int_input($_POST['user_id1'],"","");
-$heute 			= date("Y-m-d H:m:s");
-
-$check_eventbeginn = 0;
-$sql_get_event_beginning_date = $DB->query("SELECT * FROM events WHERE `id` = '".$event_id."' LIMIT 1");
-$out_event_beginning_date = $DB->fetch_array($sql_get_event_beginning_date);
-if($out_event_beginning_date >  $heute 	|| $out_event_beginning_date < $heute );
-	{
-		$check_eventbeginn = "OK";
-	}
-
-
-
-if($_POST['user_id'] == "ok")
-{
-	$zWu_id = $zWuser_id1;
-
-}
+if(!$DARF["view"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 else
+{// $module_admin_check
+
+	
+if (mysql_num_rows($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."'")) != 0)
 {
-	$zWu_id = $zWuser_id;
+$plan = mysql_real_escape_string($_POST["plan_name"]);
+if(empty($plan)) $plan = mysql_real_escape_string($_GET["plan"]);
+if(empty($plan)){
+  $plan = mysql_result($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."' ORDER BY plan_name LIMIT 1"),0,"plan_name");
+}
+}
+else{
+
+$output .= "<h2>Kein Plan zum Event!</h2>";
+}
+
+if($_GET["a"] == "add"){
+  $id = mysql_real_escape_string($_GET["std"]) + 1;
+  if(strlen($id) == 1) $id = "0".$id;
+
+  if($_GET["x"] > -1){
+    $alt = mysql_result(mysql_query("SELECT id_$id FROM project_dienstplan WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$event_id."'"),0,"id_$id");
+
+    $bla = explode(",",$alt);
+    $bla[$_GET["x"]] = mysql_real_escape_string($user_id);
+    $neu = implode(",",$bla);
+  }else $neu = mysql_real_escape_string($user_id);
+
+  $sql = "UPDATE project_dienstplan SET ";
+  $sql .= "id_".$id." = '".$neu."' ";
+  $sql .= " WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$event_id."'";
+	
+	if($freeze == 1) $output .= $freeze_meldung;
+	else $DB->query($sql);
+}
+
+if($_GET["a"] == "del"){
+  $id = mysql_real_escape_string($_GET["std"]) + 1;
+  if(strlen($id) == 1) $id = "0".$id;
+
+  if($_GET["x"] > -1){
+    $alt = mysql_result(mysql_query("SELECT id_$id FROM project_dienstplan WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$event_id."'"),0,"id_$id");
+
+    $bla = explode(",",$alt);
+    $bla[$_GET["x"]] = "-1";
+    $neu = implode(",",$bla);
+  }else $neu = "-1";
+
+  $sql = "UPDATE project_dienstplan SET ";
+  $sql .= "id_".$id." = '$neu' ";
+  $sql .= " WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$event_id."'";
+	
+	
+	if($freeze == 1) $output .= $freeze_meldung;
+	else $DB->query($sql);
+}
+
+$tag = array();
+$query = $DB->query("SELECT * FROM project_dienstplan WHERE plan_name = '$plan' AND event_id = '".$event_id."'");
+while($row =  $DB->fetch_array($query)){
+  
+  $tag1 = $row["tag"];
+  $tag[$tag1][0] = $row["id_01"];
+  $tag[$tag1][1] = $row["id_02"];
+  $tag[$tag1][2] = $row["id_03"];
+  $tag[$tag1][3] = $row["id_04"];
+  $tag[$tag1][4] = $row["id_05"];
+  $tag[$tag1][5] = $row["id_06"];
+  $tag[$tag1][6] = $row["id_07"];
+  $tag[$tag1][7] = $row["id_08"];
+  $tag[$tag1][8] = $row["id_09"];
+  $tag[$tag1][9] = $row["id_10"];
+  $tag[$tag1][10] = $row["id_11"];
+  $tag[$tag1][11] = $row["id_12"];
+  $tag[$tag1][12] = $row["id_13"];
+  $tag[$tag1][13] = $row["id_14"];
+  $tag[$tag1][14] = $row["id_15"];
+  $tag[$tag1][15] = $row["id_16"];
+  $tag[$tag1][16] = $row["id_17"];
+  $tag[$tag1][17] = $row["id_18"];
+  $tag[$tag1][18] = $row["id_19"];
+  $tag[$tag1][19] = $row["id_20"];
+  $tag[$tag1][20] = $row["id_21"];
+  $tag[$tag1][21] = $row["id_22"];
+  $tag[$tag1][22] = $row["id_23"];
+  $tag[$tag1][23] = $row["id_24"];
+}
+
+function doppeleitrag_check($event_id){
+global $DB;
+  $doppelt = array();
+  $d=0;
+
+  for($tag=1;$tag<=3;$tag++){
+	$query = $DB->query("SELECT * FROM project_dienstplan WHERE event_id = '".$event_id."' AND tag = '".$tag."' AND doppelt_erlaubt = 0");
+     while($row =  mysql_fetch_assoc($query)){
+      for($std=1;$std<=24;$std++){
+        if(strlen($std) == 1) $id = "0$std";
+        else $id = $std;
+
+        if(strstr($row["id_$id"],",")){
+          $bla = explode(",",$row["id_$id"]);
+          foreach($bla as $blubb){
+            if($blubb == 0 || $blubb == -1) continue; 
+            if(!empty($array[$tag][$std][$blubb])){
+              $array[$tag][$std][$blubb] = $array[$tag][$std][$blubb].", ".$row["plan_name"];
+              $doppelt[$d]['tag'] = $tag;
+              $doppelt[$d]['std'] = $std;
+              $doppelt[$d]['uid'] = $blubb;
+              $d++;
+            }else $array[$tag][$std][$blubb] = $row["plan_name"];
+          }
+        }else{
+          if($row["id_$id"] == 0 || $row["id_$id"] == -1) continue;
+          if(!empty($array[$tag][$std][$row["id_$id"]])){
+            $array[$tag][$std][$row["id_".$id]] = $array[$tag][$std][$row["id_".$id]].", ".$row["plan_name"];
+            $doppelt[$d]['tag'] = $tag;
+            $doppelt[$d]['std'] = $std;
+            $doppelt[$d]['uid'] = $row["id_$id"];
+            $d++;
+          }else $array[$tag][$std][$row["id_".$id]] = $row["plan_name"];
+        }
+      }
+    }
+  }
+
+  $output .="<table width='800'> 
+          <tr> 
+            <td class=\"maintd\" colspan='4'><b>Leute, die zur gleichen Zeit in zwei Pl&auml;nen stehen:</b></td>
+          </tr>";
+  $output .="  <tr>
+            <td class='msghead'><b>Orga</b></td>
+            <td class='msghead' width='70'><b>Tag</b></td>
+            <td class='msghead' width='100'><b>Schicht</b></td>
+            <td class='msghead' width='400'><b>Pl&auml;ne</b></td>
+          </tr>";
+
+  $i=0;
+  foreach($doppelt as $dd){
+    $equal = bcmod($i, 2);
+    if ($equal == 0) {
+      $class= 'class="msgrow1"';
+    } else {
+      $class= 'class="msgrow2"';
+    }
+    $i++;
+
+    $query = $DB->query("SELECT vorname, nachname, nick FROM user WHERE id = '".$dd["uid"]."' LIMIT 1");
+    $orga = mysql_result($query,0,"vorname")." ".substr(mysql_result($query,0,"nachname"),0,1).". (".mysql_result($query,0,"nick").")";
+
+    if($dd["tag"] == 1) $tag = "Freitag";
+    elseif($dd["tag"] == 2) $tag = "Samstag";
+    else $tag = "Sonntag";
+
+    $tmp = ($dd["std"] - 1);
+    if(strlen($tmp) == 1) $std = "0$tmp:00 - ";
+    else $std = $tmp.":00 - ";
+    $tmp = $dd["std"];
+    if(strlen($tmp) == 1) $std .= "0$tmp:00";
+    else $std .= $tmp.":00";
+
+    $output .="<tr>";
+    $output .="  <td $class>".$orga."</td>";
+    $output .="  <td $class>".$tag."</td>";
+    $output .="  <td $class>".$std."</td>";
+    $output .="  <td $class>".$array[$dd["tag"]][$dd["std"]][$dd["uid"]]."</td>";
+    $output .="</tr>";
+  }
+  
+  $output .="</table>";
 
 }
 
- /*###########################################################################################
-Admin PAGE
-*/
-
-
-if(!$DARF["view"]){ $PAGE->error_die($HTML->gettemplate("error_nopermission"));}
-else
-{
-
-	if($plan == 'Freitag')
-			{
-				$a = 'shortbarbitselect';
-				$b = 'shortbarbit';
-				$c = 'shortbarbit';
-
-
-				$a1 = 'shortbarlinkselect';
-				$b1 = 'shortbarlink';
-				$c1 = 'shortbarlink';
-
-
-			}
-			if($plan == 'Samstag')
-			{
-				$a = 'shortbarbit';
-				$b = 'shortbarbitselect';
-				$c = 'shortbarbit';
-
-
-				$a1 = 'shortbarlink';
-				$b1 = 'shortbarlinkselect';
-				$c1 = 'shortbarlink';
-
-
-			}
-			if($plan == 'Sonntag')
-			{
-				$a = 'shortbarbit';
-				$b = 'shortbarbit';
-				$c = 'shortbarbitselect';
-
-
-				$a1 = 'shortbarlink';
-				$b1 = 'shortbarlink';
-				$c1 = 'shortbarlinkselect';
-
-
-			}
-
-
-
-		$output .= "<a name='top' >
-
-				<a href=/admin/projekt/'>Projekt</a>
-				&raquo;
-				<a href=/admin/projekt/dienstplan/'>Dienstplan</a>
-				&raquo; ".$_GET['plan']."
-				<hr class='newsline' width='100%' noshade=''>
-				<br />
-
-
-<table class='shortbar' cellspacing='1' cellpadding='2' border='0'>
-  <tbody>";
-if($DARF["del"] )
-{
-  	$output .= "
-	<tr>
-    	<td width='20%' class='".$a."'><a href='?plan=Freitag' class='".$a1."'>Freitag</a></td>
-  		<td width='20%' class='".$b."'><a href='?plan=Samstag' class='".$b1."'>Samstag</a></td>
-   		<td width='20%' class='".$c."'><a href='?plan=Sonntag' class='".$c1."'>Sonntag</a></td>
-    	<td width='0' class='shortbarbitselect'>&nbsp;</td>
-   		<td width='20%' class='shortbarbit'><a href='export.php' target='_new' class='shortbarlink'>export (testing)</a></td>
-		<td width='20%' class='shortbarbit'><a href='?action=clear_all' target='_new' class='shortbarlink'>!! reset all !!</a></td>
-
-  	</tr>
-			";
-}
-else
-{
-	$output .= "
-	<tr>
-    	<td width='25%' class='".$a."'><a href='?plan=Freitag' class='".$a1."'>Freitag</a></td>
-  		<td width='25%' class='".$b."'><a href='?plan=Samstag' class='".$b1."'>Samstag</a></td>
-   		<td width='25%' class='".$c."'><a href='?plan=Sonntag' class='".$c1."'>Sonntag</a></td>
-    	<td width='0' class='shortbarbitselect'>&nbsp;</td>
-   		<td width='25%' class='shortbarbit'><a href='export.php' target='_new' class='shortbarlink'>export (testing)</a></td>
-  	</tr>
-			";
-
-}
-
-$output .= "
-</tbody></table>
-				<br />
-				";
-
-	if($_GET['action'] == 'clear_all' && $DARF["del"])
-	{
-		$clear=$DB->query("TRUNCATE TABLE project_dienstplan");
-
-		$file = file_get_contents('project_dienstplan.sql');
-    	$sql = explode(';',$file);
-
-			for($i=0;$i<count($sql)-1 && $error=='';$i++)
-			{
-
-				$update=$DB->query(($sql[$i]));
-
-
-			}
-
-	$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=Freitag'>";
-	}
-
-	if($_GET['action'] == 'add01' && $DARF["add"])
-	{
-		 $sql_get_ids = $DB->query("SELECT * FROM project_dienstplan WHERE `std` = '".$std."' AND `plan` = '".$plan."';");
-		  $check = true;
-		 while($out_ids = $DB->fetch_array($sql_get_ids))
-		 {
-			 if($user_id == $out_ids['u_01'] || $user_id == $out_ids['u_02'])
-			 {
-				$output .= "<font size='+1' style='color:RED;'>
-					Du kannst nicht an zwei Orten gleichzeitig sein!!</font>
-				<meta http-equiv='refresh' content='3; URL=/admin/projekt/dienstplan/?plan=".$plan."'>
-				";
-
-				$check = false;
-			 }
-
-
-		 }
-		if($check == true)
-		{
-			$update=$DB->query(	"UPDATE project_dienstplan SET `u_01` = '".$user_id."' WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-				$output .= "Anwesenheit wurde eingetragen.
-				<meta http-equiv='refresh' content='3; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-
-
-		}
-
-	}
-	if($_GET['action'] == 'add02' && $DARF["add"])
-
-	{
-	$sql_get_ids = $DB->query("SELECT * FROM project_dienstplan WHERE `std` = '".$std."' AND `plan` = '".$plan."';");
-		  $check = true;
-		 while($out_ids = $DB->fetch_array($sql_get_ids))
-		 {
-			 if($user_id == $out_ids['u_01'] || $user_id == $out_ids['u_02'])
-			 {
-				$output .= "<font size='+1' style='color:RED;'>
-					Du kannst nicht an zwei Orten gleichzeitig sein!!</font>
-				<meta http-equiv='refresh' content='3; URL=/admin/projekt/dienstplan/?plan=".$plan."'>
-				";
-
-				$check = false;
-			 }
-
-
-		 }
-		if($check == true)
-		{
-			$update=$DB->query(	"UPDATE project_dienstplan SET `u_02` = '".$user_id."' WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-				$output .= "Anwesenheit wurde eingetragen.
-				<meta http-equiv='refresh' content='3; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-
-
-		}
-	}
-
-
-
-	if($_GET['action'] == 'rem01' && $DARF["del"])
-
-	{
-	$update=$DB->query(	"UPDATE project_dienstplan SET `u_01` = '0' WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-
-	$output .= "Anwesenheit wurde ausgetragen.
-
-	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-	}
-	if($_GET['action'] == 'rem02' && $DARF["del"])
-
-	{
-	$update=$DB->query(	"UPDATE project_dienstplan SET `u_02` = '0' WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-
-	$output .= "Anwesenheit wurde ausgetragen.
-
-	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-	}
-	if($_GET['action'] == 'sperren' &&  ( $DARF["edit"] || $DARF["del"] ))
-
-	{
-	$update=$DB->query(	"UPDATE project_dienstplan SET `u_01` = ''  WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-
-	$output .= "Gesperrt.
-
-	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-	}
-	if($_GET['action'] == 'sperren1' && ( $DARF["edit"] || $DARF["del"] ))
-
-	{
-	$update=$DB->query(	"UPDATE project_dienstplan SET `u_02` = ''  WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-
-	$output .= "Gesperrt.
-
-	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-	}
-		if($_GET['action'] == 'entsperren' && ( $DARF["edit"] ||$DARF["del"] ))
-
-	{
-	$update=$DB->query(	"UPDATE project_dienstplan SET `u_01` = '0'  WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-
-	$output .= "Entsperrt.
-
-	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-	}
-	if($_GET['action'] == 'entsperren1' && ( $DARF["edit"] ||$DARF["del"] ))
-
-	{
-	$update=$DB->query(	"UPDATE project_dienstplan SET `u_02` = '0'  WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-
-	$output .= "Entsperrt.
-
-	<meta http-equiv='refresh' content='0; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-	}
-if($_GET['action'] == 'zuweisen' && ( $DARF["edit"] ||$DARF["del"] ))
-	{
-		$sql_user_orga = $DB->query("SELECT * FROM user_orga ORDER BY user_id ASC");
-
-	if($_GET['comand'] == 'senden')
-
-	{
-	 $sql_get_ids = $DB->query("SELECT * FROM project_dienstplan WHERE `std` = '".$std."' AND `plan` = '".$plan."';");
-		  $check = true;
-		 while($out_ids = $DB->fetch_array($sql_get_ids))
-		 {
-			 if($user_id == $out_ids['u_01'])
-			 {
-				$output .= "<font size='+1' style='color:RED;'>
-					Der zugewiesene User kann nicht an zwei Orten gleichzeitig sein!!</font>
-				<meta http-equiv='refresh' content='3; URL=/admin/projekt/dienstplan/?plan=".$plan."'>
-				";
-
-				$check = false;
-			 }
-
-
-		 }
-		if($check == true)
-		{
-			$update=$DB->query(	"UPDATE project_dienstplan SET `u_01` = '".$zWu_id."' WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-				$output .= "Anwesenheit wurde eingetragen.
-				<meta http-equiv='refresh' content='3; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-
-
-		}
-
-	}
-
-
-		$output .= "<form name='adduser' action='?action=zuweisen&comand=senden&plan=".$_GET['plan']."&bereich=".$_GET['bereich']."&std=".$_GET['std']."' method='POST'>
-						<select name='user_id'>
-									<option value='ok'>w&auml;hlen</option>";
-
-
-						while($out_user_orga = $DB->fetch_array($sql_user_orga))
-					{// begin while
-								$out_orga_data = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = ".$out_user_orga['user_id']." "));
-									$output .= "
-
-									<option value='".$out_orga_data['id']."'>".$out_orga_data['vorname']." '".$out_orga_data['nick']."' ".$out_orga_data['nachname']."</option>";
-					}
-
-						$output .= "
-									</select>
-									oder user ID eintragen (0 = frei f&uuml;r alle)
-									<input name='user_id1' value='' size='15' type='text' maxlength='25'>
-									<br>
-									<input name='senden' value='Daten senden' type='submit'>
-								</form>";
-
-
-}
-if($_GET['action'] == 'zuweisen1' && ( $DARF["edit"] || $DARF["del"] ))
-	{
-		$sql_user_orga = $DB->query("SELECT * FROM user_orga ORDER BY user_id ASC");
-
-	if($_GET['comand'] == 'senden')
-
-	{
-	 $sql_get_ids = $DB->query("SELECT * FROM project_dienstplan WHERE `std` = '".$std."' AND `plan` = '".$plan."';");
-		  $check = true;
-		 while($out_ids = $DB->fetch_array($sql_get_ids))
-		 {
-			 if($user_id == $out_ids['u_02'])
-			 {
-				$output .= "<font size='+1' style='color:RED;'>
-					Der zugewiesene User kann nicht an zwei Orten gleichzeitig sein!!</font>
-				<meta http-equiv='refresh' content='3; URL=/admin/projekt/dienstplan/?plan=".$plan."'>
-				";
-
-				$check = false;
-			 }
-
-
-		 }
-		if($check == true)
-		{
-			$update=$DB->query(	"UPDATE project_dienstplan SET `u_02` = '".$zWu_id."' WHERE `std` = '".$std."' AND `plan` = '".$plan."' AND `bereich` = '".$bereich."';");
-				$output .= "Anwesenheit wurde eingetragen.
-				<meta http-equiv='refresh' content='3; URL=/admin/projekt/dienstplan/?plan=".$plan."'>";
-
-
-		}
-
-	}
-
-
-		$output .= "<form name='adduser' action='?action=zuweisen1&comand=senden&plan=".$_GET['plan']."&bereich=".$_GET['bereich']."&std=".$_GET['std']."' method='POST'>
-						<select name='user_id'>
-									<option value='ok'>w&auml;hlen</option>";
-
-
-						while($out_user_orga = $DB->fetch_array($sql_user_orga))
-					{// begin while
-								$out_orga_data = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = ".$out_user_orga['user_id']." "));
-									$output .= "
-
-									<option value='".$out_orga_data['id']."'>".$out_orga_data['vorname']." '".$out_orga_data['nick']."' ".$out_orga_data['nachname']."</option>";
-					}
-
-						$output .= "
-									</select>
-									oder user ID eintragen (0 = frei f&uuml;r alle)
-									<input name='user_id1' value='' size='15' type='text' maxlength='25'>
-									<br>
-									<input name='senden' value='Daten senden' type='submit'>
-								</form>";
-
-
+ $output .="<table class='maincontent'>";
+
+// Maintable do not edit html upon //
+
+
+ $output .="<tr>";
+ $output .="<td>";
+ $output .="<table>";
+ $output .="<tr>";
+ $output .="<td class='maintd'>";
+ $output .="<form action='index.php' method='POST'>";
+ $output .="<select name='plan_name'>";
+
+  $query = $DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."' GROUP BY (plan_name) ORDER BY plan_name");
+  while($row = $DB->fetch_array($query)){
+    $output .="<option value='".$row[0]."'";
+    if($plan == $row[0]) $output .=" selected";
+    $output .=">".$row[0]."</option>";
+  }
+
+
+  
+ $output .="</select>";
+  $output .= '
+<script type="text/javascript">
+function FensterOeffnen (Adresse) {
+  MeinFenster = window.open(Adresse, "Zweitfenster", "width=850,height=600,left=10,top=10");
+  MeinFenster.focus();
+ }
+</script>
+';
+
+
+ $output .="<input type='submit' name='change' value='ausw&auml;hlen'>";
+ $output .=" <a href='plan_csv_export.php?plan=".$plan."'><img width='16' height='16' title='CSV Export' alt='' src='../images/22/csv.png'></a>";
+ $output .=" <a href='plan_druck.php?plan=".$plan."&event=".$event_id."' onclick='FensterOeffnen(this.href); return false '><img width='16' title='Drucken' height='16' alt='' src='/images/admin/icon_print.gif'></a> ";
+ $output .="</form>";
+ $output .="</td>";
+	$output .="</tr>";
+	$output .="<tr>";
+ $output .="<td>";
+
+ //$output .="<form action='index.php' method='post'>";
+ $output .="<table width='850'>";
+   $output .="<tr>";
+     $output .="<td class='msghead' width='100'>&nbsp;</td>";
+     $output .="<td class='msghead' width='250'><b>Freitag</b></td>";
+     $output .="<td class='msghead' width='250'><b>Samstag</b></td>";
+     $output .="<td class='msghead' width='250'><b>Sonntag</b></td>";
+   $output .="</tr>";
+
+
+for($i=0;$i<24;$i++){
+  if(strlen($i) == 1) $std = "0".$i;
+  else $std = $i;
+  $std1 = $std + 1;
+  if(strlen($std1) == 1) $std1 = "0".$std1;
+
+  $equal = bcmod($i, 2);
+ if ($equal == 0) {
+    $class= 'class="msgrow1" valign="top"';
+  } else {
+    $class= 'class="msgrow2" valign="top"';
+  }
+
+  if(strstr($tag[1][$i],",")){
+    $bla = explode(",",$tag[1][$i]);
+    $x=1;
+    foreach($bla as $blubb){
+      if($blubb == "-1") $x=0;
+    }
+    if($x == 1) $color_freitag = "#00FF00";
+    else $color_freitag = "#FF0000";
+  }else{
+    if($tag[1][$i] == 0) $color_freitag = "#0000FF";
+    elseif($tag[1][$i] > 0) $color_freitag = "#00FF00";
+    else $color_freitag = "#FF0000";
+  }
+
+  if(strstr($tag[2][$i],",")){
+    $bla = explode(",",$tag[2][$i]);
+    $x=1;
+    foreach($bla as $blubb){
+      if($blubb == "-1") $x=0;
+    }
+    if($x == 1) $color_samstag = "#00FF00";
+    else $color_samstag = "#FF0000";
+  }else{
+    if($tag[2][$i] == 0) $color_samstag = "#0000FF";
+    elseif($tag[2][$i] > 0) $color_samstag = "#00FF00";
+    else $color_samstag = "#FF0000";
+  }
+
+  if(strstr($tag[3][$i],",")){
+    $bla = explode(",",$tag[3][$i]);
+    $x=1;
+    foreach($bla as $blubb){
+      if($blubb == "-1") $x=0;
+    }
+    if($x == 1) $color_sonntag = "#00FF00";
+    else $color_sonntag = "#FF0000";
+  }else{
+    if($tag[3][$i] == 0) $color_sonntag = "#0000FF";
+    elseif($tag[3][$i] > 0) $color_sonntag = "#00FF00";
+    else $color_sonntag = "#FF0000";
+  }
+
+  $output .="
+  <tr>
+    <td $class><b>".$std.":00 - ".$std1.":00</b></td>
+    <td $class style='background-color: $color_freitag'>";
+
+  if(strstr($tag[1][$i],",")){
+    $bla = explode(",",$tag[1][$i]);
+    $x=0;
+    foreach($bla as $blubb){
+      if($blubb == -1) $output .="<a href='index.php?plan=$plan&tag=1&std=$i&x=$x&a=add'>noch frei - hier klicken</a><br>";
+      else{
+        $query = $DB->query("SELECT id, vorname, nachname, nick FROM user WHERE id = '".$blubb."' LIMIT 1");
+        $output .="<div style='width: 100%; height: 100%; background-color: #00FF00'>";
+        $output .= mysql_result($query,0,"vorname")." ".substr(mysql_result($query,0,"nachname"),0,1).". (".mysql_result($query,0,"nick").")";
+
+        if(mysql_result($query,0,"id") == $user_id) $output .=" - <a href='index.php?plan=$plan&tag=1&std=$i&x=$x&a=del'>(l&ouml;schen)</a><br>";
+        $output .="</div>";
+      }
+      $x++;
+    }
+  }else{
+    if($tag[1][$i] == -1) $output .="<a href='index.php?plan=$plan&tag=1&std=$i&a=add'>noch frei - hier klicken</a>";
+    elseif($tag[1][$i] == 0) $output .="-- niemand --";
+    else{
+      $query = $DB->query("SELECT id, vorname, nachname, nick FROM user WHERE id = '".$tag[1][$i]."' LIMIT 1");
+      $output .= mysql_result($query,0,"vorname")." ".substr(mysql_result($query,0,"nachname"),0,1).". (".mysql_result($query,0,"nick").")";
+  
+      if(mysql_result($query,0,"id") == $user_id) $output .=" - <a href='index.php?plan=$plan&tag=1&std=$i&a=del'>(l&ouml;schen)</a>";
+    }
+  }
+
+  $output .="</td>
+    <td $class style='background-color: $color_samstag'>";
+
+  if(strstr($tag[2][$i],",")){
+    $bla = explode(",",$tag[2][$i]);
+    $x=0;
+    foreach($bla as $blubb){
+      if($blubb == -1) $output .="<a href='index.php?plan=$plan&tag=2&std=$i&x=$x&a=add'>noch frei - hier klicken</a><br>";
+      else{
+        $query = $DB->query("SELECT id, vorname, nachname, nick FROM user WHERE id = '".$blubb."' LIMIT 1");
+        $output .="<div style='width: 100%; height: 100%; background-color: #00FF00'>";
+        $output .= mysql_result($query,0,"vorname")." ".substr(mysql_result($query,0,"nachname"),0,1).". (".mysql_result($query,0,"nick").")";
+
+        if(mysql_result($query,0,"id") == $user_id) $output .=" - <a href='index.php?plan=$plan&tag=2&std=$i&x=$x&a=del'>(l&ouml;schen)</a><br>";
+        $output .="</div>";
+      }
+      $x++;
+    }
+  }else{
+    if($tag[2][$i] == -1) $output .="<a href='index.php?plan=$plan&tag=2&std=$i&a=add'>noch frei - hier klicken</a>";
+    elseif($tag[2][$i] == 0) $output .="-- niemand --";
+    else{
+      $query = $DB->query("SELECT id, vorname, nachname, nick FROM user WHERE id = '".$tag[2][$i]."' LIMIT 1");
+      $output .= mysql_result($query,0,"vorname")." ".substr(mysql_result($query,0,"nachname"),0,1).". (".mysql_result($query,0,"nick").")";
+  
+      if(mysql_result($query,0,"id") == $user_id) $output .=" - <a href='index.php?plan=$plan&tag=2&std=$i&a=del'>(l&ouml;schen)</a>";
+    }
+  }
+  
+  $output .="</td>
+    <td $class style='background-color: $color_sonntag'>";
+
+  if(strstr($tag[3][$i],",")){
+    $bla = explode(",",$tag[3][$i]);
+    $x=0;
+    foreach($bla as $blubb){
+      if($blubb == -1) $output .="<a href='index.php?plan=$plan&tag=3&std=$i&x=$x&a=add'>noch frei - hier klicken</a><br>";
+      else{
+        $query = $DB->query("SELECT id, vorname, nachname, nick FROM user WHERE id = '".$blubb."' LIMIT 1");
+        $output .="<div style='width: 100%; height: 100%; background-color: #00FF00'>";
+         $output .= mysql_result($query,0,"vorname")." ".substr(mysql_result($query,0,"nachname"),0,1).". (".mysql_result($query,0,"nick").")";
+
+        if(mysql_result($query,0,"id") == $user_id) $output .=" - <a href='index.php?plan=$plan&tag=3&std=$i&x=$x&a=del'>(l&ouml;schen)</a><br>";
+        $output .="</div>";
+      }
+      $x++;
+    }
+  }else{
+    if($tag[3][$i] == -1) $output .="<a href='index.php?plan=$plan&tag=3&std=$i&a=add'>noch frei - hier klicken</a>";
+    elseif($tag[3][$i] == 0) $output .="-- niemand --";
+    else{
+      $query = $DB->query("SELECT id, vorname, nachname, nick FROM user WHERE id = '".$tag[3][$i]."' LIMIT 1");
+       $output .= mysql_result($query,0,"vorname")." ".substr(mysql_result($query,0,"nachname"),0,1).". (".mysql_result($query,0,"nick").")";
+  
+      if(mysql_result($query,0,"id") == $user_id) $output .=" - <a href='index.php?plan=$plan&tag=3&std=$i&a=del'>(l&ouml;schen)</a>";
+    }
+  }
+
+  $output .="</td>";
+  $output .="</tr>";
 }
 
-
-
-		$output .= "<table class='msg2' width='100%' cellspacing='0' cellpadding='0' border='0'>
-							<tbody>
-								<tr>
-									<td width='25' class='msghead'>Zeit</td>
-									<td  class='msghead'>Catering</td>
-									<td  class='msghead'>CheckIn</td>
-									<td  class='msghead'>Support</td>
-									<td  class='msghead'>Theke</td>
-									<td  class='msghead'>Turniere</td>
-									<td  class='msghead'>WC</td>
-								</tr>
-								<tr class='".$currentRowClass."'>
-									<td class='shortbarbit_left'><!-- Zeiten -->
-								<table width='25'>
-									<tbody>";
-									if( $_GET['plan'] == 'Freitag')
-									{
-										$begin = 17;
-										$end  = 23;
-									}
-									if( $_GET['plan'] == 'Sonntag')
-									{
-										$begin = 0;
-										$end  = 13;
-									}
-									else
-									{
-										$zeit = 0;
-										$end  = 23;
-									}
-
-									for($a=$begin;$a<=$end;$a++)
-									{
-
-										if($a<9)
-										{
-										$output .= "
-										<tr>
-											<td height='15'  class='".$currentRowClass."'>0".$a.":00-</td>
-										</tr>
-										<tr >
-											<td height='15'  class='".$currentRowClass."'  style='border-bottom: 1px solid rgb(0, 0, 0); padding-right: 0px; padding-left: 0px; padding-top: 1px;'>0".($a+1).":00</td>
-										</tr>
-
-
-
-
-										";
-										}
-										if($a == 9)
-										{
-										$output .= "
-										<tr>
-											<td height='15'  class='".$currentRowClass."'>0".$a.":00-</td>
-										</tr>
-										<tr class='".$currentRowClass."'  style='border-bottom: 1px solid rgb(0, 0, 0); padding-right: 0px; padding-left: 0px; padding-top: 1px;'>
-											<td height='15'  class='".$currentRowClass."'>".($a+1).":00</td>
-										</tr>
-
-
-
-										";
-										}
-										if($a>9)
-										{
-										$output .= "
-										<tr>
-											<td height='15' >".$a.":00-</td>
-										</tr>
-										<tr >
-											<td height='15'   style='border-bottom: 1px solid rgb(0, 0, 0); padding-right: 0px; padding-left: 0px; padding-top: 1px;'>".($a+1).":00</td>
-										</tr>
-
-										";
-										}
-										$iCount++;
-
-									}
-
-									$output .= "</tbody>
-								</table>
-
-									</td>";
-
-						$sql_list_bereich = $DB->query("SELECT bereich FROM project_dienstplan GROUP BY bereich ASC");
-
-						while($out_list_bereich = $DB->fetch_array($sql_list_bereich)) // && $check_eventbeginn == "OK"
-					{// begin while
-
-
-
-							$output .= "
-									<td width='110'><!-- ".$out_list_bereich['bereich']." -->
-								<table width='100%' >
-									<tbody>	";
-									$in_berech = $out_list_bereich['bereich'];
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-								  for($x=$begin;$x<=$end;$x++)
-										{
-
-											$out_dienst = $DB->fetch_array($DB->query("SELECT * FROM project_dienstplan WHERE bereich = '".$in_berech."' AND plan ='".$plan."' AND std = '".$x."'"));
-
-											$out_u_01 = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_dienst['u_01']."'"));
-											$out_u_02 = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_dienst['u_02']."'"));
-
-											if( $out_dienst['u_01'] == "0"  && $out_dienst['u_02'] == "0"  )
-												{
-									$output .= "
-											<tr>
-												<td height='15' class='shortbarbit_left'>";
-
-									$output .= "<a href='?action=add01&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>frei</a> &nbsp;";
-
-												if($ADMIN->check(GLOBAL_ADMIN))
-												{
-												$output .= "
-
-												<a href='?action=zuweisen&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>+</a>
-
-												";
-
-												}
-
-									$output .= "
-												</td>
-											</tr>
-											<tr >
-												<td height='15'  style='border-bottom: 1px solid rgb(0, 0, 0); padding-right: 0px; padding-left: 0px; padding-top: 1px;'>
-												";
-
-												if($ADMIN->check(GLOBAL_ADMIN))
-												{
-												$output .= "
-
-												<a href='?action=sperren1&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>X</a>
-
-												";
-
-												}
-												$output .= "&nbsp;
-												</td>
-											</tr>
-
-										";
-
-
-											}
-
-									if( $out_dienst['u_01'] > "0"  &&  $out_dienst['u_02'] == "0"  )
-											{
-
-									$output .= "
-											<tr >
-												<td height='15' >
-												";
-												if($user_id == $out_dienst['u_01'] || $ADMIN->check(GLOBAL_ADMIN))
-												{
-
-									$output .= "		<a href='?action=rem01&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>".$out_u_01['nick']."</a>";
-												}
-												else
-												{
-									$output .= "
-													".$out_u_01['nick']."
-
-												";
-
-												}
-									$output .= "	</td>
-											</tr>
-											";
-
-
-									$output .= "
-											<tr >
-												<td height='15'  style='border-bottom: 1px solid rgb(0, 0, 0); padding-right: 0px; padding-left: 0px; padding-top: 1px;'>
-													<a href='?action=add02&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>frei</a>";
-
-												if($ADMIN->check(GLOBAL_ADMIN))
-												{
-												$output .= "
-
-												<a href='?action=sperren1&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>X</a>
-												<a href='?action=zuweisen1&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>+</a>
-
-												";
-
-												}
-												$output .= "
-												</td>
-											</tr>
-
-											";
-
-
-
-											}
-											if( $out_dienst['u_01'] == "0" &&  $out_dienst['u_02'] > "0"  )
-											{
-									$output .= "
-											<tr >
-												<td height='15' >";
-
-
-									$output .= " <a href='?action=add01&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>frei</a>";
-
-											if($ADMIN->check(GLOBAL_ADMIN))
-												{
-												$output .= "
-
-												<a href='?action=sperren&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>X</a>
-												<a href='?action=zuweisen&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>+</a>
-
-												";
-
-												}
-
-
-									$output .= "</td>
-											</tr>";
-
-									$output .= "
-											<tr >
-												<td height='15'>";
-
-										if($user_id == $out_dienst['u_02'] || $ADMIN->check(GLOBAL_ADMIN))
-												{
-									$output .= "	<a href='?action=rem02&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>".$out_u_02['nick']."</a>";
-												}
-												else
-												{
-									$output .= "
-													".$out_u_02['nick']."
-
-												";
-
-												}
-
-									$output .= "</td>
-											</tr>
-
-											";
-
-
-											}
-
-									if( $out_dienst['u_01'] > "0" &&  $out_dienst['u_02'] > "0"  )
-											{
-									$output .= "
-											<tr>
-												<td height='15'>";
-
-										if($user_id == $out_dienst['u_01'] || $ADMIN->check(GLOBAL_ADMIN))
-												{
-									$output .= " <a href='?action=rem01&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>".$out_u_01['nick']."</a>";
-												}
-												else
-												{
-									$output .= "
-													".$out_u_01['nick']."
-
-												";
-
-
-
-
-									$output .= "</td>
-											</tr>";
-											}
-									$output .= "
-											<tr >
-												<td height='15'  style='border-bottom: 1px solid rgb(0, 0, 0); padding-right: 0px; padding-left: 0px; padding-top: 1px;'>";
-
-										if($user_id == $out_dienst['u_02'] || $ADMIN->check(GLOBAL_ADMIN))
-												{
-									$output .= "	<a href='?action=rem02&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>".$out_u_02['nick']."</a>";
-												}
-												else
-												{
-									$output .= "
-													".$out_u_02['nick']."
-
-												";
-
-												}
-
-									$output .= "</td>
-											</tr>
-
-											";
-
-
-											}
-
-									if( $out_dienst['u_01'] == ""  && $out_dienst['u_02'] == "" )
-											{
-									$output .= "
-										<tr >
-											<td height='15'>
-												";
-
-												if($ADMIN->check(GLOBAL_ADMIN))
-												{
-												$output .= "&nbsp;
-												<a href='?action=entsperren&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>&radic;</a>
-
-												";
-
-												}
-												$output .= "&nbsp;
-											</td>
-										</tr>
-										<tr >
-											<td height='15'  style='border-bottom: 1px solid rgb(0, 0, 0); padding-right: 0px; padding-left: 0px; padding-top: 1px;'>
-											&nbsp;
-											</td>
-										</tr>
-
-											";
-
-
-											}
-
-									if(  $out_dienst['u_01'] == "0" &&   $out_dienst['u_02'] == ""    )
-											{
-									$output .= "
-										<tr >
-											<td height='15'>
-												<a href='?action=add01&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>frei</a>									";
-
-												if($ADMIN->check(GLOBAL_ADMIN))
-												{
-												$output .= "
-
-												<a href='?action=sperren&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>X</a>
-												<a href='?action=zuweisen&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>+</a>
-
-												";
-
-												}
-												$output .= "
-											</td>
-										</tr>
-										<tr >
-											<td height='15'  style='border-bottom: 1px solid rgb(0, 0, 0); padding-right: 0px; padding-left: 0px; padding-top: 1px;' >
-											";
-
-												if($ADMIN->check(GLOBAL_ADMIN))
-												{
-												$output .= "
-
-
-												<a href='?action=entsperren1&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>&radic;</a>
-
-
-
-												";
-
-												}
-												$output .= "&nbsp;
-											</td>
-										</tr>
-
-										";
-
-											}
-
-											if( $out_dienst['u_01'] > "0"  &&  $out_dienst['u_02'] == "" )
-											{
-									$output .= "
-										<tr>
-											<td height='15' class='shortbarbit_left_red'>
-												<a href='?action=rem01&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>".$out_u_01['nick']."</a>
-											</td>
-										</tr>
-										<tr >
-											<td height='15'   style='border-bottom: 1px solid rgb(0, 0, 0); padding-right: 0px; padding-left: 0px; padding-top: 1px;'>
-											";
-
-												if($ADMIN->check(GLOBAL_ADMIN))
-												{
-												$output .= "
-
-
-												<a href='?action=entsperren1&plan=".$plan."&bereich=".$in_berech."&std=".$out_dienst['std']."'>&radic;</a>
-
-
-
-												";
-
-												}
-												$output .= "&nbsp;
-											</td>
-										</tr>
-
-										";
-
-											}
-
-
-
-
-
-
-										} // ende for 0 - 23
-
-
-
-
-
-								$output .= "	</tbody>
-								</table>
-
-									</td>";
-
-
-					}
-							$output .= "	</tbody>
-								</table>
-								";
-
-
-
-
-
-
-
-
-
-
-$output .= "<div align='center'><br><a href='/admin/projekt/' target='_parent'>Zur&uuml;ck zur Projekt&uuml;bersicht</a></div>";
-	}
-/*###########################################################################################
-ENDE Admin PAGE
-*/
-
-$PAGE->render(utf8_decode(utf8_encode($output) ));
+ $output .="</table>";
+ //$output .="<input type='hidden' name='plan_name' value='".$plan."'>";
+ //$output .="<input type='submit' name='commit' value='speichern'>";
+ //$output .="</form>";
+
+ $output .="</td>";
+ $output .="</tr>";
+ $output .="</table>";
+ $output .="<br><hr>";
+
+
+$doppelt = array();
+  $d=0;
+
+  for($tag=1;$tag<=3;$tag++){
+	$query = $DB->query("SELECT * FROM project_dienstplan WHERE event_id = '".$event_id."' AND tag = '".$tag."' AND doppelt_erlaubt = 0");
+     while($row =  mysql_fetch_assoc($query)){
+      for($std=1;$std<=24;$std++){
+        if(strlen($std) == 1) $id = "0$std";
+        else $id = $std;
+
+        if(strstr($row["id_$id"],",")){
+          $bla = explode(",",$row["id_$id"]);
+          foreach($bla as $blubb){
+            if($blubb == 0 || $blubb == -1) continue; 
+            if(!empty($array[$tag][$std][$blubb])){
+              $array[$tag][$std][$blubb] = $array[$tag][$std][$blubb].", ".$row["plan_name"];
+              $doppelt[$d]['tag'] = $tag;
+              $doppelt[$d]['std'] = $std;
+              $doppelt[$d]['uid'] = $blubb;
+              $d++;
+            }else $array[$tag][$std][$blubb] = $row["plan_name"];
+          }
+        }else{
+          if($row["id_$id"] == 0 || $row["id_$id"] == -1) continue;
+          if(!empty($array[$tag][$std][$row["id_$id"]])){
+            $array[$tag][$std][$row["id_".$id]] = $array[$tag][$std][$row["id_".$id]].", ".$row["plan_name"];
+            $doppelt[$d]['tag'] = $tag;
+            $doppelt[$d]['std'] = $std;
+            $doppelt[$d]['uid'] = $row["id_$id"];
+            $d++;
+          }else $array[$tag][$std][$row["id_".$id]] = $row["plan_name"];
+        }
+      }
+    }
+  }
+
+  $output .="<table width='800'> 
+          <tr>
+            <td class=\"maintd\" colspan='4'><b>Leute, die zur gleichen Zeit in zwei Pl&auml;nen stehen:</b></td>
+          </tr>";
+		  
+		  
+if($doppelt)
+{		  
+		  
+  $output .="  <tr>
+            <td class='msghead'><b>Orga</b></td>
+            <td class='msghead' width='70'><b>Tag</b></td>
+            <td class='msghead' width='100'><b>Schicht</b></td>
+            <td class='msghead' width='400'><b>Pl&auml;ne</b></td>
+          </tr>";
+
+  $i=0;
+  foreach($doppelt as $dd){
+    $equal = bcmod($i, 2);
+ if ($equal == 0) {
+    $class= 'class="msgrow1" valign="top"';
+  } else {
+    $class= 'class="msgrow2" valign="top"';
+  }
+    $i++;
+
+    $query = $DB->query("SELECT vorname, nachname, nick FROM user WHERE id = '".$dd["uid"]."' LIMIT 1");
+    $orga = mysql_result($query,0,"vorname")." ".substr(mysql_result($query,0,"nachname"),0,1).". (".mysql_result($query,0,"nick").")";
+
+    if($dd["tag"] == 1) $tag = "Freitag";
+    elseif($dd["tag"] == 2) $tag = "Samstag";
+    else $tag = "Sonntag";
+
+    $tmp = ($dd["std"] - 1);
+    if(strlen($tmp) == 1) $std = "0$tmp:00 - ";
+    else $std = $tmp.":00 - ";
+    $tmp = $dd["std"];
+    if(strlen($tmp) == 1) $std .= "0$tmp:00";
+    else $std .= $tmp.":00";
+
+    $output .="<tr>";
+    $output .="  <td $class>".$orga."</td>";
+    $output .="  <td $class>".$tag."</td>";
+    $output .="  <td $class>".$std."</td>";
+    $output .="  <td $class>".$array[$dd["tag"]][$dd["std"]][$dd["uid"]]."</td>";
+    $output .="</tr>";
+  }
+}  
+  $output .="</table>";
+
+
+ $output .="<hr><br>";
+
+
+ $output .="<table width='800'>
+          <tr>
+            <td class=\"maintd\"><b>Leute, die nicht im Plan stehen:</b></td>
+          </tr>";
+		  
+  $userids = array();
+  $in_plan = array();
+  $query = $DB->query("SELECT * FROM project_dienstplan WHERE event_id = '".$event_id."' AND plan_name = '".$plan."'");
+  if(mysql_num_rows($query) != 0)
+  {
+  while($row = $DB->fetch_array($query)){
+    for($i=1;$i<=24;$i++){
+      if(strlen($i) == 1) $x = "0".$i;
+      else $x = $i;
+
+      if(stristr($row["id_".$x],",")){
+        $ids = explode(",",$row["id_".$x]);
+        foreach($ids as $id) $in_plan[] = "'".$id."'";
+      }else $in_plan[] = "'".$row["id_".$x]."'";
+    }
+  }
+$output .="  <tr>
+            <td class='msghead'><b>Orga</b></td>
+          </tr>";
+  $i=0;
+  //$query = $DB->query("SELECT id, nick, vorname, nachname FROM user WHERE id NOT IN (".implode(",",$in_plan).") ");
+  $query = $DB->query("SELECT nick, vorname, nachname, u.id AS id FROM user AS u, user_orga AS o WHERE o.user_id = u.id AND o.user_id NOT IN (".implode(",",$in_plan).") ORDER BY  `u`.`vorname` ASC");
+  while($row = @$DB->fetch_array($query)){
+    $equal = bcmod($i, 2);
+  if ($equal == 0) {
+    $class= 'class="msgrow1" valign="top"';
+  } else {
+    $class= 'class="msgrow2" valign="top"';
+  }
+    $i++;
+
+    $userids[] = "users[]=".$row["id"];
+    $output .="<tr>";
+    $output .="  <td $class>".$row["vorname"]." ".substr($row["nachname"],0,1).". (".$row["nick"].")</td>";
+    $output .="</tr>";
+  }
+ }
+
+  $output .="</table>";
+  //$output .="<a href='mail.php?".implode("&",$userids)."'>Mail an diese User schicken</a>";
+
+     $output .="</td>";
+     $output .="</tr>";
+// Maintable do not edit html below //
+
+}
+$PAGE->render($output);
 ?>
