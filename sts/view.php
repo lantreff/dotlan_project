@@ -34,7 +34,7 @@ while($out_queue = $DB->fetch_array($sql_queue))
 	
 $output .= 
 "		
-						<a href='sts/TicketQueue.php?queueid=".$out_queue['id']."' > ".$count_ticket." Ticket(s) in ".$out_queue['name']."</a> <br />
+						<a href='sts/TicketQueue.php?queueid=".$out_queue['id']."&new=1' > ".$count_ticket." Ticket(s) in ".$out_queue['name']."</a> <br />
 ";
 }
 

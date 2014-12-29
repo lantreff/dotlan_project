@@ -15,7 +15,8 @@ $PAGE->sitetitle = $PAGE->htmltitle = _("Leihsystem");
 $event_id = $EVENT->next;
 
 //$data = $DB->query_first("SELECT * FROM user WHERE id = '".$user_id."'  LIMIT 1");
-$leihID = $_GET['leihID'];
+$leihID 	= $_GET['leihID'];
+$id_leihe 	= $_POST['id_leihe'];
 // <daten des Gesuchten Users>
 	$u_id 		= security_number_int_input($_POST['team'],"","");
 	$nick  		= security_string_input($_POST['nick']);
@@ -36,6 +37,9 @@ $kat			= security_string_input($_POST['kategorie']);
 $kat1			= security_string_input($_POST['kategorie1']);
 $iCount = 0;
 
+
+$rueck_a_ids 	= $_POST["rueck_a_ids"];
+$rueck_g_ids	= $_POST["rueck_g_ids"];
 if($_POST['kategorie'] == 1)
 {
 	$kategorie = $kat1;
@@ -47,14 +51,14 @@ else
 
 }
 
+
+
 $id_user 	= $_POST['userid']; // id des Gesuchten users aus der DB
 
-$sql_leihsystem = $DB->query("SELECT * FROM project_leih_article ORDER BY bezeichnung ASC");
-
-$sql_leihsystem_nicht_verliehen = $DB->query("SELECT * FROM project_leih_article WHERE ausleihe != '1' ORDER BY  `kategorie` ,  `bezeichnung`  ASC");
-$sql_leihsystem_verliehen = $DB->query("SELECT * FROM project_leih_article WHERE ausleihe = '1' ORDER BY u_id ASC");
-
-
+$sql_leihsystem_nicht_verliehen = $DB->query("SELECT * FROM project_equipment WHERE ist_leihartikel = '1' AND ausleihe != '1' ORDER BY  `category` ,  `bezeichnung`  ASC");
+$sql_leihsystem_verliehen = $DB->query("SELECT * FROM  project_leih_leihe AS l INNER JOIN project_equipment AS e ON l.id_leih_artikel = e.id WHERE l.event_id = '".$event_id."' AND l.rueckgabe_datum = '0000-00-00 00:00:00' ");
+$sql_leih_groups  = $DB->query("SELECT eg.bezeichnung AS eg_group_bezeichnung, eg.id AS eg_group_id FROM  project_equipment AS e INNER JOIN project_equipment_equip_group AS g ON g.id_equipment = e.id, project_equipment_groups AS eg WHERE e.ist_leihartikel = '1' AND eg.ausleihe = '0' GROUP BY eg_group_id");
+$sql_leih_groups_verliehen = $DB->query("SELECT * FROM   project_leih_leihe AS l  INNER JOIN project_equipment_groups AS g ON l.id_leih_gruppe = g.id  WHERE l.event_id = '".$event_id."' AND l.rueckgabe_datum = '0000-00-00 00:00:00'");
  /*###########################################################################################
 Admin PAGE
 */
@@ -64,116 +68,12 @@ if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {
-				$a = 'shortbarbit';
-				$b = 'shortbarbit';
-				$c = 'shortbarbit';
-				$d = 'shortbarbit';
-
-
-				$a1 = 'shortbarlink';
-				$b1 = 'shortbarlink';
-				$c1 = 'shortbarlink';
-				$d1 = 'shortbarlink';
-
-			if($_GET['action'] == 'add')
-			{
-				$a = 'shortbarbitselect';
-				$b = 'shortbarbit';
-				$c = 'shortbarbit';
-				$d = 'shortbarbit';
-
-
-				$a1 = 'shortbarlinkselect';
-				$b1 = 'shortbarlink';
-				$c1 = 'shortbarlink';
-				$d1 = 'shortbarlink';
-
-
-			}
-			if($_GET['action'] == 'list_all')
-			{
-				$a = 'shortbarbit';
-				$b = 'shortbarbitselect';
-				$c = 'shortbarbit';
-				$d = 'shortbarbit';
-
-
-				$a1 = 'shortbarlink';
-				$b1 = 'shortbarlinkselect';
-				$c1 = 'shortbarlink';
-				$d1 = 'shortbarlink';
-
-
-			}
-			if($_GET['action'] == 'NEW_Leihe')
-			{
-				$a = 'shortbarbit';
-				$b = 'shortbarbit';
-				$c = 'shortbarbitselect';
-				$d = 'shortbarbit';
-
-
-				$a1 = 'shortbarlink';
-				$b1 = 'shortbarlink';
-				$c1 = 'shortbarlinkselect';
-				$d1 = 'shortbarlink';
-
-
-			}
-				if($_GET['action'] == 'rueckgabe')
-			{
-				$a = 'shortbarbit';
-				$b = 'shortbarbit';
-				$c = 'shortbarbit';
-				$d = 'shortbarbitselect';
-
-
-				$a1 = 'shortbarlink';
-				$b1 = 'shortbarlink';
-				$c1 = 'shortbarlink';
-				$d1 = 'shortbarlinkselect';
-
-
-			}
-
-
 
  		if($DARF["view"])
 		{ //$ADMIN
 
-			$output .= "
-				<a name='top' >
-					<table class='msg2' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
-						<a href='/admin/projekt/'>Projekt</a>
-							&raquo;
-						<a href='/admin/projekt/leihsystem'>Leihsystem</a>
-							&raquo; ".$_GET['action']."
-						<br>
-					</table>
-					<br />";
-					
-				$output .= "
-					<table width='100%' cellspacing='1' cellpadding='2' border='0' class='msg2'>
-  						<tbody>
-							<tr class='shortbarrow'>";
-							
-							if($DARF["add"])
-							{ //$ADMIN
-							$output .= "
-								<td width='20%' class='".$a."'><a href='?hide=1&action=add' class='".$a1."'>Artikel Anlegen</a></td>";
-							}
-							
-							$output .= "
-								<td width='20%' class='".$b."'><a href='?hide=1&action=list_all' class='".$b1."'>Artikel&uuml;bersicht</a></td>
-								<td width='0' class='shortbarbitselect'>&nbsp;</td>
-								<td width='20%' class='".$c."'><a href='?hide=1&action=NEW_Leihe' class='".$c1."'>Artikel verleihen</a></td>
-								<td width='20%' class='".$d."'><a href='?hide=1&action=rueckgabe' class='".$d1."'>R&uuml;ckgabe</a></td>
-								<td width='20%' class='shortbarbit'><a href='historie.php' class='shortbarlink'>Historie</a></td>
-							</tr>
-						</tbody>
-					</table>
-					<br />
-				";
+			include('header.php');
+			
 				
 			if($_GET['hide'] != 1)
 			{ // hide
@@ -204,19 +104,46 @@ else
 									<table width='100%' cellspacing='1' cellpadding='2' border='0' >
 											<tbody>";
 
+						if(mysql_num_rows($sql_leihsystem_nicht_verliehen) != 0)
+						{
+							while($out_nicht_leihe = $DB->fetch_array($sql_leihsystem_nicht_verliehen))
+							{// begin while
 
-								while($out_nicht_leihe = $DB->fetch_array($sql_leihsystem_nicht_verliehen))
-						{// begin while
+									$output .= "<tr>
+													<td  class=\"msgrow".(($i%2)?1:2)."\">
+														".$out_nicht_leihe['bezeichnung']."
+													</td>
+												</tr>";
 
-								$output .= "<tr>
-												<td  class=\"msgrow".(($i%2)?1:2)."\">
-													".$out_nicht_leihe['bezeichnung']."
-												</td>
-											</tr>";
+							$i++;
 
-						$i++;
+							} // end while
+						}
+						if(mysql_num_rows($sql_leih_groups) != 0)
+						{
+							$output .= "		<tr>
+													<td >
+														&nbsp;
+													</td>
+												</tr>
+												<tr>
+													<td  class='msghead'>
+														Vorhandene Artikelgruppen
+													</td>
+												</tr>";
+							while($out_leih_groups = $DB->fetch_array($sql_leih_groups))
+							{// begin while
 
-						} // end while
+									$output .= "<tr>
+													<td  class=\"msgrow".(($i%2)?1:2)."\">
+														".$out_leih_groups['eg_group_bezeichnung']."
+													</td>
+												</tr>";
+
+							$i++;
+
+							} // end while
+						}
 
 						$output .= "	</tbody>
 									</table>
@@ -235,16 +162,39 @@ else
 
 					$output .= "	<td style='border-top: solid 1px #99CC00;'>
 
-									<table  cellspacing='1' cellpadding='2' border='0'>
+									<table  cellspacing='1' cellpadding='2' border='0' width='100%' >
 											<tbody>";
 
 								while($out_leihe = $DB->fetch_array($sql_leihsystem_verliehen))
 						{// begin while
 
-						$out_user_artikel = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = ".$out_leihe['u_id'].""));
+						$out_user_artikel = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = ".$out_leihe['id_leih_user'].""));
 						$output .= "<tr >
-										<td width='50%'  class=\"msgrow".(($i%2)?1:2)."\" >
+										<td  class=\"msgrow".(($i%2)?1:2)."\" >
 											".$out_leihe['bezeichnung']." an ".$out_user_artikel['nick']."
+										</td>
+									</tr>";
+							$i++;
+						} // end while
+						
+						$output .= "
+												<tr>
+													<td >
+														&nbsp;
+													</td>
+												</tr>
+												<tr>
+													<td  class='msghead'>
+														Verliehene Artikelgruppen
+													</td>
+												</tr>";
+						while($out_leih_groups_verliehen = $DB->fetch_array($sql_leih_groups_verliehen))
+						{// begin while
+
+						$out_user_artikel = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = ".$out_leih_groups_verliehen['id_leih_user'].""));
+						$output .= "<tr >
+										<td   class=\"msgrow".(($i%2)?1:2)."\" >
+											".$out_leih_groups_verliehen['bezeichnung']." an ".$out_user_artikel['nick']."
 										</td>
 									</tr>";
 							$i++;
@@ -463,22 +413,46 @@ if($_GET['hide'] == "1")
 	if($_GET['action'] == 'rueckgabe')
 	{ // begin if($_GET['action']
 
-	 $sql_list_uID = $DB->query("SELECT u_id FROM project_leih_article WHERE u_id > 0 GROUP BY u_id");
-
+		if( $_POST['id_leihe'] != '')
+		{
+			$sql_list_rueck = $DB->query("SELECT * FROM project_leih_leihe WHERE id = '".$id_leihe."' AND rueckgabe_datum = '0000-00-00 00:00:00' GROUP BY id ORDER BY leih_datum DESC");
+			$where = "WHERE l.id = '".$id_leihe."'";
+		}
+		else
+		{
+			$sql_list_rueck = $DB->query("SELECT * FROM project_leih_leihe WHERE rueckgabe_datum = '0000-00-00 00:00:00' GROUP BY id ORDER BY leih_datum DESC");
+			$where = "WHERE l.rueckgabe_datum = '0000-00-00 00:00:00'"; // AND l.id = '".$out_list_rueck['id']."'
+		}
 
 		if($_GET['comand'] == 'senden')
 
 		{ // begin if($_GET['comand']
 
-		//$del_leih_user = $DB->query("DELETE FROM `project_leih_user` WHERE id = '".$id."' ");
-
-		$anz_rueck_ids = count($rueck_ids);
-
-		for($a=0;$a<$anz_rueck_ids;$a++)
-		{
-			$update=$DB->query(	"UPDATE project_leih_article SET `ausleihe` = '0', `u_id` = 'NULL' WHERE `id` = ".$rueck_ids[$a]." ");
-			$update_leihe=$DB->query(	"UPDATE project_leih_leihe SET `rueckgabe_datum` = '".$datum."'  WHERE `id_leih_artikel` = ".$rueck_ids[$a]." " );
-	
+		if($_POST["rueck_a_ids"]){	
+			foreach($rueck_a_ids as $aid)
+			{
+				$DB->query(	"UPDATE project_equipment SET `ausleihe` = '0' WHERE `id` = ".$aid." ");
+				$DB->query(	"UPDATE project_leih_leihe SET `rueckgabe_datum` = '".$datum."'  WHERE `id_leih_artikel` = ".$aid." " );
+				$sql_group_data = $DB-> query("SELECT * FROM project_equipment_equip_group WHERE id_equipment = '".$aid."'");
+			$sql_group_data = $DB-> query("SELECT * FROM project_equipment_equip_group WHERE id_equipment = '".$aid."'");
+			while($out_group_data = $DB->fetch_array($sql_group_data))
+			{// begin while
+				$DB->query(	"UPDATE `project_equipment_groups` SET `ausleihe` = '0'  WHERE `id` = ".$out_group_data['id_group'].";" );
+			}
+			}
+		}
+		if($_POST["rueck_g_ids"]){
+			foreach($rueck_g_ids as $gid)
+			{
+				$DB->query(	"UPDATE project_equipment_groups SET `ausleihe` = '0' WHERE `id` = ".$gid." ");
+				$DB->query(	"UPDATE project_leih_leihe SET `rueckgabe_datum` = '".$datum."'  WHERE `id_leih_gruppe` = ".$gid." " );
+			$sql_artikel_data = $DB-> query("SELECT * FROM project_equipment_equip_group WHERE id_group = '".$gid."'");
+			while($out_artikel_data = $DB->fetch_array($sql_artikel_data))
+			{// begin while
+				$DB->query(	"UPDATE `project_equipment` SET `ausleihe` = '0'  WHERE `id` = ".$out_artikel_data['id_equipment'].";" );
+			}	
+		
+			}
 		}
 		$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/leihsystem/'>";
 
@@ -487,19 +461,29 @@ if($_GET['hide'] == "1")
 
 
 
-					while($out_list_uID = $DB->fetch_array($sql_list_uID))
+					while($out_list_rueck = $DB->fetch_array($sql_list_rueck))
 					{// begin while
 
-				$out_username  = $DB->fetch_array($DB->query("SELECT * FROM project_leih_user WHERE id = '".$out_list_uID['u_id']."'"));
+				$out_username  = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_list_rueck['id_leih_user']."'"));
 
-					$count = count($out_list_uID);
+//					$count = count($out_list_rueck);
 
 					$output .= "
 
-			<h1>".$out_username['nick']."</h1>";
+			<h1>".$out_username['nick']." -->  LeihID: ".$out_list_rueck['id']."</h1>";
 
-			$sql_list_article = $DB->query("SELECT * FROM project_leih_article WHERE u_id = '".$out_list_uID['u_id']."'");
-
+			if( $_POST['id_leihe'] != '')
+			{
+			$sql_list_article = $DB->query("SELECT * FROM  project_leih_leihe AS l INNER JOIN project_equipment AS e ON l.id_leih_artikel = e.id $where AND l.id_leih_user = '".$out_list_rueck['id_leih_user']."' ");
+			
+			$sql_list_group = $DB->query("SELECT * FROM  project_leih_leihe AS l  INNER JOIN project_equipment_groups AS g ON l.id_leih_gruppe = g.id  $where AND l.id_leih_user = '".$out_list_rueck['id_leih_user']."'");
+			}
+			else
+			{
+			$sql_list_article = $DB->query("SELECT * FROM  project_leih_leihe AS l INNER JOIN project_equipment AS e ON l.id_leih_artikel = e.id $where AND l.id_leih_user = '".$out_list_rueck['id_leih_user']."' AND l.id = '".$out_list_rueck['id']."' ");
+			
+			$sql_list_group = $DB->query("SELECT * FROM  project_leih_leihe AS l  INNER JOIN project_equipment_groups AS g ON l.id_leih_gruppe = g.id  $where AND l.id_leih_user = '".$out_list_rueck['id_leih_user']."' AND l.id = '".$out_list_rueck['id']."'");
+			}
 			$output .= "
 			<form name='".$out_username['nick']."' action='?hide=1&action=rueckgabe&comand=senden&id=".$out_username['id']."' method='POST'>
 			<table class='msg' width='100%' cellspacing='1' cellpadding='2' border='0'>
@@ -527,10 +511,29 @@ if($_GET['hide'] == "1")
 									".$out_list_article['bezeichnung']."
 								</td>
 								<td class='shortbarbit_left'>
-									".$out_list_article['kategorie']."
+									".$out_list_article['category']."
 								</td>
 								<td class='shortbarbit_left'>
-									<input type='checkbox' name='rueck_ids[]' value='".$out_list_article['id']."'>
+									<input type='checkbox' name='rueck_a_ids[]' value='".$out_list_article['id_leih_artikel']."'>
+								</td>
+							</tr>";
+					$i++;
+
+					} // end while
+					
+			while($out_list_group = $DB->fetch_array($sql_list_group))
+					{// begin while
+			$output .= "
+
+							<tr class=\"msgrow".(($i%2)?1:2)."\">
+								<td class='shortbarbit_left'>
+									".$out_list_group['bezeichnung']."
+								</td>
+								<td class='shortbarbit_left'>
+									&nbsp;
+								</td>
+								<td class='shortbarbit_left'>
+									<input type='checkbox' name='rueck_g_ids[]' value='".$out_list_group['id_leih_gruppe']."'>
 								</td>
 							</tr>";
 					$i++;
@@ -541,7 +544,9 @@ if($_GET['hide'] == "1")
 					$output .= "
 				</tbody>
 					</table>
-					<input name='senden' value='Zur&uuml;ckgeben' type='submit'>
+					<div align='right'>
+					<input name='senden' value='Zur&uuml;ckgeben' type='submit' >
+					</div>
 					</form>
 					
 					<br />
@@ -551,111 +556,6 @@ if($_GET['hide'] == "1")
 
 
 	} // end if($_GET['action']
-
-
-
-
-
-
-
-
-	if($_GET['action'] == 'list_all')
-	{ // begin if($_GET['action']
-
-	  $sql_list = $DB->query("SELECT kategorie FROM project_leih_article GROUP BY kategorie");
-
-
-		if($_GET['comand'] == 'senden')
-
-		{ // begin if($_GET['comand']
-
-
-		} // end if($_GET['comand']
-
-
-					while($out_list = $DB->fetch_array($sql_list))
-					{// begin while
-						$count = count($out_list);
-				$output .= "
-
-			<h1>".$out_list['kategorie']."</h1>";
-
-			$sql_list_kategorie = $DB->query("SELECT * FROM project_leih_article WHERE kategorie = '".$out_list['kategorie']."'");
-
-			$output .= "
-			<table width='100%' cellspacing='1' cellpadding='2' border='0'>
-						<tbody>
-							<tr class='shortbarrow'>
-								<td width='375' class='shortbarbit_left_big'>
-									Bezeichnung
-								</td>
-								<td class='shortbarbit_left_big'>
-									Besitzer
-								</td>";
-					if($DARF["add"] || $DARF["edit"] || $DARF["del"])
-						{ //$ADMIN
-
-						$output .= "
-								<td width='50' class='shortbarbit_left_big'>
-									admin
-								</td>";
-						}
-						$output .="
-							</tr>";
-
-
-
-			while($out_list_kategorie = $DB->fetch_array($sql_list_kategorie))
-					{// begin while
-
-					$sql_list_besitzer = $DB->fetch_array( $DB->query("SELECT * FROM user WHERE id = '".$out_list_kategorie['besitzer']."'"));
-			$output .= "
-
-							<tr class=\"msgrow".(($i%2)?1:2)."\">
-								<td class='shortbarbit_left'>
-									".$out_list_kategorie['bezeichnung']."
-								</td>
-								<td class='shortbarbit_left'>
-									".$out_list_kategorie['besitzer']."
-								</td>";
-						if($DARF["edit"] || $DARF["del"])
-						{ //$ADMIN
-
-						$output .= "
-								<td class='shortbarbit_left'>
-								";
-									if($DARF["edit"])
-								{ //$ADMIN
-						$output .= "
-									<a href='?hide=1&action=edit&id=".$out_list_kategorie['id']."' target='_parent'>
-									<img src='../images/16/edit.png' title='Artikel editieren' ></a>
-								";
-								}
-								if($DARF["del"])
-								{ //$ADMIN
-						$output .= "
-									<a href='?hide=1&action=del&id=".$out_list_kategorie['id']."' target='_parent'>
-									<img src='../images/16/editdelete.png' title='Artikel löschen' ></a>
-								";
-								}
-						$output .= "	
-								</td>
-							</tr>";
-						}
-						$i++;
-					} // end while
-
-
-					$output .= "
-				</tbody>
-					</table>";
-					} // end while
-
-
-
-	} // end if($_GET['action']
-
-
 
 
 	if($_GET['action'] == 'NEW_Leihe')
@@ -670,9 +570,10 @@ if($_GET['hide'] == "1")
 		$output .= "<meta http-equiv='refresh' content='0;  URL=export.php?e_id=".$id_user."&v_id=".$CURRENT_USER->id."' >";
 
 	}
-	
+	if ($_GET['hide1'] != 1)
+	{
 	$output .= "
-	<form method='post' name='team' action='?hide=1&action=NEW_Leihe' onSubmit='return checkSubmit()'>
+	<form method='post' name='team' action='?hide=1&hide1=1&action=NEW_Leihe' onSubmit='return checkSubmit()'>
 
 	<table width='100%' cellspacing='0' cellpadding='0' border='0'>
 	  <tr height='1'><td><img src='/images/pixel.gif' alt='' width='1' height='1' border='0' /></td></tr>
@@ -723,14 +624,14 @@ if($_GET['hide'] == "1")
 	</form>
 	</table>
 	   ";
-	   
+	} 
    while($out_sql_user = $DB->fetch_array($sql_user))
    {
    		//$id_user = $out_sql_user['id'];;
 
 //echo "<br> User ID: ".$id_user;
     $output .= "
-	<form method='post' name='leihe' onSubmit='Weiterleiten()' action='export.php?leihID=".$out_sql_user['id']."&v_id=".$CURRENT_USER->id."' target='_blank' >
+	<form method='post' name='leihe' onSubmit='Weiterleiten()' action='export.php' target='_blank' >
 
 	<table cellspacing='1' cellpadding='1' width='100%' border='0'>
     	<tr>
@@ -756,32 +657,67 @@ if($_GET['hide'] == "1")
 			<td><input type='text' name='userid' value='".$out_sql_user['id']."' size='25'></td>
 		</tr>
 		<tr>
-		<td colspan='6'>Artikel
+		<td colspan='6'>&nbsp;
 		</td>
 	</table>
 
 
 	<table width='100%' cellspacing='1' cellpadding='2' border='0'>
-											<tbody>";
+		<tbody>
+			<tr>
+				<td class='msghead'>
+					<b>Artikel</b>
+				</td>
+				<td class='msghead'>
+					<b>Artikel Gruppen</b>
+				</td>
+			</tr>
+			<tr>
+				<td width='50%'>
+					<table width='100%' cellspacing='1' cellpadding='2' border='0'>
+						<tbody>";
 
-								while($out_nicht_leihe = $DB->fetch_array($sql_leihsystem_nicht_verliehen))
-						{// begin while
-						$output .= "<tr class=\"msgrow".(($i%2)?1:2)."\">
-										<td width='100%'  class='shortbarbit_left'>
-											<input type='checkbox' name='leih_ids[]' value='".$out_nicht_leihe['id']."' onclick='countChecks(this)'>".$out_nicht_leihe['bezeichnung']."
-										</td>
-									</tr>";
-							$i++;
-						} // end while
+							while($out_nicht_leihe = $DB->fetch_array($sql_leihsystem_nicht_verliehen))
+							{// begin while
+							$output .= "<tr class=\"msgrow".(($i%2)?1:2)."\">
+											<td width='100%'  class='shortbarbit_left'>
+												<input type='checkbox' name='leih_ids[]' value='".$out_nicht_leihe['id']."' onclick='countChecks(this)'>".$out_nicht_leihe['bezeichnung']."
+											</td>
+										</tr>";
+								$i++;
+							} // end while
 
-						$output .= "		</tbody>
-									</table>
-									
-							<input type='submit' value=' W E I T E R ' />
-							</form>";
+		$output .= "	</tbody>
+					</table>
+				</td>
+				<td valign='top'>
+				<table width='100%' cellspacing='1' cellpadding='2' border='0'>
+						<tbody>";
 
-			$sql_leih_artikel = $DB->query("SELECT * FROM project_leih_article WHERE u_id = ".$u_id."");
+							while($out_leih_groups = $DB->fetch_array($sql_leih_groups))
+							{// begin while
+							$output .= "<tr class=\"msgrow".(($i%2)?1:2)."\">
+											<td width='100%'  class='shortbarbit_left'>
+												<input type='checkbox' name='group_ids[]' value='".$out_leih_groups['eg_group_id']."' onclick='countChecks(this)'>".$out_leih_groups['eg_group_bezeichnung']." 
+											</td>
+										</tr>";
+								$i++;
+							} // end while
 
+		$output .= "
+					</tbody>
+				</table>		
+				</td>
+			</tr>
+		</tbody>
+	</table>
+			
+	<input type='submit' value=' W E I T E R ' />
+	</form>";
+
+			$sql_leih_artikel = $DB->query("SELECT * FROM  project_leih_leihe AS l INNER JOIN project_equipment AS e ON l.id_leih_artikel = e.id WHERE l.id_leih_user = '".$u_id."'  AND l.rueckgabe_datum = '0000-00-00 00:00:00' ");
+			if(mysql_num_rows($sql_leih_artikel) != 0)
+			{
 					$output .= "
 					<br />
 					<h3>Der User hat folgendes ausgeliehen<h3>
@@ -802,6 +738,7 @@ if($_GET['hide'] == "1")
 
 						$output .= "		</tbody>
 									</table>";
+			}
 
 
 

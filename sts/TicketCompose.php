@@ -8,14 +8,21 @@ $PAGE->sitetitle = $PAGE->htmltitle = _("Support-Ticket-System");
 
 $ticketid	= $_GET['ticketid'];
 
-$type 		= $_POST['type'];
-$queue 		= $_POST['queue'];
-$agent 		= $_POST['agent'];
-$titel 		= $_POST['titel'];
-$text 		= nl2br($_POST['user_eingabe']);
-$status 	= $_POST['status'];
-$prio 		= $_POST['prio'];
-$user 		= $_POST['user'];
+$type 					= $_POST['type'];
+$queue 					= $_POST['queue'];
+$agent 					= $_POST['agent'];
+$titel 					= $_POST['titel'];
+		$search = array("'","´"); 
+        $replace = array('',''); 
+		$text1 .= str_replace($search, $replace, $_POST['user_eingabe']);  
+$text 					= nl2br($text1);
+$status 				= $_POST['status'];
+$prio 					= $_POST['prio'];
+$user 					= $_POST['user'];
+$std_antwort_id			= $_POST['id_std_antwort'];
+$checkbox_save_changes 	= $_POST['antwort_save_changes'];
+$checkbox_save 			= $_POST['antwort_save'];
+$antwort_titel_save		= $_POST['antwort_titel_save'];
 
 $out_ticket =
 		$DB->fetch_array	(
@@ -59,6 +66,7 @@ $sql_ticket_zoom_antworten = $DB->query("
 if($_GET['action'] == "add")
 {
 //				an, von, Betreff, Betreff Zusatz, Nachricht, Ticket_ID
+
 	message($user, $user_id, 'Neue Antwort Ticket Nr. '.$ticketid, 'Support Ticket: ', $text, $ticketid);
 
 	if( $out_ticket['agent'] == 0)
@@ -122,6 +130,29 @@ if($_GET['action'] == "add")
 								`ticket_id` = ".$ticketid."
 						");
 
+						// Liefert: <body text='schwarz'>
+						
+	$out_user_name = $DB->fetch_array( $DB->query("
+											SELECT
+												*
+											FROM
+												user
+											WHERE
+												id = '".$out_ticket['user']."'
+											LIMIT 1
+
+										")
+									);
+					
+$new_text = str_replace("%NICK%", $out_user_name['nick'], $text);
+$new_text = str_replace("%VORNAME%", $out_user_name['vorname'], $new_text );
+$new_text = str_replace("%NACHNAME%", $out_user_name['nachname'], $new_text );
+$new_text = str_replace("%ONICK%", $CURRENT_USER->nick, $new_text);
+$new_text = str_replace("%OVORNAME%", $CURRENT_USER->vorname, $new_text );
+$new_text = str_replace("%ONACHNAME%", $CURRENT_USER->nachname, $new_text );
+
+
+
 	$insert=$DB->query	("
 													INSERT INTO
 														`project_ticket_antworten`
@@ -141,12 +172,13 @@ if($_GET['action'] == "add")
 															'".$user_id."',
 															'".$datum."',
 															'".$titel."',
-															'".$text."',
+															'".$new_text."',
 															'".$ticketid."',
 															'".$prio."',
 															'".$type."'
 														);"
 												);
+												
 
 	$out_ticket_show_ticketdata =
 							$DB->fetch_array(
@@ -170,8 +202,17 @@ if($_GET['action'] == "add")
 																		id='".$out_ticket_show_ticketdata['user']."'
 																")
 												);
+	if(isset($checkbox_save_changes ))
+	{	$std_antwort_id = $_GET['std_antwort_id'];
+		$output .=  antwort_save_changes($std_antwort_id,$text);		
+	}
+	if(isset($checkbox_save ))
+	{
+		$output =  antwort_save($antwort_titel_save,$text);
+		//$output .= $antwort_titel_save;
+	}
 	$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Die Antwort aus das Ticket: ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde gesendet <br>Nachricht: <br> ".$text.".");
-
+	
 }
 
 /*###########################################################################################
@@ -187,20 +228,80 @@ include("news.php");
 $output .=
 "
 <a href='TicketZoom.php?ticketid=".$ticketid."'>[ Zur&uuml;ck ]</a>
-<form name='antwort' method='post' action='?action=add&ticketid=".$out_ticket['id']."'>
-	<input type='hidden' name='type' value='agent'>
-	<input type='hidden' name='titel' value='Antwort durch ".$CURRENT_USER->vorname." ".$CURRENT_USER->nachname." hinzugefügt.'>
-	<input type='hidden' name='user' value='".$out_ticket['user']."'>
+
 	<table width='100%' border='0'>
 		<tbody>
 
                         <tr>
-                            <td class='contentkey'>Text:</td>
+                            <td class='contentkey'>Standard Antwort:</td>
+                            <td class='contentvalue'>";
+							
+							$sql_list_std_antworten = $DB->query("SELECT * FROM project_ticket_std_antworten");
+							if(mysql_num_rows($sql_list_std_antworten) > 0)
+							{
+$output .= "							
+							<form name='std_antwort' action='?ticketid=".$_GET['ticketid']."&action=std_antwort' method='POST'>	
+								<select name='id_std_antwort' onChange='document.std_antwort.submit()'>
+								
+									<option value='NOK' selected>Standard Antwort ausw&auml;hlen</option>
+									
+";										
+											while($out_list_std_antworten = $DB->fetch_array($sql_list_std_antworten))
+											{// begin while
+												$output .= "
+													<option value='".$out_list_std_antworten['id']."'>".$out_list_std_antworten['std_titel']."</option>
+												";
+											}
+											if($_GET['action'] == "std_antwort")
+											{
+											$std_antwort = $DB->fetch_array($DB->query("SELECT * FROM project_ticket_std_antworten WHERE id = ".$std_antwort_id." "));
+											//echo $std_antwort_id = $std_antwort['id'];
+											}
+																	
+											$output .= "
+								</select>
+							</form>";
+							}
+							$output .= "
+							
+							<form name='antwort' method='post' action='?action=add&ticketid=".$out_ticket['id']."&std_antwort_id=".$std_antwort_id."'>
+							<input type='hidden' name='type' value='agent'>
+							<input type='hidden' name='titel' value='Antwort durch ".$CURRENT_USER->vorname." ".$CURRENT_USER->nachname." hinzugefügt.'>
+							<input type='hidden' name='user' value='".$out_ticket['user']."'>
+							</td>
+						</tr>
+						<tr>
+                            <td class='contentkey'>Text: 
+							<br><br> Variablen die verwendet werden k&ouml;nnen: <br> <b>%NICK%</b> <br> <b>%VORNAME%</b> <br> <b>%NACHNAME%</b>
+							<br><br><br> Orga Variablen: <br> <b>%ONICK%</b> <br> <b>%OVORNAME%</b> <br> <b>%ONACHNAME%</b>
+							</td>
                             <td class='contentvalue'>
-									<textarea wrap='hard'name='user_eingabe'  rows='15' cols='60' style='background: none repeat scroll 0 0 buttonface;'></textarea>
+								<textarea wrap='hard'name='user_eingabe'  rows='15' cols='60' style='background: none repeat scroll 0 0 buttonface;'>".strip_tags($std_antwort['std_antwort'])."</textarea>
                             </td>
-                        </tr>
-
+                        </tr>";
+						
+						if($_GET['action'] == "std_antwort")
+						{
+$output .= "						
+						 <tr>
+                            <td class='contentkey'>&Auml;nderungen der Antwort speichern?</td>
+                            <td class='contentvalue'>
+							<input type='checkbox' name='antwort_save_changes'>
+							</td>
+						</tr>";
+						}
+						else
+						{
+$output .= "						
+						 <tr>
+                            <td class='contentkey'>Antwort als Vorlage speichern?</td>
+                            <td class='contentvalue'>
+							Titel: <input type='text' name='antwort_titel_save' size='60' ><input type='checkbox' name='antwort_save'>
+							</td>
+						</tr>";
+						}
+						
+$output .= "						
                         <tr>
                             <td class='contentkey'>Status des Tickets:</td>
                             <td class='contentvalue'>
@@ -645,6 +746,9 @@ $output .=
 
 $iCount ++;
 }
+
+
+
 
 }
 // ENDE darf Sehen

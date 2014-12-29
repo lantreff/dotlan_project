@@ -131,24 +131,49 @@ if (IsSet ($_POST['suche'] ) ) // nur wenn im fled suchen etwas eingegeben wurde
 												");
 				}
 				else {
-
-				$sql_ticket_queue_list = $DB->query("
-													SELECT
-														*
-													FROM
-														project_ticket_ticket
-													LEFT JOIN
-														project_ticket_sperre ON project_ticket_ticket.sperre = project_ticket_sperre.sperre_id
-													WHERE
-														queue = ".$queueid."
-													AND
-														( status <> 1  AND  status <> 2 )
-													ORDER BY
-														".$sort."
-														".$order."
-													LIMIT
-														".$start.", ".$eintraege_pro_seite."
-												");
+				if($_GET['new'] == 1)
+				{
+					$sql = "
+								SELECT
+									*
+								FROM
+									project_ticket_ticket
+								LEFT JOIN
+									project_ticket_sperre ON project_ticket_ticket.sperre = project_ticket_sperre.sperre_id
+								WHERE
+									queue = ".$queueid."
+								AND
+									status = 3
+								AND 
+									agent = 0
+								ORDER BY
+									".$sort."
+									".$order."
+								LIMIT
+									".$start.", ".$eintraege_pro_seite."
+							";
+				}
+				else
+				{
+					$sql = "
+								SELECT
+									*
+								FROM
+									project_ticket_ticket
+								LEFT JOIN
+									project_ticket_sperre ON project_ticket_ticket.sperre = project_ticket_sperre.sperre_id
+								WHERE
+									queue = ".$queueid."
+								AND
+									( status <> 1  AND  status <> 2  AND agent <> 0)
+								ORDER BY
+									".$sort."
+									".$order."
+								LIMIT
+									".$start.", ".$eintraege_pro_seite."
+							";
+	}
+				$sql_ticket_queue_list = $DB->query($sql);
 				}
 //$sql_ticket_queue_list = $DB->query("SELECT * FROM `project_ticket_ticket` WHERE queue = ".$queueid." ");
 

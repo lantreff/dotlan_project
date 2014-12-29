@@ -1392,16 +1392,16 @@ $output .= "
 									</tr>
 									<tr class='msgrow1'>
 										<td >
-											<input name='ip' value='".$_GET['ip']."' size='10' type='text' maxlength='15'>
+											<input name='ip' value='".$_GET['ip']."' size='40' type='text' maxlength='39'>
 										</td>
 										<td >
-											<input name='bezeichnung' value='' size='35' type='text' maxlength='50'>
+											<input name='bezeichnung' value='' size='50' type='text' maxlength='150'>
 										</td>
 										<td >
-											<input name='mac' value='' size='17' type='text' maxlength='17'>
+											<input name='mac' value='' size='20' type='text' maxlength='17'>
 										</td>
 										<td >
-											<input name='dns' value='' size='20' type='text' maxlength='25'>
+											<input name='dns' value='' size='30' type='text' maxlength='250'>
 										</td>
 										<td >
 
@@ -1493,16 +1493,16 @@ $output .= "
 									</tr>
 									<tr class='msgrow1'>
 										<td >
-											<input name='ip' value='".$out_edit_ipliste['ip']."' size='10' type='text' maxlength='15'>
+											<input name='ip' value='".$out_edit_ipliste['ip']."' size='40' type='text' maxlength='39'>
 										</td>
 										<td>
-											<input name='bezeichnung' value='".$out_edit_ipliste['bezeichnung']."' size='35' type='text' maxlength='50'>
+											<input name='bezeichnung' value='".$out_edit_ipliste['bezeichnung']."' size='50' type='text' maxlength='150'>
 										</td>
 										<td >
-											<input name='mac' value='".$out_edit_ipliste['mac']."' size='17' type='text' maxlength='17'>
+											<input name='mac' value='".$out_edit_ipliste['mac']."' size='20' type='text' maxlength='17'>
 										</td>
 										<td >
-											<input name='dns' value='".$out_edit_ipliste['dns']."' size='20' type='text' maxlength='25'>
+											<input name='dns' value='".$out_edit_ipliste['dns']."' size='30' type='text' maxlength='250'>
 										</td>
 										<td >
 

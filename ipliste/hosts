@@ -1,0 +1,358 @@
+## Lokales Netzwerk
+#  = IP =     =  Domainname =    = Rechnername =
+#Orga
+10.10.0.1		jbroens.maxlan.de		#Jens Broens
+10.10.0.2		jbroens1.maxlan.de		#Jens Broens
+10.10.0.3		fbethke.maxlan.de		#Florian Bethke
+10.10.0.4		fbethke1.maxlan.de		#Florian Bethke
+10.10.0.5		fhoelscher.maxlan.de		#Florian Hoelscher
+10.10.0.6		fhoelscher1.maxlan.de		#Florian Hoelscher
+10.10.0.7		wstephan.maxlan.de		#Werner Stephan
+10.10.0.8		wstephan1.maxlan.de		#Werner Stephan
+10.10.0.9		tostermann.maxlan.de		#Torsten Ostermann
+10.10.0.10		tostermann1.maxlan.de		#Torsten Ostermann
+10.10.0.11		bjohannsen.maxlan.de		#Bjoern Johannsen
+10.10.0.12		bjohannsen1.maxlan.de		#Bjoern Johannsen
+10.10.0.13		tamshove.maxlan.de		#Torsten Amshove
+10.10.0.14		tamshove1.maxlan.de		#Torsten Amshove
+10.10.0.15		tlakeberg.maxlan.de		#Thomas Lakeberg
+10.10.0.16		tlakeberg1.maxlan.de		#Thomas Lakeberg
+10.10.0.17		lmonden.maxlan.de		#Lutz Monden
+10.10.0.18		lmonden1.maxlan.de		#Lutz Monden
+10.10.0.21		ahueser.maxlan.de		#André Hueser
+10.10.0.22		ahueser1.maxlan.de		#André Hueser
+10.10.0.23		ckruse.maxlan.de		#Christian Kruse
+10.10.0.24		ckruse1.maxlan.de		#Christian Kruse
+10.10.0.25		lahrens.maxlan.de		#Lisa Ahrens
+10.10.0.26		lahrens1.maxlan.de		#Lisa Ahrens
+10.10.0.27		wsnieders.maxlan.de		#Wilfried Snieders
+10.10.0.28		wsnieders1.maxlan.de		#Wilfried Snieders
+10.10.0.29		mschnieders.maxlan.de		#Marco Schnieders
+10.10.0.30		mschnieders1.maxlan.de		#Marco Schnieders
+10.10.0.31		cegbers.maxlan.de		#Christian Egbers
+10.10.0.32		cegbers1.maxlan.de		#Christian Egbers
+10.10.0.33		cerdbrink.maxlan.de		#Christoph Erdbrink
+10.10.0.34		cerdbrink1.maxlan.de		#Christoph Erdbrink
+10.10.0.35		dgill.maxlan.de		#Daniel Gill
+10.10.0.36		dgill1.maxlan.de		#Daniel Gill
+10.10.0.37		jwester.maxlan.de		#Juergen Wester
+10.10.0.38		jwester1.maxlan.de		#Juergen Wester
+10.10.0.39		aringat.maxlan.de		#Arno Ringat
+10.10.0.40		aringat1.maxlan.de		#Arno Ringat
+10.10.0.41		pbarban.maxlan.de		#Peter Barban
+10.10.0.42		pbarban1.maxlan.de		#Peter Barban
+10.10.0.43		adecarne.maxlan.de		#Alex De Carne
+10.10.0.44		adecarne1.maxlan.de		#Alex De Carne
+10.10.0.45		npreuschoff.maxlan.de		#Nils Preuschoff
+10.10.0.46		npreuschoff1.maxlan.de		#Nils Preuschoff
+10.10.0.47		asommer.maxlan.de		#Andre Sommer
+10.10.0.48		asommer1.maxlan.de		#Andre Sommer
+10.10.0.49		rdamm.maxlan.de		#René Damm
+10.10.0.50		rdamm1.maxlan.de		#René Damm
+10.10.0.51		bmuys.maxlan.de		#Bennet Muys
+10.10.0.52		bmuys1.maxlan.de		#Bennet Muys
+10.10.0.99		broensnas.maxlan.de		#NAS Jens Broens
+#Drucker
+10.10.0.119		prt1.maxlan.de		#HP Laserjet 2420 TN (500 Blatt) Support
+10.10.0.120		prt2.maxlan.de		#HP Laserjet 2420 TN Checkin
+10.10.0.134		prt3.maxlan.de		#HP Color Laserjet CP1515n
+10.10.0.135		prt4.maxlan.de		#Brother HL1250 Catering
+#Telefone
+10.10.0.200		mxt002.maxlan.de		#220/120 - MXT002 - Cisco 7960 - WStephan/JBroens
+10.10.0.202		mxt025.maxlan.de		#110/150 - MXT025 - Cisco 7960 - TAmshove/CEgbers
+10.10.0.204		mxt026.maxlan.de		#210 - MXT026 - Cisco 7960 - Counter Support
+10.10.0.205		mxt013.maxlan.de		#310 - MXT013 - Cisco 7960 - Media
+10.10.0.206		mxt003.maxlan.de		#600 - MXT003 - Cisco 7940 - Check In
+10.10.0.209		mxt027.maxlan.de		#140/170 - MXT027 - Cisco 7960 - CErdbrink/ARingat
+10.10.0.211		mxt028.maxlan.de		#230/250 - MXT028 - Cisco 7960 - FBethke / WSnieders
+10.10.0.215		mxt004.maxlan.de		#410 - MXT004 - Cisco 7940 - Theke
+10.10.0.222		mxt008.maxlan.de		#500 - MXT008 - Cisco 7940 - Hardware VK
+#Thin Clients LTSP
+10.10.0.240		tetc02.maxlan.de		#TETC02
+10.10.0.241		tetc01.maxlan.de		#TETC01
+10.10.0.242		mxtc01.maxlan.de		#MXTC01
+10.10.0.243		mxct02.maxlan.de		#MXCT02
+10.10.0.244		mxtco3.maxlan.de		#MXTC03
+#Diensteserver
+10.10.1.1		router.maxlan.de		#Router (eth0)
+10.10.1.3		proxy.maxlan.de		#nginx Cache
+10.10.1.110		dev.maxlan.de		#Entwicklungsserver
+10.10.1.240		survail.maxlan.de		#MXS012 - Blade - Videoueberwachung - SURVAIL - 8843
+10.10.1.241		ltsp.maxlan.de		#LTSP
+10.10.1.245		xtube.maxlan.de		#xtube eth0
+10.10.1.247		www2.maxlan.de		#intranet alt mit apache
+10.10.1.248		dns.maxlan.de		#SNXS03 - Diensteserver neu - temp
+10.10.1.249		backup.maxlan.de		#Backup-Server
+10.10.1.250		ftp.maxlan.de		#xtube eth1 - Maxlan ftp Server
+10.10.1.251		net.maxlan.de		#Netzwerktool
+10.10.1.252		lan.maxlan.de		#Intranet (Dotlan) NEU MIT NGINX
+10.10.1.252		gswi.maxlan.de		#Intranet (Dotlan) NEU MIT NGINX
+10.10.1.253		dns.maxlan.de		#Dienste (DNS, WINS) - virtuelle IP vom Diensteserv
+10.10.1.253		wins.maxlan.de		#Dienste (DNS, WINS) - virtuelle IP vom Diensteserv
+10.10.1.254		dienste.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
+10.10.1.254		irc.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
+10.10.1.254		ts3.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
+10.10.1.254		asterisk.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
+10.10.1.254		ftp.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
+10.10.1.254		mumble.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
+10.10.1.254		voice.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
+#IPCam
+10.10.1.6		cam-theke1.maxlan.de		#MXN018 - Theke1 - Vilar
+10.10.1.50		cam-konsolen.maxlan.de		#MXN019 - Konsolen - Vilar IP Cam
+10.10.1.51		cam-theke2.maxlan.de		#MXN020 - Theke2 - Vilar
+10.10.1.52		cam-kueche.maxlan.de		#Kueche - Foscam FI8908W, weiss
+10.10.1.53		cam-saal-tuer.maxlan.de		#Eingang Saal, Foscam FI8908W, weiss
+10.10.1.55		cam-checkin.maxlan.de		#MXN028 - Checkin - Vilar IP Cam
+#Switch
+10.10.1.2		backbone.maxlan.de		#Black Diamond 6808
+10.10.1.4		backbone-bak.maxlan.de		#HP 5308XL (Backup - SNMP muss noch eingestellt werden)
+10.10.1.4		backbone.maxlan.de		#HP 2510-48G (temp! - wechsel auf 10.10.1.2 prod)
+10.10.1.17		backup1.maxlan.de		#Nortel BayStack 420-24T / MXN031 / BACKUP 1
+10.10.1.18		backup2.maxlan.de		#Nortel BayStack 420-24T / MXN032 / BACKUP 2
+10.10.1.19		backup3.maxlan.de		#Nortel BayStack 420-24T / MXN032 / BACKUP 3
+10.10.1.20		vip1.maxlan.de		#HP 1800-24G / CN839ZPH4C / CErdbrink (VIP1)
+10.10.1.21		vip2.maxlan.de		#HP 1810-24G / CN9522G1L3 / CErdbrink (VIP2)
+10.10.1.22		theke.maxlan.de		#HP 2524 / SG21962814 / CErdbrink (Theke)
+10.10.1.23		orga1.maxlan.de		#HP 2626 / CN624SE3B3 / CErdbrink (Orga)
+10.10.1.24		orga2.maxlan.de		#HP 2626 / CN717SE1BU / CErdbrink (Orga)
+10.10.1.25		blocka.maxlan.de		#HP 2626 / CN722SE0FY / CErdbrink / BLOCK A
+10.10.1.26		blockb.maxlan.de		#HP 2626 / CN629SE24Z / CErdbrink / BLOCK B
+10.10.1.27		checkin.maxlan.de		#HP 2524 / SG21401142 / CErdbrink (Check-In)
+10.10.1.33		blockc.maxlan.de		#HP 2626 / TW542SE0GJ / BLOCK C
+10.10.1.34		blockd.maxlan.de		#HP 2626 / TW542SE1DZ / BLOCK D
+10.10.1.35		blocke.maxlan.de		#HP 2626 / CN712SE38E / BLOCK E
+10.10.1.36		blockf.maxlan.de		#HP 2626 / CN639SE1VJ / BLOCK F
+10.10.1.37		blockg.maxlan.de		#HP 2620-24 / CN44DRR2Y2 / BLOCK G
+#Accesspoint
+10.10.1.31		ap-voip-2.maxlan.de		#TP-Link TL-WR1043ND
+#Gameserver
+10.10.1.100		gmaster.maxlan.de		#Gamemaster / LS20
+10.10.1.101		game01.maxlan.de		#Game 01 / LS21
+10.10.1.102		game02.maxlan.de		#Game 02 / LS21
+10.10.1.103		game03.maxlan.de		#Game 03 / LS21
+10.10.1.104		game04.maxlan.de		#Game 04 / HS21
+10.10.1.105		game05.maxlan.de		#Game 05 / HS21
+10.10.1.106		game06.maxlan.de		#Game 06 / HS21
+#Bladecenter
+10.10.1.242		black.maxlan.de		#MGMT
+10.10.1.243		black-eth0.maxlan.de		#Switch 1 Bladecenter
+10.10.1.244		black-eth1.maxlan.de		#Switch 2 Bladecenter
+#Block-A
+10.10.2.1		Platz-A-01.maxlan.de		#Platz A-01
+10.10.2.2		Platz-A-02.maxlan.de		#Platz A-02
+10.10.2.3		Platz-A-03.maxlan.de		#Platz A-03
+10.10.2.4		Platz-A-04.maxlan.de		#Platz A-04
+10.10.2.5		Platz-A-05.maxlan.de		#Platz A-05
+10.10.2.6		Platz-A-06.maxlan.de		#Platz A-06
+10.10.2.7		Platz-A-07.maxlan.de		#Platz A-07
+10.10.2.8		Platz-A-08.maxlan.de		#Platz A-08
+10.10.2.9		Platz-A-09.maxlan.de		#Platz A-09
+10.10.2.10		Platz-A-10.maxlan.de		#Platz A-10
+10.10.2.11		Platz-A-11.maxlan.de		#Platz A-11
+10.10.2.12		Platz-A-12.maxlan.de		#Platz A-12
+10.10.2.13		Platz-A-13.maxlan.de		#Platz A-13
+10.10.2.14		Platz-A-14.maxlan.de		#Platz A-14
+10.10.2.15		Platz-A-15.maxlan.de		#Platz A-15
+10.10.2.16		Platz-A-16.maxlan.de		#Platz A-16
+10.10.2.17		Platz-A-17.maxlan.de		#Platz A-17
+10.10.2.18		Platz-A-18.maxlan.de		#Platz A-18
+10.10.2.19		Platz-A-19.maxlan.de		#Platz A-19
+10.10.2.20		Platz-A-20.maxlan.de		#Platz A-20
+10.10.2.21		Platz-A-21.maxlan.de		#Platz A-21
+10.10.2.22		Platz-A-22.maxlan.de		#Platz A-22
+10.10.2.23		Platz-A-23.maxlan.de		#Platz A-23
+10.10.2.24		Platz-A-24.maxlan.de		#Platz A-24
+#Block-B
+10.10.3.1		Platz-B-01.maxlan.de		#Platz B-01
+10.10.3.2		Platz-B-02.maxlan.de		#Platz B-02
+10.10.3.3		Platz-B-03.maxlan.de		#Platz B-03
+10.10.3.4		Platz-B-04.maxlan.de		#Platz B-04
+10.10.3.5		Platz-B-05.maxlan.de		#Platz B-05
+10.10.3.6		Platz-B-06.maxlan.de		#Platz B-06
+10.10.3.7		Platz-B-07.maxlan.de		#Platz B-07
+10.10.3.8		Platz-B-08.maxlan.de		#Platz B-08
+10.10.3.9		Platz-B-09.maxlan.de		#Platz B-09
+10.10.3.10		Platz-B-10.maxlan.de		#Platz B-10
+10.10.3.11		Platz-B-11.maxlan.de		#Platz B-11
+10.10.3.12		Platz-B-12.maxlan.de		#Platz B-12
+10.10.3.13		Platz-B-13.maxlan.de		#Platz B-13
+10.10.3.14		Platz-B-14.maxlan.de		#Platz B-14
+10.10.3.15		Platz-B-15.maxlan.de		#Platz B-15
+10.10.3.16		Platz-B-16.maxlan.de		#Platz B-16
+10.10.3.17		Platz-B-17.maxlan.de		#Platz B-17
+10.10.3.18		Platz-B-18.maxlan.de		#Platz B-18
+10.10.3.19		Platz-B-19.maxlan.de		#Platz B-19
+10.10.3.20		Platz-B-20.maxlan.de		#Platz B-20
+10.10.3.21		Platz-B-21.maxlan.de		#Platz B-21
+10.10.3.22		Platz-B-22.maxlan.de		#Platz B-22
+10.10.3.23		Platz-B-23.maxlan.de		#Platz B-23
+10.10.3.24		Platz-B-24.maxlan.de		#Platz B-24
+#Block-C
+10.10.4.1		Platz-C-01.maxlan.de		#Platz C-01
+10.10.4.2		Platz-C-02.maxlan.de		#Platz C-02
+10.10.4.3		Platz-C-03.maxlan.de		#Platz C-03
+10.10.4.4		Platz-C-04.maxlan.de		#Platz C-04
+10.10.4.5		Platz-C-05.maxlan.de		#Platz C-05
+10.10.4.6		Platz-C-06.maxlan.de		#Platz C-06
+10.10.4.7		Platz-C-07.maxlan.de		#Platz C-07
+10.10.4.8		Platz-C-08.maxlan.de		#Platz C-08
+10.10.4.9		Platz-C-09.maxlan.de		#Platz C-09
+10.10.4.10		Platz-C-10.maxlan.de		#Platz C-10
+10.10.4.11		Platz-C-11.maxlan.de		#Platz C-11
+10.10.4.12		Platz-C-12.maxlan.de		#Platz C-12
+10.10.4.13		Platz-C-13.maxlan.de		#Platz C-13
+10.10.4.14		Platz-C-14.maxlan.de		#Platz C-14
+10.10.4.15		Platz-C-15.maxlan.de		#Platz C-15
+10.10.4.16		Platz-C-16.maxlan.de		#Platz C-16
+10.10.4.17		Platz-C-17.maxlan.de		#Platz C-17
+10.10.4.18		Platz-C-18.maxlan.de		#Platz C-18
+10.10.4.19		Platz-C-19.maxlan.de		#Platz C-19
+10.10.4.20		Platz-C-20.maxlan.de		#Platz C-20
+10.10.4.21		Platz-C-21.maxlan.de		#Platz C-21
+10.10.4.22		Platz-C-22.maxlan.de		#Platz C-22
+10.10.4.23		Platz-C-23.maxlan.de		#Platz C-23
+10.10.4.24		Platz-C-24.maxlan.de		#Platz C-24
+#Block-D
+10.10.5.1		Platz-D-01.maxlan.de		#Platz D-01
+10.10.5.2		Platz-D-02.maxlan.de		#Platz D-02
+10.10.5.3		Platz-D-03.maxlan.de		#Platz D-03
+10.10.5.4		Platz-D-04.maxlan.de		#Platz D-04
+10.10.5.5		Platz-D-05.maxlan.de		#Platz D-05
+10.10.5.6		Platz-D-06.maxlan.de		#Platz D-06
+10.10.5.7		Platz-D-07.maxlan.de		#Platz D-07
+10.10.5.8		Platz-D-08.maxlan.de		#Platz D-08
+10.10.5.9		Platz-D-09.maxlan.de		#Platz D-09
+10.10.5.10		Platz-D-10.maxlan.de		#Platz D-10
+10.10.5.11		Platz-D-11.maxlan.de		#Platz D-11
+10.10.5.12		Platz-D-12.maxlan.de		#Platz D-12
+10.10.5.13		Platz-D-13.maxlan.de		#Platz D-13
+10.10.5.14		Platz-D-14.maxlan.de		#Platz D-14
+10.10.5.15		Platz-D-15.maxlan.de		#Platz D-15
+10.10.5.16		Platz-D-16.maxlan.de		#Platz D-16
+10.10.5.17		Platz-D-17.maxlan.de		#Platz D-17
+10.10.5.18		Platz-D-18.maxlan.de		#Platz D-18
+10.10.5.19		Platz-D-19.maxlan.de		#Platz D-19
+10.10.5.20		Platz-D-20.maxlan.de		#Platz D-20
+10.10.5.21		Platz-D-21.maxlan.de		#Platz D-21
+10.10.5.22		Platz-D-22.maxlan.de		#Platz D-22
+10.10.5.23		Platz-D-23.maxlan.de		#Platz D-23
+10.10.5.24		Platz-D-24.maxlan.de		#Platz D-24
+#Block-E
+10.10.6.1		Platz-E-01.maxlan.de		#Platz E-01
+10.10.6.2		Platz-E-02.maxlan.de		#Platz E-02
+10.10.6.3		Platz-E-03.maxlan.de		#Platz E-03
+10.10.6.4		Platz-E-04.maxlan.de		#Platz E-04
+10.10.6.5		Platz-E-05.maxlan.de		#Platz E-05
+10.10.6.6		Platz-E-06.maxlan.de		#Platz E-06
+10.10.6.7		Platz-E-07.maxlan.de		#Platz E-07
+10.10.6.8		Platz-E-08.maxlan.de		#Platz E-08
+10.10.6.9		Platz-E-09.maxlan.de		#Platz E-09
+10.10.6.10		Platz-E-10.maxlan.de		#Platz E-10
+10.10.6.11		Platz-E-11.maxlan.de		#Platz E-11
+10.10.6.12		Platz-E-12.maxlan.de		#Platz E-12
+10.10.6.13		Platz-E-13.maxlan.de		#Platz E-13
+10.10.6.14		Platz-E-14.maxlan.de		#Platz E-14
+10.10.6.15		Platz-E-15.maxlan.de		#Platz E-15
+10.10.6.16		Platz-E-16.maxlan.de		#Platz E-16
+10.10.6.17		Platz-E-17.maxlan.de		#Platz E-17
+10.10.6.18		Platz-E-18.maxlan.de		#Platz E-18
+10.10.6.19		Platz-E-19.maxlan.de		#Platz E-19
+10.10.6.20		Platz-E-20.maxlan.de		#Platz E-20
+10.10.6.21		Platz-E-21.maxlan.de		#Platz E-21
+10.10.6.22		Platz-E-22.maxlan.de		#Platz E-22
+10.10.6.23		Platz-E-23.maxlan.de		#Platz E-23
+10.10.6.24		Platz-E-24.maxlan.de		#Platz E-24
+#Block-F
+10.10.7.1		Platz-F-01.maxlan.de		#Platz F-01
+10.10.7.2		Platz-F-02.maxlan.de		#Platz F-02
+10.10.7.3		Platz-F-03.maxlan.de		#Platz F-03
+10.10.7.4		Platz-F-04.maxlan.de		#Platz F-04
+10.10.7.5		Platz-F-05.maxlan.de		#Platz F-05
+10.10.7.6		Platz-F-06.maxlan.de		#Platz F-06
+10.10.7.7		Platz-F-07.maxlan.de		#Platz F-07
+10.10.7.8		Platz-F-08.maxlan.de		#Platz F-08
+10.10.7.9		Platz-F-09.maxlan.de		#Platz F-09
+10.10.7.10		Platz-F-10.maxlan.de		#Platz F-10
+10.10.7.11		Platz-F-11.maxlan.de		#Platz F-11
+10.10.7.12		Platz-F-12.maxlan.de		#Platz F-12
+10.10.7.13		Platz-F-13.maxlan.de		#Platz F-13
+10.10.7.14		Platz-F-14.maxlan.de		#Platz F-14
+10.10.7.15		Platz-F-15.maxlan.de		#Platz F-15
+10.10.7.16		Platz-F-16.maxlan.de		#Platz F-16
+10.10.7.17		Platz-F-17.maxlan.de		#Platz F-17
+10.10.7.18		Platz-F-18.maxlan.de		#Platz F-18
+10.10.7.19		Platz-F-19.maxlan.de		#Platz F-19
+10.10.7.20		Platz-F-20.maxlan.de		#Platz F-20
+10.10.7.21		Platz-F-21.maxlan.de		#Platz F-21
+10.10.7.22		Platz-F-22.maxlan.de		#Platz F-22
+10.10.7.23		Platz-F-23.maxlan.de		#Platz F-23
+10.10.7.24		Platz-F-24.maxlan.de		#Platz F-24
+#Block-G
+10.10.8.1		Platz-G-01.maxlan.de		#Platz G-01
+10.10.8.2		Platz-G-02.maxlan.de		#Platz G-02
+10.10.8.3		Platz-G-03.maxlan.de		#Platz G-03
+10.10.8.4		Platz-G-04.maxlan.de		#Platz G-04
+10.10.8.5		Platz-G-05.maxlan.de		#Platz G-05
+10.10.8.6		Platz-G-06.maxlan.de		#Platz G-06
+10.10.8.7		Platz-G-07.maxlan.de		#Platz G-07
+10.10.8.8		Platz-G-08.maxlan.de		#Platz G-08
+10.10.8.9		Platz-G-09.maxlan.de		#Platz G-09
+10.10.8.10		Platz-G-10.maxlan.de		#Platz G-10
+10.10.8.11		Platz-G-11.maxlan.de		#Platz G-11
+10.10.8.12		Platz-G-12.maxlan.de		#Platz G-12
+10.10.8.13		Platz-G-13.maxlan.de		#Platz G-13
+10.10.8.14		Platz-G-14.maxlan.de		#Platz G-14
+10.10.8.15		Platz-G-15.maxlan.de		#Platz G-15
+10.10.8.16		Platz-G-16.maxlan.de		#Platz G-16
+10.10.8.17		Platz-G-17.maxlan.de		#Platz G-17
+10.10.8.18		Platz-G-18.maxlan.de		#Platz G-18
+10.10.8.19		Platz-G-19.maxlan.de		#Platz G-19
+10.10.8.20		Platz-G-20.maxlan.de		#Platz G-20
+10.10.8.21		Platz-G-21.maxlan.de		#Platz G-21
+10.10.8.22		Platz-G-22.maxlan.de		#Platz G-22
+10.10.8.23		Platz-G-23.maxlan.de		#Platz G-23
+10.10.8.24		Platz-G-24.maxlan.de		#Platz G-24
+#Block-H
+10.10.9.1		Platz-H-01.maxlan.de		#Platz H-01
+10.10.9.2		Platz-H-02.maxlan.de		#Platz H-02
+10.10.9.3		Platz-H-03.maxlan.de		#Platz H-03
+10.10.9.4		Platz-H-04.maxlan.de		#Platz H-04
+10.10.9.5		Platz-H-05.maxlan.de		#Platz H-05
+10.10.9.6		Platz-H-06.maxlan.de		#Platz H-06
+10.10.9.7		Platz-H-07.maxlan.de		#Platz H-07
+10.10.9.8		Platz-H-08.maxlan.de		#Platz H-08
+10.10.9.9		Platz-H-09.maxlan.de		#Platz H-09
+10.10.9.10		Platz-H-10.maxlan.de		#Platz H-10
+10.10.9.11		Platz-H-11.maxlan.de		#Platz H-11
+10.10.9.12		Platz-H-12.maxlan.de		#Platz H-12
+10.10.9.13		Platz-H-13.maxlan.de		#Platz H-13
+10.10.9.14		Platz-H-14.maxlan.de		#Platz H-14
+10.10.9.15		Platz-H-15.maxlan.de		#Platz H-15
+10.10.9.16		Platz-H-16.maxlan.de		#Platz H-16
+10.10.9.17		Platz-H-17.maxlan.de		#Platz H-17
+10.10.9.18		Platz-H-18.maxlan.de		#Platz H-18
+10.10.9.19		Platz-H-19.maxlan.de		#Platz H-19
+10.10.9.20		Platz-H-20.maxlan.de		#Platz H-20
+10.10.9.21		Platz-H-21.maxlan.de		#Platz H-21
+10.10.9.22		Platz-H-22.maxlan.de		#Platz H-22
+10.10.9.23		Platz-H-23.maxlan.de		#Platz H-23
+10.10.9.24		Platz-H-24.maxlan.de		#Platz H-24
+#Block-V (VIP)
+10.10.10.1		Platz-V-01.maxlan.de		#Platz V-01
+10.10.10.2		Platz-V-02.maxlan.de		#Platz V-02
+10.10.10.3		Platz-V-03.maxlan.de		#Platz V-03
+10.10.10.4		Platz-V-04.maxlan.de		#Platz V-04
+10.10.10.5		Platz-V-05.maxlan.de		#Platz V-05
+10.10.10.6		Platz-V-06.maxlan.de		#Platz V-06
+10.10.10.7		Platz-V-07.maxlan.de		#Platz V-07
+10.10.10.8		Platz-V-08.maxlan.de		#Platz V-08
+10.10.10.9		Platz-V-09.maxlan.de		#Platz V-09
+10.10.10.10		Platz-V-10.maxlan.de		#Platz V-10
+10.10.10.11		Platz-V-11.maxlan.de		#Platz V-11
+10.10.10.12		Platz-V-12.maxlan.de		#Platz V-12
+10.10.10.13		Platz-V-13.maxlan.de		#Platz V-13
+10.10.10.14		Platz-V-14.maxlan.de		#Platz V-14
+10.10.10.15		Platz-V-15.maxlan.de		#Platz V-15
+10.10.10.16		Platz-V-16.maxlan.de		#Platz V-16
+10.10.10.17		Platz-V-17.maxlan.de		#Platz V-17
+10.10.10.18		Platz-V-18.maxlan.de		#Platz V-18

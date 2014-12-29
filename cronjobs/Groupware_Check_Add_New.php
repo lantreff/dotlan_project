@@ -31,7 +31,7 @@ while($out_data = $DB->fetch_array($data))
 				$empfaenger		= $out_mail_grp['email'];
 				
 				mail($empfaenger, $betreff, $email_text, $from);
-				echo "Mail an ".$out_mail_grp['email']." gesenddet<br>";
+				//echo "Mail an ".$out_mail_grp['email']." gesenddet<br>";
 			}
 			
 }

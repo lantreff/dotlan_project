@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/maxlan/dotlan_ticket/!svn/ver/6/trunk/ticket/barcode
+END
+barcode.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/maxlan/dotlan_ticket/!svn/ver/2/trunk/ticket/barcode/barcode.php
+END
+image.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/maxlan/dotlan_ticket/!svn/ver/6/trunk/ticket/barcode/image.php
+END
+c128aobject.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/maxlan/dotlan_ticket/!svn/ver/2/trunk/ticket/barcode/c128aobject.php
+END
+c39object.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/maxlan/dotlan_ticket/!svn/ver/2/trunk/ticket/barcode/c39object.php
+END
+lesser.txt
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/maxlan/dotlan_ticket/!svn/ver/2/trunk/ticket/barcode/lesser.txt
+END
+c128bobject.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/maxlan/dotlan_ticket/!svn/ver/2/trunk/ticket/barcode/c128bobject.php
+END
+debug.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/maxlan/dotlan_ticket/!svn/ver/2/trunk/ticket/barcode/debug.php
+END
+i25object.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/maxlan/dotlan_ticket/!svn/ver/2/trunk/ticket/barcode/i25object.php
+END
+c128cobject.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/maxlan/dotlan_ticket/!svn/ver/2/trunk/ticket/barcode/c128cobject.php
+END
+index.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/maxlan/dotlan_ticket/!svn/ver/2/trunk/ticket/barcode/index.php
+END

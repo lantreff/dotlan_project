@@ -7,24 +7,28 @@
 # admin/leisystem/export.php - Version 1.0                             #
 ########################################################################
 
+$MODUL_NAME = "leihsystem";
 include_once("../../../global.php");
 include("../functions.php");
 require('../fpdf16/fpdf.php');
 global $global;
 
+$URL = "http://".$_SERVER["SERVER_NAME"].$global['project_path']."leihsystem";
+//echo $URL;
+
 $event_id = $EVENT->next;
 $out_event  = $DB->fetch_array($DB->query("SELECT * FROM events WHERE id = '".$event_id."'  LIMIT 1"));
 $event_name = $out_event['name'];
 
-
-$user_id = $CURRENT_USER->id;
-$v_id 	= $_GET['v_id'];
-$leihID = $_GET['leihID'];
-
 $id_user 	= $_POST['userid']; // id des Gesuchten users aus der DB
-$e_id 	= $id_user;
+$user_id = $CURRENT_USER->id;
+$v_id 	= $user_id;
+$leihzusatz = substr(time(),-3);
+$leihID = $id_user.$leihzusatz;
+$leihID_long = sprintf("%07d",$leihID);
+
 // <daten des Gesuchten Users>
-	$u_id 		= $_POST['team'];
+	//$u_id 		= $_POST['team'];
 	$nick  		= $_POST['nick'];
 	$vorname  	= $_POST['vorname'];
 	$nachname  	= $_POST['nachname'];
@@ -32,102 +36,83 @@ $e_id 	= $id_user;
 	$plz  		= $_POST['plz'];
 	$ort  		= $_POST['ort'];
 	$geb  		= $_POST['geb'];
+	$leih_ids 	= $_POST['leih_ids'];
+	$group_ids 	= $_POST['group_ids'];
+	$anz_leih_ids = count($leih_ids);
 
 
-$sql = "SELECT id FROM project_leih_user WHERE id = '".$leihID."'";
+	$update=$DB->query(	"UPDATE user SET `vorname` = '".$vorname."', `nachname` = '".$nachname."', `strasse` = '".$strasse."', `plz` = '".$plz."', `wohnort` = '".$ort."', `geb` = '".$geb."' WHERE `id` = ".$id_user.";");
 
-$result  = $DB->query($sql);
-if(mysql_num_rows($result)==0)
- {
-    	//echo "Nicht gefunden";
+if($_POST["leih_ids"]){
+	 foreach($leih_ids as $lid ){
 
-		$insert_NEW_Leihe = $DB->query("INSERT INTO `project_leih_user` (id, nick, vorname, nachname, strasse, plz, wohnort, geb)VALUES ('".$id_user."', '".$nick."', '".$vorname."', '".$nachname."', '".$strasse."', '".$plz."', '".$ort."', '".$geb."')");
+		$key_leih .= " ('".$leihID."', '".$id_user."', '".$CURRENT_USER->id."', '".$lid."', '0', '".$event_id."', '".$datum."' ),";
 
+		$DB->query(	"UPDATE `project_equipment` SET `ausleihe` = 1  WHERE `id` = ".$lid.";" );
 
-		//echo "<br> User 11 ID: ".$id_user;
-		$output .= "Die Leihe wurde eingetragen ";
-
-		$anz_leih_ids = count($leih_ids);
-
-		for($y=0;$y<$anz_leih_ids;$y++)
-		{
-
-		$insert_NEW_Leihe = $DB-> query("
-										INSERT INTO
-											`project_leih_leihe`
-												(
-													`id`,
-													`id_leih_user`,
-													`id_leih_user_verleiher`,
-													`id_leih_artikel`,
-													`event_id`,
-													`leih_datum`
-												)
-													VALUES
-														(
-															NULL,
-															'".$id_user."',
-															'".$user_id."',
-															'".$leih_ids[$y]."',
-															'".$event_id."',
-															'".$datum."'
-														)
-										");
-
-		$update=$DB->query(	"UPDATE project_leih_article SET `ausleihe` = '1', `u_id` = '".$id_user."' WHERE `id` = ".$leih_ids[$y].";");
-
-
+		$sql_group_data = $DB-> query("SELECT * FROM project_equipment_equip_group WHERE id_equipment = '".$lid."'");
+		while($out_group_data = $DB->fetch_array($sql_group_data))
+		{// begin while
+			$DB->query(	"UPDATE `project_equipment_groups` SET `ausleihe` = 1  WHERE `id` = ".$out_group_data['id_group'].";" );
 		}
- }
-else
- {
-       // echo "gefunden";
-
-		$update=$DB->query(	"UPDATE project_leih_user SET `id` = '".$id_user."', `nick` = '".$nick."', `vorname` = '".$vorname."', `nachname` = '".$nachname."', `strasse` = '".$strasse."', `plz` = '".$plz."', `wohnort` = '".$ort."', `geb` = '".$geb."' WHERE `id` = ".$id_user.";");
-
-
-			$output .= "Die Leihe wurde eingetragen ";
-
-		$anz_leih_ids = count($leih_ids);
-
-		for($b=0;$b<$anz_leih_ids;$b++)
-		{
-		$out_artikel_data = $DB->fetch_array( $DB-> query("SELECT * FROM project_leih_article WHERE id = '".$leih_ids[$b]."'") );
-		$insert_NEW_Leihe = $DB-> query("
-										INSERT INTO
-											`project_leih_leihe`
-												(
-													`id`,
-													`id_leih_user`,
-													`id_leih_user_verleiher`,
-													`id_leih_artikel`,
-													`event_id`,
-													`leih_datum`
-												)
-												VALUES
-													(
-														NULL,
-														'".$id_user."',
-														'".$user_id."',
-														'".$leih_ids[$b]."',
-														'".$event_id."',
-														'".$datum."'
-													)
-										");
-		$update=$DB->query(	"UPDATE project_leih_article SET `ausleihe` = '1', `u_id` = '".$id_user."' WHERE `id` = ".$leih_ids[$b].";");
-
-
 		}
+	$key_leih = substr($key_leih,0,-1);
 
+		$DB->query("INSERT INTO project_leih_leihe (`id`, `id_leih_user`, `id_leih_user_verleiher`, `id_leih_artikel`, `id_leih_gruppe`, `event_id`, `leih_datum`) VALUES $key_leih;");
 }
+if($_POST["group_ids"]){
+	 foreach($group_ids as $gid ){
+
+		$key_grp .= " ('".$leihID."', '".$id_user."', '".$CURRENT_USER->id."', '0', '".$gid."', '".$event_id."', '".$datum."' ),";
 
 
-$sql_verleiher = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$v_id."'  LIMIT 1"));
+		$DB->query(	"UPDATE `project_equipment_groups` SET `ausleihe` = 1  WHERE `id` = ".$gid.";" );
 
-$sql_entleiher  = $DB->fetch_array($DB->query("SELECT * FROM project_leih_user WHERE id = '".$e_id."'  LIMIT 1"));
+		$sql_artikel_data = $DB-> query("SELECT * FROM project_equipment_equip_group WHERE id_group = '".$gid."'");
+		while($out_artikel_data = $DB->fetch_array($sql_artikel_data))
+		{// begin while
+			$DB->query(	"UPDATE `project_equipment` SET `ausleihe` = 1  WHERE `id` = ".$out_artikel_data['id_equipment'].";" );
+		}
+		}
+
+		//$out_artikel_data = $DB->fetch_array( $DB-> query("SELECT * FROM project_equipment_equip_group WHERE id_group = '".$gid."'") );
+
+	$key_grp = substr($key_grp,0,-1);
+
+		$DB->query("INSERT INTO project_leih_leihe (`id`, `id_leih_user`, `id_leih_user_verleiher`, `id_leih_artikel`, `id_leih_gruppe`, `event_id`, `leih_datum`) VALUES $key_grp;");
+}
+	/*	 foreach($leih_ids as &$a ) {
+		//$out_artikel_data = $DB->fetch_array( $DB-> query("SELECT * FROM project_equipment WHERE id = '".$leih_ids[$b]."'") );
+		$DB->query("	INSERT INTO
+									`project_leih_leihe`(
+															`id`,
+															`id_leih_user`,
+															`id_leih_user_verleiher`,
+															`id_leih_artikel`,
+															`event_id`,
+															`leih_datum`
+														)
+														VALUES	(
+																	'".$leihID."',
+																	'".$id_user."',
+																	'".$user_id."',
+																	'".$a."',
+																	'".$event_id."',
+																	'".$datum."'
+																);
+										");
+
+				$update=$DB->query(	"UPDATE `project_equipment` SET `ausleihe` = 1  WHERE `id` = ".$a.";" );
+
+		}
+	*/
+
+$sql_verleiher = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$CURRENT_USER->id."'  LIMIT 1"));
+
+$sql_entleiher  = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$id_user."'  LIMIT 1"));
 
 
-$sql_sitz  = $DB->fetch_array($DB->query("SELECT * FROM event_teilnehmer WHERE event_id = '".$event_id."' AND user_id = '".$e_id."' LIMIT 1"));
+$sql_sitz  = $DB->fetch_array($DB->query("SELECT * FROM event_teilnehmer WHERE event_id = '".$event_id."' AND user_id = '".$id_user."' LIMIT 1"));
 $text ="Haftung
 Die Benutzer/-innen sind verpflichtet, die entliehenen Artikel mit Sorgfalt zu behandeln und sie vor Veränderung, Verschmutzung und Beschädigung zu bewahren. Wer Artikel ausleiht, hat sich deshalb beim Support zu überzeugen,dass sie keine Schäden oder Mängel aufweisen. Melden sie einen Schaden nicht an, erkennen sie an, dass sie die Artikel in ordnungsgemäßem Zustand erhalten haben. Die Benutzer/-innen haften für die auf seinen/ihren Namen entliehenen Artikel.
 
@@ -205,7 +190,9 @@ $unterschriftruek1 = (utf8_decode($text_2));
   # Leerraum
   $pdf->Cell(0,5,'');
   $pdf->Ln();
+  # Barcode
 
+  $pdf->Image($URL."/barcode/image.php?code=".$leihID_long."&tmp=.png",140,30,50);
   # Entleiher Block
   $pdf->SetFont('Arial','B',10);
   $pdf->Cell(22,4,"Entleiher");
@@ -273,13 +260,35 @@ $unterschriftruek1 = (utf8_decode($text_2));
   $pdf->Cell(0,4,'');
   $pdf->Ln();
   #Auflistung Artikel
-  $sql_article  = $DB->query("SELECT * FROM project_leih_article WHERE u_id = '".$e_id."'");
 
-  while($out_list_article =   $DB->fetch_array($sql_article))
-{
-  $pdf->SetFont('Arial','',10);
-  $pdf->Cell(30,4,$out_list_article['bezeichnung']);
-  $pdf->Ln();
+	$sql_article  = $DB->query("SELECT * FROM  project_leih_leihe AS l INNER JOIN project_equipment AS e ON l.id_leih_artikel = e.id WHERE l.id_leih_user = '".$id_user."' AND l.id = '".$leihID."' "); //AND l.rueckgabe_datum = '0000-00-00 00:00:00'
+if(mysql_num_rows($sql_article) != 0){
+	while($out_list_article =   $DB->fetch_array($sql_article))
+	{
+	  $pdf->SetFont('Arial','',10);
+	  $pdf->Cell(30,4,$out_list_article['bezeichnung']);
+	  $pdf->Ln();
+	}
+}
+
+	$sql_leih_groups  = $DB->query("SELECT *,l.id_leih_gruppe as  lg FROM  project_leih_leihe AS l INNER JOIN project_equipment_groups AS e ON l.id_leih_gruppe = e.id  WHERE l.id = '".$leihID."' AND l.rueckgabe_datum = '0000-00-00 00:00:00'");
+	//$sql_leih_groups  = $DB->query("SELECT *, eg.bezeichnung AS eg_group_bezeichnung, eg.id eg_group_id FROM  project_equipment AS e INNER JOIN project_equipment_equip_group AS g ON g.id_equipment = e.id, project_equipment_groups AS eg, project_leih_leihe AS l WHERE  l.id = '".$leihID."'  GROUP BY eg.id"); // WHERE l.id_leih_user = '".$id_user."' AND  l.rueckgabe_datum = '0000-00-00 00:00:00'
+if(mysql_num_rows($sql_leih_groups) != 0){
+	while($out_leih_groups =   $DB->fetch_array($sql_leih_groups))
+	{
+		$pdf->SetFont('Arial','',10);
+		$pdf->Cell(30,4,$out_leih_groups['bezeichnung']);
+		$pdf->Ln();
+
+	$sql_leih_groups_artikel  = $DB->query("SELECT * FROM project_equipment_equip_group WHERE id_group = '".$out_leih_groups['lg']."'");
+	while($out_leih_groups_artikel =   $DB->fetch_array($sql_leih_groups_artikel))
+	{
+		$out_leih_groups_artikel_bezeichnung  = $DB->fetch_array( $DB->query("SELECT * FROM project_equipment WHERE id = '".$out_leih_groups_artikel['id_equipment']."'") );
+	  $pdf->SetFont('Arial','',10);
+	  $pdf->Cell(30,4,"- ".$out_leih_groups_artikel_bezeichnung['bezeichnung']);
+	  $pdf->Ln();
+	}
+}
 }
   # Leerraum
   $pdf->Cell(0,1,'');

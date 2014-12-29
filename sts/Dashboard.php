@@ -31,6 +31,8 @@ $sql_tickets_neu = "
 						project_ticket_ticket
 					WHERE
 						( status = 3 AND sperre = '1' )
+					AND
+						agent = 0
 					ORDER BY
 						".$sort."
 						".$order."

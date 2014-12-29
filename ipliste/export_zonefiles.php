@@ -7,7 +7,15 @@
 # admin/ipliste/export_dns.php - Version 1.0                           #
 ########################################################################
 
-$MODUL_NAME = "ipliste";
+## Auskommentiert, da in functions.php vorhanden.
+# function umlaute_ersetzen($text){
+# $such_array  = array ('ä', 'ö', 'ü', 'ß');
+# $ersetzen_array = array ('ae', 'oe', 'ue', 'ss');
+# $neuer_text  = str_replace($such_array, $ersetzen_array, $text);
+# return $neuer_text;
+# }
+
+
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -82,17 +90,17 @@ $sql_list_category = $DB->query("SELECT category FROM project_ipliste WHERE ip L
 							fWrite($handler , "#".$out_list_category['category']."\n");
 							fClose($handler); // Datei schließen
 
-			$sql_list_ip = $DB->query("SELECT * FROM project_ipliste WHERE category = '".$out_list_category['category']."' AND ip LIKE  '%10.10%' ORDER BY inet_aton(ip)");
+			$sql_list_ip = $DB->query("SELECT * FROM project_ipliste WHERE category = '".$out_list_category['category']."' AND ip LIKE  '%10.10%' AND dns != '' ORDER BY inet_aton(ip)");
 #Table
 			while($out_list_ip = $DB->fetch_array($sql_list_ip))
 						{// begin while
 
 							$teile = explode(",", str_replace(' ','',$out_list_ip['dns']));
-							
+
 							foreach($teile as $list_dns)
 								{
 									$text = $out_list_ip['ip']."\t\t".$list_dns.".".$out_list_ip['lan']."\t\t#".umlaute_ersetzen($out_list_ip['bezeichnung'])."\n";
-								
+
 									// Datei öffnen,
 									// wenn nicht vorhanden dann wird die Datei erstellt.
 									$handler = fopen($datei , "a+");
@@ -104,7 +112,7 @@ $sql_list_category = $DB->query("SELECT category FROM project_ipliste WHERE ip L
 						}
 
 					}
-				
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 echo "<meta http-equiv='refresh' content='0; URL=".$dir."'>";
