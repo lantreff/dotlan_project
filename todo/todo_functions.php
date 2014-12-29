@@ -165,7 +165,7 @@ function todo_add_vorlage($daten)
 
 function todo_edit_vorlage($daten,$id)
 {
-	$sql = "UPDATE `project_todo_vorlagen` SET `bezeichnung` = '".$daten['bezeichnung']."',`beschreibung` = '".$daten['beschreibung']."', `prio` = '".$daten['prio']."', `end` = '".$daten['end']."', `gruppe` = '".$daten['gruppe']."', `bearbeiter` = '".$daten['bearbeiter']."', `erstellt` = '".$daten['erstellt']."', `status` = '".$daten['status']."' WHERE `id` = ".$id." ;";
+	$sql = "UPDATE `project_todo_vorlagen` SET `bezeichnung` = '".$daten['bezeichnung']."',`beschreibung` = '".$daten['beschreibung']."', `prio` = '".$daten['prio']."', `end` = '".$daten['end_datum']." ".$daten['end_zeit'].":00', `gruppe` = '".$daten['gruppe']."', `bearbeiter` = '".$daten['bearbeiter']."', `erstellt` = '".$daten['erstellt_datum']." ".$daten['erstellt_zeit'].":00', `status` = '".$daten['status']."' WHERE `id` = ".$id." ;";
 	
 	$out =  mysql_query( $sql); 	
 	$meldung = "Die Daten wurde gespeichert!";
