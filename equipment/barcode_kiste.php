@@ -46,25 +46,15 @@ while($out_equip = mysql_fetch_array($sql))
 	$pdf->SetFont('Arial','',8);
 	$pdf->text(60,23,"eq".$barcode);
 	$pdf->SetFont('Arial','B',5);
-	$pdf->text(4,3,"Artikelbezeichnung");
+	$pdf->text(4,3,"Bezeichnung");
 	$pdf->SetFont('Arial','',9);
 	//$pdf->text(2,5,$out_equip['invnr']);
 	$pdf->text(4,6,$out_equip['bezeichnung']);
 	//$pdf->text(50,5,$out_equip['bezeichnung']);
-
-	
-	if(!$out_equip['lagerort']){
-		$pdf->SetFont('Arial','B',5);
-		$pdf->text(4,10,"Kiste");
-		$pdf->SetFont('Arial','',7);
-		$pdf->text(4,13,$kiste['bezeichnung']);
-	}
-	else{
 		$pdf->SetFont('Arial','B',5);
 		$pdf->text(4,10,"Lagerort");
 		$pdf->SetFont('Arial','',7);
 		$pdf->text(4,13,$lagerort['bezeichnung']);
-	}
 	$pdf->SetFont('Arial','B',5);
 	$pdf->text(4,16,"Zusatzinfo");
 	$pdf->SetFont('Arial','',7);

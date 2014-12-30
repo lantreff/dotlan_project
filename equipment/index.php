@@ -171,7 +171,7 @@ $output .= "				<hr>
 													</td>
 												</tr>
 												<tr>
-													<td  width='60'><b>Herst.:</b></td>
+													<td  width='60'><b>Hersteller</b></td>
 													<td>".$out_list_bezeichnung['hersteller']."</td>
 												</tr>
 													<td  width='60'><b>Kiste:</b></td>
@@ -295,17 +295,41 @@ $output .= "
 										<td colspan='2' class='msghead'>
 											Artikel Daten
 										</td>
-									</tr>
+									</tr>";
+									if($_GET['action'] != "add")
+									{
+$output .="									
 									<tr class='shortbarrow'>
 										<td class='msgrow1'><b>Inventar-Nr.*</b></td>
 										<td class='msgrow1'>
-											eq".sprintf("%06d",$out_edit_epuipment['id'])."  Eine vom System vergebene Nr.
+											eq".sprintf("%06d",$out_edit_epuipment['id'])."  <!-- Eine vom System vergebene Nr. -->
 										</td>
-									</tr>
+									</tr>";
+									}
+$output .="																
 									<tr>
 										<td class='msgrow1'><b>Artikelbezeichnung*</b></td>
 										<td class='msgrow1'>
-											<input name='bezeichnung' value='".$out_edit_epuipment['bezeichnung']."' size='25' type='text' maxlength='50'>
+											<select name='bezeichnung'>
+										<option value=''>w&auml;hlen</option>";
+
+										$sql_list_bezeichnung = mysql_query("SELECT bezeichnung FROM project_equipment GROUP BY bezeichnung ASC");
+										while($out_list_bezeichnung = mysql_fetch_array($sql_list_bezeichnung))
+										{// begin while
+													if($out_list_bezeichnung['bezeichnung'] == $out_edit_epuipment['bezeichnung'])
+													{
+												$output .= "<option value='".$out_list_bezeichnung['bezeichnung']."' selected>".$out_list_bezeichnung['bezeichnung']."</option>";
+													}
+													else
+													{
+												$output .= "<option value='".$out_list_bezeichnung['bezeichnung']."'>".$out_list_bezeichnung['bezeichnung']."</option>";
+													}
+										}
+
+							$output .= "
+										</select>
+										oder neu eintragen
+										<input name='bezeichnung1' value='' size='25' type='text' maxlength='50'>
 										</td>
 									</tr>
 									<tr>
@@ -313,7 +337,7 @@ $output .= "
 										<td class='msgrow1'><input name='hersteller' value='".$out_edit_epuipment['hersteller']."' size='25' type='text' maxlength='50'></td>
 									</tr>
 									<tr>
-										<td><b>Category</b></td>
+										<td><b>Kategorie</b></td>
 										<td class='msgrow1'>
 
 										<select name='category'>
@@ -387,11 +411,11 @@ $output .= "
 									</tr>
 									<tr>
 										<td class='msgrow1'><b>Kiste*</b></td>
-										<td class='msgrow1'><input name='kiste' value='".$out_edit_epuipment['kiste']."' size='6' type='text' maxlength='6'>
+										<td class='msgrow1'>".$out_edit_epuipment['kiste']."
 											<select name='kiste'>
 											<option value=''>w&auml;hlen</option>";
 
-											$sql_list_kiste = mysql_query("SELECT * FROM project_equipment WHERE ist_kiste = 1 GROUP BY kiste ASC");
+											$sql_list_kiste = mysql_query("SELECT * FROM project_equipment WHERE ist_kiste = 1 "); //GROUP BY kiste ASC
 											while($out_list_kiste = mysql_fetch_array($sql_list_kiste))
 											{// begin while
 														if($out_list_kiste['id'] == $out_edit_epuipment['kiste'])
@@ -445,7 +469,7 @@ $output .="								</td>
 							</table>
 							<br>
 							<input name='senden' value='Daten senden' type='submit'> 
-							<b>*</b>werden auf dem Barcode ausgedruckt!
+							<b>*</b>werden auf den Barcode gedruckt!
 						</form>
 						<br>
 						<a href='/admin/projekt/equipment/?group_by=".$group_by."#".$out_edit_epuipment['category']."'>Zur&uuml;ck zu ".$out_edit_epuipment['category']." </a>
@@ -531,173 +555,8 @@ $output .= "
 // SHOW BEGIN
 if($_GET['action'] == 'show')
 	{
-		$sql_show_article = mysql_query("SELECT * FROM project_equipment WHERE ".$group_by." = '".$show_cat."' AND bezeichnung = '".$bezeichnung1."' ORDER BY invnr ASC");
-		$show_article =  mysql_fetch_array( mysql_query("SELECT * FROM project_equipment WHERE ".$group_by." = '".$show_cat."' AND bezeichnung = '".$bezeichnung1."' ORDER BY invnr ASC"));
-
-
-						$output .= "
-
-					<h1 style='margin: 5px 0px 5px;'>
-						<a name='".$show_article[$group_by]."'><b>".$show_article[$group_by]."</b></a> - <a href='#top'>top</a>
-					</h1>";
-
-
-
-
-					$output .= "
-
-								<table  class='msg2' width='100%' cellspacing='1' cellpadding='2' border='0'>
-									<tbody>
-										<tr>
-											<td width='350'  class='msghead'>
-												Details
-											</td>
-											<td width='100' class='msghead'>
-												Besitzer
-											</td>
-											<td width='100' class='msghead'>
-												Lagerort
-											</td>
-											<td width='50' class='msghead'>
-												Leihartikel?
-											</td>
-											";
-											if($DARF["edit"] || $DARF["del"] )
-											{
-												$output .= "
-													<td width='45' class='msghead'>	";
-
-													if($DARF["add"] )
-														{
-												$output .= "
-														<a href='?hide=1&action=add&add_cat=".$show_article[$group_by]."' >
-															<img src='../images/16/db_add.png' title='Artikel in der Kategorie ".$show_article[$group_by]." anlegen' >
-														</a>
-														<a href='barcode.php?category=".$out_show_article['category']."' target='_NEW'>
-															<img src='../images/16/printmgr.png' title='Barcode in der Kategorie ".$show_article[$group_by]." drucken!'>
-														</a>
-														";
-														}
-														$output .= "
-														</td>";
-											}
-									$output .="
-										</tr>
-								";
-					$iCounter = 0;
-				//$num_rows = mysql_num_rows($out_list_bezeichnung);
-				while($out_show_article = mysql_fetch_array($sql_show_article))
-					{// begin while
-						
-						if(is_numeric($out_show_article['lagerort']) )
-						{
-							$out_lagerort 	= mysql_fetch_array(mysql_query("SELECT * FROM project_equipment_lagerort WHERE id = ".$out_show_article['lagerort']." "));
-						}
-						if(is_numeric($out_show_article['kiste']))
-						{
-							$out_kiste		= mysql_fetch_array(mysql_query("SELECT * FROM project_equipment WHERE id = ".$out_show_article['kiste'].""));
-						}
-						if($iCount % 2 == 0)
-						{
-							$currentRowClass = "msgrow2";
-
-						}
-						else
-						{
-							$currentRowClass = "msgrow1";
-						}
-
-
-								$output .= "
-
-								<tr class='".$currentRowClass."' title='".$out_show_article['details']."'>
-									<td>
-										<table >
-												<tbody>
-													<tr>
-														<td><b>Bezeichnung:</b></td>
-														<td>".$out_show_article['bezeichnung']."</td>
-													</tr>
-													<tr>
-														<td><b>Inventar-Nr.</b></td>
-														<td>eq".sprintf("%06d",$out_show_article['id'])."</td>
-													</tr>
-													<tr>
-														<td><b>Herst.:</b></td>
-														<td>".$out_show_article['hersteller']."</td>
-													</tr>
-													<tr>
-														<td><b>Kiste:</b></td>
-														<td>".$out_kiste['bezeichnung']."</td>
-													</tr>
-												</tbody>
-										</table>
-									</td>
-
-									<td>
-										".$out_show_article['besitzer']."
-									</td>
-									<td>
-										".$out_lagerort['bezeichnung']."
-									</td>
-									<td align='center'>";
-									if($out_show_article['ist_leihartikel'] == 1)
-									{
-										$output .= " <b> JA </b>";
-									}
-									else
-									{
-										$output .= " <b> NEIN </b>";
-									}
-$output .= "									
-									</td>
-									";
-
-									if($DARF["edit"] || $DARF["del"] )
-									{
-										$output .= "
-
-										<td >";
-
-										if($DARF["edit"] )
-										{
-											$output .= "
-
-											<a href='?hide=1&action=edit&id=".$out_show_article['id']."' target='_parent'>
-												<img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' ></a>
-												";
-										}
-										if($DARF["del"] )
-										{
-											$output .= "
-											<a href='?hide=1&action=del&id=".$out_show_article['id']."' target='_parent'>
-												<img src='../images/16/editdelete.png' title='".$out_show_article['invnr']." l&ouml;schen'>
-											</a>
-											";
-										}
-										if($DARF["edit"] )
-										{
-											$output .= "
-											<a href='barcode.php?id=".$out_show_article['id']."' target='_NEW'>
-												<img src='../images/16/printmgr.png' title='Barcode Drucken!'>
-											</a>
-											";
-										}
-										$output .= "
-										</td>";
-									}
-									$output .="
-								</tr>
-								";
-
-				$iCounter ++;
-				} // end while
-
-				$output .= "			</tbody>
-							</table>
-							<br />
-							<a href='?view=equipment&group_by=".$group_by."#".$show_article['category']."'> Zur&uuml;ck zu ".$show_article['category']."</a>";
-
+		
+		$output .= show($group_by,$show_cat,$bezeichnung1,$DARF);
 
 
 	}
@@ -707,74 +566,89 @@ $output .= "
 
 	if($_GET['action'] == 'lagerort')
 	{
+			$output .= "
+				<table  cellspacing='1' cellpadding='2' border='0' class='shortbar'>
+					 <tbody>
+						<tr class='shortbarrow'>
+							<td width='150' class='shortbarbit'>
+								<a href='index.php?hide=1&hide1=1&action=lagerort&do=add' class='shortbarbitlink'>
+									Lagerort anlegen
+								</a>
+							</td>
+						<tr>
+					</tbody>
+				</table>
+				<br>
+			";
 			if($_GET['hide1'] != 1)
 			{
 		
 $output .= "
 							<table class='shortbar' width='100%' cellspacing='1' cellpadding='2' border='0'>
 								<tbody>
-									<tr >
-										<td class='msghead'>
+									<tr>
+										<td colspan='2' class='msghead'>
 											Lagerorte
 										</td>
 									</tr>";
 									
-
+						$iCounter = 0;
 						$sql_list_lagerort= mysql_query("SELECT * FROM project_equipment_lagerort");
 						while($out_list_lagerort = mysql_fetch_array($sql_list_lagerort))
 					{// begin while
+						if($iCounter % 2 == 0)
+						{
+							$currentRowClass = "msgrow1";
+
+						}
+						else
+						{
+							$currentRowClass = "msgrow2";
+						}
 									$output .= "
-									<tr class='shortbarrow'>
-										<td  colspan='4' class='msgrow1'>
+									<tr class='".$currentRowClass."'>
+										<td width='95%'>
 											".$out_list_lagerort['bezeichnung']."
 										</td>
-									
+										<td>
 									";
-					
+							if($DARF["edit"] || $DARF["del"] )
+											{
+												
 
-					if($DARF["edit"] || $DARF["del"] )
-									{
-										$output .= "
+												if($DARF["edit"] )
+												{
+													$output .= "
 
-										<td >";
-
-										if($DARF["edit"] )
-										{
-											$output .= "
-
-											<a href='?hide=1&hide1=1&action=lagerort&do=edit&id=".$out_list_lagerort['id']."' target='_parent'>
-												<img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' ></a>
-												";
-										}
-										if($DARF["del"] )
-										{
-											$output .= "
-											<a href='?hide=1&hide1=1&action=lagerort&do=del&id=".$out_list_lagerort['id']."' target='_parent'>
-												<img src='../images/16/editdelete.png' title='".$out_list_lagerort['bezeichnung']." l&ouml;schen'>
-											</a>
-											";
-										}
-										if($DARF["bla"] )
-										{
-											$output .= "
-											<a href='barcode.php?id=".$out_list_lagerort['id']."' target='_NEW'>
-												<img src='../images/16/printmgr.png' title='Barcode Drucken!'>
-											</a>
-											";
-										}
-										$output .= "
-										</td>";
-									}
+													<a href='?hide=1&hide1=1&action=lagerort&do=edit&id=".$out_list_lagerort['id']."' target='_parent'>
+														<img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' ></a>
+														";
+												}
+												if($DARF["del"] )
+												{
+													$output .= "
+													<a href='?hide=1&hide1=1&action=lagerort&do=del&id=".$out_list_lagerort['id']."' target='_parent'>
+														<img src='../images/16/editdelete.png' title='".$out_list_lagerort['bezeichnung']." l&ouml;schen'>
+													</a>
+													";
+												}
+												if($DARF["bla"] )
+												{
+													$output .= "
+													<a href='barcode.php?lagerort=".$out_list_lagerort['id']."' target='_NEW'>
+														<img src='../images/16/printmgr.png' title='Barcode der Artikel am Lagerort ".$out_list_lagerort['bezeichnung']." Drucken!'>
+													</a>
+													";
+												}
+												
+											}
 						$output .= "</td>
 									</tr>";
+									$iCounter ++;
 					}
 					$output .= "
 									</tbody>
 								</table>
-								<br>
-								<input name='senden' value='Daten senden' type='submit'>
-								</form>
-								<br>
 								<br>
 								<a href='".$dir."?hide=1&action=lagerort'>Zur&uuml;ck</a>
 								";
@@ -836,8 +710,82 @@ $output .= "
 	}
 // Lagerorte ENDE
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Kisten BEGIN
+if($_GET['action'] == 'kisten')
+{	
+	
+	if($_GET['hide1'] != 1)
+	{
+	
+	$output .= "<table>
+					<tbody>
+						<tr>
+							<td colspan='2' class='msghead'>
+							Kisten
+							</td>
+						</tr>
+	";					
+						$sql_kisten = equipment_show_kisten();
+						while($out = mysql_fetch_array($sql_kisten))
+						{
+	$output .= "		<tr>
+							<td>
+								".$out['bezeichnung']."
+							</td>
+							<td>";
+							if($DARF["edit"] )
+							{
+								$output .= "<a href='index.php?hide=1&hide1=1&action=kisten&do=list_kiste&kiste=".$out['id']."' target='_parent'>";
+									$output .= "<img src='../images/16/edit.png' title='inhalt der Kiste anzeigen'>";
+								$output .= "</a>";
+								$output .= "<a href='barcode_kiste.php?id=".$out['id']."' target='_NEW'>";
+									$output .= "<img src='../images/16/printmgr.png' title='Barcode der Artikel in der Kiste ".$out['bezeichnung']." Drucken!'>";
+								$output .= "</a>";
+								$output .= "<a href='liste_kiste.php?kiste=".$out['id']."' target='_NEW'>";
+									$output .= "<img src='../images/16/printmgr.png' title='Liste der Artikel in der Kiste ".$out['bezeichnung']." Drucken!'>";
+								$output .= "</a>";
+							}
+							
+$output .= "				</td>
+						</tr>
+	";					}
+						
+						
+	$output .= "	</tbody>
+				</table>
+	";
+	}
+	
+	if($_GET['do'] == 'list_kiste')
+	{
+		$output .= show_kiste($_GET['kiste'],$DARF);
+	}
+	
+
+	
+}
+// Kisten ENDE
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+if($_GET['action'] == 'suche')
+	{
+		$id_kiste = preg_replace('![^0-9]!', '', $_POST['kiste']);
+		$out = list_equipment_single($id_kiste);
+		if($out['ist_kiste'] == 1 && $out['id'])
+		{
+			$output .= show_kiste($id_kiste,$DARF);
+		}
+		elseif($out['ist_kiste'] == 0 && $out['id'])
+		{
+			$output .= show_equipment($id_kiste,$DARF);
+		}
+		if(!$out['id'])
+		{
+			$output .= "<h3 style='color:RED;'> Keine Daten der Nummer: eq".sprintf("%06d",$id_kiste)." gefunden!</h3>";
+		}
+		
+	}
 }
 
 /*###########################################################################################

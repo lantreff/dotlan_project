@@ -38,7 +38,13 @@ $PAGE->sitetitle = $PAGE->htmltitle = _(ucfirst($MODUL_NAME));
 				$c = 'shortbarbitselect';
 				$c1 = 'shortbarlinkselect';
 			}
-			
+			if($_GET['action'] == 'kisten')
+			{
+				$a = 'shortbarbit';
+				$a1 = 'shortbarlink';
+				$d = 'shortbarbitselect';
+				$d1 = 'shortbarlinkselect';
+			}
 			
 			
 			
@@ -70,8 +76,9 @@ $output .= "
 						$output .= "<td width='2' class='shortbarbitselect'>&nbsp;</td>";
 						if($DARF["add"] )
 							{
-								$output .= "<td width='".$breite."' class='".$b."'><a href='?hide=1&action=add' class='".$b1."'>Neu Anlegen</a></td>";
+								$output .= "<td width='".$breite."' class='".$b."'><a href='?hide=1&action=add' class='".$b1."'>Equipment Anlegen</a></td>";
 								$output .= "<td width='".$breite."' class='".$c."'><a href='?hide=1&action=lagerort' class='".$c1."'>Lagerorte</a></td>";
+								$output .= "<td width='".$breite."' class='".$d."'><a href='?hide=1&action=kisten' class='".$d1."'>Kisten</a></td>";
 													
 							}
 								
@@ -80,8 +87,12 @@ $output .= "
 					</tbody>
 				</table>
 				<br>
-				";
-	
+			";
+	$output .= "<form name='".$_GET['action']."bla' action='?hide=1&action=suche' method='POST'>
+				Hier Barcode scannen: <input name='kiste' value='' size='25' type='text' maxlength='25'>
+				</form>
+				<br>
+	";
 
 			
 ?>
