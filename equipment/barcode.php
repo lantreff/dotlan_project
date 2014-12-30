@@ -2,9 +2,8 @@
 ########################################################################
 # Verleih Modul for dotlan                                 			   #
 #                                                                      #
-# Copyright (C) 2010 Christian Egbers <christian@3gg3.de>              #
+# Copyright (C) Christian Egbers <christian@cegbers.de>                #
 #                                                                      #
-# admin/leisystem/export.php - Version 1.0                             #
 ########################################################################
 
 $MODUL_NAME = "equipment";

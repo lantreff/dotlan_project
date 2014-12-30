@@ -1,5 +1,5 @@
 <?php
-## Equipment ##
+## Equipment ## 
 function list_equipment()
 {
 	$sql = "SELECT * FROM `project_equipment`";

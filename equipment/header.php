@@ -48,7 +48,7 @@ $PAGE->sitetitle = $PAGE->htmltitle = _(ucfirst($MODUL_NAME));
 			
 			
 			
-
+ 
 $output .= "
 				<a name='top' ></a>
 					<table class='msg2' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>

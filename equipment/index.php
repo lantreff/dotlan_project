@@ -2,9 +2,8 @@
 ########################################################################
 # Equipment Verwaltungs Modul for dotlan                               #
 #                                                                      #
-# Copyright (C) 2010 Christian Egbers <christian@3gg3.de>              #
+# Copyright (C) 2010 Christian Egbers <christian@cegbers.de>            #
 #                                                                      #
-# admin/equipment/index.php - Version 1.0                              #
 ########################################################################
 
 
