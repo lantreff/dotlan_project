@@ -901,7 +901,7 @@ if($_GET['action'] == 'kisten')
 								$output .= "<a href='index.php?hide=1&hide1=1&action=kisten&do=list_kiste&kiste=".$out['id']."' target='_parent'>";
 									$output .= "<img src='../images/16/edit.png' title='inhalt der Beh&auml;lter anzeigen'>";
 								$output .= "</a>";
-								$output .= "<a href='barcode_kiste.php?id=".$out['id']."' target='_NEW'>";
+								$output .= "<a href='barcode.php?id=".$out['id']."' target='_NEW'>";
 									$output .= "<img src='../images/16/printmgr.png' title='Barcode der Artikel in der Beh&auml;lter ".$out['bezeichnung']." Drucken!'>";
 								$output .= "</a>";
 								$output .= "<a href='liste_kiste.php?kiste=".$out['id']."' target='_NEW'>";

@@ -44,9 +44,12 @@ while($out_equip = mysql_fetch_array($sql))
 	$pdf->Image($URL."/barcode/img_string.php?text=eq".$barcode."&tmp=.png",40,10,50,10);
 	$pdf->SetFont('Arial','',8);
 	$pdf->text(60,23,"eq".$barcode);
-	$pdf->SetFont('Arial','B',5);
-	$pdf->text(4,3,"Artikelbezeichnung");
-	$pdf->SetFont('Arial','',9);
+	if($out_equip['ist_kiste'] == 0)
+	{
+		$pdf->SetFont('Arial','B',5);
+		$pdf->text(4,3,"Artikelbezeichnung");
+	}
+	$pdf->SetFont('Arial','',10);
 	//$pdf->text(2,5,$out_equip['invnr']);
 	$pdf->text(4,6,$out_equip['bezeichnung']);
 	//$pdf->text(50,5,$out_equip['bezeichnung']);
@@ -54,19 +57,19 @@ while($out_equip = mysql_fetch_array($sql))
 	
 	if(!$out_equip['lagerort']){
 		$pdf->SetFont('Arial','B',5);
-		$pdf->text(4,10,"In");
-		$pdf->SetFont('Arial','',7);
+		$pdf->text(4,10,"Behälter");
+		$pdf->SetFont('Arial','',8);
 		$pdf->text(4,13,$kiste['bezeichnung']);
 	}
 	else{
 		$pdf->SetFont('Arial','B',5);
 		$pdf->text(4,10,"Lagerort");
-		$pdf->SetFont('Arial','',7);
+		$pdf->SetFont('Arial','',8);
 		$pdf->text(4,13,$lagerort['bezeichnung']);
 	}
 	$pdf->SetFont('Arial','B',5);
 	$pdf->text(4,16,"Zusatzinfo");
-	$pdf->SetFont('Arial','',7);
+	$pdf->SetFont('Arial','',8);
 	$pdf->text(4,19,$out_equip['zusatzinfo']);
 	$pdf->SetFont('Arial','B',7);
 	$pdf->text(69,26,"www.maxlan.de");

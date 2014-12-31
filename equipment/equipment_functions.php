@@ -143,7 +143,7 @@ function show($group_by,$show_cat,$bezeichnung1,$DARF)
 														<a href='?hide=1&action=add&add_cat=".$show_article[$group_by]."&bezeichnung1=".$_GET['bezeichnung1']."' >
 															<img src='../images/16/db_add.png' title='Artikel in der Kategorie ".$show_article[$group_by]." mit Bezeichnung ".$_GET['bezeichnung1']." anlegen' >
 														</a>
-														<a href='barcode.php?category=".$out_show_article['category']."' target='_NEW'>
+														<a href='barcode.php?category=".$show_article[$group_by]."' target='_NEW'>
 															<img src='../images/16/printmgr.png' title='Barcode in der Kategorie ".$show_article[$group_by]." drucken!'>
 														</a>
 														";
