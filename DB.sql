@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 26, 2014 at 02:22 PM
+-- Generation Time: Dec 31, 2014 at 04:12 PM
 -- Server version: 5.5.40-0ubuntu0.12.04.1
 -- PHP Version: 5.3.10-1ubuntu3.15
 
@@ -167,6 +167,258 @@ CREATE TABLE IF NOT EXISTS `project_countryTable` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=895 ;
 
+--
+-- Dumping data for table `project_countryTable`
+--
+
+INSERT INTO `project_countryTable` (`id`, `ktz`, `name`, `officialName`) VALUES
+(4, 'AFG', 'Afghanistan', 'Afghanistan'),
+(8, 'ALB', 'Albania', 'Albania'),
+(10, 'ATA', 'Antarctica', 'Antarctica'),
+(12, 'DZA', 'Algeria', 'Algeria'),
+(16, 'ASM', 'American Samoa', 'American Samoa'),
+(20, 'AND', 'Andorra', 'Andorra'),
+(24, 'AGO', 'Angola', 'Angola'),
+(28, 'ATG', 'Antigua and Barbuda', 'Antigua and Barbuda'),
+(31, 'AZE', 'Azerbaijan', 'Azerbaijan'),
+(32, 'ARG', 'Argentina', 'Argentina'),
+(36, 'AUS', 'Australia', 'Australia'),
+(40, 'AUT', 'Austria', 'Austria'),
+(44, 'BHS', 'Bahamas', 'Bahamas'),
+(48, 'BHR', 'Bahrain', 'Bahrain'),
+(50, 'BGD', 'Bangladesh', 'Bangladesh'),
+(51, 'ARM', 'Armenia', 'Armenia'),
+(52, 'BRB', 'Barbados', 'Barbados'),
+(56, 'BEL', 'Belgium', 'Belgium'),
+(60, 'BMU', 'Bermuda', 'Bermuda'),
+(64, 'BTN', 'Bhutan', 'Bhutan'),
+(68, 'BOL', 'Bolivia', 'Bolivia'),
+(70, 'BIH', 'Bosnia and Herzegovina', 'Bosnia and Herzegovina'),
+(72, 'BWA', 'Botswana', 'Botswana'),
+(74, 'BVT', 'Bouvet Island', 'Bouvet Island'),
+(76, 'BRA', 'Brazil', 'Brazil'),
+(84, 'BLZ', 'Belize', 'Belize'),
+(86, 'IOT', 'British Indian Ocean Territory', 'British Indian Ocean Territory'),
+(90, 'SLB', 'Solomon Islands', 'Solomon Islands'),
+(92, 'VGB', 'Virgin Islands, British', 'Virgin Islands, British'),
+(96, 'BRN', 'Brunei Darussalam', 'Brunei Darussalam'),
+(100, 'BGR', 'Bulgaria', 'Bulgaria'),
+(104, 'MMR', 'Myanmar', 'Myanmar'),
+(108, 'BDI', 'Burundi', 'Burundi'),
+(112, 'BLR', 'Belarus', 'Belarus'),
+(116, 'KHM', 'Cambodia', 'Cambodia'),
+(120, 'CMR', 'Cameroon', 'Cameroon'),
+(124, 'CAN', 'Canada', 'Canada'),
+(132, 'CPV', 'Cape Verde', 'Cape Verde'),
+(136, 'CYM', 'Cayman Islands', 'Cayman Islands'),
+(140, 'CAF', 'Central African Republic', 'Central African Republic'),
+(144, 'LKA', 'Sri Lanka', 'Sri Lanka'),
+(148, 'TCD', 'Chad', 'Chad'),
+(152, 'CHL', 'Chile', 'Chile'),
+(156, 'CHN', 'China', 'China'),
+(158, 'TWN', 'Taiwan', 'Taiwan, Province of China'),
+(162, 'CXR', 'Christmas Island', 'Christmas Island'),
+(166, 'CCK', 'Cocos (Keeling) Islands', 'Cocos (Keeling) Islands'),
+(170, 'COL', 'Colombia', 'Colombia'),
+(174, 'COM', 'Comoros', 'Comoros'),
+(175, 'MYT', 'Mayotte', 'Mayotte'),
+(178, 'COG', 'Congo', 'Congo'),
+(180, 'COD', 'Congo, Democratic Republic of the', 'Congo, Democratic Republic of the'),
+(184, 'COK', 'Cook Islands', 'Cook Islands'),
+(188, 'CRI', 'Costa Rica', 'Costa Rica'),
+(191, 'HRV', 'Croatia', 'Croatia'),
+(192, 'CUB', 'Cuba', 'Cuba'),
+(196, 'CYP', 'Cyprus', 'Cyprus'),
+(203, 'CZE', 'Czech Republic', 'Czech Republic'),
+(204, 'BEN', 'Benin', 'Benin'),
+(208, 'DNK', 'Denmark', 'Denmark'),
+(212, 'DMA', 'Dominica', 'Dominica'),
+(214, 'DOM', 'Dominican Republic', 'Dominican Republic'),
+(218, 'ECU', 'Ecuador', 'Ecuador'),
+(222, 'SLV', 'El Salvador', 'El Salvador'),
+(226, 'GNQ', 'Equatorial Guinea', 'Equatorial Guinea'),
+(231, 'ETH', 'Ethiopia', 'Ethiopia'),
+(232, 'ERI', 'Eritrea', 'Eritrea'),
+(233, 'EST', 'Estonia', 'Estonia'),
+(234, 'FRO', 'Faroe Islands', 'Faroe Islands'),
+(238, 'FLK', 'Falkland Islands (Malvinas)', 'Falkland Islands (Malvinas)'),
+(239, 'SGS', 'South Georgia and the South Sandwich Islands', 'South Georgia and the South Sandwich Islands'),
+(242, 'FJI', 'Fiji', 'Fiji'),
+(246, 'FIN', 'Finland', 'Finland'),
+(248, 'ALA', 'Ã…land Islands', 'Ã…land Islands'),
+(250, 'FRA', 'France', 'France'),
+(254, 'GUF', 'French Guiana', 'French Guiana'),
+(258, 'PYF', 'French Polynesia', 'French Polynesia'),
+(260, 'ATF', 'French Southern Territories', 'French Southern Territories'),
+(262, 'DJI', 'Djibouti', 'Djibouti'),
+(266, 'GAB', 'Gabon', 'Gabon'),
+(268, 'GEO', 'Georgia', 'Georgia'),
+(270, 'GMB', 'Gambia', 'Gambia'),
+(275, 'PSE', 'Palestinian Territory, Occupied', 'Palestinian Territory, Occupied'),
+(276, 'DEU', 'Germany', 'Germany'),
+(288, 'GHA', 'Ghana', 'Ghana'),
+(292, 'GIB', 'Gibraltar', 'Gibraltar'),
+(296, 'KIR', 'Kiribati', 'Kiribati'),
+(300, 'GRC', 'Greece', 'Greece'),
+(304, 'GRL', 'Greenland', 'Greenland'),
+(308, 'GRD', 'Grenada', 'Grenada'),
+(312, 'GLP', 'Guadeloupe', 'Guadeloupe'),
+(316, 'GUM', 'Guam', 'Guam'),
+(320, 'GTM', 'Guatemala', 'Guatemala'),
+(324, 'GIN', 'Guinea', 'Guinea'),
+(328, 'GUY', 'Guyana', 'Guyana'),
+(332, 'HTI', 'Haiti', 'Haiti'),
+(334, 'HMD', 'Heard Island and McDonald Islands', 'Heard Island and McDonald Islands'),
+(336, 'VAT', 'Holy See (Vatican City State)', 'Holy See (Vatican City State)'),
+(340, 'HND', 'Honduras', 'Honduras'),
+(344, 'HKG', 'Hong Kong', 'Hong Kong'),
+(348, 'HUN', 'Hungary', 'Hungary'),
+(352, 'ISL', 'Iceland', 'Iceland'),
+(356, 'IND', 'India', 'India'),
+(360, 'IDN', 'Indonesia', 'Indonesia'),
+(364, 'IRN', 'Iran', 'Iran, Islamic Republic of'),
+(368, 'IRQ', 'Iraq', 'Iraq'),
+(372, 'IRL', 'Ireland', 'Ireland'),
+(376, 'ISR', 'Israel', 'Israel'),
+(380, 'ITA', 'Italy', 'Italy'),
+(384, 'CIV', 'CÃ´te d''Ivoire', 'CÃ´te d''Ivoire'),
+(388, 'JAM', 'Jamaica', 'Jamaica'),
+(392, 'JPN', 'Japan', 'Japan'),
+(398, 'KAZ', 'Kazakhstan', 'Kazakhstan'),
+(400, 'JOR', 'Jordan', 'Jordan'),
+(404, 'KEN', 'Kenya', 'Kenya'),
+(408, 'PRK', 'North Korea', 'Korea, Democratic People''s Republic of'),
+(410, 'KOR', 'South Korea', 'Korea, Republic of'),
+(414, 'KWT', 'Kuwait', 'Kuwait'),
+(417, 'KGZ', 'Kyrgyzstan', 'Kyrgyzstan'),
+(418, 'LAO', 'Laos', 'Lao People''s Democratic Republic'),
+(422, 'LBN', 'Lebanon', 'Lebanon'),
+(426, 'LSO', 'Lesotho', 'Lesotho'),
+(428, 'LVA', 'Latvia', 'Latvia'),
+(430, 'LBR', 'Liberia', 'Liberia'),
+(434, 'LBY', 'Libyan Arab Jamahiriya', 'Libyan Arab Jamahiriya'),
+(438, 'LIE', 'Liechtenstein', 'Liechtenstein'),
+(440, 'LTU', 'Lithuania', 'Lithuania'),
+(442, 'LUX', 'Luxembourg', 'Luxembourg'),
+(446, 'MAC', 'Macao', 'Macao'),
+(450, 'MDG', 'Madagascar', 'Madagascar'),
+(454, 'MWI', 'Malawi', 'Malawi'),
+(458, 'MYS', 'Malaysia', 'Malaysia'),
+(462, 'MDV', 'Maldives', 'Maldives'),
+(466, 'MLI', 'Mali', 'Mali'),
+(470, 'MLT', 'Malta', 'Malta'),
+(474, 'MTQ', 'Martinique', 'Martinique'),
+(478, 'MRT', 'Mauritania', 'Mauritania'),
+(480, 'MUS', 'Mauritius', 'Mauritius'),
+(484, 'MEX', 'Mexico', 'Mexico'),
+(492, 'MCO', 'Monaco', 'Monaco'),
+(496, 'MNG', 'Mongolia', 'Mongolia'),
+(498, 'MDA', 'Moldova', 'Moldova, Republic of'),
+(499, 'MNE', 'Montenegro', 'Montenegro'),
+(500, 'MSR', 'Montserrat', 'Montserrat'),
+(504, 'MAR', 'Morocco', 'Morocco'),
+(508, 'MOZ', 'Mozambique', 'Mozambique'),
+(512, 'OMN', 'Oman', 'Oman'),
+(516, 'NAM', 'Namibia', 'Namibia'),
+(520, 'NRU', 'Nauru', 'Nauru'),
+(524, 'NPL', 'Nepal', 'Nepal'),
+(528, 'NLD', 'Netherlands', 'Netherlands'),
+(530, 'ANT', 'Netherlands Antilles', 'Netherlands Antilles'),
+(533, 'ABW', 'Aruba', 'Aruba'),
+(540, 'NCL', 'New Caledonia', 'New Caledonia'),
+(548, 'VUT', 'Vanuatu', 'Vanuatu'),
+(554, 'NZL', 'New Zealand', 'New Zealand'),
+(558, 'NIC', 'Nicaragua', 'Nicaragua'),
+(562, 'NER', 'Niger', 'Niger'),
+(566, 'NGA', 'Nigeria', 'Nigeria'),
+(570, 'NIU', 'Niue', 'Niue'),
+(574, 'NFK', 'Norfolk Island', 'Norfolk Island'),
+(578, 'NOR', 'Norway', 'Norway'),
+(580, 'MNP', 'Northern Mariana Islands', 'Northern Mariana Islands'),
+(581, 'UMI', 'United States Minor Outlying Islands', 'United States Minor Outlying Islands'),
+(583, 'FSM', 'Micronesia', 'Micronesia, Federated States of'),
+(584, 'MHL', 'Marshall Islands', 'Marshall Islands'),
+(585, 'PLW', 'Palau', 'Palau'),
+(586, 'PAK', 'Pakistan', 'Pakistan'),
+(591, 'PAN', 'Panama', 'Panama'),
+(598, 'PNG', 'Papua New Guinea', 'Papua New Guinea'),
+(600, 'PRY', 'Paraguay', 'Paraguay'),
+(604, 'PER', 'Peru', 'Peru'),
+(608, 'PHL', 'Philippines', 'Philippines'),
+(612, 'PCN', 'Pitcairn', 'Pitcairn'),
+(616, 'POL', 'Poland', 'Poland'),
+(620, 'PRT', 'Portugal', 'Portugal'),
+(624, 'GNB', 'Guinea-Bissau', 'Guinea-Bissau'),
+(626, 'TLS', 'Timor-Leste', 'Timor-Leste'),
+(630, 'PRI', 'Puerto Rico', 'Puerto Rico'),
+(634, 'QAT', 'Qatar', 'Qatar'),
+(638, 'REU', 'RÃ©union', 'RÃ©union'),
+(642, 'ROU', 'Romania', 'Romania'),
+(643, 'RUS', 'Russian Federation', 'Russian Federation'),
+(646, 'RWA', 'Rwanda', 'Rwanda'),
+(652, 'BLM', 'Saint BarthÃ©lemy', 'Saint BarthÃ©lemy'),
+(654, 'SHN', 'Saint Helena', 'Saint Helena'),
+(659, 'KNA', 'Saint Kitts and Nevis', 'Saint Kitts and Nevis'),
+(660, 'AIA', 'Anguilla', 'Anguilla'),
+(662, 'LCA', 'Saint Lucia', 'Saint Lucia'),
+(663, 'MAF', 'Saint Martin (French part)', 'Saint Martin (French part)'),
+(666, 'SPM', 'Saint Pierre and Miquelon', 'Saint Pierre and Miquelon'),
+(670, 'VCT', 'Saint Vincent and the Grenadines', 'Saint Vincent and the Grenadines'),
+(674, 'SMR', 'San Marino', 'San Marino'),
+(678, 'STP', 'Sao Tome and Principe', 'Sao Tome and Principe'),
+(682, 'SAU', 'Saudi Arabia', 'Saudi Arabia'),
+(686, 'SEN', 'Senegal', 'Senegal'),
+(688, 'SRB', 'Serbia', 'Serbia'),
+(690, 'SYC', 'Seychelles', 'Seychelles'),
+(694, 'SLE', 'Sierra Leone', 'Sierra Leone'),
+(702, 'SGP', 'Singapore', 'Singapore'),
+(703, 'SVK', 'Slovakia', 'Slovakia'),
+(704, 'VNM', 'Viet Nam', 'Viet Nam'),
+(705, 'SVN', 'Slovenia', 'Slovenia'),
+(706, 'SOM', 'Somalia', 'Somalia'),
+(710, 'ZAF', 'South Africa', 'South Africa'),
+(716, 'ZWE', 'Zimbabwe', 'Zimbabwe'),
+(724, 'ESP', 'Spain', 'Spain'),
+(732, 'ESH', 'Western Sahara', 'Western Sahara'),
+(736, 'SDN', 'Sudan', 'Sudan'),
+(740, 'SUR', 'Suriname', 'Suriname'),
+(744, 'SJM', 'Svalbard and Jan Mayen', 'Svalbard and Jan Mayen'),
+(748, 'SWZ', 'Swaziland', 'Swaziland'),
+(752, 'SWE', 'Sweden', 'Sweden'),
+(756, 'CHE', 'Switzerland', 'Switzerland'),
+(760, 'SYR', 'Syria', 'Syrian Arab Republic'),
+(762, 'TJK', 'Tajikistan', 'Tajikistan'),
+(764, 'THA', 'Thailand', 'Thailand'),
+(768, 'TGO', 'Togo', 'Togo'),
+(772, 'TKL', 'Tokelau', 'Tokelau'),
+(776, 'TON', 'Tonga', 'Tonga'),
+(780, 'TTO', 'Trinidad and Tobago', 'Trinidad and Tobago'),
+(784, 'ARE', 'United Arab Emirates', 'United Arab Emirates'),
+(788, 'TUN', 'Tunisia', 'Tunisia'),
+(792, 'TUR', 'Turkey', 'Turkey'),
+(795, 'TKM', 'Turkmenistan', 'Turkmenistan'),
+(796, 'TCA', 'Turks and Caicos Islands', 'Turks and Caicos Islands'),
+(798, 'TUV', 'Tuvalu', 'Tuvalu'),
+(800, 'UGA', 'Uganda', 'Uganda'),
+(804, 'UKR', 'Ukraine', 'Ukraine'),
+(807, 'MKD', 'Macedonia', 'Macedonia, the former Yugoslav Republic of'),
+(818, 'EGY', 'Egypt', 'Egypt'),
+(826, 'GBR', 'United Kingdom', 'United Kingdom'),
+(831, 'GGY', 'Guernsey', 'Guernsey'),
+(832, 'JEY', 'Jersey', 'Jersey'),
+(833, 'IMN', 'Isle of Man', 'Isle of Man'),
+(834, 'TZA', 'Tanzania', 'Tanzania, United Republic of'),
+(840, 'USA', 'United States', 'United States'),
+(850, 'VIR', 'Virgin Islands, U.S.', 'Virgin Islands, U.S.'),
+(854, 'BFA', 'Burkina Faso', 'Burkina Faso'),
+(858, 'URY', 'Uruguay', 'Uruguay'),
+(860, 'UZB', 'Uzbekistan', 'Uzbekistan'),
+(862, 'VEN', 'Venezuela', 'Venezuela'),
+(876, 'WLF', 'Wallis and Futuna', 'Wallis and Futuna'),
+(882, 'WSM', 'Samoa', 'Samoa'),
+(887, 'YEM', 'Yemen', 'Yemen'),
+(894, 'ZMB', 'Zambia', 'Zambia');
+
 -- --------------------------------------------------------
 
 --
@@ -216,18 +468,20 @@ CREATE TABLE IF NOT EXISTS `project_equipment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `invnr` varchar(255) NOT NULL,
   `bezeichnung` varchar(255) NOT NULL,
-  `artnr` varchar(255) NOT NULL,
+
   `hersteller` varchar(255) NOT NULL,
   `category` varchar(255) NOT NULL,
-  `anzahl` varchar(255) NOT NULL,
+
   `besitzer` varchar(255) NOT NULL,
   `details` varchar(500) NOT NULL,
+  `zusatzinfo` varchar(50) NOT NULL,
   `lagerort` varchar(255) NOT NULL,
-  `kiste` varchar(255) NOT NULL,
+  `kiste` int(20) NOT NULL,
   `ist_leihartikel` tinyint(1) NOT NULL,
   `ausleihe` tinyint(1) NOT NULL,
+  `ist_kiste` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=187 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=206 ;
 
 -- --------------------------------------------------------
 
@@ -256,6 +510,19 @@ CREATE TABLE IF NOT EXISTS `project_equipment_groups` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `project_equipment_lagerort`
+--
+
+CREATE TABLE IF NOT EXISTS `project_equipment_lagerort` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bezeichnung` varchar(100) NOT NULL,
+  `details` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `project_ipliste`
 --
 
@@ -268,7 +535,7 @@ CREATE TABLE IF NOT EXISTS `project_ipliste` (
   `lan` varchar(255) NOT NULL DEFAULT 'maxlan.de',
   `category` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=672 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=674 ;
 
 -- --------------------------------------------------------
 
@@ -371,7 +638,7 @@ CREATE TABLE IF NOT EXISTS `project_notizen` (
   `last_work` datetime NOT NULL,
   `global` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
 
 -- --------------------------------------------------------
 
@@ -389,7 +656,7 @@ CREATE TABLE IF NOT EXISTS `project_notizen_historie` (
   `tmp_bezeichnung` text NOT NULL,
   `tmp_kategorie` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=98 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=101 ;
 
 -- --------------------------------------------------------
 
@@ -524,7 +791,7 @@ CREATE TABLE IF NOT EXISTS `project_ticket_antworten` (
   `type` char(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `gelesen` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1356 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1364 ;
 
 -- --------------------------------------------------------
 
@@ -551,6 +818,17 @@ CREATE TABLE IF NOT EXISTS `project_ticket_prio` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
+--
+-- Dumping data for table `project_ticket_prio`
+--
+
+INSERT INTO `project_ticket_prio` (`id`, `name`) VALUES
+(1, '1 sehr niedrig'),
+(2, '2 niedrig'),
+(3, '3 normal'),
+(4, '4 hoch'),
+(5, '5 sehr hoch');
+
 -- --------------------------------------------------------
 
 --
@@ -562,6 +840,20 @@ CREATE TABLE IF NOT EXISTS `project_ticket_queue` (
   `name` char(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=101 ;
+
+--
+-- Dumping data for table `project_ticket_queue`
+--
+
+INSERT INTO `project_ticket_queue` (`id`, `name`) VALUES
+(2, 'Allgemein'),
+(3, 'Bezahlung'),
+(4, 'Catering'),
+(5, 'Sitzplatz'),
+(6, 'Technik'),
+(7, 'Turnier'),
+(8, 'Internet'),
+(9, 'VIP-PlÃ¤tze');
 
 -- --------------------------------------------------------
 
@@ -575,6 +867,14 @@ CREATE TABLE IF NOT EXISTS `project_ticket_sperre` (
   PRIMARY KEY (`sperre_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
+--
+-- Dumping data for table `project_ticket_sperre`
+--
+
+INSERT INTO `project_ticket_sperre` (`sperre_id`, `sperre_name`) VALUES
+(1, 'frei'),
+(2, 'In Bearbeitung');
+
 -- --------------------------------------------------------
 
 --
@@ -586,6 +886,16 @@ CREATE TABLE IF NOT EXISTS `project_ticket_status` (
   `name` char(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `project_ticket_status`
+--
+
+INSERT INTO `project_ticket_status` (`id`, `name`) VALUES
+(1, 'erfolglos geschlossen'),
+(2, 'erfolgreich geschlossen'),
+(3, 'offen'),
+(4, 'warten zur Erinnerung');
 
 -- --------------------------------------------------------
 
@@ -619,7 +929,7 @@ CREATE TABLE IF NOT EXISTS `project_ticket_ticket` (
   `text` mediumtext NOT NULL,
   `ip` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=330 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=333 ;
 
 -- --------------------------------------------------------
 
@@ -666,7 +976,7 @@ CREATE TABLE IF NOT EXISTS `project_todo_gruppen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bezeichnung` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -680,6 +990,17 @@ CREATE TABLE IF NOT EXISTS `project_todo_prio` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
+--
+-- Dumping data for table `project_todo_prio`
+--
+
+INSERT INTO `project_todo_prio` (`id`, `bezeichnung`) VALUES
+(1, '1 sehr niedrig'),
+(2, '2 niedrig'),
+(3, '3 normal'),
+(4, '4 hoch'),
+(5, '5 sehr hoch');
+
 -- --------------------------------------------------------
 
 --
@@ -691,6 +1012,23 @@ CREATE TABLE IF NOT EXISTS `project_todo_status` (
   `bezeichnung` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+
+--
+-- Dumping data for table `project_todo_status`
+--
+
+INSERT INTO `project_todo_status` (`id`, `bezeichnung`) VALUES
+(1, '0%'),
+(2, '10%'),
+(3, '20%'),
+(4, '30%'),
+(5, '40%'),
+(6, '50%'),
+(7, '60%'),
+(8, '70%'),
+(9, '80%'),
+(10, '90%'),
+(11, '100%');
 
 -- --------------------------------------------------------
 
@@ -711,7 +1049,7 @@ CREATE TABLE IF NOT EXISTS `project_todo_vorlagen` (
   `status` int(11) NOT NULL DEFAULT '1',
   `event_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
 
 -- --------------------------------------------------------
 
