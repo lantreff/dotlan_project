@@ -67,7 +67,7 @@ else
 	 		$sql_list_category_dlink = mysql_query("SELECT * FROM project_equipment GROUP BY ".$group_by." ");
 $output .= "				<hr>
 				Gruppierung:
-				<a href='?group_by=kiste'>nach Kisten</a> | <a href='?group_by=category'>nach Kategorie</a> | <a href='?group_by=besitzer'>nach Besitzer</a> | <a href='?group_by=lagerort'>nach Lagerort</a>
+				<a href='?group_by=kiste'>nach Beh&auml;lter</a> | <a href='?group_by=category'>nach Kategorie</a> | <a href='?group_by=besitzer'>nach Besitzer</a> | <a href='?group_by=lagerort'>nach Lagerort</a>
 				<br>
 				<br>
 				<b>DirektLink:</b>
@@ -143,21 +143,29 @@ $output .= "				<hr>
 				while($out_list_bezeichnung = mysql_fetch_array($sql_list_bezeichnung))
 					{// begin while
 					$num_rows = mysql_num_rows( $sql_list_anzahl = mysql_query("SELECT bezeichnung FROM project_equipment WHERE bezeichnung = '".$out_list_bezeichnung['bezeichnung']."' AND ".$group_by." = '".$out_list_category[$group_by]."'") );
-
-						if($iCounter % 2 == 0)
+					$kiste = list_equipment_single($out_list_bezeichnung['kiste']);
+					if($iCounter % 2 == 0)
 						{
 							$currentRowClass = "msgrow1";
+							$farbe = "#ffffff";
 
 						}
 						else
 						{
 							$currentRowClass = "msgrow2";
+							$farbe = "#e6e6e6";
 						}
 
 
 								$output .= "
 
-								<tr class='".$currentRowClass."'>
+								<tr ";
+								$output .= ' onclick="document.location = \'?hide=1&action=show&bezeichnung1='.$out_list_bezeichnung['bezeichnung'].'&show_cat='.$out_list_bezeichnung[$group_by].'&group_by='.$group_by.' \' ";  
+											';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
+								$output .= ' title="Klicken um alle Artikel '.$out_list_bezeichnung['bezeichnung'].' anzuzeigen" class="'.$currentRowClass.'">';
+									$output .= "
 									<td >
 												".$num_rows."
 									</td>
@@ -172,9 +180,6 @@ $output .= "				<hr>
 												<tr>
 													<td  width='60'><b>Hersteller</b></td>
 													<td>".$out_list_bezeichnung['hersteller']."</td>
-												</tr>
-													<td  width='60'><b>Kiste:</b></td>
-													<td>".$out_list_bezeichnung['kiste']."</td>
 												</tr>";
 									if($out_list_bezeichnung['ist_leihartikel'] == 1)
 									{
@@ -188,12 +193,10 @@ $output .= "				<hr>
 $output .= "							</tbody>
 									</table>
 									</td>
-									<td >
-										<a href='?hide=1&action=show&bezeichnung1=".$out_list_bezeichnung['bezeichnung']."&show_cat=".$out_list_bezeichnung[$group_by]."&group_by=".$group_by."' target='_parent'><!-- KA  -->
-											<img src='../images/16/lists.png' title='Alle [".$out_list_bezeichnung['bezeichnung']."] anzeigen!' ></a>
-									</td>
 									
-
+									<td >
+												
+									</td>
 								</tr>
 								";
 
@@ -315,7 +318,7 @@ $output .="
 										$sql_list_bezeichnung = mysql_query("SELECT bezeichnung FROM project_equipment GROUP BY bezeichnung ASC");
 										while($out_list_bezeichnung = mysql_fetch_array($sql_list_bezeichnung))
 										{// begin while
-													if($out_list_bezeichnung['bezeichnung'] == $out_edit_epuipment['bezeichnung'])
+													if($out_list_bezeichnung['bezeichnung'] == $out_edit_epuipment['bezeichnung'] || $out_list_bezeichnung['bezeichnung'] == $_GET['bezeichnung1'])
 													{
 												$output .= "<option value='".$out_list_bezeichnung['bezeichnung']."' selected>".$out_list_bezeichnung['bezeichnung']."</option>";
 													}
@@ -345,7 +348,7 @@ $output .="
 										$sql_list_category = mysql_query("SELECT category FROM project_equipment GROUP BY category ASC");
 										while($out_list_category = mysql_fetch_array($sql_list_category))
 										{// begin while
-													if($out_list_category['category'] == $out_edit_epuipment['category'])
+													if($out_list_category['category'] == $out_edit_epuipment['category'] || $out_list_category['category'] == $_GET['add_cat'])
 													{
 												$output .= "<option value='".$out_list_category['category']."' selected>".$out_list_category['category']."</option>";
 													}
@@ -409,7 +412,7 @@ $output .="
 										</td>
 									</tr>
 									<tr>
-										<td class='msgrow1'><b>Kiste*</b></td>
+										<td class='msgrow1'><b>Beh&auml;lter*</b></td>
 										<td class='msgrow1'>".$out_edit_epuipment['kiste']."
 											<select name='kiste'>
 											<option value=''>w&auml;hlen</option>";
@@ -432,17 +435,17 @@ $output .="
 										</td>
 									</tr>
 									<tr>
-										<td><b>Ist Kiste?</b></td>
+										<td><b>Ist Beh&auml;lter?</b></td>
 										<td class='msgrow1' >";
 										if($out_edit_epuipment['ist_kiste'] == 1)
 										{
-$output .="									<input title='Kiste?' name='ist_kiste' value='1' type='checkbox' checked='checked' >";
+$output .="									<input title='Beh&auml;lter?' name='ist_kiste' value='1' type='checkbox' checked='checked' >";
 										}
 										else
 										{
-$output .="									<input title='Kiste?' name='ist_kiste' value='1' type='checkbox' >";
+$output .="									<input title='Beh&auml;lter?' name='ist_kiste' value='1' type='checkbox' >";
 										}
-										$output .="Ist der Haken gesetzt, so wird die Kiste in der Auswahl als Kiste hinzugef&uuml;gt.";
+										$output .="Ist der Haken gesetzt, so wird der Beh&auml;lter in der Auswahl als Beh&auml;lter hinzugef&uuml;gt.";
 $output .="								</td>
 									</tr>
 									<tr >
@@ -476,6 +479,161 @@ $output .="								</td>
 		
 	}
 // EDIT ENDE
+// ADD / EDIT BEGIN
+
+	if( $_GET['action'] == 'anzeigen')
+	{
+		
+			$out_edit_epuipment =  mysql_fetch_array( mysql_query("SELECT * FROM project_equipment WHERE id = ".$id."") );
+			$kiste = list_equipment_single($out_edit_epuipment['kiste']);			
+
+$output .= "
+							
+							<table class='shortbar' width='100%' cellspacing='1' cellpadding='2' border='0'>
+								<tbody>
+									<tr >
+										<td width='150' class='msghead'>
+											Artikel Daten
+										</td>
+										<td class='msghead' align='right'>
+											&nbsp;
+											";
+											
+											if($DARF["edit"] )
+										{
+											$output .= "
+
+											<a href='?hide=1&action=edit&id=".$out_edit_epuipment['id']."' target='_parent'>
+												<img src='../images/16/edit.png' title='Details &auml;ndern' ></a>
+												";
+										}
+$output .= "										
+										</td>
+									</tr>";
+									
+$output .="									
+									<tr class='shortbarrow'>
+										<td class='msgrow1'><b>Inventar-Nr.*</b></td>
+										<td class='msgrow1'>
+											eq".sprintf("%06d",$out_edit_epuipment['id'])."  <!-- Eine vom System vergebene Nr. -->
+										</td>
+									</tr>";
+									
+$output .="																
+									<tr>
+										<td class='msgrow1'><b>Artikelbezeichnung*</b></td>
+										<td class='msgrow1'>
+										";
+													
+										$output .="	".$out_edit_epuipment['bezeichnung'];
+										
+							$output .= "
+										
+										</td>
+									</tr>
+									<tr>
+										<td class='msgrow1'><b>Hersteller</b></td>
+										<td class='msgrow1'>
+											".$out_edit_epuipment['hersteller']."
+										</td>
+									</tr>
+									<tr>
+										<td><b>Kategorie</b></td>
+										<td class='msgrow1'>
+										";
+										$output .= "".$out_edit_epuipment['category']."";
+										
+
+							$output .= "
+										</td>
+									</tr>
+									<tr>
+										<td valign='top'><b>Details</b></td>
+										<td  class='msgrow1' >
+										  ".$out_edit_epuipment['details']."
+										</td>
+									</tr>
+									<tr>
+										<td><b>Zusatzinfo*</b></td>
+										<td class='msgrow1' >
+											".$out_edit_epuipment['zusatzinfo']."
+										</td>
+									</tr>
+									<tr>
+										<td><b>Besitzer</b></td>
+										<td class='msgrow1' >
+											".$out_edit_epuipment['besitzer']."
+										</td>
+									</tr>
+									<tr >
+										<td colspan='2' class='msghead'>
+											Lagerung
+										</td>
+									</tr>
+									<tr>
+										<td><b>Lagerort*</b></td>
+										<td class='msgrow1' >
+										";
+
+										$sql_list_lagerort = mysql_query("SELECT * FROM project_equipment_lagerort WHERE id = '".$out_edit_epuipment['lagerort']."'");
+										while($out_list_lagerort = mysql_fetch_array($sql_list_lagerort))
+										{// begin while
+											$output .= "".$out_list_lagerort['bezeichnung']."";
+										}
+
+							$output .= "
+										</td>
+									</tr>
+									<tr>
+										<td class='msgrow1'><b>Beh&auml;lter*</b></td>
+										<td class='msgrow1'>".$kiste['bezeichnung']."
+											";
+								$output .= "
+											
+										</td>
+									</tr>
+									<tr>
+										<td><b>Ist Beh&auml;lter?</b></td>
+										<td class='msgrow1' >";
+										if($out_edit_epuipment['ist_kiste'] == 1)
+										{
+$output .="									JA";
+										}
+										else
+										{
+$output .="									NEIN";
+										}										
+$output .="								</td>
+									</tr>
+									<tr >
+										<td colspan='2' class='msghead'>
+											Kopplung Leihsystem
+										</td>
+									</tr>
+									<tr>
+										<td><b>Ist: Leihartikel?</b></td>
+										<td class='msgrow1' >";
+										if($out_edit_epuipment['ist_leihartikel'] == 1)
+										{
+$output .="									JA";
+										}
+										else
+										{
+$output .="									NEIN ";
+										}
+$output .="								</td>
+									</tr>
+								</tbody>
+							</table>
+							<br>
+							<b>*</b>werden auf den Barcode gedruckt!
+						</form>
+						<br>
+						<a href='/admin/projekt/equipment/?group_by=".$group_by."#".$out_edit_epuipment['category']."'>Zur&uuml;ck zu ".$out_edit_epuipment['category']." </a>
+								";
+		
+	}
+// Anzeigen ENDE
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // EDIT Kategorie BEGIN
 
@@ -486,8 +644,14 @@ $output .="								</td>
 		$sql_edit_epuipment_category = mysql_query("SELECT * FROM project_equipment WHERE category = '".$edit_cat."' GROUP BY category");
 
 	if($_GET['comand'] == 'senden')
-
-	{
+	{	
+		if($_POST['category1'] != "" )
+		{
+			$category = $_POST['category1'];
+		}else
+		{
+			$category = $_POST['category'];
+		}
 		//$sql_edit_epuipment_category = mysql_query("SELECT * FROM project_equipment WHERE category = '".$edit_cat."'");
 		//while($out_edit_epuipment_category = mysql_fetch_array($sql_edit_epuipment_category))
 		//{// begin while
@@ -720,7 +884,7 @@ if($_GET['action'] == 'kisten')
 					<tbody>
 						<tr>
 							<td colspan='2' class='msghead'>
-							Kisten
+							Beh&auml;lter
 							</td>
 						</tr>
 	";					
@@ -735,13 +899,13 @@ if($_GET['action'] == 'kisten')
 							if($DARF["edit"] )
 							{
 								$output .= "<a href='index.php?hide=1&hide1=1&action=kisten&do=list_kiste&kiste=".$out['id']."' target='_parent'>";
-									$output .= "<img src='../images/16/edit.png' title='inhalt der Kiste anzeigen'>";
+									$output .= "<img src='../images/16/edit.png' title='inhalt der Beh&auml;lter anzeigen'>";
 								$output .= "</a>";
 								$output .= "<a href='barcode_kiste.php?id=".$out['id']."' target='_NEW'>";
-									$output .= "<img src='../images/16/printmgr.png' title='Barcode der Artikel in der Kiste ".$out['bezeichnung']." Drucken!'>";
+									$output .= "<img src='../images/16/printmgr.png' title='Barcode der Artikel in der Beh&auml;lter ".$out['bezeichnung']." Drucken!'>";
 								$output .= "</a>";
 								$output .= "<a href='liste_kiste.php?kiste=".$out['id']."' target='_NEW'>";
-									$output .= "<img src='../images/16/printmgr.png' title='Liste der Artikel in der Kiste ".$out['bezeichnung']." Drucken!'>";
+									$output .= "<img src='../images/16/printmgr.png' title='Liste der Artikel in der Beh&auml;lter ".$out['bezeichnung']." Drucken!'>";
 								$output .= "</a>";
 							}
 							
@@ -785,6 +949,61 @@ if($_GET['action'] == 'suche')
 		}
 		
 	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+if($_GET['action'] == 'eqtokiste')
+	{
+		$output .= show_kiste_inhalt($_GET['kiste']);
+		
+		$output .= '
+				<script>
+					window.onload=function()
+					{ document.addeq2kiste.eqid.focus(); }
+				</script>
+	';
+	$output .= "<form id='addeq2kiste' action='?hide=1&action=addeq2kiste&kiste=".$_GET['kiste']."' method='POST'>
+				<table>
+					<tbody>
+						<tr>
+							<td class='msghead'>
+								Barcode des Artikels scannen
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input name='eqid' value='' size='25' type='text' maxlength='25'>
+							</td>
+						</tr>
+	";					
+						
+	$output .= "						
+					</tbody>
+				</table>
+				</form>
+	";
+	
+		
+	}
+	if($_GET['action'] == "addeq2kiste")
+	{
+		$id_equip = preg_replace('![^0-9]!', '', $_POST['eqid']);
+		$equip = list_equipment_single($id_equip);
+		if($equip['ist_kiste'] != 1)
+		{
+			$meldung .= addeq2kiste($id_equip,$_GET['kiste']);
+			$PAGE->redirect($dir."?hide=1&hide1=1&action=eqtokiste&kiste=".$_GET['kiste'],$PAGE->sitetitle,$meldung);
+		}
+		if($equip['ist_kiste'] == 1)
+		{
+			$output .= "<h3 style='color:RED'> Eine Beh&auml;lter kann keinen Beh&auml;lter hinzugef&uuml;gt werden!";
+		}
+	}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 }
 
 /*###########################################################################################

@@ -42,14 +42,14 @@ function equipment_add($daten)
 
 function equipment_edit($daten,$id)
 {
-	if($daten['category1'] <> "" )
+	if($daten['category1'] != "" )
 	{
 		$category = $daten['category1'];
 	}else
 	{
 		$category = $daten['category'];
 	}
-	if($daten['bezeichnung1'] <> "" )
+	if($daten['bezeichnung1'] != "" )
 	{
 		$bezeichnung = $daten['bezeichnung1'];
 	}else
@@ -57,6 +57,14 @@ function equipment_edit($daten,$id)
 		$bezeichnung = $daten['bezeichnung'];
 	}
 	$sql = "UPDATE project_equipment SET  `invnr` = '".$daten['invnr']."', `bezeichnung` = '".$bezeichnung."', `besitzer` = '".$daten['besitzer']."', `details` = '".$daten['details']."', `zusatzinfo` = '".$daten['zusatzinfo']."', `hersteller` = '".$daten['hersteller']."', `category` = '".$category."', `lagerort` = '".$daten['lagerort']."', `kiste` = '".$daten['kiste']."', `ist_leihartikel` = '".$daten['ist_leihartikel']."' WHERE `id` = ".$id." ";
+	$out =  mysql_query( $sql); 	
+	
+	$meldung = "Die Daten wurde gespeichert!";
+	return $meldung;
+}
+function addeq2kiste($id_kiste,$id)
+{
+	echo $sql = "UPDATE project_equipment SET  `kiste` = '".$id."' WHERE `id` = ".$id_kiste." ";
 	$out =  mysql_query( $sql); 	
 	
 	$meldung = "Die Daten wurde gespeichert!";
@@ -132,8 +140,8 @@ function show($group_by,$show_cat,$bezeichnung1,$DARF)
 													if($DARF["add"] )
 														{
 												$output .= "
-														<a href='?hide=1&action=add&add_cat=".$show_article[$group_by]."' >
-															<img src='../images/16/db_add.png' title='Artikel in der Kategorie ".$show_article[$group_by]." anlegen' >
+														<a href='?hide=1&action=add&add_cat=".$show_article[$group_by]."&bezeichnung1=".$_GET['bezeichnung1']."' >
+															<img src='../images/16/db_add.png' title='Artikel in der Kategorie ".$show_article[$group_by]." mit Bezeichnung ".$_GET['bezeichnung1']." anlegen' >
 														</a>
 														<a href='barcode.php?category=".$out_show_article['category']."' target='_NEW'>
 															<img src='../images/16/printmgr.png' title='Barcode in der Kategorie ".$show_article[$group_by]." drucken!'>
@@ -162,18 +170,23 @@ function show($group_by,$show_cat,$bezeichnung1,$DARF)
 						if($iCounter % 2 == 0)
 						{
 							$currentRowClass = "msgrow2";
+							$farbe = "#e6e6e6";
 
 						}
 						else
 						{
 							$currentRowClass = "msgrow1";
+							$farbe = "#ffffff";
 						}
-
-
+								//onclick="document.location = "\"?hide=1&action=anzeigen&id='.$out_show_article['id'].'\";"
 								$output .= "
-
-								<tr class='".$currentRowClass."' title='".$out_show_article['details']."'>
-									<td>
+								<tr ";
+								$output .= ' onclick="document.location = \'?hide=1&action=anzeigen&id='.$out_show_article['id'].'\' ";  ';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
+								$output .= ' title="Klicken um Details des Artikels anzuzeigen" class="'.$currentRowClass.'">';
+$output .= "								
+								<td>
 										<table >
 												<tbody>
 													<tr>
@@ -189,7 +202,7 @@ function show($group_by,$show_cat,$bezeichnung1,$DARF)
 														<td>".$out_show_article['hersteller']."</td>
 													</tr>
 													<tr>
-														<td><b>Kiste:</b></td>
+														<td><b>Beh&auml;lter:</b></td>
 														<td>".$out_kiste['bezeichnung']."</td>
 													</tr>
 												</tbody>
@@ -243,7 +256,7 @@ $output .= "
 											{
 												$output .= "
 												<a href='barcode_kiste.php?id=".$out_show_article['id']."' target='_NEW'>
-													<img src='../images/16/printmgr.png' title='Barcode der Kiste Drucken!'>
+													<img src='../images/16/printmgr.png' title='Barcode der Beh&auml;lter Drucken!'>
 												</a>
 												";
 											}
@@ -280,7 +293,15 @@ function show_kiste($id,$DARF)
 		$sql_show_article = mysql_query("SELECT * FROM project_equipment WHERE kiste = '".$id."' ");
 		$kiste = list_equipment_single($id);
 		//$show_article =  mysql_fetch_array( mysql_query("SELECT * FROM project_equipment WHERE ".$group_by." = '".$show_cat."' AND bezeichnung = '".$bezeichnung1."' ORDER BY invnr ASC"));
-
+		$output .= "
+				<table  cellspacing='1' cellpadding='2' border='0' class='shortbar'>
+					 <tbody>
+						<tr class='shortbarrow'>
+							<td width='150' class='shortbarbit'><a href='index.php?hide=1&hide1=1&action=eqtokiste&do=1&kiste=".$id."' class='shortbarbitlink'>Artikel dem Beh&auml;lter hinzuf&uuml;gen</a></td>
+						</tr>
+					</tbody>
+				</table>
+				";
 
 				$output .= "<h1 style='margin: 5px 0px 5px;'>
 								<a name='".$kiste['bezeichnung']."'><b>".$kiste['bezeichnung']."</b></a> - <a href='#top'>top</a>
@@ -355,7 +376,7 @@ function show_kiste($id,$DARF)
 														<td>".$out_show_article['hersteller']."</td>
 													</tr>
 													<tr>
-														<td><b>Kiste:</b></td>
+														<td><b>Beh&auml;lter:</b></td>
 														<td>".$out_kiste['bezeichnung']."</td>
 													</tr>
 												</tbody>
@@ -430,6 +451,41 @@ $output .= "
 
 }
 
+
+function show_kiste_inhalt($id)
+{
+
+	$sql = mysql_query("SELECT * FROM `project_equipment` WHERE kiste = '".$id."' ");
+	$kiste = list_equipment_single($id);
+	
+	$output .= "
+				<table>
+					<tbody>
+						<tr>
+							<td colspan='2' class='msghead'>
+								Inhalt ".$kiste['bezeichnung']."
+							</td>
+						</tr>";
+						while($out =  mysql_fetch_array($sql))
+						{
+	$output .= "
+						<tr>
+							<td>
+								".$out['bezeichnung']."
+							</td>
+							<td>
+								eq".sprintf("%06d",$out['id'])."
+							</td>
+						</tr>
+	";					}
+						
+	$output .= "						
+					</tbody>
+				</table>
+				<br>
+	";
+	return $output;
+}
 ## Equipment ###
 
 function show_equipment($id,$DARF)
@@ -514,7 +570,7 @@ function show_equipment($id,$DARF)
 														<td>".$out_show_article['hersteller']."</td>
 													</tr>
 													<tr>
-														<td><b>Kiste:</b></td>
+														<td><b>Beh&auml;lter:</b></td>
 														<td>".$out_kiste['bezeichnung']."</td>
 													</tr>
 												</tbody>

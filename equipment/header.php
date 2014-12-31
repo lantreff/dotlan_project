@@ -78,7 +78,7 @@ $output .= "
 							{
 								$output .= "<td width='".$breite."' class='".$b."'><a href='?hide=1&action=add' class='".$b1."'>Equipment Anlegen</a></td>";
 								$output .= "<td width='".$breite."' class='".$c."'><a href='?hide=1&action=lagerort' class='".$c1."'>Lagerorte</a></td>";
-								$output .= "<td width='".$breite."' class='".$d."'><a href='?hide=1&action=kisten' class='".$d1."'>Kisten</a></td>";
+								$output .= "<td width='".$breite."' class='".$d."'><a href='?hide=1&action=kisten' class='".$d1."'>Beh&auml;lter</a></td>";
 													
 							}
 								

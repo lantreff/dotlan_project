@@ -54,7 +54,7 @@ while($out_equip = mysql_fetch_array($sql))
 	
 	if(!$out_equip['lagerort']){
 		$pdf->SetFont('Arial','B',5);
-		$pdf->text(4,10,"Kiste");
+		$pdf->text(4,10,"In");
 		$pdf->SetFont('Arial','',7);
 		$pdf->text(4,13,$kiste['bezeichnung']);
 	}
