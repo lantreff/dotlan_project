@@ -32,7 +32,7 @@ function equipment_add($daten)
 	}
 	
 	$sql = "INSERT INTO `project_equipment` (id, invnr, bezeichnung, hersteller, category, besitzer, details, zusatzinfo, lagerort, kiste, ist_leihartikel, ist_kiste) 
-			VALUES 	(NULL, '".$daten['invnr']."', '".$bezeichnung."', '".$daten['hersteller']."', '".$category."', '".$daten['besitzer']."', '".$daten['details']."', '".$daten['zusatzinfo']."', '".$daten['lagerort']."', '".$daten['kiste']."', '".$daten['ist_leihartikel']."', '".$daten['ist_kiste']."' );";
+			VALUES 	(NULL, '".$daten['invnr']."', '".$bezeichnung."', '".$daten['hersteller']."', '".$category."', '".$daten['besitzer']."', '".nl2br($daten['details'])."', '".$daten['zusatzinfo']."', '".$daten['lagerort']."', '".$daten['kiste']."', '".$daten['ist_leihartikel']."', '".$daten['ist_kiste']."' );";
 	$out =  mysql_query($sql);
 	
 	$meldung = "Die Daten wurde gespeichert!";
@@ -56,7 +56,7 @@ function equipment_edit($daten,$id)
 	{
 		$bezeichnung = $daten['bezeichnung'];
 	}
-	$sql = "UPDATE project_equipment SET  `invnr` = '".$daten['invnr']."', `bezeichnung` = '".$bezeichnung."', `besitzer` = '".$daten['besitzer']."', `details` = '".$daten['details']."', `zusatzinfo` = '".$daten['zusatzinfo']."', `hersteller` = '".$daten['hersteller']."', `category` = '".$category."', `lagerort` = '".$daten['lagerort']."', `kiste` = '".$daten['kiste']."', `ist_leihartikel` = '".$daten['ist_leihartikel']."' WHERE `id` = ".$id." ";
+	$sql = "UPDATE project_equipment SET  `invnr` = '".$daten['invnr']."', `bezeichnung` = '".$bezeichnung."', `besitzer` = '".$daten['besitzer']."', `details` = '".nl2br($daten['details'])."', `zusatzinfo` = '".$daten['zusatzinfo']."', `hersteller` = '".$daten['hersteller']."', `category` = '".$category."', `lagerort` = '".$daten['lagerort']."', `kiste` = '".$daten['kiste']."', `ist_leihartikel` = '".$daten['ist_leihartikel']."' WHERE `id` = ".$id." ";
 	$out =  mysql_query( $sql); 	
 	
 	$meldung = "Die Daten wurde gespeichert!";
@@ -80,8 +80,8 @@ function list_equipment_lagerort_single($id)
 }
 function equipment_add_lagerort($daten)
 {
-	$sql = "INSERT INTO `project_equipment_lagerort` (id, bezeichnung) 
-			VALUES 	(NULL, '".$daten['bezeichnung']."' );";
+	$sql = "INSERT INTO `project_equipment_lagerort` (id, bezeichnung, details) 
+			VALUES 	(NULL, '".$daten['bezeichnung']."', '".$daten['details']."' );";
 	$out =  mysql_query($sql);
 	
 	$meldung = "Die Daten wurde gespeichert!";
@@ -89,7 +89,7 @@ function equipment_add_lagerort($daten)
 }
 function equipment_edit_lagerort($daten,$id)
 {
-	$sql = "UPDATE project_equipment_lagerort SET  `bezeichnung` = '".$daten['bezeichnung']."' WHERE `id` = ".$id." ";
+	$sql = "UPDATE project_equipment_lagerort SET  `bezeichnung` = '".$daten['bezeichnung']."', `details` = '".$daten['details']."' WHERE `id` = ".$id." ";
 	$out =  mysql_query( $sql); 	
 	
 	$meldung = "Die Daten wurde gespeichert!";
@@ -182,7 +182,7 @@ function show($group_by,$show_cat,$bezeichnung1,$DARF)
 								$output .= "
 								<tr ";
 								$output .= ' onclick="document.location = \'?hide=1&action=anzeigen&id='.$out_show_article['id'].'\' ";  ';
-								$output .= ' onmouseover="this.style.background=\'#while\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
 								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
 								$output .= ' title="Klicken um Details des Artikels anzuzeigen" class="'.$currentRowClass.'">';
 $output .= "								
@@ -361,7 +361,7 @@ function show_kiste($id,$DARF)
 								$output .= "
 								<tr ";
 								$output .= ' onclick="document.location = \'?hide=1&action=anzeigen&id='.$out_show_article['id'].'\' ";  ';
-								$output .= ' onmouseover="this.style.background=\'#while\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
 								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
 								$output .= ' title="Klicken um Details des Artikels anzuzeigen" class="'.$currentRowClass.'">';
 $output .= "								
@@ -559,7 +559,7 @@ function show_equipment($id,$DARF)
 								$output .= "
 								<tr ";
 								$output .= ' onclick="document.location = \'?hide=1&action=anzeigen&id='.$out_show_article['id'].'\' ";  ';
-								$output .= ' onmouseover="this.style.background=\'#while\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
 								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
 								$output .= ' title="Klicken um Details des Artikels anzuzeigen" class="'.$currentRowClass.'">';
 $output .= "								

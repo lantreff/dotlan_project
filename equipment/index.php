@@ -76,19 +76,53 @@ $output .= "				<hr>
 
 			while($out_list_category_dlink = mysql_fetch_array($sql_list_category_dlink))
 					{// begin while
-
-				$output .= "
-				<a href='#".$out_list_category_dlink[$group_by]."'>".$out_list_category_dlink[$group_by]."</a> &nbsp;&nbsp;";
+				
+						if($_GET['group_by'] == "kiste")
+						{
+							$kiste = list_equipment_single($out_list_category_dlink[$group_by]);
+							$output .= "
+							<a href='#".$kiste['bezeichnung']."'>".$kiste['bezeichnung']."</a> &nbsp;&nbsp;";
+						
+						}
+						else
+						{
+							$output .= "
+							<a href='#".$out_list_category_dlink[$group_by]."'>".$out_list_category_dlink[$group_by]."</a> &nbsp;&nbsp;";
+						}
+				
 					}
 
 
 		while($out_list_category = mysql_fetch_array($sql_list_category))
 					{// begin while
 					
-				
+				if($_GET['group_by'] == "kiste")
+						{
+							$kiste = list_equipment_single($out_list_category[$group_by]);
+							
+							$output .= "
+	
+								<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#c33333;border-bottom-style:solid;border-bottom-width:2px;'>
+									<tbody>
+										<tr>
+											<td>
+												<a style='font-family: Arial,Helvetica,sans-serif,Verdana;font-size: 18px;font-weight: normal; line-height: 20px;' name='".$kiste['bezeichnung']."'>
+													<b>
+														".$kiste['bezeichnung']."
+													</b>
+													- <a href='#top'>top</a> 
+												</a> 
+											</td>
+										</tr>
+									</tbody>
+								</table>
+						";
+						}
+						else{
+							
 					$output .= "
 	
-				<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#while;border-bottom-style:solid;border-bottom-width:2px;'>
+				<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#c33333;border-bottom-style:solid;border-bottom-width:2px;'>
 					<tbody>
 						<tr>
 							<td>
@@ -106,6 +140,8 @@ $output .= "				<hr>
 					</tbody>
 				</table>
 				";
+				}
+				
 
 					$sql_list_bezeichnung = mysql_query("SELECT * FROM project_equipment WHERE ".$group_by." = '".$out_list_category[$group_by]."'  GROUP BY bezeichnung");
 
@@ -122,7 +158,7 @@ $output .= "				<hr>
 												Details
 											</td>
 											<td width='10' class='msghead'>";
-											if($DARF["add"] )
+											if($DARF["add"] && $_GET['group_by'] == "category")
 												{
 										$output .= "
 												<a href='?hide=1&action=add&add_cat=".$out_list_category[$group_by]."' >
@@ -162,7 +198,7 @@ $output .= "				<hr>
 								<tr ";
 								$output .= ' onclick="document.location = \'?hide=1&action=show&bezeichnung1='.$out_list_bezeichnung['bezeichnung'].'&show_cat='.$out_list_bezeichnung[$group_by].'&group_by='.$group_by.' \' ";  
 											';
-								$output .= ' onmouseover="this.style.background=\'#while\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
 								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
 								$output .= ' title="Klicken um alle Artikel '.$out_list_bezeichnung['bezeichnung'].' anzuzeigen" class="'.$currentRowClass.'">';
 									$output .= "
@@ -241,7 +277,7 @@ if($_GET['hide'] == "1")
 				<br />
 
 				<p>Sind Sie sich sicher das
-				<font style='color:RED;'>".$out_list_name['bezeichnung']."</fon> gel&ouml;scht werden soll?</p>
+				<font style='color:RED;'>".$out_list_name['bezeichnung']."</font> gel&ouml;scht werden soll?</p>
 				<br />
 				<a href='?hide=1&action=del&comand=senden&id=".$new_id."&group_by=".$group_by."' target='_parent'>
 				<input value='l&ouml;schen' type='button'></a>
@@ -747,7 +783,7 @@ $output .= "
 							<table class='shortbar' width='100%' cellspacing='1' cellpadding='2' border='0'>
 								<tbody>
 									<tr>
-										<td colspan='2' class='msghead'>
+										<td colspan='3' class='msghead'>
 											Lagerorte
 										</td>
 									</tr>";
@@ -767,10 +803,13 @@ $output .= "
 						}
 									$output .= "
 									<tr class='".$currentRowClass."'>
-										<td width='95%'>
+										<td  width='150'>
 											".$out_list_lagerort['bezeichnung']."
 										</td>
-										<td>
+										<td  >
+											".$out_list_lagerort['details']."
+										</td>
+										<td width='7%'>
 									";
 							if($DARF["edit"] || $DARF["del"] )
 											{
@@ -792,11 +831,11 @@ $output .= "
 													</a>
 													";
 												}
-												if($DARF["bla"] )
+												if($DARF["edit"] )
 												{
 													$output .= "
 													<a href='barcode.php?lagerort=".$out_list_lagerort['id']."' target='_NEW'>
-														<img src='../images/16/printmgr.png' title='Barcode der Artikel am Lagerort ".$out_list_lagerort['bezeichnung']." Drucken!'>
+														<img src='../images/16/printmgr.png' title='Barcode f&uuml;r den Lagerort ".$out_list_lagerort['bezeichnung']." Drucken!'>
 													</a>
 													";
 												}
@@ -846,14 +885,20 @@ $output .= "
 									<table class='shortbar' width='100%' cellspacing='1' cellpadding='2' border='0'>
 										<tbody>
 											<tr >
-												<td colspan='2' class='msghead'>
+												<td class='msghead'>
 													Lagerort
+												</td>
+												<td  class='msghead'>
+													Details
 												</td>
 											</tr>
 											<tr class='shortbarrow'>
 												<td width='80' class='msgrow1'><b>Lagerort</b></td>
 												<td class='msgrow1'>
-													<input name='bezeichnung' value='".$out_edit_epuipment['bezeichnung']."' size='50' type='text' maxlength='100'>
+													<input name='bezeichnung' value='".$out_edit_epuipment['bezeichnung']."' size='13' type='text' maxlength='17'>
+												</td>
+												<td class='msgrow1'>
+													<input name='details' value='".$out_edit_epuipment['details']."' size='50' type='text' maxlength='100'>
 												</td>
 											</tr>
 										</tbody>
@@ -865,6 +910,38 @@ $output .= "
 								<a href='".$dir."?hide=1&action=lagerort'>Zur&uuml;ck</a>
 										";
 				
+				}
+				if($_GET['do'] == 'del'  )
+				{
+					if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+
+						if($_GET['comand'] == 'senden')
+
+					{
+						$del=mysql_query("DELETE FROM project_equipment_lagerort WHERE id = '".$_GET['id']."'");
+						$meldung = "Daten gelöscht";
+						$PAGE->redirect($dir."?group_by=".$group_by."&hide=1&action=lagerort",$PAGE->sitetitle,$meldung);
+					}
+
+
+					$new_id = $_GET['id'];
+					$out_list_name = mysql_fetch_array(mysql_query("SELECT bezeichnung FROM project_equipment_lagerort WHERE id = '".$new_id."' LIMIT 1"));
+
+				$output .= "
+
+							<h2 style='color:RED;'>Achtung!!!!<h2>
+							<br />
+
+							<p>Sind Sie sich sicher das
+							<font style='color:RED;'>".$out_list_name['bezeichnung']."</font> gel&ouml;scht werden soll?</p>
+							<br />
+							<a href='?hide=1&hide1=1&action=lagerort&do=del&comand=senden&id=".$new_id."' target='_parent'>
+							<input value='l&ouml;schen' type='button'></a>
+							 \t
+							<a href='?hide=1&action=lagerort' target='_parent'>
+							<input value='Zur&uuml;ck' type='button'></a>
+
+						";
 				}
 	
 	}
