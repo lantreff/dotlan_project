@@ -26,7 +26,7 @@ the ChangeLog.
 A note on PHP 4.3.x
 ===================
 
-While the developers realize that PHP 4.3.x is the "latest and greatest"
+while the developers realize that PHP 4.3.x is the "latest and greatest"
 version of PHP to be available, SquirrelMail has not been extensively
 tested with it. We currently believe that SquirrelMail should work on
 PHP 4.3.x but we lack the experience with this new version to be

@@ -182,7 +182,7 @@ function show($group_by,$show_cat,$bezeichnung1,$DARF)
 								$output .= "
 								<tr ";
 								$output .= ' onclick="document.location = \'?hide=1&action=anzeigen&id='.$out_show_article['id'].'\' ";  ';
-								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseover="this.style.background=\'#while\'; this.style.cursor=\'pointer\';" ';
 								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
 								$output .= ' title="Klicken um Details des Artikels anzuzeigen" class="'.$currentRowClass.'">';
 $output .= "								
@@ -349,18 +349,23 @@ function show_kiste($id,$DARF)
 						if($iCounter % 2 == 0)
 						{
 							$currentRowClass = "msgrow2";
+							$farbe = "#e6e6e6";
 
 						}
 						else
 						{
 							$currentRowClass = "msgrow1";
+							$farbe = "#ffffff";
 						}
-
-
+								//onclick="document.location = "\"?hide=1&action=anzeigen&id='.$out_show_article['id'].'\";"
 								$output .= "
-
-								<tr class='".$currentRowClass."' title='".$out_show_article['details']."'>
-									<td>
+								<tr ";
+								$output .= ' onclick="document.location = \'?hide=1&action=anzeigen&id='.$out_show_article['id'].'\' ";  ';
+								$output .= ' onmouseover="this.style.background=\'#while\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
+								$output .= ' title="Klicken um Details des Artikels anzuzeigen" class="'.$currentRowClass.'">';
+$output .= "								
+								<td>
 										<table >
 												<tbody>
 													<tr>
@@ -407,8 +412,7 @@ $output .= "
 										$output .= "
 
 										<td >";
-
-										if($DARF["edit"] )
+									if($DARF["edit"] )
 										{
 											$output .= "
 
@@ -416,7 +420,7 @@ $output .= "
 												<img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' ></a>
 												";
 										}
-										if($DARF["del"] )
+									if($DARF["del"] )
 										{
 											$output .= "
 											<a href='?hide=1&action=del&id=".$out_show_article['id']."' target='_parent'>
@@ -543,18 +547,23 @@ function show_equipment($id,$DARF)
 						if($iCounter % 2 == 0)
 						{
 							$currentRowClass = "msgrow2";
+							$farbe = "#e6e6e6";
 
 						}
 						else
 						{
 							$currentRowClass = "msgrow1";
+							$farbe = "#ffffff";
 						}
-
-
+								//onclick="document.location = "\"?hide=1&action=anzeigen&id='.$out_show_article['id'].'\";"
 								$output .= "
-
-								<tr class='".$currentRowClass."' title='".$out_show_article['details']."'>
-									<td>
+								<tr ";
+								$output .= ' onclick="document.location = \'?hide=1&action=anzeigen&id='.$out_show_article['id'].'\' ";  ';
+								$output .= ' onmouseover="this.style.background=\'#while\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
+								$output .= ' title="Klicken um Details des Artikels anzuzeigen" class="'.$currentRowClass.'">';
+$output .= "								
+								<td>
 										<table >
 												<tbody>
 													<tr>

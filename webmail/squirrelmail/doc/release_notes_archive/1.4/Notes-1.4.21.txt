@@ -47,7 +47,7 @@ vulnerabilities.  The first, CVE-2010-1637, allows
 authenticated users to use the Mail Fetch plugin as a
 network/port/DNS scanner.  The second, CVE-2010-2813,
 poses a denial-of-service risk when passwords containing
-8-bit characters are used to log in.  While we
+8-bit characters are used to log in.  while we
 characterize these issues as fairly low risk, it is
 nevertheless recommended that users of previous versions
 of SquirrelMail upgrade at their earliest convenience.

@@ -88,7 +88,7 @@ $output .= "				<hr>
 				
 					$output .= "
 	
-				<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#99CC00;border-bottom-style:solid;border-bottom-width:2px;'>
+				<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#while;border-bottom-style:solid;border-bottom-width:2px;'>
 					<tbody>
 						<tr>
 							<td>
@@ -162,14 +162,14 @@ $output .= "				<hr>
 								<tr ";
 								$output .= ' onclick="document.location = \'?hide=1&action=show&bezeichnung1='.$out_list_bezeichnung['bezeichnung'].'&show_cat='.$out_list_bezeichnung[$group_by].'&group_by='.$group_by.' \' ";  
 											';
-								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseover="this.style.background=\'#while\'; this.style.cursor=\'pointer\';" ';
 								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
 								$output .= ' title="Klicken um alle Artikel '.$out_list_bezeichnung['bezeichnung'].' anzuzeigen" class="'.$currentRowClass.'">';
 									$output .= "
 									<td >
 												".$num_rows."
 									</td>
-									<td>
+									<td colspan='2'>
 									<table width='100%' border='0' >
 											<tbody>
 												<tr>
@@ -194,9 +194,6 @@ $output .= "							</tbody>
 									</table>
 									</td>
 									
-									<td >
-												
-									</td>
 								</tr>
 								";
 
@@ -933,19 +930,21 @@ $output .= "				</td>
 
 if($_GET['action'] == 'suche')
 	{
-		$id_kiste = preg_replace('![^0-9]!', '', $_POST['kiste']);
-		$out = list_equipment_single($id_kiste);
+		$id = preg_replace('![^0-9]!', '', $_POST['kiste']);
+		$out = list_equipment_single($id);
 		if($out['ist_kiste'] == 1 && $out['id'])
 		{
-			$output .= show_kiste($id_kiste,$DARF);
+			$output .= show_kiste($id,$DARF);
 		}
 		elseif($out['ist_kiste'] == 0 && $out['id'])
 		{
-			$output .= show_equipment($id_kiste,$DARF);
+			//$output .= show_equipment($id,$DARF);
+			$meldung = "Daten werden geladen.";
+			$PAGE->redirect($dir."?hide=1&action=anzeigen&id=".$id,$PAGE->sitetitle,$meldung);
 		}
 		if(!$out['id'])
 		{
-			$output .= "<h3 style='color:RED;'> Keine Daten der Nummer: eq".sprintf("%06d",$id_kiste)." gefunden!</h3>";
+			$output .= "<h3 style='color:RED;'> Keine Daten der Nummer: eq".sprintf("%06d",$id)." gefunden!</h3>";
 		}
 		
 	}
@@ -957,13 +956,8 @@ if($_GET['action'] == 'eqtokiste')
 	{
 		$output .= show_kiste_inhalt($_GET['kiste']);
 		
-		$output .= '
-				<script>
-					window.onload=function()
-					{ document.addeq2kiste.eqid.focus(); }
-				</script>
-	';
-	$output .= "<form id='addeq2kiste' action='?hide=1&action=addeq2kiste&kiste=".$_GET['kiste']."' method='POST'>
+	
+	$output .= "<form name='addeq2kiste' action='?hide=1&action=addeq2kiste&kiste=".$_GET['kiste']."' method='POST'>
 				<table>
 					<tbody>
 						<tr>

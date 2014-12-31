@@ -99,7 +99,7 @@ else
 									<!-- Noch da?? -->";
 
 
-					$output .= "	<td style='border-right: solid 1px #99CC00;border-top: solid 1px #99CC00;'>
+					$output .= "	<td style='border-right: solid 1px #c33333;border-top: solid 1px #c33333;'>
 
 									<table width='100%' cellspacing='1' cellpadding='2' border='0' >
 											<tbody>";
@@ -160,7 +160,7 @@ else
 						$output .= "					<!-- Wääg?? -->";
 
 
-					$output .= "	<td style='border-top: solid 1px #99CC00;'>
+					$output .= "	<td style='border-top: solid 1px #c33333;'>
 
 									<table  cellspacing='1' cellpadding='2' border='0' width='100%' >
 											<tbody>";

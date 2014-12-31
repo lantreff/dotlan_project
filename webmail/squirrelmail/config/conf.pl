@@ -3609,7 +3609,7 @@ sub set_defaults {
     print "\n";
     print "---------------------------------------------------------\n";
 
-    print "While we have been building SquirrelMail, we have discovered some\n";
+    print "while we have been building SquirrelMail, we have discovered some\n";
     print "preferences that work better with some servers that don't work so\n";
     print "well with others.  If you select your IMAP server, this option will\n";
     print "set some pre-defined settings for that server.\n";

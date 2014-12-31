@@ -88,7 +88,24 @@ $output .= "
 				</table>
 				<br>
 			";
-	$output .= "<form name='".$_GET['action']."bla' action='?hide=1&action=suche' method='POST'>
+			$output .= '<script>';
+			if($_GET['action'] == "eqtokiste")
+			{
+			$output .= '
+			window.onload=function()
+				{ document.addeq2kiste.eqid.focus(); }
+			';
+			}
+			else
+			{
+			$output .= '
+			window.onload=function()
+				{ document.suche.kiste.focus(); }
+			';
+			}
+			$output .= '</script>';	
+		
+	$output .= "<form name='suche' action='?hide=1&action=suche' method='POST'>
 				Hier Barcode scannen: <input name='kiste' value='' size='25' type='text' maxlength='25'>
 				</form>
 				<br>

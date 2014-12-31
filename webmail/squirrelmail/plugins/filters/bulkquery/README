@@ -6,7 +6,7 @@ DNS queries as fast as possible. It's tailored for making DNS queries for
 specific IP addresses against specific DNS based RBLs.
 
    "Why bother?"
-I've been asked this several times. While running squirrelmail on a server
+I've been asked this several times. while running squirrelmail on a server
 with very little bandwidth and very high latency (a dial-up account - snicker)
 I noticed that while my filters plugin was making gethostbyname() function
 calls, my dial-up line was mostly idle. This was, apparently, because all

@@ -41,7 +41,7 @@ while($out_equip = mysql_fetch_array($sql))
   $pdf->AddPage();
   # Barcode
 
-	$pdf->Image($URL."/barcode/img_string.php?text=eq".$barcode."&tmp=.png",40,10,50,10);
+	$pdf->Image($URL."/barcode/img_string.php?text=eq".$barcode."&tmp=.png",39,10,50,10);
 	$pdf->SetFont('Arial','',8);
 	$pdf->text(60,23,"eq".$barcode);
 	if($out_equip['ist_kiste'] == 0)
@@ -72,7 +72,7 @@ while($out_equip = mysql_fetch_array($sql))
 	$pdf->SetFont('Arial','',8);
 	$pdf->text(4,19,$out_equip['zusatzinfo']);
 	$pdf->SetFont('Arial','B',7);
-	$pdf->text(69,26,"www.maxlan.de");
+	$pdf->text(67,26,"www.maxlan.de");
 	
 	//$pdf->Image($URL."/barcode/img_string.php?text=eq".$barcode."&tmp=.png",1,3,48,10);
 	//$pdf->SetFont('Arial','',8);

@@ -21,7 +21,7 @@ and addresses some privacy issues.
 Because of the somewhat invasive nature of the changes required
 for the security and deprecation issues addressed herein, we are
 issuing a "release candidate" before we officially move to version
-1.4.20.  While we have been very careful to ensure the stability
+1.4.20.  while we have been very careful to ensure the stability
 of SquirrelMail, this version, 1.4.20 release candidate 1, has
 undergone limited testing, and we'd like to have more feedback
 before we make version 1.4.20 final.

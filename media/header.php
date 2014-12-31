@@ -65,7 +65,7 @@ $output .= "<form name='change_event' action='' method='POST'>
 			<select name='event' onChange='document.change_event.submit()''>
 				<option value='1'>w&auml;hle das Event !</option>";
 				while($out_event_ids = $DB->fetch_array($sql_event_ids))
-				{// begin While Historie
+				{// begin while Historie
 					if	($out_event_ids['id'] == $event_id)
 					{
 		$output .= "					
