@@ -84,6 +84,13 @@ $output .= "				<hr>
 							<a href='#".$kiste['bezeichnung']."'>".$kiste['bezeichnung']."</a> &nbsp;&nbsp;";
 						
 						}
+						elseif($_GET['group_by'] == "lagerort")
+						{
+							$lagerort = list_equipment_lagerort_single($out_list_category_dlink[$group_by]);
+							$output .= "
+							<a href='#".$lagerort['bezeichnung']."'>".$lagerort['bezeichnung']."</a> &nbsp;&nbsp;";
+						
+						}
 						else
 						{
 							$output .= "
@@ -109,6 +116,28 @@ $output .= "				<hr>
 												<a style='font-family: Arial,Helvetica,sans-serif,Verdana;font-size: 18px;font-weight: normal; line-height: 20px;' name='".$kiste['bezeichnung']."'>
 													<b>
 														".$kiste['bezeichnung']."
+													</b>
+													- <a href='#top'>top</a> 
+												</a> 
+											</td>
+										</tr>
+									</tbody>
+								</table>
+						";
+						}
+						elseif($_GET['group_by'] == "lagerort")
+						{
+							$lagerort = list_equipment_lagerort_single($out_list_category[$group_by]);
+							
+							$output .= "
+	
+								<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#c33333;border-bottom-style:solid;border-bottom-width:2px;'>
+									<tbody>
+										<tr>
+											<td>
+												<a style='font-family: Arial,Helvetica,sans-serif,Verdana;font-size: 18px;font-weight: normal; line-height: 20px;' name='".$lagerort['bezeichnung']."'>
+													<b>
+														".$lagerort['bezeichnung']."
 													</b>
 													- <a href='#top'>top</a> 
 												</a> 
