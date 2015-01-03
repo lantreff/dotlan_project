@@ -561,12 +561,17 @@ $output .= "
 											&nbsp;
 											";
 											
-											if($DARF["edit"] )
+										if($DARF["edit"] )
 										{
 											$output .= "
 
 											<a href='?hide=1&action=edit&id=".$out_edit_epuipment['id']."' target='_parent'>
 												<img src='../images/16/edit.png' title='Details &auml;ndern' ></a>
+												";
+												
+											$output .= "
+											<a href='barcode.php?id=".$out_edit_epuipment['id']."' target='_parent'>
+												<img src='../images/16/printmgr.png' title='Barcode drucken' ></a>
 												";
 										}
 $output .= "										

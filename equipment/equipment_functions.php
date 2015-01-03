@@ -298,6 +298,17 @@ function show_kiste($id,$DARF)
 					 <tbody>
 						<tr class='shortbarrow'>
 							<td width='150' class='shortbarbit'><a href='index.php?hide=1&hide1=1&action=eqtokiste&do=1&kiste=".$id."' class='shortbarbitlink'>Artikel dem Beh&auml;lter hinzuf&uuml;gen</a></td>
+						";
+						
+						if($DARF["edit"] )
+						{	
+							$output .= "<td width='25' class='shortbarbit'>
+											<a  href='barcode.php?kiste=".$kiste['id']."' target='_parent'>
+												<img src='../images/16/printmgr.png' title='Barcode des Beh&auml;lters ".$kiste['bezeichnung']." drucken' ></a>
+										</td>";
+						}
+						
+		$output .= "
 						</tr>
 					</tbody>
 				</table>
@@ -306,6 +317,7 @@ function show_kiste($id,$DARF)
 				$output .= "<h1 style='margin: 5px 0px 5px;'>
 								<a name='".$kiste['bezeichnung']."'><b>".$kiste['bezeichnung']."</b></a> - <a href='#top'>top</a>
 							</h1>";
+						
 				
 				$output .= "	<table  class='msg2' width='100%' cellspacing='1' cellpadding='2' border='0'>
 									<tbody>
