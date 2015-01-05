@@ -571,7 +571,11 @@ $output .= "
 												
 											$output .= "
 											<a href='barcode.php?size=29&id=".$out_edit_epuipment['id']."' target='_parent'>
-												<img src='../images/16/barcode.png' title='Barcode 29mm drucken' ></a>
+												<img src='../images/16/barcode.png' title='Barcode 29mm drucken' >
+											</a>
+											<a href='barcode.php?size=12&id=".$out_edit_epuipment['id']."' target='_parent'>
+												<img src='../images/16/barcode.png' title='Barcode 12mm drucken' >
+											</a>
 												";
 										}
 $output .= "										
@@ -999,7 +1003,13 @@ if($_GET['action'] == 'kisten')
 						$sql_kisten = equipment_show_kisten();
 						while($out = mysql_fetch_array($sql_kisten))
 						{
-	$output .= "		<tr>
+	$output .= "
+								<tr ";
+								$output .= ' onclick="document.location = \'index.php?hide=1&action=anzeigen&id='.$out['id'].'\' ";  ';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
+								$output .= ' title="Klicken um Details des Beh&auml;ters anzuzeigen" class="'.$currentRowClass.'">';
+$output .= "								
 							<td>
 								".$out['bezeichnung']."
 							</td>

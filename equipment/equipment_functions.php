@@ -98,7 +98,7 @@ function equipment_edit_lagerort($daten,$id)
 ## KISTEN ##
 function equipment_show_kisten()
 {
-	$sql = "SELECT * FROM `project_equipment` WHERE ist_kiste = '1' ";
+	$sql = "SELECT * FROM `project_equipment` WHERE ist_kiste = '1'  ORDER BY `bezeichnung` ASC";
 	$out =  mysql_query($sql);
 	return $out;
 }
@@ -135,7 +135,7 @@ function show($group_by,$show_cat,$bezeichnung1,$DARF)
 											if($DARF["edit"] || $DARF["del"] )
 											{
 												$output .= "
-													<td width='45' class='msghead'>	";
+													<td width='60' class='msghead'>	";
 
 													if($DARF["add"] )
 														{
@@ -266,6 +266,9 @@ $output .= "
 												<a href='barcode.php?size=29&id=".$out_show_article['id']."' target='_NEW'>
 													<img src='../images/16/barcode.png' title='Barcode 29mm Drucken!'>
 												</a>
+												<a href='barcode.php?size=12&id=".$out_show_article['id']."' target='_NEW'>
+													<img src='../images/16/barcode.png' title='Barcode 12mm Drucken!'>
+												</a>
 												";
 											}
 										}
@@ -338,7 +341,7 @@ function show_kiste($id,$DARF)
 											if($DARF["edit"] || $DARF["del"] )
 											{
 												$output .= "
-													<td width='45' class='msghead'>	";
+													<td width='60' class='msghead'>	";
 													$output .= "
 														</td>";
 											}
@@ -445,6 +448,9 @@ $output .= "
 											$output .= "
 											<a href='barcode.php?size=29&id=".$out_show_article['id']."' target='_NEW'>
 												<img src='../images/16/barcode.png' title='Barcode 29mm Drucken!'>
+											</a>
+											<a href='barcode.php?size=12&id=".$out_show_article['id']."' target='_NEW'>
+												<img src='../images/16/barcode.png' title='Barcode 12mm Drucken!'>
 											</a>
 											";
 										}

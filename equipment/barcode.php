@@ -36,7 +36,7 @@ else
  
 if($_GET['size'] == 12)
 {
-	$pdf= new FPDF('P','mm',array(60,12));
+	$pdf= new FPDF('P','mm',array(40,12));
 }
 else
 {
@@ -54,6 +54,30 @@ while($out_equip = mysql_fetch_array($sql))
 	{ 
 		$pdf->SetFont('Arial','B',16);
 		$pdf->text(4,8,$out_equip['bezeichnung'],1,1,'C');
+	}
+	elseif($_GET['size'] == 12 )
+	{
+		$barcode = sprintf("%06d",$out_equip['id']);
+		$kiste = list_equipment_single($out_equip['kiste']);
+		$lagerort = list_equipment_lagerort_single($out_equip['lagerort']);
+
+		$pdf->Image($URL."/barcode/img_string.php?text=eq".$barcode."&tmp=.png",0,5,39,3);
+		$pdf->SetFont('Arial','B',5);
+		$pdf->text(3,10,"eq".$barcode);
+					
+		
+			if(!$out_equip['lagerort']){
+				$pdf->SetFont('Arial','B',8);
+				$pdf->text(3,4,$kiste['bezeichnung']);
+			}
+			else{
+				$pdf->SetFont('Arial','B',8);
+				$pdf->text(3,4,$lagerort['bezeichnung']);
+			}
+		
+		$pdf->SetFont('Arial','B',5);
+		$pdf->text(24,10,"www.maxlan.de");
+	
 	}
 	else
 	{	$barcode = sprintf("%06d",$out_equip['id']);
