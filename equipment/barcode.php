@@ -25,16 +25,23 @@ if(isset($_GET['kiste'])){ 		$wo = " WHERE  kiste 	= '".$_GET['kiste']."' 		";}
 
 $sql = mysql_query("SELECT * FROM `project_equipment` ".$wo."; ");
 
-if(isset($_GET['lagerort'])){ 
-	$pdf= new FPDF('P','mm',array(60,12));
+if(isset($_GET['lagerort']))
+{ 
 	$sql = mysql_query("SELECT * FROM `project_equipment_lagerort` WHERE id = '".$_GET['lagerort']."' ");
-
- }
- else{
-	$pdf= new FPDF('P','mm',array(90,29));
+}
+else
+{
 	$sql = mysql_query("SELECT * FROM `project_equipment` ".$wo."; ");
-
- }
+}
+ 
+if($_GET['size'] == 12)
+{
+	$pdf= new FPDF('P','mm',array(60,12));
+}
+else
+{
+	$pdf= new FPDF('P','mm',array(90,29));
+}
 
 while($out_equip = mysql_fetch_array($sql))
 {

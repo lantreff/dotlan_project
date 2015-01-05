@@ -143,8 +143,8 @@ function show($group_by,$show_cat,$bezeichnung1,$DARF)
 														<a href='?hide=1&action=add&add_cat=".$show_article[$group_by]."&bezeichnung1=".$_GET['bezeichnung1']."' >
 															<img src='../images/16/db_add.png' title='Artikel in der Kategorie ".$show_article[$group_by]." mit Bezeichnung ".$_GET['bezeichnung1']." anlegen' >
 														</a>
-														<a href='barcode.php?category=".$show_article[$group_by]."' target='_NEW'>
-															<img src='../images/16/printmgr.png' title='Barcode in der Kategorie ".$show_article[$group_by]." drucken!'>
+														<a href='barcode.php?size=29&category=".$show_article[$group_by]."' target='_NEW'>
+															<img src='../images/16/barcode.png' title='Barcode 29mm in der Kategorie ".$show_article[$group_by]." drucken!'>
 														</a>
 														";
 														}
@@ -255,16 +255,16 @@ $output .= "
 											if($out_show_article['ist_kiste'] == 1)
 											{
 												$output .= "
-												<a href='barcode_kiste.php?id=".$out_show_article['id']."' target='_NEW'>
-													<img src='../images/16/printmgr.png' title='Barcode der Beh&auml;lter Drucken!'>
+												<a href='barcode.php?size=29&kiste=".$out_show_article['id']."' target='_NEW'>
+													<img src='../images/16/barcode.png' title='Barcode 29mm des Beh&auml;lters Drucken!'>
 												</a>
 												";
 											}
 											else
 											{
 												$output .= "
-												<a href='barcode.php?id=".$out_show_article['id']."' target='_NEW'>
-													<img src='../images/16/printmgr.png' title='Barcode Drucken!'>
+												<a href='barcode.php?size=29&id=".$out_show_article['id']."' target='_NEW'>
+													<img src='../images/16/barcode.png' title='Barcode 29mm Drucken!'>
 												</a>
 												";
 											}
@@ -303,8 +303,8 @@ function show_kiste($id,$DARF)
 						if($DARF["edit"] )
 						{	
 							$output .= "<td width='25' class='shortbarbit'>
-											<a  href='barcode.php?kiste=".$kiste['id']."' target='_parent'>
-												<img src='../images/16/printmgr.png' title='Barcode des Beh&auml;lters ".$kiste['bezeichnung']." drucken' ></a>
+											<a  href='barcode.php?size=29&kiste=".$kiste['id']."' target='_parent'>
+												<img src='../images/16/barcode.png' title='Barcode 29mm des Beh&auml;lters ".$kiste['bezeichnung']." drucken' ></a>
 										</td>";
 						}
 						
@@ -443,8 +443,8 @@ $output .= "
 										if($DARF["edit"] )
 										{
 											$output .= "
-											<a href='barcode.php?id=".$out_show_article['id']."' target='_NEW'>
-												<img src='../images/16/printmgr.png' title='Barcode Drucken!'>
+											<a href='barcode.php?size=29&id=".$out_show_article['id']."' target='_NEW'>
+												<img src='../images/16/barcode.png' title='Barcode 29mm Drucken!'>
 											</a>
 											";
 										}
@@ -642,8 +642,8 @@ $output .= "
 										if($DARF["edit"] )
 										{
 											$output .= "
-											<a href='barcode.php?id=".$out_show_article['id']."' target='_NEW'>
-												<img src='../images/16/printmgr.png' title='Barcode Drucken!'>
+											<a href='barcode.php?size=29&id=".$out_show_article['id']."' target='_NEW'>
+												<img src='../images/16/barcode.png' title='Barcode 29mm Drucken!'>
 											</a>
 											";
 										}

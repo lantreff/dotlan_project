@@ -193,8 +193,8 @@ $output .= "				<hr>
 												<a href='?hide=1&action=add&add_cat=".$out_list_category[$group_by]."' >
 													<img src='../images/16/db_add.png' title='Artikel in der Kategorie ".$out_list_category[$group_by]." anlegen' >
 												</a>
-												<a href='barcode.php?category=".$out_list_category[$group_by]."' target='_NEW'>
-															<img src='../images/16/printmgr.png' title='Barcode in der Kategorie ".$out_list_category[$group_by]." drucken!'>
+												<a href='barcode.php?size=29&category=".$out_list_category[$group_by]."' target='_NEW'>
+															<img src='../images/16/barcode.png' title='Barcode 29mm in der Kategorie ".$out_list_category[$group_by]." drucken!'>
 														</a>
 												";
 												}
@@ -570,8 +570,8 @@ $output .= "
 												";
 												
 											$output .= "
-											<a href='barcode.php?id=".$out_edit_epuipment['id']."' target='_parent'>
-												<img src='../images/16/printmgr.png' title='Barcode drucken' ></a>
+											<a href='barcode.php?size=29&id=".$out_edit_epuipment['id']."' target='_parent'>
+												<img src='../images/16/barcode.png' title='Barcode 29mm drucken' ></a>
 												";
 										}
 $output .= "										
@@ -868,8 +868,8 @@ $output .= "
 												if($DARF["edit"] )
 												{
 													$output .= "
-													<a href='barcode.php?lagerort=".$out_list_lagerort['id']."' target='_NEW'>
-														<img src='../images/16/printmgr.png' title='Barcode f&uuml;r den Lagerort ".$out_list_lagerort['bezeichnung']." Drucken!'>
+													<a href='barcode.php?size=12&lagerort=".$out_list_lagerort['id']."' target='_NEW'>
+														<img src='../images/16/barcode.png' title='Barcode 12mm f&uuml;r den Lagerort ".$out_list_lagerort['bezeichnung']." Drucken!'>
 													</a>
 													";
 												}
@@ -1009,11 +1009,13 @@ if($_GET['action'] == 'kisten')
 								$output .= "<a href='index.php?hide=1&hide1=1&action=kisten&do=list_kiste&kiste=".$out['id']."' target='_parent'>";
 									$output .= "<img src='../images/16/edit.png' title='inhalt der Beh&auml;lter anzeigen'>";
 								$output .= "</a>";
-								$output .= "<a href='barcode.php?id=".$out['id']."' target='_NEW'>";
-									$output .= "<img src='../images/16/printmgr.png' title='Barcode der Artikel in der Beh&auml;lter ".$out['bezeichnung']." Drucken!'>";
+								$output .= "&nbsp;";
+								$output .= "<a href='barcode.php?size=29&id=".$out['id']."' target='_NEW'>";
+									$output .= "<img src='../images/16/barcode.png' title='Barcode 29mm des Beh&auml;lters ".$out['bezeichnung']." Drucken!'>";
 								$output .= "</a>";
+								$output .= "&nbsp;";
 								$output .= "<a href='liste_kiste.php?kiste=".$out['id']."' target='_NEW'>";
-									$output .= "<img src='../images/16/printmgr.png' title='Liste der Artikel in der Beh&auml;lter ".$out['bezeichnung']." Drucken!'>";
+									$output .= "<img src='../images/16/printmgr.png' title='Liste der Artikel in dem Beh&auml;lter ".$out['bezeichnung']." Drucken!'>";
 								$output .= "</a>";
 							}
 							
