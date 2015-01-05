@@ -430,7 +430,7 @@ $output .="
 									<tr>
 										<td valign='top'><b>Details</b></td>
 										<td  class='msgrow1' >
-										   <textarea name='details' wrap='hard' cols='40' rows='10'>".$out_edit_epuipment['details']."</textarea>
+										   <textarea name='details' wrap='hard' cols='40' rows='10'>".strip_tags ($out_edit_epuipment['details'] )."</textarea>
 										</td>
 									</tr>
 									<tr>
@@ -532,7 +532,7 @@ $output .="								</td>
 								</tbody>
 							</table>
 							<br>
-							<input name='senden' value='Daten senden' type='submit'> 
+							<input name='senden' value='Daten senden' type='submit' accesskey='s' title='Absenden mit Alt+S, Firefox: Shift+Alt+S' > 
 							<b>*</b>werden auf den Barcode gedruckt!
 						</form>
 						<br>
@@ -773,7 +773,7 @@ $output .= "
 									</tr>
 									</tbody>
 								</table>
-								<input name='senden' value='Daten senden' type='submit'>
+								<input name='senden' value='Daten senden' type='submit' accesskey='s' title='Absenden mit Alt+S, Firefox: Shift+Alt+S'>
 
 								</form>
 										<a href='/admin/projekt/equipment/?group_by=".$group_by."#".$out_edit_epuipment_category['category']."'>Zur&uuml;ck zu ".$out_edit_epuipment_category['category']." </a>
@@ -938,7 +938,7 @@ $output .= "
 										</tbody>
 									</table>
 									<br>
-									<input name='senden' value='Daten senden' type='submit'>
+									<input name='senden' value='Daten senden' type='submit' accesskey='s' title='Absenden mit Alt+S, Firefox: Shift+Alt+S'>
 								</form>
 								<br>
 								<a href='".$dir."?hide=1&action=lagerort'>Zur&uuml;ck</a>
