@@ -21,6 +21,13 @@ $event_id = $EVENT->next;
 
 }
 
+function list_orgas()
+{
+	$sql = "SELECT vorname, nachname, u.id AS id FROM user AS u, user_orga AS o WHERE o.user_id = u.id AND o.display_team = 1 ORDER BY u.vorname";
+	$out =  mysql_query($sql);
+	return $out;
+}
+
 function umlaute_ersetzen($text){
 $such_array  = array ('ä', 'ö', 'ü', 'ß');
 $ersetzen_array = array ('ae', 'oe', 'ue', 'ss');

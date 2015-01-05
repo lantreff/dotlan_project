@@ -56,7 +56,7 @@ if($_GET['hide'] != 1){ // solange die variable "hide" ungleich eins ist wird di
   $output .="   </tr>";
 
   $i = 0;
-  $sql_list_orga = $DB->query("SELECT vorname, nachname, u.id AS id FROM user AS u, user_orga AS o WHERE o.user_id = u.id ORDER BY vorname");
+  $sql_list_orga = list_orgas();
   while($out_orga_data = $DB->fetch_array($sql_list_orga)){// begin while
     $output .= "<tr class=\"msgrow".(($i%2)?1:2)."\">
                   <td>".$out_orga_data['vorname']."</td>
