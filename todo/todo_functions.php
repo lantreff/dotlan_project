@@ -22,13 +22,6 @@ function list_single_group($id)
 	return $out;
 }
 
-function list_orgas()
-{
-	$sql = "SELECT nick, vorname, nachname, u.id AS id FROM user AS u, user_orga AS o WHERE o.user_id = u.id AND o.display_team = 1 ORDER BY  `u`.`vorname` ASC";
-	$out =  mysql_query($sql);
-	return $out;
-}
-
 function list_prio()
 {
 	$sql = "SELECT * FROM `project_todo_prio`";
