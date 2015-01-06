@@ -194,9 +194,9 @@ $output .= "				<hr>
 													<img src='../images/16/db_add.png' title='Artikel in der Kategorie ".$out_list_category[$group_by]." anlegen' >
 												</a>
 												<a href='barcode.php?size=29&category=".$out_list_category[$group_by]."' target='_NEW'>
-															<img src='../images/16/barcode.png' title='Barcode 29mm in der Kategorie ".$out_list_category[$group_by]." drucken!'>
+															<img src='../images/16/barcode.png' title='Barcode 29x90mm in der Kategorie ".$out_list_category[$group_by]." drucken!'>
 														</a>
-												";
+													";
 												}
 
 												$output .= "</td>
@@ -571,10 +571,10 @@ $output .= "
 												
 											$output .= "
 											<a href='barcode.php?size=29&id=".$out_edit_epuipment['id']."' target='_parent'>
-												<img src='../images/16/barcode.png' title='Barcode 29mm drucken' >
+												<img src='../images/16/barcode.png' title='Barcode 29x90mm drucken' >
 											</a>
 											<a href='barcode.php?size=12&id=".$out_edit_epuipment['id']."' target='_parent'>
-												<img src='../images/16/barcode.png' title='Barcode 12mm drucken' >
+												<img src='../images/16/barcode.png' title='Barcode 12x60mm drucken' >
 											</a>
 												";
 										}
@@ -847,7 +847,7 @@ $output .= "
 										<td  >
 											".$out_list_lagerort['details']."
 										</td>
-										<td width='7%'>
+										<td width='10%'>
 									";
 							if($DARF["edit"] || $DARF["del"] )
 											{
@@ -873,7 +873,10 @@ $output .= "
 												{
 													$output .= "
 													<a href='barcode.php?size=12&lagerort=".$out_list_lagerort['id']."' target='_NEW'>
-														<img src='../images/16/barcode.png' title='Barcode 12mm f&uuml;r den Lagerort ".$out_list_lagerort['bezeichnung']." Drucken!'>
+														<img src='../images/16/barcode.png' title='Barcode 12x40mm f&uuml;r den Lagerort ".$out_list_lagerort['bezeichnung']." Drucken!'>
+													</a>
+													<a href='barcode.php?size=12&length=60&lagerort=".$out_list_lagerort['id']."' target='_NEW'>
+														<img src='../images/16/barcode.png' title='Barcode 12x60mm f&uuml;r den Lagerort ".$out_list_lagerort['bezeichnung']." Drucken!'>
 													</a>
 													";
 												}
@@ -1021,7 +1024,7 @@ $output .= "
 								$output .= "</a>";
 								$output .= "&nbsp;";
 								$output .= "<a href='barcode.php?size=29&id=".$out['id']."' target='_NEW'>";
-									$output .= "<img src='../images/16/barcode.png' title='Barcode 29mm des Beh&auml;lters ".$out['bezeichnung']." Drucken!'>";
+									$output .= "<img src='../images/16/barcode.png' title='Barcode 29x90mm des Beh&auml;lters ".$out['bezeichnung']." Drucken!'>";
 								$output .= "</a>";
 								$output .= "&nbsp;";
 								$output .= "<a href='liste_kiste.php?kiste=".$out['id']."' target='_NEW'>";

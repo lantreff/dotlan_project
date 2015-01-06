@@ -34,7 +34,12 @@ else
 	$sql = mysql_query("SELECT * FROM `project_equipment` ".$wo."; ");
 }
  
-if($_GET['size'] == 12)
+
+if( ($_GET['size'] == 12 && $_GET['length'] == 60) ){
+	
+	$pdf= new FPDF('P','mm',array(60,12));
+}
+elseif($_GET['size'] == 12)
 {
 	$pdf= new FPDF('P','mm',array(40,12));
 }
