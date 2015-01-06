@@ -294,6 +294,8 @@ $output .= "
 function show_kiste($id,$DARF)
 {
 		$sql_show_article = mysql_query("SELECT * FROM project_equipment WHERE kiste = '".$id."' ");
+		if(mysql_num_rows($sql_show_article) > 0)
+		{
 		$kiste = list_equipment_single($id);
 		//$show_article =  mysql_fetch_array( mysql_query("SELECT * FROM project_equipment WHERE ".$group_by." = '".$show_cat."' AND bezeichnung = '".$bezeichnung1."' ORDER BY invnr ASC"));
 		$output .= "
@@ -465,9 +467,16 @@ $output .= "
 				} // end while
 
 				$output .= "			</tbody>
-							</table>
+							</table>";
+		}
+		else
+		{
+			$output .= "<p align='center'> Keine Daten gefunden!</p>";
+		}
+		
+				$output .= "							
 							<br />
-							<a href='?view=equipment&group_by=".$group_by."#".$show_article['category']."'> Zur&uuml;ck zu ".$show_article['category']."</a>";
+							<a href='index.php?hide=1&action=kisten'> Zur&uuml;ck</a>";
 							
 				return $output;
 
