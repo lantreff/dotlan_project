@@ -2,42 +2,141 @@
 $MODUL_NAME = "meeting";
 include_once("../../../global.php");
 // sql abfragen
-$sql_event_ids = $DB->query("SELECT * FROM events ORDER BY begin DESC");
+$sql_event_ids = mysql_query("SELECT * FROM events ORDER BY begin DESC");
 
 ///////////////
 
 function meeting_list($edit,$del,$event_id){
 global $DB;
 
-//$query = $DB->query("SELECT * FROM project_meeting_liste WHERE event_id = '".$event_id."' AND DATE_SUB(CURDATE(),INTERVAL 7 DAY) <= datum ORDER BY datum DESC;");
-$query = $DB->query("SELECT * FROM project_meeting_liste WHERE event_id = '".$event_id."' ORDER BY datum DESC;");
-$output .=  '<tr><td class="msghead" nowrap="nowrap"><b>Gewesen</b></td><td width="100" class="msghead"><b>Titel&nbsp;</b></td><td class="msghead"><b>Datum / Uhrzeit&nbsp;</b></td><td width="100" class="msghead"><b>Location&nbsp;</b></td><td width="100" class="msghead" nowrap="nowrap"><b>Adresse&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Anwesenheitsliste&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Geplant&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Protokoll&nbsp;</b></td><td class="msghead" nowrap="nowrap"><b>Kalender&nbsp;</b></td>';
+$query = mysql_query("SELECT * FROM project_meeting_liste WHERE event_id = '".$event_id."' ORDER BY datum DESC;");
+$output .=  '<tr>
+				<td class="msghead" nowrap="nowrap">
+					<b>Gewesen</b>
+				</td>
+				<td width="100" class="msghead">
+					<b>Titel&nbsp;</b>
+				</td>
+				<td class="msghead">
+					<b>Datum / Uhrzeit&nbsp;</b>
+				</td>
+				<td width="100" class="msghead">
+					<b>Location&nbsp;</b>
+				</td>
+				<td width="100" class="msghead" nowrap="nowrap">
+					<b>Adresse&nbsp;</b>
+				</td>
+				<td class="msghead" nowrap="nowrap">
+					<b>Anwesenheitsliste&nbsp;</b>
+				</td>
+				<td class="msghead" nowrap="nowrap">
+					<b>Geplant&nbsp;</b>
+				</td>
+				<td class="msghead" nowrap="nowrap">
+					<b>Protokoll&nbsp;</b>
+				</td>
+				<td class="msghead" nowrap="nowrap">
+					<b>Kalender&nbsp;</b>
+				</td>';
 if($edit || $del)
-  $output .=  '<td class="msghead" nowrap="nowrap"><b>Action&nbsp;</b></td>';
-$output .=  '<td></td></tr>';
+  $output .=  '<td class="msghead" nowrap="nowrap">
+					<b>Action&nbsp;</b>
+				</td>';
+$output .=  '	<td></td>
+			</tr>';			
 if(mysql_num_rows($query) != 0)
 {
 while ($row = mysql_fetch_array($query)){
-$output .=  '<tr class="msgrow'.(($i%2)?1:2).'" ><td  style="text-align:center;">';
-  if($row["gewesen"] == 1){
-    if((!$edit || !$del)) $output .=  'Ja';
-    else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=0&event='.$event_id.'">Ja</a>';
-  }else{
-    if((!$edit || !$del)) $output .=  'Nein';
-    else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=1&event='.$event_id.'">Nein</a>';
-  }
+	
+$output .=  '<tr class="msgrow'.(($i%2)?1:2).'" >
+				<td  style="text-align:center;">';
+				  if($row["gewesen"] == 1){
+					if((!$edit || !$del)) $output .=  'Ja';
+					else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=0&event='.$event_id.'">Ja</a>';
+				  }else{
+					if((!$edit || !$del)) $output .=  'Nein';
+					else $output .=  '<a href="index.php?action=gewesen&id='.$row["ID"].'&gewesen=1&event='.$event_id.'">Nein</a>';
+				  }
   $date_ger = date("d.m.Y H:i:s",strtotime($row["datum"]));
   $date = explode(" ", $date_ger);
-$output .=  '</td><td nowrap="nowrap">'.$row["titel"].' </td><td nowrap="nowrap">'.$date[0].'<br>'.$date[1].' </td><td  nowrap="nowrap">'.$row["location"].'</td><td nowrap="nowrap"><a target="new" href="https://www.google.de/maps/place/'.$row["adresse"].'"> '.nl2br($row["adresse"]).'</a></td><td nowrap="nowrap" style="text-align:center;"><a href="meetings_anwesenheitsliste.php?id='.$row["ID"].'">< klick ></a></td><td  nowrap="nowrap" style="text-align:center;"><a href="meetings_texte.php?typ=1&id='.$row["ID"].'">< klick ></a></td><td  nowrap="nowrap" style="text-align:center;"><a href="meetings_texte.php?typ=2&id='.$row["ID"].'">< klick ></a></td>';
- $output .=  '</td><td align="center">'.get_cal_links("meeting",$row["ID"]).'</td>';
- $output .=  '<td  align="center" nowrap="nowrap">';
-if($edit)
-  $output .=  '<a href="index.php?hide=1&action=change&id='.$row['ID'].'&event='.$event_id.'"><img src="../images/16/lists.png" title="Meeting --> ['.$row["location"].'] bearbeiten!" ></a> ';
-if($del)
-  $output .=  ' <a href="index.php?action=delete&id='.$row['ID'].'&moep='.$row['datum'].'&event='.$event_id.'"><img src="../images/16/editdelete.png" title="'.$row["location"].' l&ouml;schen"></a>';
-
-
-$output .=  '</tr>';
+$output .=  '	</td>
+				<td nowrap="nowrap">
+					'.$row["titel"].'
+				</td>
+				<td nowrap="nowrap">
+					'.$date[0].'<br>'.$date[1].'
+				</td>
+				<td  nowrap="nowrap">
+					'.$row["location"].'
+				</td>
+				<td nowrap="nowrap">
+					<a target="new" href="https://www.google.de/maps/place/'.nl2br($row["adresse"]).'">
+						'.nl2br($row["adresse"]).'
+					</a>
+				</td>
+				<td nowrap="nowrap" align="center">
+					';
+					
+$output .=  '			<table width="100%">
+							<tbody>
+								<tr style="text-align:center;">';
+								$sql_0 =  mysql_query("SELECT COUNT(user_id) AS anz FROM project_meeting_anwesenheit WHERE meeting_id = '".$row["ID"]."' AND wahrscheinlichkeit = 0 ");
+								if(mysql_num_rows($sql_0) > 0)
+								{
+								$count_0 	= mysql_fetch_array($sql_0);
+$output .=  '						<td title="Anzahl der Personen die nicht da sind --> 0%" style="background-color:RED;">
+										'.$count_0['anz'].'
+									</td>';
+								}
+								$sql_0_99 =  mysql_query("SELECT COUNT(user_id) AS anz FROM project_meeting_anwesenheit WHERE meeting_id = '".$row["ID"]."' AND wahrscheinlichkeit BETWEEN 1 AND 99 ");
+								if(mysql_num_rows($sql_0_99) > 0)
+								{
+								$count_0_99 	= mysql_fetch_array($sql_0_99);
+$output .=  '						<td title="Anzahl der Personen die 1% - 99% da sind" style="background-color:ORANGE;">
+										'.$count_0_99['anz'].'
+									</td>';
+								}
+								
+								$sql_100 	=  mysql_query("SELECT COUNT(user_id) AS anz FROM project_meeting_anwesenheit WHERE meeting_id = '".$row["ID"]."' AND wahrscheinlichkeit = 100 ");	
+								if(mysql_num_rows($sql_100) > 0)
+								{
+								$count_100 	= mysql_fetch_array($sql_100);
+$output .=  '						<td title="Anzahl der Personen die zu 100% da sind" style="background-color:GREEN;">
+										'.$count_100['anz'].'
+									</td>';
+								}
+									
+$output .=  '						<td width="53">
+										<a href="meetings_anwesenheitsliste.php?id='.$row["ID"].'">
+											< klick >
+										</a>
+									</td>
+									
+								</tr>
+							</tbody>
+						</table>
+									';
+$output .=  '
+					</a>
+				</td>
+				<td  nowrap="nowrap" style="text-align:center;">
+					<a href="meetings_texte.php?typ=1&id='.$row["ID"].'">
+						< klick >
+					</a>
+				</td>
+				<td  nowrap="nowrap" style="text-align:center;">
+					<a href="meetings_texte.php?typ=2&id='.$row["ID"].'">
+						< klick >
+					</a>
+				</td>';
+ $output .=  '	<td align="center">
+					'.get_cal_links("meeting",$row["ID"]).'
+				</td>';
+ $output .=  '	<td  align="center" nowrap="nowrap">';
+					if($edit) $output .=  '<a href="index.php?hide=1&action=change&id='.$row['ID'].'&event='.$event_id.'"><img src="../images/16/lists.png" title="Meeting --> ['.$row["location"].'] bearbeiten!" ></a> ';
+					if($del)  $output .=  '<a href="index.php?action=delete&id='.$row['ID'].'&moep='.$row['datum'].'&event='.$event_id.'"><img src="../images/16/editdelete.png" title="'.$row["location"].' l&ouml;schen"></a>';
+$output .=  '	</td>
+			</tr>';
 $i++;
 }
 }
@@ -45,7 +144,7 @@ return $output;
 }
 
 function meeting_input($add,$edit,$titel,$datum,$meeting_datum,$location,$adresse,$geplant){
-
+global $global;
 
 		if ($add || $edit)
 		{
@@ -54,7 +153,16 @@ function meeting_input($add,$edit,$titel,$datum,$meeting_datum,$location,$adress
 			<form action="index.php" method="POST">
 			<table class="msg">
 			  <tr>
-				<td colspan="2" class="msghead" nowrap="nowrap"><b>Meeting anlegen:</b></td>
+				<td colspan="2" class="msghead" nowrap="nowrap"><b>Meeting
+								';
+			if($_GET["action"] !== "change"){
+				$output .= 'anlegen';
+			}
+			else{
+				$output .= 'editieren';				
+			}
+$output .= 	'
+				:</b></td>
 			  </tr>
 			   <tr class="msgrow1">
 				<td class="anmeldung_typ" nowrap="nowrap"><b>Titel</b>&nbsp;</td>
@@ -76,15 +184,41 @@ $output .= '
 			  </tr>
 			  <tr class="msgrow2">
 				<td class="anmeldung_typ" nowrap="nowrap"><b>Adresse</b>&nbsp;</td>
-				<td class="anmeldung_typ" nowrap="nowrap"><textarea class="editbox" name="adresse" rows="2" cols="17">'.$adresse.'</textarea></td>
+				<td class="anmeldung_typ" nowrap="nowrap"><textarea class="editbox" wrap="hard" name="adresse" rows="2" cols="17">'.$adresse.'</textarea></td>
 			  </tr>
 			  <tr class="msgrow1">
 				<td class="anmeldung_typ" nowrap="nowrap"><b>Geplant</b>&nbsp;</td>
-				<td class="anmeldung_typ" nowrap="nowrap"><textarea class="editbox" name="geplant" rows="10" cols="50">'.$geplant.'</textarea></td>
+				<td class="anmeldung_typ" nowrap="nowrap"><textarea class="editbox"  wrap="hard" name="geplant" rows="10" cols="50">'.$geplant.'</textarea></td>
+			  </tr>
+			   <tr class="msgrow2">
+				<td class="anmeldung_typ" nowrap="nowrap"><b>E-Mail senden?</b>&nbsp;</td>
+				<td class="anmeldung_typ" nowrap="nowrap">
+					<input type="checkbox" name="mail">
+					 an:
+						<select name="user_groups">
+							<option value="">Gruppe w&auml;hlen</option>
+					';
+					$user_groups =  list_user_groups_dotlan();
+					while($out = mysql_fetch_array($user_groups))
+					{
+$output .= '				<option value="'.$out['id'].'">'.$out['name'].'</option>';
+					}
+
+$output .= '			</select>				
+				</td>
+			  </tr>
+			   <tr class="msgrow1" valign="top">
+				<td class="anmeldung_typ" nowrap="nowrap"><b>Betreff <br> <br> E-Mail Text</b>&nbsp;</td>
+				<td class="anmeldung_typ" nowrap="nowrap">
+					<input class="editbox" type="text" name="betreff" size="30" value="'.ucfirst($global['sitename'])." neues Meeting ".$titel.'">
+					<br>
+					<textarea class="editbox"  wrap="hard" name="email_text" rows="10" cols="50"></textarea>
+					</td>
 			  </tr>
 			  <tr class="msgrow2">
 			   <input type="hidden" name="id" value="'.$_GET["id"].'">
-				<td colspan="2" class="anmeldung_typ" nowrap="nowrap" style="text-align:center;"><input class="okbuttons" type="submit" name="submit" value=';if(!$_POST["submit"]) $output .=  "Anlegen"; else $output .=  $_POST["submit"];'></td>
+				<td colspan="2" class="anmeldung_typ" nowrap="nowrap" style="text-align:center;">
+					<input class="okbuttons" type="submit" name="submit" value=';if(!$_POST["submit"]) $output .=  "Anlegen"; else $output .=  $_POST["submit"];'></td>
 			  </tr>
 			</table>
 			</form>
@@ -97,7 +231,8 @@ return $output;
 }
 
 function meeting_insert($post,$event_id){
-  mysql_query("INSERT INTO project_meeting_liste SET event_id = '".$event_id."', titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."'") or die(mysql_error());
+	if($post['mail']) email($post);
+	mysql_query("INSERT INTO project_meeting_liste SET event_id = '".$event_id."', titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."'") or die(mysql_error());
 }
 
 function meeting_del($id){
@@ -106,7 +241,8 @@ function meeting_del($id){
 }
 
 function meeting_update($post,$id){
-  mysql_query("UPDATE project_meeting_liste SET titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."' WHERE ID = ".$id.";");
+	if($post['mail']) email($post);
+	mysql_query("UPDATE project_meeting_liste SET titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."' WHERE ID = ".$id.";");
 }
 
 function meeting_chg_gewesen($id,$gewesen){
@@ -212,27 +348,80 @@ function meeting_updatetext($id,$typ,$post){
 
 // Meeting - Anwesenheit
 function anw_liste($id,$gewesen,$admin){
-  $output .=  '<tr><td></td><td class="msghead" nowrap="nowrap"><b>Nick</b></td><td class="msghead" nowrap="nowrap"><b>Vorname</b></td><td class="msghead" nowrap="nowrap"><b>Nachname</b></td><td class="msghead" nowrap="nowrap"><b>Wahrscheinlichkeit</b></td>';
+	$meeting = mysql_fetch_array(mysql_query("SELECT * FROM project_meeting_liste WHERE ID = $id"));
+  $output .=  '<br>
+				<tr>
+					<td colspan="6" align="center">
+						<b>
+							<h3>
+								'.$meeting['titel'].'
+							</h3>
+						</b>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td class="msghead" nowrap="nowrap">
+						<b>Nick</b>
+					</td>
+					<td class="msghead" nowrap="nowrap">
+						<b>Vorname</b>
+					</td>
+					<td class="msghead" nowrap="nowrap">
+						<b>Nachname</b>
+					</td>
+					<td class="msghead" nowrap="nowrap">
+						<b>Wahrscheinlichkeit</b>
+					</td>';
   if($gewesen == 1){
-    $output .=  '<td class="msghead" nowrap="nowrap"><b>war anwesend</b></td>';
-    if($admin) $output .=  '<td class="msghead" nowrap="nowrap"><b>Action</b></td>';
+    $output .=  '<td class="msghead" nowrap="nowrap">
+					<b>war anwesend</b>
+				</td>';
+if($admin) $output .=  '<td class="msghead" nowrap="nowrap">
+					<b>Action</b>
+				</td>';
   }
   $output .=  "</tr>";
   $query = mysql_query("SELECT * FROM project_meeting_anwesenheit WHERE meeting_id = $id ORDER BY wahrscheinlichkeit DESC;");
   while($row = mysql_fetch_array($query)){
     $query2 = mysql_query("SELECT * FROM user WHERE id = ".$row["user_id"]." LIMIT 1;");
-    $output .=  '<tr class="msgrow'.(($i%2)?1:2).'" ><td>'.show_avatar(mysql_result($query2,0,"id"),"20").'</td><td  nowrap="nowrap">'.mysql_result($query2,0,"nick").'</td><td  nowrap="nowrap">'.mysql_result($query2,0,"vorname").'</td><td  nowrap="nowrap">'.mysql_result($query2,0,"nachname").'</td><td  nowrap="nowrap" style="text-align:center;">'.$row["wahrscheinlichkeit"].'%</td>';
+	$style ='';
+		if($row["wahrscheinlichkeit"] == 0  ) $style =' background-color:RED;"';
+		if($row["wahrscheinlichkeit"] <  100) $style =' background-color:orange;"';
+		if($row["wahrscheinlichkeit"] == 100) $style =' background-color:GREEN;"';
+
+    $output .=  '<tr class="msgrow'.(($i%2)?1:2).'" >
+					<td>
+						'.show_avatar(mysql_result($query2,0,"id"),"20").'
+					</td>
+					<td  nowrap="nowrap">
+						'.mysql_result($query2,0,"nick").'
+					</td>
+					<td  nowrap="nowrap">
+						'.mysql_result($query2,0,"vorname").'
+					</td>
+					<td  nowrap="nowrap">
+						'.mysql_result($query2,0,"nachname").'
+					</td>';
+					
+					
+	$output .=  '	<td  nowrap="nowrap" style="text-align:center; '.$style.'">';
+	$output .=  		$row["wahrscheinlichkeit"].'%';
+	$output .=  '	</td>';
+	
     if($gewesen == 1){
       $output .=  '<td  nowrap="nowrap" style="text-align:center;">';
-      if($row["anwesend"] == 0) $output .=  'k/A';
-      elseif($row["anwesend"] == 1) $output .=  'ja';
-      elseif($row["anwesend"] == 2) $output .=  'nein';
+					  if($row["anwesend"] == 0) $output .=  'k/A';
+					  elseif($row["anwesend"] == 1) $output .=  'ja';
+					  elseif($row["anwesend"] == 2) $output .=  'nein';
       $output .=  '</td>';
 
 		 if($admin){
-			$output .=  '<td nowrap="nowrap"><a href="meetings_anwesenheitsliste.php?id='.$id.'&action=anw&user_id='.$row["user_id"].'">anwesend</a>
-			|
-			<a href="meetings_anwesenheitsliste.php?id='.$id.'&action=abw&user_id='.$row["user_id"].'">abwesend</a></td>';
+			$output .=  '<td nowrap="nowrap">
+							<a href="meetings_anwesenheitsliste.php?id='.$id.'&action=anw&user_id='.$row["user_id"].'">anwesend</a>
+							|
+							<a href="meetings_anwesenheitsliste.php?id='.$id.'&action=abw&user_id='.$row["user_id"].'">abwesend</a>
+						</td>';
 		}
 
     }
@@ -297,6 +486,55 @@ else{
   return false;
 }
 
+
+}
+
+function email($post)
+{
+				global $global,$CURRENT_USER;	
+				$betreff 		 = ucfirst($global['sitename'])." Neues Meeting ".$post['titel'];
+				//$absender 	 = $global['email'];
+				$absender 		 = "info@maxlan.de";
+				$email_text		 = utf8_decode(utf8_encode( nl2br($post['email_text'])));
+				$email_text		.= utf8_decode(utf8_encode(
+															"<br>"
+															."<br>"
+															."Folgendes ist Geplant:"
+															."<br>"
+															."<br>"
+															. nl2br($post['geplant'])
+															."<br>"
+															."<br>"
+															."Gruß "
+															.$CURRENT_USER->vorname
+															."<br>"
+															."<br>"
+															."Hier gelangst du zur Meeting:"
+															."<br>"
+															." <a href='http://".$_SERVER["SERVER_NAME"]."/admin/projekt/meeting'>http://".$_SERVER["SERVER_NAME"]."/admin/projekt/meeting</a>
+																")
+															);
+				
+				$header  	 = "MIME-Version: 1.0\r\n";
+				$header 	.= "Content-type: text/html; charset=iso-8859-1\r\n";
+				$header 	.= "Content-Transfer-Encoding: quoted-printable\r\n";
+				$header 	.= "From: $absender\r\n";
+				$header 	.= "Reply-To: $absender\r\n";
+				$header 	.= "X-Mailer: PHP/".phpversion();
+				
+	$orga_id =	mysql_query("SELECT * FROM user_g2u WHERE group_id ='".$post['user_groups']."'");
+			
+						while($out_orga_id = mysql_fetch_array($orga_id))
+						{
+							$out_mail_grp = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id ='".$out_orga_id['user_id']."'"));
+						
+							$empfaenger		= $out_mail_grp['email'];
+							//$empfaenger	= "christian@cegbers.de";
+
+								######################################################################################################
+									mail($empfaenger, $betreff, $email_text, $header);
+								######################################################################################################
+						}
 
 }
 

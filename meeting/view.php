@@ -24,7 +24,7 @@ if(mysql_num_rows($query) != 0)
 {
 while ($row = mysql_fetch_array($query)){
 $output .=  '<tr class="msgrow'.(($i%2)?1:2).'" >';
-  $date_ger = date("d.m.Y H:i:s",strtotime($row["datum"]));
+  $date_ger =  time2german($row["datum"]);
   $date = explode(" ", $date_ger);
 $output .=  '<td nowrap="nowrap"><a target="_NEW" href="/admin/projekt/meeting">'.$row["titel"].'</a></td><td nowrap="nowrap">'.$date[0].'<br>'.$date[1].' </td>';
 

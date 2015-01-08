@@ -45,6 +45,7 @@ if(mysql_num_rows($query)){ // wenn user schon in liste ...
   $output .=  '<input class="okbuttons" type="submit" name="submit" value="ich komme NICHT"><br>';
   $output .=  '<input class="okbuttons" type="submit" name="submit" value="wahrscheinlichkeit ändern"> <input class="editbox" type="text" name="wahrscheinlichkeit" value="'.mysql_result($query,0,"wahrscheinlichkeit").'" size="3" style="text-align:right;">%';
 }else{
+  //$output .=  '<input class="okbuttons" type="submit" name="submit" value="ich komme NICHT"><br>';
   $output .=  '<input class="okbuttons" type="submit" name="submit" value="ich komme zum Meeting"> mit <input value="100" class="editbox" type="text" name="wahrscheinlichkeit" size="3" style="text-align:right;">%iger Wahrscheinlichkeit!';
 }
 $output .='

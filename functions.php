@@ -23,7 +23,14 @@ $event_id = $EVENT->next;
 
 function list_orgas()
 {
-	$sql = "SELECT vorname, nachname, u.id AS id FROM user AS u, user_orga AS o WHERE o.user_id = u.id AND o.display_team = 1 ORDER BY u.vorname";
+	$sql = "SELECT vorname, nachname, nick, u.id AS id FROM user AS u, user_orga AS o WHERE o.user_id = u.id AND o.display_team = 1 ORDER BY u.vorname";
+	$out =  mysql_query($sql);
+	return $out;
+}
+
+function list_user_groups_dotlan()
+{
+	$sql = "SELECT * FROM user_groups";
 	$out =  mysql_query($sql);
 	return $out;
 }
