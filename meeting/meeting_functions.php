@@ -218,7 +218,10 @@ $output .= '			</select>
 			  <tr class="msgrow2">
 			   <input type="hidden" name="id" value="'.$_GET["id"].'">
 				<td colspan="2" class="anmeldung_typ" nowrap="nowrap" style="text-align:center;">
-					<input class="okbuttons" type="submit" name="submit" value=';if(!$_POST["submit"]) $output .=  "Anlegen"; else $output .=  $_POST["submit"];'></td>
+					<input class="okbuttons" type="submit" name="submit" value=';
+					if(!$_POST["submit"]) { $output .= ' Anlegen'; }
+					else{ $output .= $_POST["submit"];}
+$output .= '	></td>
 			  </tr>
 			</table>
 			</form>
@@ -231,8 +234,9 @@ return $output;
 }
 
 function meeting_insert($post,$event_id){
-	if($post['mail']) email($post);
+
 	mysql_query("INSERT INTO project_meeting_liste SET event_id = '".$event_id."', titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."'") or die(mysql_error());
+	if($post['mail']) email($post);
 }
 
 function meeting_del($id){
@@ -241,8 +245,9 @@ function meeting_del($id){
 }
 
 function meeting_update($post,$id){
-	if($post['mail']) email($post);
+
 	mysql_query("UPDATE project_meeting_liste SET titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."' WHERE ID = ".$id.";");
+	if($post['mail']) email($post);
 }
 
 function meeting_chg_gewesen($id,$gewesen){

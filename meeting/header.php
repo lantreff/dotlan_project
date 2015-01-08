@@ -81,7 +81,6 @@ $output .= "<form name='change_event' action='' method='POST'>
 				
 $output .= "									
 			</select>
-						<!-- <input name='senden' value='Event wechseln' type='submit'> -->
 			</form>
 			<br>";
 ?>
