@@ -33,7 +33,7 @@ else
 {
 	$sql = mysql_query("SELECT * FROM `project_equipment` ".$wo."; ");
 }
- 
+if(isset($_GET['bezeichnung'])){ $sql = mysql_query("SELECT * FROM `project_equipment_lagerort` WHERE bezeichnung 	LIKE  '%".$_GET['bezeichnung']."%' ");} 
 
 if( ($_GET['size'] == 12 && $_GET['length'] == 60) ){
 	
@@ -55,7 +55,7 @@ while($out_equip = mysql_fetch_array($sql))
   $pdf->AddPage();
   # Barcode
   
-	if(isset($_GET['lagerort']))
+	if(isset($_GET['lagerort']) || isset($_GET['bezeichnung']))
 	{ 
 		$pdf->SetFont('Arial','B',16);
 		$pdf->text(4,8,$out_equip['bezeichnung'],1,1,'C');

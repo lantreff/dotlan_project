@@ -96,7 +96,7 @@ $output .= "
 				{ document.addeq2kiste.eqid.focus(); }
 			';
 			}
-			else
+			elseif($_GET['action'] == "eqtokiste"  && ( $_GET['action'] != "add" || $_GET['action'] != "edit") )
 			{
 			$output .= '
 			window.onload=function()

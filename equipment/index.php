@@ -330,8 +330,7 @@ if($_GET['hide'] == "1")
 
 	if( $_GET['action'] == 'add' || $_GET['action'] == 'edit' )
 	{
-		if (!$DARF["add"] || !$DARF["edit"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
-	
+		
 		if($_GET['action'] == 'edit')
 		{
 			$out_edit_epuipment =  mysql_fetch_array( mysql_query("SELECT * FROM project_equipment WHERE id = ".$id."") );
@@ -809,6 +808,15 @@ if($_GET['action'] == 'show')
 									Lagerort anlegen
 								</a>
 							</td>
+							<td width='200' class='shortbarbit'>
+							<form name='".$_GET['action']."lagerort' action='index.php?hide=1&hide1=1&action=lagerort&do=print_lager' method='POST'> 
+								Lagerort mit Bezeichnung
+								<input name='lager' value='' size='10' type='text' maxlength='50'>
+								  in l&auml;nge
+								<input name='length' value='60' size='4' type='text' maxlength='4'>
+								 <input name='submit' value='Drucken' type='submit' accesskey='s' title='Absenden mit Alt+S, Firefox: Shift+Alt+S'>
+							</form>
+							</td>
 						<tr>
 					</tbody>
 				</table>
@@ -896,7 +904,7 @@ $output .= "
 	
 			if( $_GET['action'] == "lagerort" && ($_GET['do'] == 'add' || $_GET['do'] == 'edit' ) )
 			{
-				if (!$DARF["add"] || !$DARF["edit"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				//if (!$DARF["add"] || !$DARF["edit"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 			
 				if($_GET['do'] == 'edit')
 				{
@@ -952,6 +960,10 @@ $output .= "
 										";
 				
 				}
+			if( $_GET['do'] == 'print_lager')
+			{
+					$PAGE->redirect($dir."barcode.php?length=".$_POST['length']."&size=12&bezeichnung=".$_POST['lager'],$PAGE->sitetitle,$meldung);
+			}
 				if($_GET['do'] == 'del'  )
 				{
 					if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
