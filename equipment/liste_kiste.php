@@ -19,7 +19,7 @@ else
 $URL = "http://".$_SERVER["SERVER_NAME"].$global['project_path'];
 //echo $URL;
 $wo = "";
-if(isset($_GET['kiste'])){ 		$wo = " WHERE  kiste 	= '".$_GET['kiste']."' 		";}
+if(isset($_GET['kiste'])){ 		$wo = " WHERE  kiste 	= '".$_GET['kiste']."'";}
 
 
 $sql = mysql_query("SELECT * FROM `project_equipment` ".$wo."; ");
@@ -38,18 +38,16 @@ $pdf->Cell(0,5,'',0,1); //<hr />
 $pdf->Cell(0,5,'',0,1); //<hr />
 
 $pdf->SetFont('Arial','B',10);				
-				$pdf->Cell(45,5,	"Bezeichnung");
-				$pdf->Cell(45,5,	"Equipment ID");
-				$pdf->Cell(20,5,	"Hersteller");
+				$pdf->Cell(100,5,	"Bezeichnung");
+				$pdf->Cell(30,5,	"Equipment ID");
 				$pdf->Cell(0,5,'',0,1); //<hr />
 				$pdf->Cell(0,0,'',1,1); //<hr />
 				
 while($out_equip = $DB->fetch_array($sql))
 {	$pdf->SetFont('Arial','',10);				
 	//$pdf->Cell(80,0,'',1,1); //<hr />
-	$pdf->Cell(45,5,	$out_equip['bezeichnung'] );
-	$pdf->Cell(45,5,	"eq".sprintf("%06d",$out_equip['id']));
-	$pdf->Cell(20,5,	$out_equip['hersteller']);
+	$pdf->Cell(100,5,	$out_equip['bezeichnung'] );
+	$pdf->Cell(30,5,	"eq".sprintf("%06d",$out_equip['id']));
 	$pdf->Cell(0,5,'',0,1); //<hr />
 	$pdf->Cell(0,0,'',1,1); //<hr />
 }
