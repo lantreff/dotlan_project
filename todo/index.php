@@ -1,5 +1,5 @@
 <?php
-
+ 
 $MODUL_NAME="todo";
 include_once("../../../global.php");
 include("../functions.php");
@@ -608,7 +608,7 @@ $output .= '	<table cellspacing="0" cellpadding="0" width="100%" border="0">
 								<tbody>
 								<tr>
 									<td>
-										 <input type='checkbox' id='".$vorlage."' onClick='select_all(\"".$vorlage."\");'>
+										 <input type='checkbox' id='".$vorlage."' onClick='select_all(\"".$vorlage."\");'> select all
 									</td>
 								</tr>";
 						$m = 0;

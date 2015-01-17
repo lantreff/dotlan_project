@@ -1,5 +1,5 @@
 <?php
-
+ 
 $MODUL_NAME = "todo";
 include_once("../../../global.php");
 include("../functions.php");
@@ -12,8 +12,8 @@ $PAGE->sitetitle = $PAGE->htmltitle = _("ToDo Gruppenverwaltung");
 $event_id = $EVENT->next;
 $EVENT->getevent($event_id);
 
-$sql_list_gruppen = $DB->query("SELECT * FROM project_todo_gruppen");
-$sql_list_gruppen1 = $DB->query("SELECT * FROM project_todo_gruppen");
+$sql_list_gruppen = list_groups();
+$sql_list_gruppen1 = list_groups();
 //$sql_list_equip_to_group = $DB->query("SELECT * FROM ( project_todo_gruppen AS g LEFT JOIN project_todo_g2u AS eg ON g.id = eg.group_id ) LEFT JOIN project_equipment AS e ON eg.user_id = e.id");
 
 
@@ -114,8 +114,8 @@ else
 			if($_GET['do'] == "del_".$out_list_gruppen['id']) {
 
 
-				$del_gruppe = $DB->query(" DELETE FROM `project_todo_gruppen` WHERE `project_ticket_queue`.`id` = '".$id."' ;");
-				$del_user_aus_gruppe = $DB->query(" DELETE FROM `project_todo_g2u` WHERE `project_ticket_agent_queue`.`queueid` = '".$id."' ;");
+				$del_gruppe = $DB->query(" DELETE FROM `project_todo_gruppen` WHERE `id` = '".$id."' ;");
+				$del_user_aus_gruppe = $DB->query(" DELETE FROM `project_todo_g2u` WHERE `group_id` = '".$id."' ;");
 
 				$output .= " gruppe wurde gel&ouml;scht!" ;
 				$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."gruppen.php?page=gruppen'>";

@@ -75,7 +75,7 @@ function list_my_todo($id,$event_id,$sort_by)
 
 function list_my_insert_todo($id,$event_id,$sort_by)
 {
-	$sql = "SELECT * FROM `project_todo` WHERE ersteller = ".$id." AND event_id ='".$event_id."' $sort_by ";
+	$sql = "SELECT * FROM `project_todo` WHERE ersteller = '".$id."' AND event_id ='".$event_id."' $sort_by ";
 	$out =  mysql_query($sql);
 	return $out;
 }
@@ -206,11 +206,11 @@ function out_table($sql,$DARF){
 							Prio';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "prio" )
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=prio&order=DESC" > <img src="../images/16/minisort2.gif" alt="Sortieren nach Prio" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=prio&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Prio" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=prio&order=ASC" > <img src="../images/16/minisort.gif" alt="Sortieren nach Prio" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=prio&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Prio" border="0" > </a>';
 							}
 			$output .= '
 						</td>
@@ -219,11 +219,11 @@ function out_table($sql,$DARF){
 							';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "status" )
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=status&order=DESC" > <img src="../images/16/minisort2.gif" alt="Sortieren nach Fortschritt" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=status&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Fortschritt" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=status&order=ASC" > <img src="../images/16/minisort.gif" alt="Sortieren nach Fortschritt" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=status&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Fortschritt" border="0" > </a>';
 							}
 			$output .= '
 						</td>
@@ -232,11 +232,11 @@ function out_table($sql,$DARF){
 							';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "bezeichnung" )
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=bezeichnung&order=DESC" > <img src="../images/16/minisort2.gif" alt="Sortieren nach Bezeichnung" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=bezeichnung&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Bezeichnung" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=bezeichnung&order=ASC" > <img src="../images/16/minisort.gif" alt="Sortieren nach Bezeichnung" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=bezeichnung&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Bezeichnung" border="0" > </a>';
 							}
 			$output .= '
 						</td>
@@ -245,11 +245,11 @@ function out_table($sql,$DARF){
 							';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "gruppe,bearbeiter" )
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=gruppe,bearbeiter&order=DESC" > <img src="../images/16/minisort2.gif" alt="Sortieren nach Gruppe/Bearbeiter" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=gruppe,bearbeiter&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Gruppe/Bearbeiter" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=gruppe,bearbeiter&order=ASC" > <img src="../images/16/minisort.gif" alt="Sortieren nach Gruppe/Bearbeiter" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=gruppe,bearbeiter&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Gruppe/Bearbeiter" border="0" > </a>';
 							}
 			$output .= '
 						</td> 	 
@@ -258,11 +258,11 @@ function out_table($sql,$DARF){
 							';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "erstellt" )
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=DESC" > <img src="../images/16/minisort2.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=ASC" > <img src="../images/16/minisort.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
+								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
 							}
 							
 							$admin_breite = 36;
@@ -354,21 +354,21 @@ function out_table($sql,$DARF){
 									{ //  Admin
 										$output .="
 										<a href='?hide=1&do=edit&id=".$out['id']."' target='_parent'>
-										<img src='../images/16/edit.png' title='\"".$out['bezeichnung']."\" anzeigen/&auml;ndern' ></a>
+										<img src='http://www.maxlan.de/admin/projekt/images/16/edit.png' title='\"".$out['bezeichnung']."\" anzeigen/&auml;ndern' ></a>
 										";
 										}
 									if($DARF["del"] )
 									{ //  Admin
 										$output .="
 										<a href='?hide=1&do=del&id=".$out['id']."' target='_parent'>
-										<img src='../images/16/editdelete.png' title='\"".$out['bezeichnung']."\" l&ouml;schen'></a>
+										<img src='http://www.maxlan.de/admin/projekt/images/16/editdelete.png' title='\"".$out['bezeichnung']."\" l&ouml;schen'></a>
 										";
 									}
 									if($DARF["remind"] )
 									{ //  Admin
 										$output .='
 										<a onClick= "return confSend();" href="?hide=1&do=remind&id='.$out['id'].'" target="_parent">
-										<img src="../images/16/mail_send.png" title="Erinnerungsmail zur Aufgabe '.$out['bezeichnung'].' senden?"></a>
+										<img src="http://www.maxlan.de/admin/projekt/images/16/mail_send.png" title="Erinnerungsmail zur Aufgabe '.$out['bezeichnung'].' senden?"></a>
 										<br>
 										';
 									}
@@ -569,11 +569,98 @@ function send_mail_table($sql,$sql1)
 												.'<head>'
 												.'<link rel="stylesheet" type="text/css" href="http://www.maxlan.de/styles/maxlan.css">'
 												.'<script type="text/javascript" src="http://www.maxlan.de/styles/Project.js"></script>'
-												.'</head>'
+												.'
+												<style type="text/css">
+												#box div:hover {
+													/* background: none repeat scroll 0 0 #FFFFFF; */
+													position: relative;
+												}
+												#box div span {
+													display: none;
+													font-size: 12px;
+													text-align: left;
+												}
+												#box div:hover span {
+													background: none repeat scroll 0 0 #FFFFFF;
+													border: solid 1px #000000;
+													color: #000000;
+													display: block;
+													left: 0;
+													padding: 15px;
+													position: absolute;
+													top: 20px;
+													
+													width: 250px;
+												}
+												.msg				{background-color: #FFFFFF;}
+												.msg2				{background-color: #FFFFFF;}
+												.msgbody			{background-color: #F0F0F0; color: #000000;}
+												.msghead			{background-color: #e6e6e6; color: #000000;  font-weight: bold;}
+												.msghead2			{background-color: #FAFAFA; color: #000000; font-size: 10px; font-weight: bold; text-align: center;}
+												.msghead3			{background-color: #FAFAFA; color: #000000; font-size: 10px; border-bottom: solid 1px #C33333;}
+												.msgrow1			{background-color: #FFFFFF; color: #000000;}
+												.msgrow2			{background-color: #e6e6e6; color: #000000;}
+												.msgrowRED 			{background-color: #FF0000; color: #000000;}
+												.msgrowRED a			{color: #000000;}
+												.msgrowRED td 		{ color: #000000;}
+												.msgrowRED a:hover	{ color: #99CC00;}
+												.msgrowORANGE 		{background-color: #FF8000; color: #000000;}
+												.msgrowORANGE a		{ color: #000000;}
+												.msgrowORANGE a:hover{ color: #99CC00;}
+												.msgrowORANGE td 	{ color: #000000;}
+												.msg_over			{background-color: #C33333; color: #000000;}
+												.small
+												.PriorityID-1 {
+													background-color: #49FF49;
+													font-family: Geneva,Helvetica,Arial,sans-serif;
+													font-size: 11px;
+													width: 18px;
+													height: 18px;
+												   /* padding-bottom: 17px;*/
+												}
+												.PriorityID-2 {
+													background-color: #EEEEEE;
+													font-family: Geneva,Helvetica,Arial,sans-serif;
+													font-size: 11px;
+													width: 18px;
+													height: 18px;
+												   /* padding-bottom: 17px;*/
+												}
+												.PriorityID-3 {
+													background-color: #FFFF49;
+													font-family: Geneva,Helvetica,Arial,sans-serif;
+													font-size: 11px;
+													width: 18px;
+													height: 18px;
+												   /* padding-bottom: 17px;*/
+												}
+												.PriorityID-4 {
+													background-color: #FF9900;
+													font-family: Geneva,Helvetica,Arial,sans-serif;
+													font-size: 11px;
+													width: 18px;
+													height: 18px;
+												   /* padding-bottom: 17px;*/
+
+												}
+												.PriorityID-5 {
+													background-color: #FF8888;
+													font-family: Geneva,Helvetica,Arial,sans-serif;
+													font-size: 11px;
+													width: 18px;
+													height: 18px;
+												   /* padding-bottom: 17px;*/
+												}												
+												</style>
+												</head>'
 												.'<body style="background-collor:#FFFFFF;  background: url(/styles/maxlan/bg.jpg) ;">'
 												.$hallo
 												.'<br>'
 												.out_table($sql,$DARF)
+												.'<br>'
+												.'Hier gehts zu den Aufgaben:'
+												.'<br>'
+												.'<a href="http://'.$_SERVER["SERVER_NAME"].'/admin/projekt/todo">http://'.$_SERVER["SERVER_NAME"].'/admin/projekt/todo</a>'
 												.'</body>'
 												.'</html>'
 																								)
@@ -581,9 +668,10 @@ function send_mail_table($sql,$sql1)
 												
 				$betreff 		= ucfirst($global['sitename'])." Erinnerung an Aufgabe/n";
 				$absender 		= $global['email'];
+				//$absender 		= "info@maxlan.de";
 				
 				$header  	 = "MIME-Version: 1.0\r\n";
-				$header 	.= "Content-type: text/html; charset=iso-8859-1\r\n";
+				$header 	.= "Content-type: text/html; charset=iso-8859-15\r\n";
 				$header 	.= "Content-Transfer-Encoding: quoted-printable\r\n";
 				$header 	.= "From: $absender\r\n";
 				$header 	.= "Reply-To: $absender\r\n";
@@ -600,8 +688,8 @@ function send_mail_table($sql,$sql1)
 						{
 							$out_mail_grp = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id ='".$out_orga_id['user_id']."'"));
 						
-							//$empfaenger		= $out_mail_grp['email'];
-							$empfaenger		= "christian@cegbers.de";
+							$empfaenger		= $out_mail_grp['email'];
+							//$empfaenger		= "christian.egbers@the-encounter.de";
 
 								######################################################################################################
 									mail($empfaenger, $betreff, $email_text, $header);
@@ -613,8 +701,8 @@ function send_mail_table($sql,$sql1)
 				if(mysql_num_rows($sql_user) > 0)
 				{
 					
-					//$empfaenger		= $user['email'];
-					$empfaenger		= "christian@cegbers.de";
+					$empfaenger		= $user['email'];
+					//$empfaenger		= "christian.egbers@the-encounter.de";
 
 					######################################################################################################
 						//mail($empfaenger, $betreff, $email_text, $header);
