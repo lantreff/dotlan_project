@@ -150,7 +150,7 @@ global $global;
 		{
 
 			$output .= 	'
-			<form action="index.php" method="POST">
+			<form onsubmit="return mail_senden();" id="meeting_input" name="meeting_input" action="index.php" method="POST">
 			<table class="msg">
 			  <tr>
 				<td colspan="2" class="msghead" nowrap="nowrap"><b>Meeting
@@ -197,6 +197,7 @@ $output .= '
 					 an:
 						<select name="user_groups">
 							<option value="">Gruppe w&auml;hlen</option>
+							<option value="all_orgas">alle Orgas</option>
 					';
 					$user_groups =  list_user_groups_dotlan();
 					while($out = mysql_fetch_array($user_groups))
@@ -258,7 +259,16 @@ function meeting_chg_gewesen($id,$gewesen){
 function meeting_showtext($id,$typ,$edit){
   if($typ == 1){
     $query = mysql_query("SELECT geplant,datum FROM project_meeting_liste WHERE ID = '".$id."' LIMIT 1;");
-    $output .=  '<tr><td class="msghead" nowrap="nowrap"><b>Geplant am '.mysql_result($query,0,"datum").$DARF['edit'].'</b></td></tr><tr><td width="900" class="msgrow1" nowrap="nowrap">'.nl2br(mysql_result($query,0,"geplant")).'</td></tr>';
+    $output .=  '<tr>
+					<td class="msghead" nowrap="nowrap">
+						<b>Geplant am '.mysql_result($query,0,"datum").$DARF['edit'].'</b>
+					</td>
+				</tr>
+				<tr>
+					<td width="900" class="msgrow1" nowrap="nowrap">
+						'.nl2br(mysql_result($query,0,"geplant")).'
+					</td>
+				</tr>';
   }elseif($typ == 2){
     $query = mysql_query("SELECT protokoll,datum FROM project_meeting_liste WHERE ID = $id LIMIT 1;");
 	$query2 = mysql_query("SELECT text,date FROM project_notizen WHERE id = '".mysql_result($query,0,"protokoll")."' LIMIT 1;");
@@ -527,7 +537,9 @@ function email($post)
 				$header 	.= "Reply-To: $absender\r\n";
 				$header 	.= "X-Mailer: PHP/".phpversion();
 				
-	$orga_id =	mysql_query("SELECT * FROM user_g2u WHERE group_id ='".$post['user_groups']."'");
+	if($post['user_groups'] == "all_orgas")	{ $orga_id =	mysql_query("SELECT * FROM user_orga WHERE display_team = '1' ");}
+	//if($post['user_groups'] == "all_orgas")	{ $orga_id =	mysql_query("SELECT * FROM user_orga WHERE id = '64' ");}
+	else{ 	$orga_id =	mysql_query("SELECT * FROM user_g2u WHERE group_id ='".$post['user_groups']."'");}
 			
 						while($out_orga_id = mysql_fetch_array($orga_id))
 						{

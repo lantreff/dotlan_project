@@ -42,7 +42,7 @@ else
 			<br>';
 			
 			
-		$output .= out_table(list_my_todo($user_id,$event_id,$sort_by),$DARF);
+		$output .= out_table(list_my_todo($user_id,$event_id,$user_id,$sort_by),$DARF);
 						
 		$output .= '			
 			<br>

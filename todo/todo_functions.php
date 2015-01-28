@@ -66,9 +66,9 @@ function list_single_todo($id)
 	return $out;
 }
 
-function list_my_todo($id,$event_id,$sort_by)
+function list_my_todo($id,$event_id,$user_id,$sort_by)
 {
-	$sql = "SELECT * FROM `project_todo` WHERE bearbeiter = '".$id."' AND gruppe = 0  AND event_id ='".$event_id."' $sort_by ";
+	$sql = "SELECT * FROM `project_todo` WHERE bearbeiter = '".$id."' AND ersteller <> '".$user_id."' AND gruppe = 0  AND event_id ='".$event_id."' $sort_by ";
 	$out =  mysql_query($sql);
 	return $out;
 }
