@@ -53,8 +53,8 @@ $output .= 	$meldung.'
 <table class="maincontent">
 
 ';
-if ($DARF["del"] || $DARF["edit"]) $output .=  meeting_list($DARF["edit"],$DARF["del"],$event_id);
-else $output .=  meeting_list($DARF["edit"],$DARF["del"],$event_id);
+if ($DARF["del"] || $DARF["edit"]) $output .=  meeting_list($DARF,$event_id);
+else $output .=  meeting_list($DARF,$event_id);
 $output .= 	'
 </table>
 ';
