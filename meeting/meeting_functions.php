@@ -401,9 +401,9 @@ if($admin) $output .=  '<td class="msghead" nowrap="nowrap">
   while($row = mysql_fetch_array($query)){
     $query2 = mysql_query("SELECT * FROM user WHERE id = ".$row["user_id"]." LIMIT 1;");
 	$style ='';
-		if($row["wahrscheinlichkeit"] == 0  ) $style =' background-color:RED;"';
-		if($row["wahrscheinlichkeit"] <  100) $style =' background-color:orange;"';
 		if($row["wahrscheinlichkeit"] == 100) $style =' background-color:GREEN;"';
+		if($row["wahrscheinlichkeit"] <  100) $style =' background-color:orange;"';
+		if($row["wahrscheinlichkeit"] == 0  ) $style =' background-color:RED;"';
 
     $output .=  '<tr class="msgrow'.(($i%2)?1:2).'" >
 					<td>
