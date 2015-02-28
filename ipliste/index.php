@@ -174,7 +174,7 @@ else
 				
 					$output .= "
 	
-				<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#c33333;border-bottom-style:solid;border-bottom-width:2px;'>
+				<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#99CC00;border-bottom-style:solid;border-bottom-width:2px;'>
 					<tbody>
 						<tr>
 							<td>
@@ -262,7 +262,7 @@ else
 
 								<tr class='".$currentRowClass."'>
 										<td >
-											".$out_list_ip['ip']." 
+											<a href=".$out_list_ip['ip']." target="_new">".$out_list_ip['ip']."</a> 
 										</td>
 										<td >";
 							while($out_list_ip_Bezeichnung = $DB->fetch_array($sql_list_ip_Bezeichnung))
@@ -331,7 +331,7 @@ $output .= "
 
 								<tr class='".$currentRowClass."'>
 										<td >
-											".$out_list_ip['ip']."  
+											<a href=".$out_list_ip['ip']." target="_new">".$out_list_ip['ip']."</a>   
 										</td>
 										<td >
 											".htmlentities($out_list_ip['bezeichnung'])."
