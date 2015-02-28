@@ -262,7 +262,7 @@ else
 
 								<tr class='".$currentRowClass."'>
 										<td >
-											<a href='".$out_list_ip['ip']."' target='_new'>".$out_list_ip['ip']."</a>  
+											<a href='http://".$out_list_ip['ip']."' target='_new'>".$out_list_ip['ip']."</a>  
 										</td>
 										<td >";
 							while($out_list_ip_Bezeichnung = $DB->fetch_array($sql_list_ip_Bezeichnung))
@@ -331,7 +331,7 @@ $output .= "
 
 								<tr class='".$currentRowClass."'>
 										<td >
-											<a href='".$out_list_ip['ip']."' target='_new'>".$out_list_ip['ip']."</a>  
+											<a href='http://".$out_list_ip['ip']."' target='_new'>".$out_list_ip['ip']."</a>  
 										</td>
 										<td >
 											".htmlentities($out_list_ip['bezeichnung'])."
