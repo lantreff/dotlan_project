@@ -474,14 +474,15 @@ global $global;
     $bis = mysql_result($query,0,"bis");
     $wo = mysql_result($query,0,"location");
   }elseif($typ == "meeting"){
-    $query = mysql_query("SELECT adresse, DATE_FORMAT(datum  - INTERVAL 2 HOUR, '%Y%m%dT%H%i%sZ') AS datum, DATE_FORMAT(datum  - INTERVAL 1 HOUR,'%Y%m%dT%H%i%sZ') AS bis FROM project_meeting_liste WHERE ID = '".$id."' LIMIT 1");
-    $name = $global['sitename']." - Meeting";
+    $query = mysql_query("SELECT titel, adresse, geplant, DATE_FORMAT(datum  - INTERVAL 2 HOUR, '%Y%m%dT%H%i%sZ') AS datum, DATE_FORMAT(datum  - INTERVAL 1 HOUR,'%Y%m%dT%H%i%sZ') AS bis FROM project_meeting_liste WHERE ID = '".$id."' LIMIT 1");
+    $name = ucfirst($global['sitename'])." - ".mysql_result($query,0,"titel");
     $von = mysql_result($query,0,"datum");
     $bis = mysql_result($query,0,"bis");
     $wo = str_replace(array("\n","\r",",")," ",umlaute_ersetzen(mysql_result($query,0,"adresse")));
+	$was = umlaute_ersetzen(mysql_result($query,0,"geplant"));
   }else return false;
 
-  return 'https://www.google.com/calendar/render?action=TEMPLATE&text='.$name.'&dates='.$von.'/'.$bis.'&sprop=website:'.$_SERVER["SERVER_NAME"].'&trp=true&location='.$wo;
+  return 'https://www.google.com/calendar/render?action=TEMPLATE&text='.$name.'&dates='.$von.'/'.$bis.'&sprop=website:'.$_SERVER["SERVER_NAME"].'&trp=true&location='.$wo.'&details='.$was;
 }
 
 function get_cal_links($typ,$id){
