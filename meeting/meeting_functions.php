@@ -274,7 +274,7 @@ function meeting_showtext($id,$typ,$edit){
 	$query2 = mysql_query("SELECT text,date FROM project_notizen WHERE id = '".mysql_result($query,0,"protokoll")."' LIMIT 1;");
    if(mysql_num_rows($query2)!=0) $output .=  '<tr><td class="msghead" nowrap="nowrap"><b>Protokoll</b></td></tr><tr><td class="msgrow1" nowrap="nowrap">'. nl2br(mysql_result($query2,0,"text")).'</td></tr>';
    else $output .= 'Kein Protokoll gefunden';
-   if($edit)
+   if($edit1)
    {
 		$output .= ', bitte Protokoll über "bearbeiten" auswählen!';
 	}
@@ -284,6 +284,20 @@ function meeting_showtext($id,$typ,$edit){
   }
   return $output;
 }
+function meeting_addprotokoll($kategorie,$bezeichnung,$text,$DARF,$event_id,$meeting_id,$date){
+global $PAGE;	
+	if($DARF['add'])
+	{
+		$insert= mysql_query("INSERT INTO `project_notizen` (id, event_id, bezeichnung, text, kategorie, date, last_work) VALUES (NULL, '".$event_id."', '".$bezeichnung."', '".nl2br($text)."', '".$kategorie."', '".$date."', '".$date."');");
+		$query = mysql_query("SELECT id FROM project_notizen WHERE bezeichnung = '".$bezeichnung."' AND kategorie = '".$kategorie."' ");
+		
+		mysql_query("UPDATE project_meeting_liste SET protokoll = '".mysql_result($query,0,"id")."' WHERE ID = $meeting_id;");
+		$PAGE->redirect("{BASEDIR}admin/projekt/notiz/?hide=1&action=edit&id=".mysql_result($query,0,"id")."",$PAGE->sitetitle,"Das Protokoll ".$bezeichnung." wurde gespeichert");	
+	}else
+	{
+		$output .= 'keine Rechte!';
+	}
+}
 
 function meeting_showchangetext($id,$typ,$edit,$event_id){
   if($typ == 1){
@@ -291,7 +305,7 @@ function meeting_showchangetext($id,$typ,$edit,$event_id){
     $output .=  '<form action="meetings_texte.php?typ='.$typ.'&id='.$id.'" method="POST">';
     $output .=  '<tr><td class="msghead" nowrap="nowrap"><b>Geplant am '.mysql_result($query,0,"datum").'</b></td></tr><tr><td  nowrap="nowrap"><textarea class="editbox" name="geplant" rows="10" cols="50">'.mysql_result($query,0,"geplant").'</textarea></td></tr>';
   }elseif($typ == 2){
-    $query = mysql_query("SELECT protokoll,datum FROM project_meeting_liste WHERE ID = $id LIMIT 1;");
+    $query = mysql_query("SELECT * FROM project_meeting_liste WHERE ID = $id LIMIT 1;");
 	$query2 = mysql_query("SELECT
 							n.bezeichnung as note_bezeichnung,
 							n.date as note_date,
@@ -301,7 +315,8 @@ function meeting_showchangetext($id,$typ,$edit,$event_id){
 							FROM project_notizen AS n  WHERE ( n.kategorie = 'Protokoll' AND n.event_id = '".$event_id."'   )
 							 ");
 
-    $output .=  '<form action="meetings_texte.php?typ='.$typ.'&id='.$id.'" method="POST">';
+    $output .=  '<div title="Es wird eine neue Notiz mit Inhalt des Mettings erstellt und danach ge&ouml;ffnet!"><a href="?action=add&kategorie=Protokoll&bezeichnung='.mysql_result($query,0,"titel").'&geplant='.mysql_result($query,0,"geplant").'&id='.$id.'"><input type="button" value="Protokoll f&uuml;r dieses Meeting anlegen"></a></div>
+				<form action="meetings_texte.php?typ='.$typ.'&id='.$id.'" method="POST">';
     $output .=  '<tr>
 					<td class="msghead" nowrap="nowrap">
 						<b>Protokoll</b>

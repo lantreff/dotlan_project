@@ -7,6 +7,7 @@
 # admin/notiz/export.php - Version 1.0                                 #
 ########################################################################
 
+$MODUL_NAME = "notiz";
 include_once("../../../global.php");
 include("../functions.php");
 
@@ -32,7 +33,7 @@ $sql_list_kategorie = $DB->query("SELECT * FROM project_notizen WHERE id = '".$_
 						  $pdf->Ln();
 
 
-						  $details = strip_tags ( $out_list_kategorie['text'] );
+						  $details = strip_tags($out_list_kategorie['text']);
 
 						  $pdf->SetFont('Arial','B',12);
 						  $pdf->MultiCell(0,5,$out_list_kategorie['bezeichnung']);

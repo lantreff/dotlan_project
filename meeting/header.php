@@ -37,13 +37,14 @@ $output .= "
 					<table cellspacing='1' cellpadding='2' border='0' class='msg2'>
   						<tbody>
 							<tr class='shortbarrow'>";
-					$output .= "<td width='".$breite."' class='".$a."'><a href='".$dir."' class='".$a1."'>Übersicht</a></td>";
-					$output .= "<td width='2' class='shortbarbitselect'>&nbsp;</td>";
+				
 														
 						if($DARF["add"] )
 							{
 								$output .= "<td width='".$breite."' class='".$b."'> <a href='index.php?hide=1&action=add' class='".$b1."'>Neu Anlegen</a></td>";
 							}
+					$output .= "<td width='2' class='shortbarbitselect'>&nbsp;</td>";
+					$output .= "<td width='".$breite."' class='".$a."'><a href='".$dir."' class='".$a1."'>Übersicht</a></td>";
 					$output .= "								
 							</tr>
 						</tbody>
