@@ -12,11 +12,11 @@ $type 		= $_POST['type'];
 $queue 		= $_POST['queue'];
 $agent 		= $_POST['agent'];
 $titel 		= $_POST['titel'];
-$text 		= nl2br($_POST['user_eingabe']);
+$text 		=  nl2br(security_string_input($_POST['user_eingabe']));
 $status 	= $_POST['status'];
 $prio 		= $_POST['prio'];
 $user 		= $_POST['user'];
-$gelesen	= $_POST['gelesen'];
+$gelesen 	= $_POST['gelesen'];
 
 $out_ticket = 
 		$DB->fetch_array	(
@@ -30,12 +30,21 @@ $out_ticket =
 									")
 							);
 
-if($_GET['action'] == "note")
+if($_GET['action'] == "stat")
 {
 //				an, von, Betreff, Betreff Zusatz, Nachricht, Ticket_ID
-	//user_mail($user,$user_id,$titel,"Ticket: neue ",$text,$ticketid);
-	//user_pm($user,$user_id,$titel,"Ticket: neue ",$text,$ticketid);
+	//user_mail($user,$user_id,$titel,"Ticket geschlossen: ",$text,$ticketid);
+	//user_pm($user,$user_id,$titel,"Ticket geschlossen: ",$text,$ticketid);
 	
+	$update=$DB->query(	"
+							UPDATE
+								`project_ticket_ticket`
+							SET
+								`status` = ".$status."
+							WHERE
+								`id` = ".$ticketid."
+						");
+						
 	$insert=$DB->query	("
 													INSERT INTO
 														`project_ticket_antworten`
@@ -54,15 +63,16 @@ if($_GET['action'] == "note")
 														(
 															NULL,
 															'".$user_id."',
-															'".$datum."',
+															'".$datum."',															
 															'".$titel."',
 															'".$text."',
 															'".$ticketid."',
 															'".$out_ticket['prio']."',
 															'".$type."',
-															'".$gelesen."'
+															'".$gelesen."'															
 														);"
 												);
+												
 	$out_ticket_show_ticketdata = 
 							$DB->fetch_array(
 												$DB->query(	"
@@ -85,14 +95,14 @@ if($_GET['action'] == "note")
 																		id='".$out_ticket_show_ticketdata['user']."'
 																")
 												);											
-	$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Die Notiz des Tickets ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde gespeichert <br>Nachricht: <br> ".$text.".");
+	$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Das Ticket ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde geschlossen <br>Nachricht: <br> ".$text.".");
 }
 
 /*###########################################################################################
 Admin PAGE
 */
 
-if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 
 else
 {
@@ -100,19 +110,49 @@ include("header.php");
 include("news.php");		
 $output .=
 "
-
-<form name='note' method='post' action='?action=note&ticketid=".$out_ticket['id']."'>
+<a href='TicketZoom.php?ticketid=".$ticketid."'>[ Zur&uuml;ck ]</a>
+<form name='close' method='post' action='?action=stat&ticketid=".$out_ticket['id']."'>
 	<input type='hidden' name='type' value='notitz'>
-	<input type='hidden' name='titel' value='Interne Notiz hinzugef&uumlgt'>
+	<input type='hidden' name='titel' value='Status ge&auml;ndert'>
+	<input type='hidden' name='user' value='".$out_ticket['user']."'>
 	<input type='hidden' name='gelesen' value='1'>
-	<input type='hidden' name='agent' value='".$out_ticket['agent']."'>
 	<table width='100%' border='0'>
 		<tbody>
-						<tr>
+						
+                        <tr>
                             <td class='contentkey'>Text:</td>
                             <td class='contentvalue'>
 									<textarea wrap='hard'name='user_eingabe'  rows='15' cols='60' style='background: none repeat scroll 0 0 buttonface;'></textarea>
                             </td>
+                        </tr>
+                        <tr>
+                            <td class='contentkey'>Status des Tickets:</td>
+                            <td class='contentvalue'> 
+								<select name='status'>
+";
+
+						$sql_list_status = $DB->query("SELECT * FROM project_ticket_status");
+						while($out_list_status = $DB->fetch_array($sql_list_status))
+					{// begin while
+									if($out_list_status['id'] == $out_ticket['status'])
+									{
+									$output .= "
+
+									<option value='".$out_list_status['id']."' selected>".$out_list_status['name']."</option>
+									";
+									}
+									else
+									{
+									$output .= "
+
+									<option value='".$out_list_status['id']."'>".$out_list_status['name']."</option>
+									";
+									}
+					}
+
+						$output .= "
+								</select>							
+							</td>
                         </tr>
                     </tbody>
 				</table>
@@ -126,5 +166,5 @@ $output .=
 }
 // ENDE darf Sehen
 
-$PAGE->render(utf8_decode(utf8_encode($output)));
+$PAGE->render(utf8_decode($output));
 ?>

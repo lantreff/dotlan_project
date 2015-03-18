@@ -114,7 +114,7 @@ $output .=
 <a href='TicketZoom.php?ticketid=".$ticketid."'>[ Zur&uuml;ck ]</a>
 <form name='agent' method='post' action='?action=agent&ticketid=".$out_ticket['id']."'>
 	<input type='hidden' name='type' value='notitz'>
-	<input type='hidden' name='titel' value='Besitzer durch ".$CURRENT_USER->vorname." ".$CURRENT_USER->nachname." aktualisiert!'>
+	<input type='hidden' name='titel' value='Besitzer aktualisiert!'>
 	<input type='hidden' name='gelesen' value='1'>
 	<table width='100%' border='0'>
 		<tbody>

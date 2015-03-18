@@ -113,7 +113,7 @@ $output .=
 <a href='TicketZoom.php?ticketid=".$ticketid."'>[ Zur&uuml;ck ]</a>
 <form name='close' method='post' action='?action=close&ticketid=".$out_ticket['id']."'>
 	<input type='hidden' name='type' value='notitz'>
-	<input type='hidden' name='titel' value='Ticket durch ".$CURRENT_USER->vorname." ".$CURRENT_USER->nachname." geschlossen!'>
+	<input type='hidden' name='titel' value='Ticket geschlossen!'>
 	<input type='hidden' name='user' value='".$out_ticket['user']."'>
 	<input type='hidden' name='gelesen' value='1'>
 	<table width='100%' border='0'>

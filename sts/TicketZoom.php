@@ -44,8 +44,9 @@ $sql_ticket_zoom_antworten = $DB->query("
 											WHERE
 												ticket_id = '".$ticketid."'
 											AND
-											TYPE <> 'lock'
-											AND TYPE <> 'move'
+												TYPE <> 'lock'
+											AND 
+												TYPE <> 'move'
 											ORDER BY
 												erstellt DESC
 
@@ -162,7 +163,7 @@ if($_GET['action'] == "move")
 								`id` = '".$ticketid."'
 						");
 
-	$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Das Tickets ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde verschoben!");
+	//$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Das Tickets ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde verschoben!");
 }
 
 if($_GET['action'] == "sperren" || $_GET['action'] == "freigeben" )
@@ -298,6 +299,69 @@ if($_GET['action'] == "freigeben")
 	$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Das Tickets ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde verschoben ist ".$sperre."!");
 }
 
+if($_GET['action'] == "close")
+{
+	
+	$update=$DB->query(	"
+							UPDATE
+								`project_ticket_ticket`
+							SET
+								`status` = 2
+							WHERE
+								`id` = ".$ticketid."
+						");
+						
+	$insert=$DB->query	("
+													INSERT INTO
+														`project_ticket_antworten`
+															(
+																id,
+																user,
+																erstellt,
+																titel,
+																text,
+																ticket_id,
+																type,
+																gelesen
+															)
+													VALUES
+														(
+															NULL,
+															'".$user_id."',
+															'".$datum."',															
+															'Ticket geschlossen',
+															'',
+															'".$ticketid."',
+															'notitz',
+															'1'															
+														);"
+												);
+												
+	$out_ticket_show_ticketdata = 
+							$DB->fetch_array(
+												$DB->query(	"
+																SELECT 
+																	*
+																FROM
+																	`project_ticket_ticket`
+																WHERE
+																	id='".$ticketid."'
+															")
+											);
+	$out_ticket_show_userdata = 
+								$DB->fetch_array(
+													$DB->query(	"
+																	SELECT 
+																		*
+																	FROM
+																		`user`
+																	WHERE
+																		id='".$out_ticket_show_ticketdata['user']."'
+																")
+												);											
+	$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Das Ticket ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde geschlossen <br>Nachricht: <br> ".$text.".");
+}
+
 /*###########################################################################################
 Admin PAGE
 */
@@ -367,7 +431,8 @@ $output .=
 </table>
 <table width='100%' cellspacing='0' cellpadding='3' border='0'>
     <tbody><tr>
-        <td width='70%' class='menu'>
+        <td  class='menu'>
+		<form  name='move' method='POST' action='?action=move&ticketid=".$out_ticket_zoom_data['id']."'>
             <a href='Dashboard.php'>[ Zur&uuml;ck ]</a> |
 			";
 			if( ( $out_ticket_zoom_data['sperre'] == "1" && $out_ticket_zoom_data['agent'] <> $user_id ) || ( $out_ticket_zoom_data['sperre'] == "1" &&  $DARF["edit"] ) )
@@ -376,7 +441,7 @@ $output .=
 			"
 
 			<!--start MenuItem-->
-						<a title='Ticket bearbeiten!'  href='?action=sperren&ticketid=".$ticketid."'>Ticket bearbeiten</a>
+						<a title='Ticket &uumlbernehmen!'  href='?action=sperren&ticketid=".$ticketid."'>Ticket &uumlbernehmen</a>
 			<!--stop MenuItem -->
 			-
 			";
@@ -407,7 +472,7 @@ $output .=
 
             -
 
-            <a title='&Auml;ndern des Ticket-Besitzers!'  href='TicketOwner.php?ticketid=".$ticketid."'>Besitzer</a>
+            <a title='&Auml;ndern des Ticket-Bearbeiters!'  href='TicketOwner.php?ticketid=".$ticketid."'>Bearbeiter</a>
 
             -
 
@@ -425,18 +490,41 @@ if($out_ticket_zoom_data['agent'] == $user_id || $DARF["del"])
 $output .=
 "  			-
 
-            <a title='Status' href='TicketClose.php?ticketid=".$ticketid."'>Status</a>
+            <a title='Status' href='TicketStatus.php?ticketid=".$ticketid."'>Status &auml;ndern</a>
 ";
 			}
 $output .=
-"
-			</td>
+"  			-
+			
+				<b>Queue wechseln:</b>
+					<select name='queue' onChange='document.move.submit()'>
+					";
+						$sql_list_category = $DB->query("SELECT * FROM project_ticket_queue");
+							while($out_list_category = $DB->fetch_array($sql_list_category))
+						{// begin while
+										if($out_list_category['id'] == $out_ticket_zoom_data['queue'])
+										{
+										$output .= "
+											<option value='".$out_list_category['id']."' selected>".$out_list_category['name']."</option>
+										";
+											}
+										else
+										{
+										$output .= "
+											<option value='".$out_list_category['id']."'>".$out_list_category['name']."</option>
+										";
+										}
+						}
+$output .= "
+					</select>
+			</form>
+		</td>
 ";
 			}
 
 $output .=
 "
-        <td width='30%' align='right' class='menu'>
+        <td  align='right' class='menu'>
             <table cellspacing='0' cellpadding='0' border='0'>
                 <tbody><tr>
                     <td class='mainkey'>Erstellt:</td>
@@ -753,62 +841,21 @@ $output .=
 													<tbody>
 														<tr>
 															<td colspan='2'>
-															<li><a  href='TicketCompose.php?ticketid=".$out_ticket_zoom['id']."'>Standard-Antwort</a></li>
+															<li><a  href='TicketCompose.php?ticketid=".$out_ticket_zoom['id']."'>Antwort</a></li>
 ";
 													if($out_ticket_zoom_data['agent'] == $user_id || $DARF["del"] )
 													{
 $output .=
 "
-															<li><a  href='TicketClose.php?ticketid=".$out_ticket_zoom['id']."'>Ticket schlie&szlig;en...</a></li>
+															<li><a  href='?action=close&ticketid=".$out_ticket_zoom['id']."'>Ticket schlie&szlig;en...</a></li>
 ";
 													}
 $output .=
 "
 															</td>
 														</tr>
-														<form  name='move' method='POST' action='?action=move&ticketid=".$out_ticket_zoom_data['id']."'>
-														<tr colspan='2'>
-															<td >
-																<p></p>
-																<b>Queue wechseln:</b>
-															</td>
-														</tr>
-														<tr>
-															<td width='20%'>
-																<select name='queue'>
-															";
-
-														$sql_list_category = $DB->query("SELECT * FROM project_ticket_queue");
-														while($out_list_category = $DB->fetch_array($sql_list_category))
-													{// begin while
-																	if($out_list_category['id'] == $out_ticket_zoom_data['queue'])
-																	{
-																	$output .= "
-
-																	<option value='".$out_list_category['id']."' selected>".$out_list_category['name']."</option>
-																	";
-
-																	}
-																	else
-																	{
-																	$output .= "
-
-																	<option value='".$out_list_category['id']."'>".$out_list_category['name']."</option>
-																	";
-																	}
-
-
-													}
-
-														$output .= "
-																</select>
-															</td>
-															<td>
-																<input type='submit' value='Verschieben' class='button'>
-															</td>
-														</tr>
-														</form>
-													</tbody></table>
+													</tbody>
+												</table>
 												</p>
 						<!--stop AgentAnswerCompose -->
 ";
@@ -901,6 +948,10 @@ $output .=
 										<tr>
 											<td width='15%' class='".$currentRowClass."'>Von:</td>
 											<td width='85%' class='contentvalue'> <div title='".$out_ticket_zoom_antworten_user['vorname']." '".$out_ticket_zoom_antworten_user['nick']."' ".$out_ticket_zoom_antworten_user['nachname']." &lt;".$out_ticket_zoom_antworten_user['email']."&gt;'>".$out_ticket_zoom_antworten_user['vorname']." '".$out_ticket_zoom_antworten_user['nick']."' ".$out_ticket_zoom_antworten_user['nachname']." &lt;".$out_ticket_zoom_antworten_user['email']."&gt;</div></td>
+										</tr>
+										<tr>
+											<td width='15%' class='".$currentRowClass."'>Betreff:</td>
+											<td width='85%' class='contentvalue'> <div >".$out_ticket_zoom_antworten['titel']."</div></td>
 										</tr>
 										<tr>
 											<td class='".$currentRowClass."'>Erstellt:</td>

@@ -266,7 +266,7 @@ $output .= "
 							
 							<form name='antwort' method='post' action='?action=add&ticketid=".$out_ticket['id']."&std_antwort_id=".$std_antwort_id."'>
 							<input type='hidden' name='type' value='agent'>
-							<input type='hidden' name='titel' value='Antwort durch ".$CURRENT_USER->vorname." ".$CURRENT_USER->nachname." hinzugefügt.'>
+							<input type='hidden' name='titel' value='Antwort an User hinzugef&uuml;gt.'>
 							<input type='hidden' name='user' value='".$out_ticket['user']."'>
 							</td>
 						</tr>

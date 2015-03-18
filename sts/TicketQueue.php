@@ -252,14 +252,21 @@ while($out_ticket_queue_list = $DB->fetch_array($sql_ticket_queue_list))
 							}
 $output .=
 "
-					<tr class='".$currentRowClass."'>
+					<tr ";
+								$output .= ' onclick=" document.location = \'TicketZoom.php?ticketid='.$out_ticket_queue_list['id'].' \' ";  
+											';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
+								$output .= ' title="Ticket anzeigen" class="'.$currentRowClass.'">';
+								
+								$output .= "
 						<td width='1%' title='Priorit&auml;t: ".$out_ticket_queue_list['prio']."' class='PriorityID-".$out_ticket_queue_list['prio']."'>&nbsp;&nbsp;</td>
                         <td>
                             <table width='100%' height='100%' cellspacing='0' cellpadding='0' border='0'>
                                 <tbody><tr>
 <!--                                    <td class='PriorityID-".$out_ticket_queue_list['prio']."' title='Priorit&auml;t: ".$out_ticket_queue_list['prio']."' width='1%'>&nbsp;&nbsp;</td> -->
                                     <td>
-                                        <a title='".$out_ticket_queue_list['titel']."' href='TicketZoom.php?ticketid=".$out_ticket_queue_list['id']."&queueid=".$out_ticket_queue_list['queue']."'> Ticket#: ".$out_ticket_queue_list['id']."</a>
+                                        Ticket#: ".$out_ticket_queue_list['id']."
                                     </td>
                                 </tr>
                             </tbody></table>

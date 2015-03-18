@@ -181,10 +181,17 @@ $sql1 = $DB->query($uebergabe);
 									$currentRowClass1 = "msgrow1";
 								}
 
-	$output .=
-	"
-				<tr class='".$currentRowClass1."'>
-						<td align='center' valign='middle' class='PriorityID-".$out_tickets_neu_prio['id']."' >
+							$output .= "
+
+								<tr ";
+								$output .= ' onclick=" document.location = \'TicketZoom.php?ticketid='.$out_tickets_neu['id'].' \' ";  
+											';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
+								$output .= ' title="Ticket anzeigen" class="'.$currentRowClass1.'">';
+								
+								$output .= "
+									<td align='center' valign='middle' class='PriorityID-".$out_tickets_neu_prio['id']."' >
 
 	";
 
@@ -267,10 +274,8 @@ $sql1 = $DB->query($uebergabe);
 					{
 					$output .=
 							"<td width='32' align='center' valign='middle'>
-							<a title='' href='TicketZoom.php?ticketid=".$out_tickets_neu['id']."'>
 							&nbsp;<img src='../images/sts/ticket_processing.png'>
 							&nbsp;".$out_tickets_neu['id']."
-							</a>
 							</td>
 							";
 					}
@@ -278,10 +283,8 @@ $sql1 = $DB->query($uebergabe);
 					{
 					$output .=
 							"<td width='32' align='center' valign='middle'>
-							<a title='in Bearbeitung!' href='TicketZoom.php?ticketid=".$out_tickets_neu['id']."'>
-							&nbsp;<img src='../images/sts/ticket_processing.png'>
+							<img src='../images/sts/ticket_processing.png'>
 							&nbsp;".$out_tickets_neu['id']."
-							</a>
 							</td>
 							";
 					}
