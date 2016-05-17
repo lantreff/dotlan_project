@@ -143,8 +143,8 @@ else
 				<tr>
 				<td align='right'>";
 
-				$sql_event_ids 				= mysql_query("SELECT * FROM events ORDER BY begin DESC");
-				$out_historie_event			= mysql_fetch_array(mysql_query("SELECT * FROM events WHERE id = ".$selectet_event_id.""));						
+				$sql_event_ids 				= list_events();
+				$out_historie_event			= list_event_data($selectet_event_id);//mysql_fetch_array(mysql_query("SELECT * FROM events WHERE id = ".$selectet_event_id.""));						
 
 				$output .= "<form name='change_event' action='' method='POST'>				
 								<select name='event' onChange='document.change_event.submit()'>
@@ -1526,7 +1526,7 @@ $output .="														<td class='msgrow1' align='right'>
 			{
 				if (!$DARF["view"]) $PAGE->error_die(html::template("error_nopermission"));
 
-				$output .= sponsoren_show($_GET['id'],$DARF);
+				$output .= sponsoren_show($_GET['id'],$DARF,$selectet_event_id);
 
 			}
 

@@ -22,7 +22,7 @@ function sponsoren_ges_wert($anz,$wert)
 	return $ges_wert." €";
 }
 
-function sponsoren_show($id,$DARF)
+function sponsoren_show($id,$DARF,$selectet_event_id)
 {
 	$out_edit = mysql_fetch_array(
 												mysql_query
