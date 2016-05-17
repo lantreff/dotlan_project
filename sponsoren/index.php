@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 ########################################################################
 # Sponsorenverwaltung Modul for dotlan                                 #
 #                                                                      #
@@ -319,7 +319,7 @@ else
 								$output .= ' onclick="document.location = \'?hide=1&action=show&id='.$out['id'].'&event='.$selectet_event_id.'\' ";  ';
 								$output .= ' onmouseover="this.style.background=\''.$styles[$style]['msg_over'].'\'; this.style.cursor=\'pointer\';" ';
 								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
-								$output .= ' title="Klicken um Details des Artikels anzuzeigen" class="'.$currentRowClass.'">';
+								$output .= ' title="Klicken um Details anzuzeigen" class="'.$currentRowClass.'">';
 						$output .= "
 									<td  >
 									<a name='".$out['name']."'>

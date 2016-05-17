@@ -1,5 +1,4 @@
-﻿<?php
-
+<?php
 function sponsoren_list_sponsor($event_id)
 {
 	$sql = mysql_query("SELECT * FROM project_sponsoren_artikel AS a LEFT JOIN project_sponsoren AS s ON s.id = a.s_id WHERE a.event_id = '".$event_id."' GROUP BY a.s_id ORDER BY s.name,a.s_id,a.sp_art_name ASC");
