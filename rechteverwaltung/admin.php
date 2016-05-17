@@ -12,7 +12,7 @@ include("../functions.php");
 $PAGE->sitetitle = $PAGE->htmltitle = _("Projekt Rechteverwaltung");
 $event_id    = $EVENT->next;      // ID des anstehenden Event's
 
-// auslesen der einzelnen Werte die über die Adresszeile übergeben werden
+// auslesen der einzelnen Werte die Ã¼ber die Adresszeile Ã¼bergeben werden
 $id      = $_GET['id'];
 $name    = security_number_int_input($_POST['name'],"","");
 $rechte  = security_string_input($_POST['rechte']);
@@ -169,7 +169,7 @@ if($_GET['hide'] == "1"){
                   </td>
                   <td id='recht_felder'>
                     <input name='recht[]' value='' type='text' maxlength='30'><br>
-                    <a href='#' onClick='document.getElementById(\"recht_felder\").innerHTML = \"<input name=recht[] type=text maxlength=30><br>\"+document.getElementById(\"recht_felder\").innerHTML;'>Feld hinzufügen</a>
+                    <a href='#' onClick='document.getElementById(\"recht_felder\").innerHTML = \"<input name=recht[] type=text maxlength=30><br>\"+document.getElementById(\"recht_felder\").innerHTML;'>Feld hinzufÃ¼gen</a>
                   </td>
                 </tr>
               </tbody>
@@ -240,18 +240,18 @@ if($_GET['hide'] == "1"){
   }
   
    ####################################
-  # Recht für alle Orgas aktivieren
+  # Recht fÃ¼r alle Orgas aktivieren
   ######################################
   if($_GET['action'] == 'give_all'){
     if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 	
 	if($_GET['action'] == 'give_all' && $_GET['comand'] == 'senden'){
-		  // alle bereits vorhandenen Rechte mit der ausgewählten ID entfernen, damit keine doppelten Einträge entstehen!!
-		  $output .= "Vorhandene Rechte der Orgas entfernen, damit keine doppelten Einträge entstehen <br>";
+		  // alle bereits vorhandenen Rechte mit der ausgewÃ¤hlten ID entfernen, damit keine doppelten EintrÃ¤ge entstehen!!
+		  $output .= "Vorhandene Rechte der Orgas entfernen, damit keine doppelten EintrÃ¤ge entstehen <br>";
 		  $query = $DB->query("DELETE FROM `project_rights_user_rights` WHERE `project_rights_user_rights`.`right_id` = ".$id."");
 		 
-		  // hinzufügen der Rechte für alle Orgas!
-		  $output .= "Das Recht wird nun für alle Orgas aktiviert! <br>";
+		  // hinzufÃ¼gen der Rechte fÃ¼r alle Orgas!
+		  $output .= "Das Recht wird nun fÃ¼r alle Orgas aktiviert! <br>";
 		  $query = $DB->query("	SELECT u.id AS id
 								FROM user AS u, user_orga AS o
 								WHERE o.user_id = u.id
@@ -285,13 +285,13 @@ if($_GET['hide'] == "1"){
    
   }
     ####################################
-  # Recht für alle Orgas deaktivieren
+  # Recht fÃ¼r alle Orgas deaktivieren
   ######################################
   if($_GET['action'] == 'take_all'){
     if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 	
 	if($_GET['action'] == 'take_all' && $_GET['comand'] == 'senden'){
-		  // alle bereits vorhandenen Rechte mit der ausgewählten ID entfernen, damit keine doppelten Einträge entstehen!!
+		  // alle bereits vorhandenen Rechte mit der ausgewÃ¤hlten ID entfernen, damit keine doppelten EintrÃ¤ge entstehen!!
 		  $output .= "Rechte der Orgas werden entfernt <br>";
 		  $query = $DB->query("DELETE FROM `project_rights_user_rights` WHERE `project_rights_user_rights`.`right_id` = ".$id."");
 		  $output .= "<meta http-equiv='refresh' content='1; URL=/admin/projekt/rechteverwaltung/admin.php'>";

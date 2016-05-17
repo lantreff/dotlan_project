@@ -31,7 +31,7 @@ $output .= "
 	<br />
     <table cellspacing='1' cellpadding='2' border='0' class='msg2'><tbody>
 		<tr class='shortbarrow'>
-					<td width='".$breite."' class='".$a."'> <a href='".$dir."' class='".$a1."'> Übersicht </a></td>
+					<td width='".$breite."' class='".$a."'> <a href='".$dir."' class='".$a1."'> Ãœbersicht </a></td>
 					<td width='1' class='shortbarbitselect'>&nbsp;</td>
 ";
 

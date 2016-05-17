@@ -90,7 +90,7 @@ $output .= " ];
 	 $( '#suche' ).autocomplete({
         source: availableTags,
         select: function( event, ui ) {
-          $('#id').val(ui.item.id);
+          $('#user_id_leihe').val(ui.item.user_id_leihe);
         }
       })._renderItem = function( ul, item ) {
         return item.label;
@@ -101,7 +101,7 @@ $output .= " ];
 /**/							
 							$output .= "
 								<form name='LeiheRueckgabe' action='".$dir."?hide=1&action=user_id_leihe' method='POST' onSubmit='return checkSubmit()'>
-								<td width='20%' class='".$b."'><a href='".$global['project_path']."equipment/' class='".$b1."'>Zum Equipment</a></td>
+								<td width='20%' class='".$b."'><a href='../equipment/' class='".$b1."'>Zum Equipment</a></td>
 								<td width='20%' class='".$c."'><a href='".$dir."' class='".$c1."'>&Uuml;bersicht</a></td>
 								<!-- <td width='20%' class='".$c."'><a href='".$dir."?hide=1&action=NEW_Leihe' class='".$c1."'>Artikel verleihen</a></td> -->
 								<td width='20%' class='".$d."'>
@@ -111,7 +111,7 @@ $output .= " ];
 												UserID:
 											</td>
 											<td>
-												<input id='id' name='user_id_leihe' type='text'  maxlength='4'>
+												<input id='user_id_leihe' name='user_id_leihe' type='text'  maxlength='4'>
 											</td>
 										</tr>
 										<tr>

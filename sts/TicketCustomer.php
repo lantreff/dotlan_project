@@ -102,7 +102,7 @@ $out_ticket_show_ticketdata =
 Admin PAGE
 */
 
-if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["view"]) $PAGE->error_die(html::template("error_nopermission"));
 
 else
 {

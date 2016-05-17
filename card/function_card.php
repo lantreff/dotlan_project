@@ -1,8 +1,8 @@
 <?php
 
-## Funktionsdatei für Lanparty Cards
+## Funktionsdatei fÃ¼r Lanparty Cards
 
-## Zuerst einige Daten für die Konfiguration
+## Zuerst einige Daten fÃ¼r die Konfiguration
 ## Dotlan Globale Funktionen importieren
 include_once("../../../global.php");
 ## Funktionen Project importieren
@@ -22,7 +22,7 @@ define("BARCODEPATH", "../barcode/");
 define("DOCPATH", "./docs/");
 
 
-## Daten für SQL als Merker - wenn fertig, bitte entfernen
+## Daten fÃ¼r SQL als Merker - wenn fertig, bitte entfernen
 # table project_card
 # card_ID
 # user_ID
@@ -35,14 +35,14 @@ define("DOCPATH", "./docs/");
 # card_ID
 
 ## Seiten
-# index.php // Übersicht über Maxlan Karten, Suchfunktion nach User, Klick Buttons für: einzeln Drucken, In Druckqueue einfügen, Anzeige Druckqueue für A4 (anz bis Seite komplett), ggf. Card löschen?, Anzeige Guthaben, Card Freischalten
-# new_card.php // Benutzer suchen & Auswählen (Dotlan FKT), Bild für Upload
-# change_card.php // Neues Bild für Upload
-# export.php // Erzeugen PDF für Druck, je nachdem ob Queue oder Einzelbild
+# index.php // Ãœbersicht Ã¼ber Maxlan Karten, Suchfunktion nach User, Klick Buttons fÃ¼r: einzeln Drucken, In Druckqueue einfÃ¼gen, Anzeige Druckqueue fÃ¼r A4 (anz bis Seite komplett), ggf. Card lÃ¶schen?, Anzeige Guthaben, Card Freischalten
+# new_card.php // Benutzer suchen & AuswÃ¤hlen (Dotlan FKT), Bild fÃ¼r Upload
+# change_card.php // Neues Bild fÃ¼r Upload
+# export.php // Erzeugen PDF fÃ¼r Druck, je nachdem ob Queue oder Einzelbild
 
 # User Seiten
-# /card/my_card.php - Übersicht über die Karte, Guthaben, Bild, Bild Prüfergebnis.
-# /card/upload_pic.php - Bild hochladen/ändern & prüfen
+# /card/my_card.php - Ãœbersicht Ã¼ber die Karte, Guthaben, Bild, Bild PrÃ¼fergebnis.
+# /card/upload_pic.php - Bild hochladen/Ã¤ndern & prÃ¼fen
 
 ## Funktion zum Hochladen und Verkleinern der Bilder
 function picupload(){
@@ -52,7 +52,7 @@ function picupload(){
 function add_card(){
 }
 
-## Funktion zum Ändern einer Karte
+## Funktion zum Ã„ndern einer Karte
 function change_card(){
 }
 
@@ -127,7 +127,7 @@ function show_cards($status,$allow_print){
 ## Funktion zum Anzeigen
 function show_card_documents(){
 	$doc_query = mysql_query("SELECT * FROM project_card_document ORDER BY date_generated");
-	$doclist .= '<h3>Verfügbare Kartendokumente</h3>';
+	$doclist .= '<h3>VerfÃ¼gbare Kartendokumente</h3>';
 	$doclist .=  '<table class="maincontent"><tr><td class="msghead" nowrap="nowrap" width="60"><b>DocID</b></td><td width="450" class="msghead" nowrap="nowrap"><b>Titel&nbsp;</b></td><td width="150" class="msghead"><b>Erstellt am&nbsp;</b></td><td width="150" class="msghead"></td></tr>';
 	while ($ddata = mysql_fetch_array($doc_query)){
 		$doclist .= '<tr class="msgrow'.(($i%2)?1:2).'">';
@@ -301,7 +301,7 @@ function upload_userpic($u_id){
 
 
 function stripfilename($datei_name){
-	$umlaute = Array("/ä/","/ö/","/ü/","/Ä/","/Ö/","/Ü/","/ß/");
+	$umlaute = Array("/Ã¤/","/Ã¶/","/Ã¼/","/Ã„/","/Ã–/","/Ãœ/","/ÃŸ/");
 	$replace = Array("ae","oe","ue","Ae","Oe","Ue","ss");
     // Umlaute entfernen
     $datei_name = preg_replace($umlaute, $replace, $datei_name);
@@ -316,7 +316,7 @@ function UnsharpMask($img, $amount, $radius, $threshold)    {
 ////
 ////                  Unsharp Mask for PHP - version 2.1.1
 ////
-////    Unsharp mask algorithm by Torstein Hønsi 2003-07.
+////    Unsharp mask algorithm by Torstein HÃ¸nsi 2003-07.
 ////             thoensi_at_netcom_dot_no.
 ////               Please leave this notice.
 ////

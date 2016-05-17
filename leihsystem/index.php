@@ -88,7 +88,7 @@ else
 
 
 
-						$output .= "					<!-- Wääg?? -->";
+						$output .= "					<!-- WÃ¤Ã¤g?? -->";
 
 
 					$output .= "	<td style='border-top: solid 1px #C33333;'>
@@ -171,11 +171,11 @@ if($_GET['hide'] == "1")
 	
 	if($_GET['action'] == 'user_id_leihe')
 	{
-		// eingegebene ID des Benutezrs der Leihen oder zurückgeben will
+		// eingegebene ID des Benutezrs der Leihen oder zurÃ¼ckgeben will
 		$eingabe_user_id = $_POST['user_id_leihe'];
-		//$output .="1. Prüfen ob rückgabe oder neue Leihe!<BR>";
+		//$output .="1. PrÃ¼fen ob rÃ¼ckgabe oder neue Leihe!<BR>";
 		$output .= leih_check_rueck_or_new($eingabe_user_id,$event_id);
-		//Daten des Users Prüfen
+		//Daten des Users PrÃ¼fen
 		//$output .= leih_show_user_data($eingabe_user_id);
 	}
 	
@@ -189,7 +189,7 @@ if($_GET['hide'] == "1")
 			$meldung = leih_save_user_data($_POST);
 			$output .= leih_new_leihe($_POST['user_id'],$event_id,$dir);
 		}
-		//$output .="3.2 Artikel für Leihe Einlesen <BR>";
+		//$output .="3.2 Artikel fÃ¼r Leihe Einlesen <BR>";
 		
 		if($_GET['add'] == 1)
 		{	$id_art 	= preg_replace('![^0-9]!', '', 	$_POST['id_artikel']);
@@ -244,7 +244,7 @@ if($_GET['hide'] == "1")
 	
 		if($_GET['save'] == 1)
 		{	
-			//$output .="3.2 Artikel für Leihe in Leih liste eintragen <BR>";
+			//$output .="3.2 Artikel fÃ¼r Leihe in Leih liste eintragen <BR>";
 			$meldung = leih_save_leih_data_final($_GET['user_id'],$CURRENT_USER->id,$event_id,$datum);
 			$PAGE->redirect($dir."index.php",$PAGE->sitetitle,$meldung);
 		}

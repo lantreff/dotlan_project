@@ -1,8 +1,5 @@
 <?php
 
-
-$event_id = $EVENT->next;
-
 $sql_leihsystem_nicht_verliehen = $DB->query("SELECT * FROM project_equipment WHERE ist_leihartikel = '1' AND ausleihe != '1' ORDER BY  `category` ,  `bezeichnung`  ASC");
 $sql_leihsystem_verliehen = $DB->query("SELECT * FROM  project_leih_leihe AS l INNER JOIN project_equipment AS e ON l.id_leih_artikel = e.id WHERE l.event_id = '".$event_id."' AND l.rueckgabe_datum = '0000-00-00 00:00:00' ");
 $sql_leih_groups  = $DB->query("SELECT eg.bezeichnung AS eg_group_bezeichnung, eg.id AS eg_group_id FROM  project_equipment AS e INNER JOIN project_equipment_equip_group AS g ON g.id_equipment = e.id, project_equipment_groups AS eg WHERE e.ist_leihartikel = '1' AND eg.ausleihe = '0' GROUP BY eg_group_id");

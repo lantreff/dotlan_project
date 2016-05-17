@@ -40,7 +40,7 @@ else
 			  $geplant = mysql_result($query,0,"geplant");			  
 			  $_POST["submit"] = "Anpassen";
 			}elseif($_GET["action"] == "delete"){
-			  $meldung = 'Das Meeting am '.date("d.m.Y H:i:s",strtotime($_GET["moep"])).' wirklich löschen? - <a href="?action=del&id='.$_GET["id"].'">Ja</a> | <a href="index.php">nein</a><br><br>';
+			  $meldung = 'Das Meeting am '.date("d.m.Y H:i:s",strtotime($_GET["moep"])).' wirklich lÃ¶schen? - <a href="?action=del&id='.$_GET["id"].'">Ja</a> | <a href="index.php">nein</a><br><br>';
 			}elseif($_GET["action"] == "del"){
 			  meeting_del($_GET["id"]);
 			}elseif($_GET["action"] == "gewesen"){

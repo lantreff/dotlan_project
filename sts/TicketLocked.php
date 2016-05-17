@@ -8,7 +8,7 @@ $iCount = 0;
 $PAGE->sitetitle = $PAGE->htmltitle = _("Support-Ticket-System");
 
 // Sortierung //
-// Variablen für die Sortierfunktion
+// Variablen fÃ¼r die Sortierfunktion
 	$sort			= "prio"; // Standardfeld das zum Sortieren genutzt wird
 	$order			= "DESC"; // oder DESC | Sortierung aufwerts, abwerts
 
@@ -50,7 +50,7 @@ else
 Admin PAGE
 */
 
-if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["edit"]) $PAGE->error_die(html::template("error_nopermission"));
 
 else
 {
@@ -97,7 +97,7 @@ $output .=
                         </th>
                     </tr>
 ";
-if (IsSet ($_POST['suche'] ) ) // nur wenn im fled suchen etwas eingegeben wurde wird in den eingetragenen spalten gesucht. diese können um noch weitere Erg&auml;nzt werden, dies kann einfach duch ein "OR" getrennt geschehen
+if (IsSet ($_POST['suche'] ) ) // nur wenn im fled suchen etwas eingegeben wurde wird in den eingetragenen spalten gesucht. diese kÃ¶nnen um noch weitere Erg&auml;nzt werden, dies kann einfach duch ein "OR" getrennt geschehen
 			 {
 				$sql_ticket_queue_list = $DB->query("
 													SELECT

@@ -165,7 +165,7 @@ if($_POST["leih_ids"]){
 		$output .= "
 		<br>
 		<h1 style='margin: 5px 0px 5px;'>
-			Orga der Gruppe ".$out_group['bezeichnung']." hinzufügen!
+			Orga der Gruppe ".$out_group['bezeichnung']." hinzufÃ¼gen!
 		</h1>
 
 		";

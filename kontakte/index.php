@@ -18,13 +18,11 @@ include("../functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Kontakte");
 
-$event_id		= $EVENT->next;			// ID des anstehenden Event's
-
-// auslesen der einzelnen Werte die ¸ber die Adresszeile ¸bergeben werden
+// auslesen der einzelnen Werte die √ºber die Adresszeile √ºbergeben werden
 	$id				= $_GET['id'];
 ////////////////////////////////////////////////
 
-// auslesen der Eingabefelder f¸r 'edit' | 'add' | 'usw...'
+// auslesen der Eingabefelder f√ºr 'edit' | 'add' | 'usw...'
 	$p_name			= security_string_input($_POST['p_name']);
 	$p_vorname		= security_string_input($_POST['p_vorname']);
 	$p_geb			= security_number_int_input($_POST['p_geb'],"","");
@@ -51,7 +49,7 @@ $event_id		= $EVENT->next;			// ID des anstehenden Event's
 ////////////////////////////////////////////////
 
 // Sortierung //
-// Variablen f¸r die Sortierfunktion
+// Variablen f√ºr die Sortierfunktion
 	$sort			= "p_name"; // Standardfeld das zum Sortieren genutzt wird
 	$order			= "ASC"; // oder DESC | Sortierung aufwerts, abwerts
 
@@ -94,7 +92,7 @@ else
 		if($_GET['hide'] != 1) // solange die variable "hide" ungleich eins ist wird die Standardmaske angezeigt. Ist der Wert eins dann wird diese Maske ausgeblendet, um z.B. die Editmaske anzuzeigen oder um Meldungen auf der Seite auszugeben.
 		{
 
-			 if (IsSet ($_POST['suche'] ) )  // nur wenn im fled suchen etwas eingegeben wurde wird in den eingetragenen spalten gesucht. diese kˆnnen um noch weitere Erg‰nzt werden, dies kann einfach duch ein "OR" getrennt geschehen
+			 if (IsSet ($_POST['suche'] ) )  // nur wenn im fled suchen etwas eingegeben wurde wird in den eingetragenen spalten gesucht. diese k√∂nnen um noch weitere Erg√§nzt werden, dies kann einfach duch ein "OR" getrennt geschehen
 			 {
 				$sql_list_category = $DB->query("
 													SELECT
@@ -255,7 +253,7 @@ else
 									if($DARF["del"] )
 									{
 										$output .= "
-										<a href='?hide=1&action=del&id=".$out_list_category['contactid']."' target='_parent'> <img src='../images/16/editdelete.png' title='Kontakt lˆschen' > </a>
+										<a href='?hide=1&action=del&id=".$out_list_category['contactid']."' target='_parent'> <img src='../images/16/editdelete.png' title='Kontakt l√∂schen' > </a>
 										";
 									}
 								$output .= "
@@ -517,7 +515,7 @@ else
 
 										$output .="	<select name='p_geb_monat'>";
 
-														$date_monat  = array("FEHLER","Januar","Februar","M‰rz","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember");
+														$date_monat  = array("FEHLER","Januar","Februar","M√§rz","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember");
 
 														for($date_laufer_a = 1; $date_laufer_a <= 12; $date_laufer_a ++)
 														{
@@ -546,18 +544,18 @@ else
 													<option value='0'>----</option>";
 												if($out_edit['p_geschlecht'] == 'M')
 												{
-												$output .="<option selected value='M'>m‰nnlich</option>
+												$output .="<option selected value='M'>m√§nnlich</option>
 														   <option 			value='W'>weiblich</option>";
 												}
 												if($out_edit['p_geschlecht'] == 'W')
 												{
 												$output .="<option selected value='W'>weiblich</option>
-														   <option 			value='M'>m‰nnlich</option>";
+														   <option 			value='M'>m√§nnlich</option>";
 												}
 												if($out_edit['p_geschlecht'] != 'W' and $out_edit['p_geschlecht'] != 'M')
 												{
 												$output .="
-													<option value='M'>m‰nnlich</option>
+													<option value='M'>m√§nnlich</option>
 													<option value='W'>weiblich</option>";
 												}
 												$output .="
@@ -602,7 +600,7 @@ else
 
 											<tr >
 												<td >
-													Straﬂe & Hausnr.:
+													Stra√üe & Hausnr.:
 												</td>
 												<td >
 
@@ -697,7 +695,7 @@ else
 											</tr>
 											<tr >
 												<td >
-													Straﬂe & Hausnr.:
+													Stra√üe & Hausnr.:
 												</td>
 
 												<td >
@@ -791,5 +789,5 @@ else
 	} // ENDE darf den Inhalt der Seite sehen
 
 } // ADMIN ENDE
-$PAGE->render(utf8_decode(utf8_encode($output) )); // Ausgabe des gesamten Seiten inhaltes ¸ber das Dotlan-System
+$PAGE->render(utf8_decode(utf8_encode($output) )); // Ausgabe des gesamten Seiten inhaltes √ºber das Dotlan-System
 ?>

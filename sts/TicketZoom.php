@@ -5,7 +5,6 @@ include_once("../../../global.php");
 include("../functions.php");
 
 $ticketid 	= $_GET['ticketid'];
-$event_id = $EVENT->next;
 
 $iCount		= 0;
 
@@ -370,7 +369,7 @@ if($_GET['action'] == "close")
 Admin PAGE
 */
 
-if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["view"]) $PAGE->error_die(html::template("error_nopermission"));
 
 else
 {

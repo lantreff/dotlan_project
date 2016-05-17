@@ -8,8 +8,6 @@ $iCounter = 0;
 $id = $_GET['id'];
 $PAGE->sitetitle = $PAGE->htmltitle = _("Leihsystem Gruppenverwaltung");
 
-$event_id = $EVENT->next;
-$EVENT->getevent($event_id);
 
 $sql_list_gruppen = $DB->query("SELECT * FROM project_equipment_groups");
 $sql_list_gruppen1 = $DB->query("SELECT * FROM project_equipment_groups");
@@ -164,7 +162,7 @@ if($_POST["leih_ids"]){
 		$output .= "
 		<br>
 		<h1 style='margin: 5px 0px 5px;'>
-			Artikel der Gruppe ".$out_group['bezeichnung']." hinzufügen!
+			Artikel der Gruppe ".$out_group['bezeichnung']." hinzufÃ¼gen!
 		</h1>
 
 		";

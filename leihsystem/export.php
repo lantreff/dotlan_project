@@ -16,7 +16,6 @@ global $global;
 $URL = "http://".$_SERVER["SERVER_NAME"].$global['project_path']."leihsystem";
 //echo $URL;
 
-$event_id = $EVENT->next;
 $out_event  = $DB->fetch_array($DB->query("SELECT * FROM events WHERE id = '".$event_id."'  LIMIT 1"));
 $event_name = $out_event['name'];
 

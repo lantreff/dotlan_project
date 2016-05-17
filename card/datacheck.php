@@ -43,7 +43,7 @@ while ($card = mysql_fetch_array($sql_card)){
 
 while ($user = mysql_fetch_array($sql_user)){
 
-	$output .='<h3>Benutzerdaten für Maxlan Card</h3>';
+	$output .='<h3>Benutzerdaten fÃ¼r Maxlan Card</h3>';
 	$output .='<br><b>Status:</b> '.$card_status;
 	$output .='<br><b>Benutzer:</b> '.$user['vorname'].' <i>"'.$user['nick'].'"</i> '.$user['nachname'];
 	$output .='<br><b>User-ID:</b> '.sprintf("%04d",$u_id);
@@ -51,9 +51,9 @@ while ($user = mysql_fetch_array($sql_user)){
 	$output .=$card_img;
 }
 $output .= "<form name='image' ACTION='index.php' METHOD=POST>";
-$output .='<br><h4>Ablehnungsgrund für Maxlan Card</h4>';
+$output .='<br><h4>Ablehnungsgrund fÃ¼r Maxlan Card</h4>';
 $output .= '<select name="card_info" size="1">';
-$output .= '<option value="Bildqualität reicht nicht aus (zu Dunkel, zu Hell, zuviel Rauschen)">Bildqualität reicht nicht aus (zu Dunkel, zu Hell, zuviel Rauschen)</option>';
+$output .= '<option value="BildqualitÃ¤t reicht nicht aus (zu Dunkel, zu Hell, zuviel Rauschen)">BildqualitÃ¤t reicht nicht aus (zu Dunkel, zu Hell, zuviel Rauschen)</option>';
 $output .= '<option value="Person nicht erkennbar">Person nicht erkennbar</option>';
 $output .= '<option value="Der Kopf ist zu klein, daher Person nur schwer erkennbar">Der Kopf ist zu klein, daher Person nur schwer erkennbar</option>';
 $output .= '<option value="Person verzerrt, bitte unbedingt Bild im 2:3 Format hochladen">Person verzerrt, bitte unbedingt Bild im 2:3 Format hochladen</option>';

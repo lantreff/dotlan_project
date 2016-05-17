@@ -283,7 +283,7 @@ function meeting_showtext($id,$typ,$edit){
    else $output .= 'Kein Protokoll gefunden';
    if($edit1)
    {
-		$output .= ', bitte Protokoll über "bearbeiten" auswählen!';
+		$output .= ', bitte Protokoll Ã¼ber "bearbeiten" auswÃ¤hlen!';
 	}
   }
   if ($edit){
@@ -347,7 +347,7 @@ function meeting_showchangetext($id,$typ,$edit,$event_id){
 									<td  nowrap="nowrap"><input type="radio" name="protokoll" value="'.$row["note_id"].'" '.(($row["note_id"] == $id_protokoll) ? "checked='checked'" : " " ).'	</td>
 									<td  nowrap="nowrap">'.$row["note_bezeichnung"].'</td>
 									<td  nowrap="nowrap">'.$row["note_date"].'</td>
-									<td  nowrap="nowrap"><a href="../notiz/?hide=1&action=show&id='.$row["note_id"].'&event=2"> öffnen </a></td>
+									<td  nowrap="nowrap"><a href="../notiz/?hide=1&action=show&id='.$row["note_id"].'&event=2"> Ã¶ffnen </a></td>
 									</tr>
 								';
 				}
@@ -359,7 +359,7 @@ function meeting_showchangetext($id,$typ,$edit,$event_id){
 	}
 	else
 	{
-		$output .= 'Kein Protokoll in den Notizen hinterlegt <a href="../notiz/?hide=1&action=add&kategorie=Protokoll"> "hier klicken um Notiz hinzuzufügen."</a> <br> Bitte beachte das als Kategorie "Protokoll" eingetragen wird!"';
+		$output .= 'Kein Protokoll in den Notizen hinterlegt <a href="../notiz/?hide=1&action=add&kategorie=Protokoll"> "hier klicken um Notiz hinzuzufÃ¼gen."</a> <br> Bitte beachte das als Kategorie "Protokoll" eingetragen wird!"';
 	}
 $output .= '
 </td>
@@ -543,7 +543,7 @@ function email($post)
 															. nl2br($post['geplant'])
 															."<br>"
 															."<br>"
-															."Gruß "
+															."GruÃŸ "
 															.$CURRENT_USER->vorname
 															."<br>"
 															."<br>"

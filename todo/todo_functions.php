@@ -254,15 +254,15 @@ function out_table($sql,$DARF,$user_id){
 			$output .= '
 						</td> 	 
 						<td class="msghead" width="110" style="padding-left:5px;">
-							vom/fällig
+							vom/fÃ¤llig
 							';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "erstellt" )
 							{
-								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=DESC" > <img src="/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=DESC" > <img src="/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach fÃ¤llig bis" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=ASC" > <img src="/admin/projekt/images/16/minisort.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=ASC" > <img src="/admin/projekt/images/16/minisort.gif" alt="Sortieren nach fÃ¤llig bis" border="0" > </a>';
 							}
 							
 							$admin_breite = 36;
@@ -413,9 +413,9 @@ function send_mail($out,$new)
 									."<br>"
 									."Die Aufgabe sollte bis ".time2german($out['end'])." Uhr erledigt sein!"
 									."<br>"
-									."Bitte kümmeret euch darum, dass die Aufgabe pünktlich erledigt wird."
+									."Bitte kÃ¼mmeret euch darum, dass die Aufgabe pÃ¼nktlich erledigt wird."
 									."<br>"
-									."Solltest Ihr Hilfe benötigen oder zu wenig Zeit haben, fragt bitte nach oder gebt bescheid."
+									."Solltest Ihr Hilfe benÃ¶tigen oder zu wenig Zeit haben, fragt bitte nach oder gebt bescheid."
 									."<br>"	
 									."<br>";		
 			}
@@ -435,9 +435,9 @@ function send_mail($out,$new)
 									."<br>"
 									."Die Aufgabe sollte bis ".time2german($out['end'])." Uhr erledigt sein!"
 									."<br>"
-									."Bitte kümmere dich darum, dass die Aufgabe pünktlich erledigt wird."
+									."Bitte kÃ¼mmere dich darum, dass die Aufgabe pÃ¼nktlich erledigt wird."
 									."<br>"
-									."Solltest Du Hilfe benötigen oder zu wenig Zeit haben, frag bitte nach oder gib bescheid."
+									."Solltest Du Hilfe benÃ¶tigen oder zu wenig Zeit haben, frag bitte nach oder gib bescheid."
 									."<br>"	
 									."<br>";				
 			}
@@ -534,9 +534,9 @@ function send_mail_table($sql,$sql1)
 									."folgende Aufgabe/n ist/sind noch nicht erledigt!"
 									."<br>"
 									."<br>"
-									."Bitte kümmert euch darum, dass die Aufgaben pünktlich erledigt werden."
+									."Bitte kÃ¼mmert euch darum, dass die Aufgaben pÃ¼nktlich erledigt werden."
 									."<br>"
-									."Solltest ihr Hilfe benötigen oder zu wenig Zeit haben, fragt bitte nach oder gebt bescheid."
+									."Solltest ihr Hilfe benÃ¶tigen oder zu wenig Zeit haben, fragt bitte nach oder gebt bescheid."
 									."<br>"	
 									."<br>";		
 			}
@@ -553,9 +553,9 @@ function send_mail_table($sql,$sql1)
 									."folgende Aufgabe/n ist/sind noch nicht erledigt!"
 									."<br>"
 									."<br>"
-									."Bitte kümmere dich darum, dass die Aufgabe pünktlich erledigt wird."
+									."Bitte kÃ¼mmere dich darum, dass die Aufgabe pÃ¼nktlich erledigt wird."
 									."<br>"
-									."Solltest du Hilfe benötigen oder zu wenig Zeit haben, frag bitte nach oder gib bescheid."
+									."Solltest du Hilfe benÃ¶tigen oder zu wenig Zeit haben, frag bitte nach oder gib bescheid."
 									."<br>"	
 									."<br>";				
 			}

@@ -4,7 +4,7 @@ include_once("../../../../global.php");
 require_once("../../functions.php");
 require_once("../../config.php");
 
-$PAGE->sitetitle = $PAGE->htmltitle = _("Gästeserver");
+$PAGE->sitetitle = $PAGE->htmltitle = _("GÃ¤steserver");
 
 if(!$DARF["gaesteserver"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 

@@ -3,7 +3,6 @@ $MODUL_NAME = "meeting";
 include_once("../../../global.php");
 include("meeting_functions.php");
 include("../functions.php");
-$event_id = $EVENT->next;
 //$output .=  $event_id;
 $user_id = $CURRENT_USER->id;
 

@@ -21,14 +21,14 @@ if ($DARF["edit"]){
 
 if($_POST["submit"] == "ich komme NICHT"){
   $output .= anw_del($_GET["id"],$user_id);
-}elseif($_POST["submit"] == "wahrscheinlichkeit ändern"){
+}elseif($_POST["submit"] == "wahrscheinlichkeit Ã¤ndern"){
   if($_POST["wahrscheinlichkeit"] < 0 || $_POST["wahrscheinlichkeit"] > 100){
-    $output .=  "<h1>samma, kannsu garnüx???? zwischen 0 und 100 du depp!!!</h1>";
+    $output .=  "<h1>samma, kannsu garnÃ¼x???? zwischen 0 und 100 du depp!!!</h1>";
   }else
     $output .= anw_chg_wahr($_POST["wahrscheinlichkeit"],$_GET["id"],$user_id);
 }elseif($_POST["submit"] == "ich komme zum Meeting"){
   if($_POST["wahrscheinlichkeit"] < 0 || $_POST["wahrscheinlichkeit"] > 100){
-    $output .=  "<h1>samma, kannsu garnüx???? zwischen 0 und 100 du depp!!!</h1>";
+    $output .=  "<h1>samma, kannsu garnÃ¼x???? zwischen 0 und 100 du depp!!!</h1>";
   }else
     $output .= anw_add($_POST["wahrscheinlichkeit"],$_GET["id"],$user_id);
 }
@@ -43,7 +43,7 @@ $output .='
 $query = mysql_query("SELECT * FROM project_meeting_anwesenheit WHERE user_id = ".$CURRENT_USER->id." AND meeting_id = ".$_GET["id"].";");
 if(mysql_num_rows($query)){ // wenn user schon in liste ...
   $output .=  '<input class="okbuttons" type="submit" name="submit" value="ich komme NICHT"><br>';
-  $output .=  '<input class="okbuttons" type="submit" name="submit" value="wahrscheinlichkeit ändern"> <input class="editbox" type="text" name="wahrscheinlichkeit" value="'.mysql_result($query,0,"wahrscheinlichkeit").'" size="3" style="text-align:right;">%';
+  $output .=  '<input class="okbuttons" type="submit" name="submit" value="wahrscheinlichkeit Ã¤ndern"> <input class="editbox" type="text" name="wahrscheinlichkeit" value="'.mysql_result($query,0,"wahrscheinlichkeit").'" size="3" style="text-align:right;">%';
 }else{
   //$output .=  '<input class="okbuttons" type="submit" name="submit" value="ich komme NICHT"><br>';
   $output .=  '<input class="okbuttons" type="submit" name="submit" value="ich komme zum Meeting"> mit <input value="100" class="editbox" type="text" name="wahrscheinlichkeit" size="3" style="text-align:right;">%iger Wahrscheinlichkeit!';

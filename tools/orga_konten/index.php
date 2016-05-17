@@ -34,27 +34,27 @@ if ($_GET['action'] == 'send_mail'){
 $betreff = 'Ausgleich Orga Konten Maxlan';
 $nachricht = 'Hallo '.$user['vorname'].',
 
-wir möchten Dich bitten, dein Maxlan Orga Konto für den Verzehr auf der Maxlan auszugleichen.
+wir mÃ¶chten Dich bitten, dein Maxlan Orga Konto fÃ¼r den Verzehr auf der Maxlan auszugleichen.
 
-Jeder Orga hat einen Kredit von 100 EUR. Wir berechnen dann, wieviel du an Getränken und Catering ausgegeben hast und ziehen davon 25% ab. Der entsprechende Betrag sollte dann von dir ausgeglichen werden.
+Jeder Orga hat einen Kredit von 100 EUR. Wir berechnen dann, wieviel du an GetrÃ¤nken und Catering ausgegeben hast und ziehen davon 25% ab. Der entsprechende Betrag sollte dann von dir ausgeglichen werden.
 
 Stand Catering Konto: '.$user['credits'].' EUR
 Zu zahlen (abzgl. 25%): '.$user['to_pay'].' EUR
 
-Bitte überweise den Betrag auf das Maxlan Konto, schicke die Summe per Paypal oder gib sie fl_dutch privat.
+Bitte Ã¼berweise den Betrag auf das Maxlan Konto, schicke die Summe per Paypal oder gib sie fl_dutch privat.
 
 Kontoverbindung:
 LAN Treff Haren
 Konto: 708154500
 BLZ: 26661494
-Bank: Emsländische Volksbank Meppen
+Bank: EmslÃ¤ndische Volksbank Meppen
 
 IBAN DE94 2666 1494 0708 1545 00
 BIC GENODEF1MEP
 
 Paypal Adresse: info@maxlan.de
 
-Nette Grüße
+Nette GrÃ¼ÃŸe
 Die Maxlan Teamleitung
 
 PS: Falls Du denkst, dass Du bereits bezahlt hast oder der Betrag ggf. falsch ist, schick uns bitte einfach eine Antwort auf diese Email.
@@ -76,12 +76,12 @@ if ($_GET['action'] == "equalize" && is_numeric($_GET['user'])){
 	$user_id = security_number_int_input($_GET['user'],'','');
 	$uquery = $DB->query("SELECT user.id AS user_id, user.nick, user.vorname, user.nachname, catering_konto.credits, ((100 - catering_konto.credits)*0.75) AS to_pay FROM catering_konto LEFT JOIN user ON catering_konto.user_id = user.id LEFT JOIN user_orga ON catering_konto.user_id = user_orga.user_id WHERE user_orga.team_forum = 1 AND user.id = '{$user_id}' ORDER BY user.nachname");
 	while($user = $DB->fetch_array($uquery)){
-		$output .= '<br><b>Orga Catering Konto zurücksetzen</b>';
-		$output .= '<br><br>Möchtest Du das Catering Konto von '.$user['vorname'].' <i>"'.$user['nick'].'"</i> '.$user['nachname'].' wirklich auf 100 EUR zurücksetzen?';
+		$output .= '<br><b>Orga Catering Konto zurÃ¼cksetzen</b>';
+		$output .= '<br><br>MÃ¶chtest Du das Catering Konto von '.$user['vorname'].' <i>"'.$user['nick'].'"</i> '.$user['nachname'].' wirklich auf 100 EUR zurÃ¼cksetzen?';
 		$output .= '<br><br>Kontostand: '.$user['credits'].' EUR';
 		$output .= '<br>Zu Zahlen: '.$user['to_pay'].' EUR';
 		$output .= '<br><br>';
-		$output .= '<a href="index.php">Nein, nichts tun</a>&nbsp;&nbsp;||&nbsp;&nbsp;<a href="index.php?action=do_equal&user='.$user_id.'">Ja, auf 100 EUR zurücksetzen</a>';
+		$output .= '<a href="index.php">Nein, nichts tun</a>&nbsp;&nbsp;||&nbsp;&nbsp;<a href="index.php?action=do_equal&user='.$user_id.'">Ja, auf 100 EUR zurÃ¼cksetzen</a>';
 	}
 	$PAGE->render($output);
 	exit();
@@ -120,7 +120,7 @@ while($user = $DB->fetch_array($uquery)){
     } else {
 		$currentRowClass = "msgrow2";
 	}
-	$output .= '<tr class="'.$currentRowClass.'"><td >'.$user['vorname'].'</td><td ><i>'.$user['nick'].'</i></td><td >'.$user['nachname'].'</td><td align="right">'.$user['credits'].' EUR</td><td align="right">'.$user['to_pay'].' EUR</td><td class="msgrow2" style="background-color: green;" NOWRAP><a href="index.php?action=equalize&user='.$user['user_id'].'" ><b><font color="white">Zurücksetzen</font></b></a></TD></tr>';
+	$output .= '<tr class="'.$currentRowClass.'"><td >'.$user['vorname'].'</td><td ><i>'.$user['nick'].'</i></td><td >'.$user['nachname'].'</td><td align="right">'.$user['credits'].' EUR</td><td align="right">'.$user['to_pay'].' EUR</td><td class="msgrow2" style="background-color: green;" NOWRAP><a href="index.php?action=equalize&user='.$user['user_id'].'" ><b><font color="white">ZurÃ¼cksetzen</font></b></a></TD></tr>';
 	$sum = $sum + $user['to_pay'];
 	$iCounter++;
 }

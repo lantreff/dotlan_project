@@ -91,7 +91,7 @@ $output .= "
 $output .= "	
 								<td width='2' class='shortbarbitselect'>&nbsp;</td>
 								<td width='".$breite."' class='".$d."'><a href='index.php?event=".$selectet_event_id."' class='".$d1."'>Dienstplan</a></td>
-								<td width='".$breite."' class='".$a."'><a href='plan_overview.php?event=".$selectet_event_id."' class='".$a1."'>Übersicht</a></td>
+								<td width='".$breite."' class='".$a."'><a href='plan_overview.php?event=".$selectet_event_id."' class='".$a1."'>Ãœbersicht</a></td>
 								<td width='".$breite."' class='".$c."'><a href='plan_my.php?event=".$selectet_event_id."' class='".$c1."'>Mein Plan</a></td>
 							";
 						if($DARF["edit"] )

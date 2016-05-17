@@ -13,7 +13,7 @@ include("../functions.php");
 $PAGE->sitetitle = $PAGE->htmltitle = _("Projekt Rechteverwaltung");
 
 ###########################################################################################
-if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  // Ist der angemeldete Benutzer Globaler Admin oder hat er über die Rechteverwaltung Berechtigungen dann darf er die Seite eehen sonst Error-Message.
+if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));  // Ist der angemeldete Benutzer Globaler Admin oder hat er Ã¼ber die Rechteverwaltung Berechtigungen dann darf er die Seite eehen sonst Error-Message.
 
 $a = 'shortbarbit';
 $a1 = 'shortbarlink';
@@ -208,7 +208,7 @@ if($_GET['hide'] == "1"){
             </tbody>
           </table>
           <input name='senden' value='Rechte aktualisieren' type='submit'><br>
-          <p><a href='/admin/projekt/rechteverwaltung/'>Zurück zur Übersicht</a></p>
+          <p><a href='/admin/projekt/rechteverwaltung/'>ZurÃ¼ck zur Ãœbersicht</a></p>
         </form>"; // Outer Table
   }
 }

@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 ########################################################################
 # Sponsorenverwaltung Modul for dotlan                                 #
 #                                                                      #
@@ -10,20 +10,21 @@
 $MODUL_NAME = "sponsoren";
 include_once("../../../global.php");
 include("../functions.php");
+include("sponsoren_functions.php");
 
-$PAGE->sitetitle = $PAGE->htmltitle = _("Sponsorenverwaltung"); // Tietel der als THML-Überschrift der Seite angezeigt wird
+$PAGE->sitetitle = $PAGE->htmltitle = _("Sponsorenverwaltung"); // Tietel der als THML-Ãœberschrift der Seite angezeigt wird
 
 //$event_id		= $EVENT->next;			// ID des anstehenden Event's
 $date 			= date("Y.m.d");
 $time			= date("H:i:s");
 
-// auslesen der einzelnen Werte die über die Adresszeile übergeben werden
+// auslesen der einzelnen Werte die Ã¼ber die Adresszeile Ã¼bergeben werden
 	$id				= $_GET['id'];
 	$sponsor		= $_GET['sponsor'];
 	$n_id 			= $_GET['n_id'];
 ////////////////////////////////////////////////
 
-// auslesen der Eingabefelder für 'edit' | 'add' | 'usw...'
+// auslesen der Eingabefelder fÃ¼r 'edit' | 'add' | 'usw...'
 	$name 			= security_string_input($_POST['name']);
 	$str			= security_string_input($_POST['str']);
 	$hnr			= security_number_int_input($_POST['hnr'],"","");
@@ -52,7 +53,7 @@ $time			= date("H:i:s");
 ////////////////////////////////////////////////
 
 // Sortierung //
-// Variablen für die Sortierfunktion
+// Variablen fÃ¼r die Sortierfunktion
 	$sort			= "name"; // Standardfeld das zum Sortieren genutzt wird
 	$order			= "ASC"; // oder DESC | Sortierung aufwerts, abwerts
 
@@ -70,24 +71,25 @@ $time			= date("H:i:s");
     	$d    =    explode("-",$date1);
 	return    sprintf("%02d.%02d.%04d", $d[2], $d[1], $d[0]);
 }
-$selectet_event_id = $EVENT->next;
-if (isset($_GET['event']))
-{
-$selectet_event_id = $_GET['event'];
-}
-if (isset($_POST['event']) )
+
+if (isset($_POST['event']))
 {
 $selectet_event_id = $_POST['event'];
 }
-
-
-
+elseif(isset($_GET['event']))
+{
+$selectet_event_id = $_GET['event'];
+}
+else
+{
+$selectet_event_id = $event_id;
+}
  /*###########################################################################################
 Admin PAGE
 */
 
 
-if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["view"]) $PAGE->error_die(html::template("error_nopermission"));
 
 else
 {
@@ -111,7 +113,7 @@ else
 			$output .= "<a name='top' >
 				<a href='".$global['project_path']."'>Projekt</a>
 				&raquo;
-				<a href='".$global['project_path']."sponsoren'>Sponsoren</a>
+				<a href='index.php'>Sponsoren</a>
 				&raquo; ".$_GET['action']."
 				<hr class='newsline' width='100%' noshade=''>
 				<br />";
@@ -141,13 +143,13 @@ else
 				<tr>
 				<td align='right'>";
 
-				$sql_event_ids 				= $DB->query("SELECT * FROM events ORDER BY begin DESC");
-				$out_historie_event			= $DB->fetch_array($DB->query("SELECT * FROM events WHERE id = ".$selectet_event_id.""));						
+				$sql_event_ids 				= mysql_query("SELECT * FROM events ORDER BY begin DESC");
+				$out_historie_event			= mysql_fetch_array(mysql_query("SELECT * FROM events WHERE id = ".$selectet_event_id.""));						
 
 				$output .= "<form name='change_event' action='' method='POST'>				
 								<select name='event' onChange='document.change_event.submit()'>
 									<option value='1'>w&auml;hle das Event !</option>";
-								while($out_event_ids = $DB->fetch_array($sql_event_ids))
+								while($out_event_ids = mysql_fetch_array($sql_event_ids))
 								{// begin While Historie
 									if	($out_event_ids['id'] == $selectet_event_id)
 									{
@@ -184,9 +186,9 @@ else
 		{ // hide
 
 
-			if (IsSet ($_POST['suche'] ) ) // nur wenn im fled suchen etwas eingegeben wurde wird in den eingetragenen spalten gesucht. diese können um noch weitere Ergänzt werden, dies kann einfach duch ein "OR" getrennt geschehen
+			if (IsSet ($_POST['suche'] ) ) // nur wenn im fled suchen etwas eingegeben wurde wird in den eingetragenen spalten gesucht. diese kÃ¶nnen um noch weitere ErgÃ¤nzt werden, dies kann einfach duch ein "OR" getrennt geschehen
 			 {
-				$sql_sponsor = $DB->query("
+				$sql_sponsor = mysql_query("
 													SELECT
 
 														*
@@ -203,7 +205,7 @@ else
 				}
 				else {
 
-				$sql_sponsor = $DB->query("
+				$sql_sponsor = mysql_query("
 													SELECT
 														*
 													FROM
@@ -283,21 +285,23 @@ else
 
 
 			$iCount = 0;
-			while($out = $DB->fetch_array($sql_sponsor))
+			while($out = mysql_fetch_array($sql_sponsor))
 			{// begin while
 			
 							if($iCount % 2 == 0)
 							{
 								$currentRowClass = "msgrow2";
+								$farbe = $styles[$style]['msgrow2'];
 
 							}
 							else
 							{
 								$currentRowClass = "msgrow1";
+								$farbe = $styles[$style]['msgrow1'];
 							}
 							$out_Apartnet = 
-								 $DB->fetch_array(
-													$DB->query("
+								 mysql_fetch_array(
+													mysql_query("
 																	SELECT
 																			*
 																	FROM
@@ -309,8 +313,14 @@ else
 																")
 												);
 
-				$output .= "
-								<tr VALIGN=TOP  class='".$currentRowClass."'>
+				
+								$output .= "
+								<tr  VALIGN=TOP ";
+								$output .= ' onclick="document.location = \'?hide=1&action=show&id='.$out['id'].'&event='.$selectet_event_id.'\' ";  ';
+								$output .= ' onmouseover="this.style.background=\''.$styles[$style]['msg_over'].'\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
+								$output .= ' title="Klicken um Details des Artikels anzuzeigen" class="'.$currentRowClass.'">';
+						$output .= "
 									<td  >
 									<a name='".$out['name']."'>
 										<a target='_blank' href='".$out['homepage']."'>".$out['name']."</a>
@@ -336,7 +346,7 @@ $output .="
 										<a href='mailto:".$out_Apartnet['fa_email']."'>".$out_Apartnet['p_vorname']." ".$out_Apartnet['p_name']."</a>
 									</td>
 									<td align='center'>";
-									$sql_status_main = $DB->query("
+									$sql_status_main = mysql_query("
 																		SELECT
 																				*
 																		FROM
@@ -355,10 +365,10 @@ $output .="
 										{
 
 
-											while($out_status_main = $DB->fetch_array($sql_status_main))
+											while($out_status_main = mysql_fetch_array($sql_status_main))
 															{// begin while
-															$out_stats_user = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_status_main['u_id']."' "));
-																$out_stat_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$out_status_main['s_id']."' "));
+															$out_stats_user = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id = '".$out_status_main['u_id']."' "));
+																$out_stat_name = mysql_fetch_array(mysql_query("SELECT * FROM project_sponsoren WHERE id = '".$out_status_main['s_id']."' "));
 
 																$status_text = wordwrap( $out_status_main['comment'], 100, '<br>', true );
 																
@@ -376,7 +386,7 @@ $output .="
 																	{
 																		$bg_color = "#90EE90";
 																	}
-																if($out_status_main['status'] ==  'Zurückgestellt')
+																if($out_status_main['status'] ==  'ZurÃ¼ckgestellt')
 																	{
 																		$bg_color = "#8B4513";
 																	}
@@ -433,14 +443,14 @@ $output .="
 								$teile1 = explode(",", $out['marke']);
 								foreach($teile1 as $list_marke)
 									{ 									
-										$sql_warenwert = $DB->query("SELECT * FROM project_sponsoren_artikel WHERE ( s_id = '".$out['id']."' AND sp_art_marke = '".trim($list_marke," ")."') AND event_id = '".$selectet_event_id."' ");
-										//$sql_warenwert = $DB->query("SELECT * FROM project_sponsoren_artikel WHERE s_id = '".$out['id']."' AND sp_art_marke = '".$list_marke."' AND event_id = '".$selectet_event_id."' ");
+										$sql_warenwert = mysql_query("SELECT * FROM project_sponsoren_artikel WHERE ( s_id = '".$out['id']."' AND sp_art_marke = '".trim($list_marke," ")."') AND event_id = '".$selectet_event_id."' ");
+										//$sql_warenwert = mysql_query("SELECT * FROM project_sponsoren_artikel WHERE s_id = '".$out['id']."' AND sp_art_marke = '".$list_marke."' AND event_id = '".$selectet_event_id."' ");
 									if( mysql_num_rows($sql_warenwert) != 0)
 										{
 												$output .= "	<table  width='100%' border='0'>
 																<tbody>";
 															
-											while($out_sponsor_warenwert = $DB->fetch_array($sql_warenwert))
+											while($out_sponsor_warenwert = mysql_fetch_array($sql_warenwert))
 											{ 
 												$warenwert[$out['id']][$i] = $warenwert[$out['id']][$i] + ( $out_sponsor_warenwert['sp_art_anz'] * $out_sponsor_warenwert['sp_art_wert']) ;
 												
@@ -467,13 +477,13 @@ $output .="
 										$a++;
 									}
 								}
-									$sql_warenwert1 = $DB->query("SELECT * FROM project_sponsoren_artikel WHERE s_id = ".$out['id']." AND sp_art_marke = '' AND event_id = ".$selectet_event_id." ");
+									$sql_warenwert1 = mysql_query("SELECT * FROM project_sponsoren_artikel WHERE s_id = ".$out['id']." AND sp_art_marke = '' AND event_id = ".$selectet_event_id." ");
 									if( mysql_num_rows($sql_warenwert1) != 0)
 										{ 
 											$output .= "<table  width='100%'  border='0'>
 																<tbody>";
 											$b = 1;					
-											while($out_sponsor_warenwert1 = $DB->fetch_array($sql_warenwert1))
+											while($out_sponsor_warenwert1 = mysql_fetch_array($sql_warenwert1))
 											{
 												$warenwert1[$out['id']] = ( $out_sponsor_warenwert1['sp_art_wert'] * $out_sponsor_warenwert1['sp_art_anz']) ;
 
@@ -507,8 +517,8 @@ $output .="
 
 									</td>
 									<td align='right'>";
-									$sql_admin_z = $DB->query("SELECT * FROM user WHERE id = '".$out['admin']."' ");
-									while ($out_admin_z = $DB->fetch_array($sql_admin_z))
+									$sql_admin_z = mysql_query("SELECT * FROM user WHERE id = '".$out['admin']."' ");
+									while ($out_admin_z = mysql_fetch_array($sql_admin_z))
 									{
 										$output .= " ".$out_admin_z['vorname']." (".$out_admin_z['nick'].") ".$out_admin_z['nachname']."";
 									}
@@ -522,12 +532,12 @@ $output .="
 							if( $DARF["edit"] )
 							{ // EDIT
 							$output .="<a href='?hide=1&action=edit&id=".$out['id']."&event=".$selectet_event_id."' target='_parent'>
-										<img src='../images/16/edit.png' title='Details anzeigen/&auml;ndern' ></a>";
+										<img src='{BASEDIR}images/icons/pencil.png' title='Details anzeigen/&auml;ndern' ></a>";
 							}
 							if( $DARF["del"])
 							{ // DEL
 							$output .="<a href='?hide=1&action=del&id=".$out['id']."' target='_parent'>
-										<img src='../images/16/editdelete.png' title='L&ouml;schen'></a>";
+										<img src='{BASEDIR}images/icons/delete.png' title='L&ouml;schen'></a>";
 							}
 							$output .= "</td>";
 						}
@@ -557,21 +567,20 @@ $output .="
 /////////////////////////////////////////////// DEL ///////////////////////////////////////////////
 			if($_GET['action'] == 'del')
 			{
-				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["del"]) $PAGE->error_die(html::template("error_nopermission"));
 
-					if($_GET['comand'] == 'senden')
-
+				if($_GET['comand'] == 'senden')
 				{
-					$del01=$DB->query("DELETE FROM project_sponsoren WHERE id = '".$_GET['id']."'");
-					$del02=$DB->query("DELETE FROM project_sponsoren_stats WHERE s_id = '".$_GET['id']."'");
-					$del03=$DB->query("DELETE FROM project_sponsoren_artikel WHERE s_id = '".$_GET['id']."'");
+					$del01=mysql_query("DELETE FROM project_sponsoren WHERE id = '".$_GET['id']."'");
+					$del02=mysql_query("DELETE FROM project_sponsoren_stats WHERE s_id = '".$_GET['id']."'");
+					$del03=mysql_query("DELETE FROM project_sponsoren_artikel WHERE s_id = '".$_GET['id']."'");
 
-					$sql_contact_id = $DB->query("SELECT * FROM project_contact_contacts WHERE sponsor_id = '".$_GET['id']."' LIMIT 1");
+					$sql_contact_id = mysql_query("SELECT * FROM project_contact_contacts WHERE sponsor_id = '".$_GET['id']."' LIMIT 1");
 
-					while($out_contact_id = $DB->fetch_array( $sql_contact_id ))
+					while($out_contact_id = mysql_fetch_array( $sql_contact_id ))
 					{
 						$contact_id = $out_contact_id['contactid'];
-					$update=$DB->query("
+					$update=mysql_query("
 											UPDATE
 												project_contact_contacts
 											SET
@@ -586,7 +595,7 @@ $output .="
 				}
 
 				 $new_id = $_GET['id'];
-				  $out_list_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$new_id."' LIMIT 1"));
+				  $out_list_name = mysql_fetch_array(mysql_query("SELECT * FROM project_sponsoren WHERE id = '".$new_id."' LIMIT 1"));
 					$output .="
 						<h2 style='color:RED;'>Achtung!!!!<h2>
 						<br />
@@ -615,14 +624,14 @@ $output .="
 		/////////////////////////////////////////////// DEL_NAME ///////////////////////////////////////////////
 			if($_GET['action'] == 'del_name')
 			{
-				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["del"]) $PAGE->error_die(html::template("error_nopermission"));
 
 					if($_GET['comand'] == 'senden')
 
 				{
 					$s_id = $_GET['n_id'];
 					$new_id = $_GET['id'];
-					$update=$DB->query("
+					$update=mysql_query("
 											UPDATE
 												project_contact_contacts
 											SET
@@ -630,12 +639,12 @@ $output .="
 											WHERE
 												`contactid` = \"$new_id\"
 										");
-					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$s_id."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$s_id."'>";
 				}
 
 					$new_id = $_GET['id'];
 
-				$out_list_name = $DB->fetch_array($DB->query("SELECT * FROM project_contact_contacts WHERE contactid = '".$new_id."' LIMIT 1"));
+				$out_list_name = mysql_fetch_array(mysql_query("SELECT * FROM project_contact_contacts WHERE contactid = '".$new_id."' LIMIT 1"));
 				$s_id = $out_list_name['sponsor_id'];
 
 				$output .="
@@ -649,7 +658,7 @@ $output .="
 							<a href='?hide=1&action=del_name&comand=senden&id=".$new_id."&n_id=".$s_id."' target='_parent'>
 							<input value='L&ouml;schen' type='button'></a>
 							 \t
-							<a href='/admin/projekt/sponsoren/?hide=1&action=edit&id=".$s_id."' target='_parent'>
+							<a href='/admin/projekt/sponsoren/?hide=1&action=show&id=".$s_id."' target='_parent'>
 							<input value='Zur&uuml;ck' type='button'></a>
 
 						";
@@ -664,12 +673,12 @@ $output .="
 
 			if($_GET['action'] == 'add' || $_GET['action'] == 'edit' )
 			{
-				if ( (!$DARF["add"] && $_GET['action'] == 'add'  ) || (!$DARF["edit"] && $_GET['action'] == 'edit')) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if ( (!$DARF["add"] && $_GET['action'] == 'add'  ) || (!$DARF["edit"] && $_GET['action'] == 'edit')) $PAGE->error_die(html::template("error_nopermission"));
 
 				if($_GET['action'] == 'edit')
 					{
-						$out_edit = $DB->fetch_array(
-														$DB->query
+						$out_edit = mysql_fetch_array(
+														mysql_query
 															("
 																SELECT
 																	*
@@ -684,7 +693,7 @@ $output .="
 					if($_GET['action'] == 'add' &&  $_GET['comand'] == 'senden')
 						{
 
-							$insert=$DB->query	("
+							$insert=mysql_query	("
 													INSERT INTO
 														`project_sponsoren`
 															(
@@ -730,7 +739,7 @@ $output .="
 						{
 							$id = $_GET['id'];
 
-							$update =$DB->query
+							$update =mysql_query
 									("
 										UPDATE
 											`project_sponsoren`
@@ -772,14 +781,14 @@ $output .="
 																<b>Verantwortlicher:<b> \t
 																<select name='admin' style='width:200px;'>
 																				<option value='0'>----</option>";
-																					$sql_list_verantw = $DB->query("SELECT * FROM user_orga");
-																					while($out_list_verantw = $DB->fetch_array($sql_list_verantw))
+																					$sql_list_verantw = mysql_query("SELECT * FROM user_orga");
+																					while($out_list_verantw = mysql_fetch_array($sql_list_verantw))
 																					{// begin
 
-																						$out_list_user = $DB->fetch_array( $DB->query("SELECT * FROM user WHERE id = ".$out_list_verantw['user_id']." ") );
+																						$out_list_user = mysql_fetch_array( mysql_query("SELECT * FROM user WHERE id = ".$out_list_verantw['user_id']." ") );
 																						if($_GET['action'] == 'edit')
 																						{
-																							$out_user_selected = $DB->fetch_array( $DB->query("SELECT * FROM project_sponsoren WHERE id = ".$out_edit['id']." ") );
+																							$out_user_selected = mysql_fetch_array( mysql_query("SELECT * FROM project_sponsoren WHERE id = ".$out_edit['id']." ") );
 																						}
 																							if( $out_list_user['id'] ==   $out_user_selected['admin'])
 																							{
@@ -843,7 +852,7 @@ $output .="
 
 														<tr >
 															<td width='30%'>
-																Straße & Hausnr.:
+																StraÃŸe & Hausnr.:
 															</td>
 															<td width='70%'>
 																<table width='100%' cellspacing='0' cellpadding='0' border='0'>
@@ -854,7 +863,7 @@ $output .="
 																			</td>
 																			<td>&nbsp;</td>
 																			<td>
-																			<input type='text'   value='".$out_edit['hnr']."' name='hnr' size='5'>
+																			<input type='text' value='".$out_edit['hnr']."' name='hnr' size='5'>
 																			</td>
 																			
 																		</tr>
@@ -873,7 +882,7 @@ $output .="
 																	<tbody>
 																		<tr>
 																			<td>
-																			<input type='text'   value='".$out_edit['plz']."' name='plz' size='5'>
+																			<input type='text' value='".$out_edit['plz']."' name='plz' size='5'>
 																			</td>
 																			<td>&nbsp;</td>
 																			<td width='100%'>
@@ -892,8 +901,8 @@ $output .="
 															<td width='70%'>																
 															<select name='land' style='width:100%'>
 																	<option value='1'>w&auml;hlen</option>";
-																		$sql_list_land = $DB->query("SELECT * FROM project_countryTable ORDER BY name ASC");
-																		while($out_list_land = $DB->fetch_array($sql_list_land))
+																		$sql_list_land = mysql_query("SELECT * FROM project_countryTable ORDER BY name ASC");
+																		while($out_list_land = mysql_fetch_array($sql_list_land))
 																		{// begin while
 																			if( $out_list_land['id'] == $out_edit['land'] )
 																			{
@@ -981,8 +990,8 @@ $output .="
 																<td>
 																	<select name='add_kontakt_id' style='width: '>
 																		<option value='1'>w&auml;hlen</option>";
-																			$sql_list_contact = $DB->query("SELECT * FROM project_contact_contacts WHERE sponsor_id = 0 ORDER BY p_vorname");
-																			while($out_list_contact = $DB->fetch_array($sql_list_contact))
+																			$sql_list_contact = mysql_query("SELECT * FROM project_contact_contacts WHERE sponsor_id = 0 ORDER BY p_vorname");
+																			while($out_list_contact = mysql_fetch_array($sql_list_contact))
 																			{// begin while
 																				$output .="
 																						<option value='".$out_list_contact['contactid']."'>
@@ -1005,7 +1014,7 @@ $output .="
 											</form>
 										</tr>";
 
-										$sql_list_contact = $DB->query("SELECT * FROM project_contact_contacts WHERE sponsor_id = ".$out_edit['id']." ");
+										$sql_list_contact = mysql_query("SELECT * FROM project_contact_contacts WHERE sponsor_id = ".$out_edit['id']." ");
 										if( mysql_num_rows($sql_list_contact) != 0)
 									{
 							$output .="
@@ -1037,7 +1046,7 @@ $output .="
 												$output .="</tr>";
 
 													$i=1;
-													while($out_list_contact = $DB->fetch_array($sql_list_contact))
+													while($out_list_contact = mysql_fetch_array($sql_list_contact))
 													{// begin while
 														$output .="
 														<tr>
@@ -1056,7 +1065,7 @@ $output .="
 																$output .="
 																		<td  class=\"msgrow".(($i%2)?1:2)."\" align='right'>
 																			<a  href='?hide=1&action=del_name&id=".$out_list_contact['contactid']."' target='_parent'>
-																			<img src='../images/16/editdelete.png' title='löschen'/></a>
+																			<img src='{BASEDIR}images/icons/delete.png' title='lÃ¶schen'/></a>
 																		</td>";
 															}
 												$output .="
@@ -1078,499 +1087,7 @@ $output .="
 										</tr>
 								";
 
-									$output .="
-										<tr>
-											<td class='msghead' colspan='2'>
-												<b>Status:</b>
-											</td>
-										</tr>
-
-											";
-													if( $DARF["edit"] )
-														{ // EDIT
-														$output .="
-													<tr>
-														<form name='editstats' action='?hide=1&action=edit_stats&comand=senden&event_id=".$selectet_event_id."&id=".$out_edit['id']."' method='POST'>
-															<td class='msgrow1' colspan='2'>
-																<table width='100%'>
-																	<tbody>
-																		<tr>
-																			<td>
-																				<input name='comment' value=''  style='width: 70%;' type='text' >
-																				<select name='status' style='width:80px;' >
-																					<option value='undef' selected='selected'>undef</option>
-																					<option value='Angeschrieben'>Angeschrieben</option>
-																					<option value='Zusage'>Zusage</option>
-																					<option value='Absage'>Absage</option>
-																					<option value='keine Antwort'>keine Antwort</option>
-																					<option value='Soll Geschenk bekommen'>Soll Geschenk bekommen</option>
-																					<option value='Hat Geschenk bekommen'>Hat Geschenk bekommen</option>
-																					<option value='Hat Bericht bekommen'>Hat Bericht bekommen</option>
-																					<option value='News geschrieben'>News geschrieben</option>
-																					<option value='Ware erhalten'>Ware erhalten</option>
-																					<option value='Zurückgestellt'>Zurückgestellt</option>
-																				</select>
-																			</td>
-																			<td  align='right'>
-																				<input name='senden' value='Status hinzuf&uuml;gen' type='submit' style='text-align:right;' >
-																			</td>
-																		</tr>
-																	</tbody>
-																</table>
-															</td>
-														</form>
-													</tr>
-														";
-													}
-													
-													$sql_stats_event = $DB->query("
-												SELECT
-														*
-												FROM
-													project_sponsoren_stats
-												WHERE
-													s_id 		= '".$out_edit['id']."'
-												AND
-													event_id = '".$selectet_event_id."'
-												ORDER BY
-													date DESC,
-													time DESC
-											");
-											
-											$out_event1 = mysql_fetch_array( mysql_query("
-												SELECT
-														*
-												FROM
-													events
-												WHERE
-													id 		= '".$selectet_event_id."'
-												
-											")
-											);
 								
-								if( mysql_num_rows($sql_stats_event) != 0)
-								{
-								$output .="
-										<tr >
-											<td class='msghead' colspan='2'>
-												<b>Status-Liste:</b>
-											</td>
-										</tr>
-										<tr>
-											<td class='msgrow1' colspan='2'>
-												<table width='100%'>
-													<tbody>
-														<tr>
-															<td class='msgrow2' >
-																<b>".$out_event1['name']."</b>
-															</td>
-														</tr>
-														<tr>
-															<td class='msgrow1'>
-
-																<table  width='100%' cellspacing='0' cellpadding='0' border='0'>
-																<tbody>";
-
-														while($out_sql_stats = $DB->fetch_array($sql_stats_event))
-														{// begin while
-															$out_stats_user = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_sql_stats['u_id']."' "));
-															$out_stat_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$out_sql_stats['s_id']."' "));
-
-																	$bg_color = "#FFFFFF";
-																
-															if($out_sql_stats['status'] ==  'Absage')
-																	{
-																		$bg_color = "#FF0000";
-																	}
-																if($out_sql_stats['status'] ==  'keine Antwort')
-																	{
-																		$bg_color = "#FF0000";
-																	}
-																if($out_sql_stats['status'] ==  'Zusage')
-																	{
-																		$bg_color = "#90EE90";
-																	}
-																if($out_sql_stats['status'] ==  'Zurückgestellt')
-																	{
-																		$bg_color = "#8B4513";
-																	}
-																if($out_sql_stats['status'] ==  'undef')
-																	{
-																		$bg_color = "#FFFFFF";
-																	}
-																if($out_sql_stats['status'] ==  'News geschrieben')
-																	{
-																		$bg_color = "#00FF00";
-																	}
-																if($out_sql_stats['status'] ==  'Soll Geschenk bekommen')
-																	{
-																		$bg_color = "#ADD8E6";
-																	}
-																if($out_sql_stats['status'] ==  'Hat Geschenk bekommen')
-																	{
-																		$bg_color = "#0000CD";
-																	}	
-																if($out_sql_stats['status'] ==  'Angeschrieben')
-																	{
-																		$bg_color = "#FFA500";
-																	}
-																if($out_sql_stats['status'] ==  'Hat Bericht bekommen')
-																	{
-																		$bg_color = "#8B008B";
-																	}
-																if($out_sql_stats['status'] ==  'Ware erhalten')
-																	{
-																		$bg_color = "#088A08";
-																	}		
-																
-																$status_text = wordwrap( $out_sql_stats['comment'], 100, '<br>', true );
-
-															$output .= "
-																	<tr style=' background-color: ".$bg_color.";'>
-																		<td  height='18' style=' color:#000000;'>";
-															$output .= "	<b>".$out_sql_stats['status'].":</b> ".$status_text." - ".$out_stats_user['vorname']." ".$out_stats_user['nachname']." (".$out_stats_user['nick'].") - ".date_mysql2german($out_sql_stats['date'])." - ".$out_sql_stats['time']." Uhr
-																		</td>";
-
-															if($DARF["del"])
-															{ // Global Admin
-																$output .="
-																		<td align='right' >
-																			<a href='?hide=1&action=del_stats&id=".$out_sql_stats['id']."&sponsor=".$out_stat_name['name']."' target='_parent'>
-																			<img src='../images/16/editdelete.png' title='löschen'/></a>
-																		</td>";
-															}
-															$output .="</tr>";
-
-														}
-
-										$output .="				</tbody>
-															</table>
-														</td>
-													</tr>";
-										
-										
-											$output .="
-													</tbody>
-												</table>
-											</td>
-										</tr>
-													";
-									}
-										$output .="
-								<tr>
-											<td class='msgrow1' colspan='2'>
-												&nbsp;
-											</td>
-										</tr>
-								";
-/////////////////////////////////////////////////////////////
-
-								$output .="
-
-										<tr>
-											<td class='msghead' colspan='2'>
-												<b>Neue ToDo's:</b>
-											</td>
-										</tr>
-										<tr  >
-											<td class='msgrow1' colspan='2' >
-												<table width='100%'>
-													<tbody>
-														<tr>
-															<td class='msghead'>
-																ToDo
-															</td>";
-									
-$output .="													<td  class='msghead'>
-
-															</td>
-														</tr>
-														<tr>
-															<form name='edittodo' action='?hide=1&action=edit_todo&comand=senden&event_id=".$selectet_event_id."&id=".$out_edit['id']."' method='POST'>
-																<td class='msgrow1' >
-																	<input name='sp_todo_todo' value=''  style='width: 100%;' type='text' >
-																</td>";
-									
-$output .="														<td class='msgrow1' align='right'>
-																	<input name='senden' value='ToDo hinzuf&uuml;gen' type='submit' style='text-align:right;' >
-																</td>
-															</form>
-																";
-
-												$output .="
-														</tr>
-													</tbody>
-												</table>
-											</td>
-										</tr>";
-										
-														$sql_todo = $DB->query("
-																					SELECT
-																							*
-																					FROM
-																						project_sponsoren_todo
-																					WHERE
-																						s_id = '".$out_edit['id']."'
-																					AND
-																						event_id = '".$selectet_event_id."'
-																					ORDER BY
-																						date ASC,
-																						time ASC
-																				");
-									if( mysql_num_rows($sql_todo) != 0)
-									{
-							$output .="	<tr >
-											<td class='msghead' colspan='2'>
-												<b>ToDo's:</b>
-											</td>
-										</tr>
-										<tr>
-											<td class='msgrow1' colspan='3'>
-
-												<table  width='100%' cellspacing='0' cellpadding='0' border='0'>
-													<tbody>";
-
-														$i=1;
-														while($out_sql_todo = $DB->fetch_array($sql_todo))
-														{// begin while
-															$out_stats_user = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_sql_todo['u_id']."' "));
-															$out_stat_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$out_sql_todo['s_id']."' "));
-
-															$output .="<tr >";
-															$output .= "
-																		<td  class=\"msgrow".(($i%2)?1:2)."\"  height='18'>";
-															$output .= "	".$out_sql_todo['sp_todo_todo']." ";
-															$output .= "</td>";
-
-															if($DARF["edit"])
-															{ // Global Admin
-																$checked = "Offen";
-																if($out_sql_todo['checked'] == 1)
-																{
-																	$checked = "Erledigt";
-																}
-																$output .="
-																		<td width='60' class=\"msgrow".(($i%2)?1:2)."\" align='left' width='20' >
-																			<a href='?hide=1&action=edit_todo_checked&id=".$out_sql_todo['id']."&checked=".$out_sql_todo['checked']."&s_id=".$out_sql_todo['s_id']."' target='_parent'>
-																			$checked </a>
-																		</td>";
-															}
-															if($DARF["del"])
-															{ // Global Admin
-																$output .="
-																		<td width='20' class=\"msgrow".(($i%2)?1:2)."\" align='right'>
-																			<a  href='?hide=1&action=del_todo&id=".$out_sql_todo['id']."' target='_parent'>
-																			<img src='../images/16/editdelete.png' title='löschen'/></a>
-																		</td>";
-															}
-															
-															$output .="</tr>";
-														$i++;
-														}
-
-										$output .="	</tbody>
-												</table>
-
-
-
-											</td>
-										</tr>";
-									}
-
-
-													
-													
-//////////////////////////////////////////////////////////////													
-								$output .="
-								<tr>
-											<td class='msgrow1' colspan='2'>
-												&nbsp;
-											</td>
-										</tr>
-								";
-							
-								$output .="
-
-										<tr>
-											<td class='msghead' colspan='2'>
-												<b>Gesponserte Artikel:</b>
-											</td>
-										</tr>
-										<tr  >
-											<td class='msgrow1' colspan='2' >
-												<table width='100%'>
-													<tbody>
-														<tr>
-															<td class='msghead' width='55'>
-																Anzahl
-															</td>
-															<td  class='msghead'  width='400'>
-																Artikelbezeichnung
-															</td>
-															<td  class='msghead'>
-																Warenwert pro St&uuml;ck
-															</td>";
-									if($out_edit['marke'])
-									{															
-$output .="													<td  class='msghead'>
-																Marke
-															</td>";
-									}
-$output .="													<td  class='msghead'>
-
-															</td>
-														</tr>
-														<tr>
-															<form name='editart' action='?hide=1&action=edit_art&comand=senden&event_id=".$selectet_event_id."&id=".$out_edit['id']."' method='POST'>
-																<td class='msgrow1' >
-																	<input name='sp_art_anz' value=''  style='width: 100%;' type='text' >
-																</td>
-																<td class='msgrow1'>
-																	 <input name='sp_art_name' value=''  style='width: 100%;' type='text'>
-																</td>
-																<td class='msgrow1'>
-																	 <input name='sp_art_wert' value=''  style='width: 50%;' type='text' >
-																</td>";
-																
-									if($out_edit['marke'])
-									{
-$output .="														<td class='msgrow1'>
-																				<select name='sp_art_marke'' >
-																				<option value='' selected='selected'>Marke W&auml;hlen</option>
-																					
-																";
-																$a = explode(",",$out_edit['marke']);
-																
-																foreach($a AS $marke ){
-																
-$output .="																<option value='$marke' >$marke</option>";
-																}
-																	 
-$output .="														</td>";
-									}
-$output .="														<td class='msgrow1' align='right'>
-																	<input name='senden' value='Artikel hinzuf&uuml;gen' type='submit' style='text-align:right;' >
-																</td>
-															</form>
-																";
-
-												$output .="
-														</tr>
-													</tbody>
-												</table>
-											</td>
-										</tr>";
-										
-														$sql_artikel = $DB->query("
-																					SELECT
-																							*
-																					FROM
-																						project_sponsoren_artikel
-																					WHERE
-																						s_id = '".$out_edit['id']."'
-																					AND
-																						event_id = '".$selectet_event_id."'
-																					ORDER BY
-																						date DESC,
-																						time DESC
-																				");
-									if( mysql_num_rows($sql_artikel) != 0)
-									{
-							$output .="											<tr >
-											<td class='msghead' colspan='2'>
-												<b>Gesponserte Artikel-Liste:</b>
-											</td>
-										</tr>
-														
-										<tr>
-															<td class='msgrow2' >
-																<b>".$out_event1['name']."</b>
-															</td>
-														</tr>
-										<tr>
-											<td class='msgrow1' colspan='3'>
-
-												<table  width='100%' cellspacing='0' cellpadding='0' border='0'>
-													<tbody>
-														<tr>
-															<td class='msghead'>
-																Anzahl
-															</td>
-															<td class='msghead'>
-																Artikel
-															</td>
-															<td class='msghead'>
-																Preis
-															</td>
-															<td class='msghead'>
-																Marke/Hersteller
-															</td>
-															<td class='msghead' width='80'>
-																admin
-															</td>
-														</tr>
-															
-															
-													";
-
-														$i=1;
-														while($out_sql_artikel = $DB->fetch_array($sql_artikel))
-														{// begin while
-															$out_stats_user = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_sql_artikel['u_id']."' "));
-															$out_stat_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$out_sql_artikel['s_id']."' "));
-
-															$output .="<tr class=\"msgrow".(($i%2)?1:2)."\">";															
-															$output .= "<td>";
-															$output .= $out_sql_artikel['sp_art_anz'];
-															$output .= "</td>";
-															$output .= "<td>";
-															$output .= $out_sql_artikel['sp_art_name'];
-															$output .= "</td>";
-															$output .= "<td>";
-															$output .= $out_sql_artikel['sp_art_wert']." &euro; ";
-															$output .= "</td>";
-															$output .= "<td>";
-															if($out_sql_artikel['sp_art_marke']){
-															
-															$output .= ucfirst($out_sql_artikel['sp_art_marke'])."";
-															}
-															
-															$output .= "</td>
-																		<td >";
-
-															if($DARF["edit"])
-															{ // Global Admin
-																$output .="
-																		
-																			<a href='?hide=1&action=edit_artikel&a_id=".$out_sql_artikel['id']."&s_id=".$out_sql_artikel['s_id']."' target='_parent'>
-																			<img src='../images/16/lists.png' title='Artikel &auml;ndern'></a>
-																		";
-															}
-															if($DARF["del"])
-															{ // Global Admin
-																$output .="
-																		
-																			<a href='?hide=1&action=del_artikel&id=".$out_sql_artikel['id']."' target='_parent'>
-																			<img src='../images/16/editdelete.png' title='löschen'/></a>
-																		";
-															}
-															$output .="</td>
-															</tr>";
-														$i++;
-														}
-
-										$output .="	</tbody>
-												</table>
-
-
-
-											</td>
-										</tr>";
-									}
-									
-									
-									
-
 
 									} // IF IS EDIT ENDE
 
@@ -1587,13 +1104,13 @@ $output .="														<td class='msgrow1' align='right'>
 			if($_GET['action'] == 'add_name')
 			{
 
-				if (!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["add"]) $PAGE->error_die(html::template("error_nopermission"));
 
 				if($_GET['comand'] == 'senden')
 
 				{ $id = $_GET['id'];
 
-						$update=$DB->query("
+						$update=mysql_query("
 												UPDATE
 													`project_contact_contacts`
 												SET
@@ -1604,7 +1121,7 @@ $output .="														<td class='msgrow1' align='right'>
 
 
 				$output .= "Daten wurden gesendet";
-				$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$id."'>";
+				$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$id."'>";
 
 				}
 			}
@@ -1614,14 +1131,14 @@ $output .="														<td class='msgrow1' align='right'>
 
 			if($_GET['action'] == 'edit_stats')
 			{
-				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
-				//$sql_edit_stats = $DB->query("SELECT * FROM project_sponsoren_stats WHERE s_id = ".$sid."");
+				if (!$DARF["edit"]) $PAGE->error_die(html::template("error_nopermission"));
+				//$sql_edit_stats = mysql_query("SELECT * FROM project_sponsoren_stats WHERE s_id = ".$sid."");
 
 				if($_GET['comand'] == 'senden')
 
 				{
 
-				$insert=$DB->query
+				$insert=mysql_query
 								("
 									INSERT INTO
 										`project_sponsoren_stats`
@@ -1649,7 +1166,7 @@ $output .="														<td class='msgrow1' align='right'>
 								);
 
 
-					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$id."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$id."'>";
 
 				}
 			}
@@ -1660,14 +1177,14 @@ $output .="														<td class='msgrow1' align='right'>
 
 			if($_GET['action'] == 'edit_art')
 			{
-				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["edit"]) $PAGE->error_die(html::template("error_nopermission"));
 
 
 				if($_GET['comand'] == 'senden')
 
 				{
 
-				$insert=$DB->query
+				$insert=mysql_query
 									("
 										INSERT INTO
 											`project_sponsoren_artikel`
@@ -1697,7 +1214,7 @@ $output .="														<td class='msgrow1' align='right'>
 									");
 
 
-					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$id."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$id."'>";
 
 				}
 			}
@@ -1711,15 +1228,15 @@ $output .="														<td class='msgrow1' align='right'>
 				$wert			= $_POST['wert'];
 				$admn			= $_POST['admin'];
 
-				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
-				$out_edit_sponsor = $DB->fetch_array( $DB->query("SELECT * FROM project_sponsoren WHERE id = ".$id."") );
+				if (!$DARF["edit"]) $PAGE->error_die(html::template("error_nopermission"));
+				$out_edit_sponsor = mysql_fetch_array( mysql_query("SELECT * FROM project_sponsoren WHERE id = ".$id."") );
 				$sponsor_name = $out_edit_sponsor['name'];
 
 				if($_GET['comand'] == 'senden')
 
 				{
 
-				$insert=$DB->query("
+				$insert=mysql_query("
 									UPDATE
 										`project_sponsoren`
 									SET
@@ -1744,18 +1261,18 @@ $output .="														<td class='msgrow1' align='right'>
 
 			if($_GET['action'] == 'del_stats')
 			{
-				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["del"]) $PAGE->error_die(html::template("error_nopermission"));
 
 					if($_GET['comand'] == 'senden')
 
 				{
-					$del=$DB->query("DELETE FROM project_sponsoren_stats WHERE id = '".$_GET['id']."'");
-					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$_GET['s_id']."'>";
+					$del=mysql_query("DELETE FROM project_sponsoren_stats WHERE id = '".$_GET['id']."'");
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$_GET['s_id']."'>";
 				}
 
 				 $new_id = $_GET['id'];
-				 $out_list_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren_stats WHERE id = '".$new_id."' LIMIT 1"));
-				 $out_list_u_name = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = '".$out_list_name['u_id']."' LIMIT 1"));
+				 $out_list_name = mysql_fetch_array(mysql_query("SELECT * FROM project_sponsoren_stats WHERE id = '".$new_id."' LIMIT 1"));
+				 $out_list_u_name = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id = '".$out_list_name['u_id']."' LIMIT 1"));
 
 			$output .="
 
@@ -1767,7 +1284,7 @@ $output .="														<td class='msgrow1' align='right'>
 						<a href='?hide=1&action=del_stats&comand=senden&id=".$new_id."&s_id=".$out_list_name['s_id']."&sponsor=".$sponsor."' target='_parent'>
 						<input value='L&ouml;schen' type='button'></a>
 						 \t
-						<a href='/admin/projekt/sponsoren/?hide=1&action=edit&id=".$out_list_name['s_id']."' target='_parent'>
+						<a href='/admin/projekt/sponsoren/?hide=1&action=show&id=".$out_list_name['s_id']."' target='_parent'>
 						<input value='Zur&uuml;ck' type='button'></a>
 					";
 			}
@@ -1778,18 +1295,18 @@ $output .="														<td class='msgrow1' align='right'>
 
 			if($_GET['action'] == 'del_artikel')
 			{
-				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["del"]) $PAGE->error_die(html::template("error_nopermission"));
 
 					if($_GET['comand'] == 'senden')
 
 				{
-					$out_list_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$_GET['s_id']."' LIMIT 1"));
-					$del=$DB->query("DELETE FROM project_sponsoren_artikel WHERE id = '".$_GET['id']."'");
-					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$out_list_name['id']."'>";
+					$out_list_name = mysql_fetch_array(mysql_query("SELECT * FROM project_sponsoren WHERE id = '".$_GET['s_id']."' LIMIT 1"));
+					$del=mysql_query("DELETE FROM project_sponsoren_artikel WHERE id = '".$_GET['id']."'");
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$out_list_name['id']."'>";
 				}
 
 				 $new_id = $_GET['id'];
-				 $out_list_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren_artikel WHERE id = '".$new_id."' LIMIT 1"));
+				 $out_list_name = mysql_fetch_array(mysql_query("SELECT * FROM project_sponsoren_artikel WHERE id = '".$new_id."' LIMIT 1"));
 
 			$output .="
 
@@ -1801,7 +1318,7 @@ $output .="														<td class='msgrow1' align='right'>
 						<a href='?hide=1&action=del_artikel&comand=senden&id=".$out_list_name['id']."&s_id=".$out_list_name['s_id']."' target='_parent'>
 						<input value='L&ouml;schen' type='button'></a>
 						 \t
-						<a href='/admin/projekt/sponsoren/?hide=1&action=edit&id=".$out_list_name['s_id']."' target='_parent'>
+						<a href='/admin/projekt/sponsoren/?hide=1&action=show&id=".$out_list_name['s_id']."' target='_parent'>
 						<input value='Zur&uuml;ck' type='button'></a>
 					";
 			}
@@ -1812,15 +1329,15 @@ $output .="														<td class='msgrow1' align='right'>
 
 			if($_GET['action'] == 'edit_artikel')
 			{
-				$out_edit_marke = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren_artikel WHERE id = '".$_GET['a_id']."' LIMIT 1"));
-				$out_marken = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren WHERE id = '".$_GET['s_id']."' LIMIT 1"));
+				$out_edit_marke = mysql_fetch_array(mysql_query("SELECT * FROM project_sponsoren_artikel WHERE id = '".$_GET['a_id']."' LIMIT 1"));
+				$out_marken = mysql_fetch_array(mysql_query("SELECT * FROM project_sponsoren WHERE id = '".$_GET['s_id']."' LIMIT 1"));
 				
-				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["edit"]) $PAGE->error_die(html::template("error_nopermission"));
 				
 					if($_GET['comand'] == 'senden')
 
 				{
-					$update=$DB->query("
+					$update=mysql_query("
 										UPDATE 
 											`project_sponsoren_artikel`
 										SET
@@ -1832,7 +1349,7 @@ $output .="														<td class='msgrow1' align='right'>
 											`id` ='".$_GET['a_id']."'
 										
 										");
-					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$_GET['s_id']."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$_GET['s_id']."'>";
 				}
 
 				$output .="
@@ -1906,14 +1423,14 @@ $output .="														<td class='msgrow1' align='right'>
 
 			if($_GET['action'] == 'edit_todo')
 			{
-				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["edit"]) $PAGE->error_die(html::template("error_nopermission"));
 
 
 				if($_GET['comand'] == 'senden')
 
 				{
 
-				$insert=$DB->query
+				$insert=mysql_query
 									("
 										INSERT INTO
 											`project_sponsoren_todo`
@@ -1939,7 +1456,7 @@ $output .="														<td class='msgrow1' align='right'>
 									");
 
 
-					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$id."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$id."'>";
 
 				}
 			}
@@ -1950,7 +1467,7 @@ $output .="														<td class='msgrow1' align='right'>
 
 			if($_GET['action'] == 'edit_todo_checked')
 			{
-				if (!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["edit"]) $PAGE->error_die(html::template("error_nopermission"));
 
 
 				$cheked = 1;
@@ -1959,10 +1476,10 @@ $output .="														<td class='msgrow1' align='right'>
 					$cheked = 0;
 				 }
 
-				$insert=$DB->query(" UPDATE  `project_sponsoren_todo` SET  `checked` =  '$cheked' WHERE  `project_sponsoren_todo`.`id` =$id; ");
+				$insert=mysql_query(" UPDATE  `project_sponsoren_todo` SET  `checked` =  '$cheked' WHERE  `project_sponsoren_todo`.`id` =$id; ");
 
 
-					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$_GET['s_id']."'>";
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$_GET['s_id']."'>";
 
 			}
 
@@ -1972,17 +1489,17 @@ $output .="														<td class='msgrow1' align='right'>
 
 			if($_GET['action'] == 'del_todo')
 			{
-				if (!$DARF["del"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+				if (!$DARF["del"]) $PAGE->error_die(html::template("error_nopermission"));
 
 					if($_GET['comand'] == 'senden')
 
 				{
-					$del=$DB->query("DELETE FROM project_sponsoren_todo WHERE id = '".$_GET['id']."'");
-					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=edit&id=".$_GET['s_id']."'>";
+					$del=mysql_query("DELETE FROM project_sponsoren_todo WHERE id = '".$_GET['id']."'");
+					$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."?hide=1&action=show&id=".$_GET['s_id']."'>";
 				}
 
 				 $new_id = $_GET['id'];
-				 $out_list_name = $DB->fetch_array($DB->query("SELECT * FROM project_sponsoren_todo WHERE id = '".$new_id."' LIMIT 1"));
+				 $out_list_name = mysql_fetch_array(mysql_query("SELECT * FROM project_sponsoren_todo WHERE id = '".$new_id."' LIMIT 1"));
 				
 
 			$output .="
@@ -1995,12 +1512,25 @@ $output .="														<td class='msgrow1' align='right'>
 						<a href='?hide=1&action=del_todo&comand=senden&id=".$new_id."&s_id=".$out_list_name['s_id']."&sponsor=".$sponsor."' target='_parent'>
 						<input value='L&ouml;schen' type='button'></a>
 						 \t
-						<a href='/admin/projekt/sponsoren/?hide=1&action=edit&id=".$out_list_name['s_id']."' target='_parent'>
+						<a href='/admin/projekt/sponsoren/?hide=1&action=show&id=".$out_list_name['s_id']."' target='_parent'>
 						<input value='Zur&uuml;ck' type='button'></a>
 					";
 			}
 
-		/////////////////////////////////////////////// ENDE DEL_STATS ///////////////////////////////////////////////		
+		/////////////////////////////////////////////// ENDE DEL_STATS ///////////////////////////////////////////////
+
+
+///////////////////////////////////////////////   show  ///////////////////////////////////////////////
+
+			if($_GET['action'] == 'show'  )
+			{
+				if (!$DARF["view"]) $PAGE->error_die(html::template("error_nopermission"));
+
+				$output .= sponsoren_show($_GET['id'],$DARF);
+
+			}
+
+		/////////////////////////////////////////////// ENDE view ///////////////////////////////////////////////		
 
 		}// Hide = eins ENDE
 

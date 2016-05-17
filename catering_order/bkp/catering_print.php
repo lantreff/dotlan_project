@@ -11,7 +11,7 @@
 		
 		///////////////////////////////////////////////////////////////////////////
 		
-		// Wenn keine Event gewählt ist gilt das aktive Event
+		// Wenn keine Event gewÃ¤hlt ist gilt das aktive Event
 		if(!$this->event_id && $global['modules']['event'] && is_object($EVENT) && $EVENT->next_event_id)
 			$this->event_id = $EVENT->next_event_id;
 			

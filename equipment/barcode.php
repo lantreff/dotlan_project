@@ -103,7 +103,7 @@ $name = $out_equip ['bezeichnung'];
 		
 			if(!$out_equip['lagerort']){
 				$pdf->SetFont('Arial','B',5);
-				$pdf->text(4,10,"Behälter");
+				$pdf->text(4,10,"BehÃ¤lter");
 				$pdf->SetFont('Arial','',8);
 				$pdf->text(4,13,$kiste['bezeichnung']);
 			}

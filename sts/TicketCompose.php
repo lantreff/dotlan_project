@@ -219,7 +219,7 @@ $new_text = str_replace("%ONACHNAME%", $CURRENT_USER->nachname, $new_text );
 Admin PAGE
 */
 
-if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["view"]) $PAGE->error_die(html::template("error_nopermission"));
 
 else
 {

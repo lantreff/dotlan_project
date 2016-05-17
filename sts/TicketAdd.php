@@ -1,5 +1,4 @@
 <?php
-
 $MODUL_NAME = "sts";
 include_once("../../../global.php");
 include("../functions.php");
@@ -19,10 +18,6 @@ $prio 		= $_POST['prio'];
 
 if($_GET['action'] == "add")
 {
-//				an, von, Betreff, Betreff Zusatz, Nachricht, Ticket_ID
-	user_mail($user,$user_id,$titel,"Neues Support Ticket: ",$text,$ticketid);
-	user_pm($user,$user_id,$titel,"Neues Support Ticket: ",$text,$ticketid);
-
 
 		if(isset($_POST['agent']))
 		{
@@ -61,7 +56,11 @@ if($_GET['action'] == "add")
 									'".$text."'
 								);"
 						);
-
+$Out_TIcket=$DB->fetch_array($DB->query("SELECT * FROM	`project_ticket_ticket`	WHERE user = '".$user."' and titel = '".$titel."' "));
+//				an, von, Betreff, Betreff Zusatz, Nachricht, Ticket_ID
+	user_mail($user,$user_id,$titel,"Neues Support Ticket: ",$text,$Out_TIcket['id']);
+	user_pm($user,$user_id,$titel,"Neues Support Ticket: ",$text,$Out_TIcket['id']);	
+	
 	$output .= "<meta http-equiv='refresh' content='0; URL=index.php'>";
 	$out_ticket_show_name =
 							$DB->fetch_array(
@@ -81,7 +80,7 @@ if($_GET['action'] == "add")
 Admin PAGE
 */
 
-if(!$DARF["add"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["add"]) $PAGE->error_die(html::template("error_nopermission"));
 
 else
 {
@@ -115,68 +114,55 @@ $output .=
                         </tr>
                         <tr>
                             <td class='contentkey'>An:</td>
-                            <td class='contentvalue'>
-							<div id='divsearch' style=' display:none;'>
-								<table cellspacing='0' cellpadding='0'  border='0'>
-									<tr>
-										<td>
-											<input type='text' id='insearch' name='search' size='60' >
-										</td>
-										<td>&nbsp;</td>
-										<td>
-											<input type='button' value='Suchen' onClick='javascript:searchUser();'>
-										</td>
-									</tr>
-								</table>
-							</div>
-							<div id='divselect' style=' display:none;'>
-								<table cellspacing='0' cellpadding='0' border='0'>
-									<tr>
-										<td >
-											<select id='inselect' name='user'  ></select>
-										</td>
-										<td>&nbsp;</td>
-										<td>
-											<input type='button' value='X' onClick='javascript:clearSearch();'>
-										</td>
-									</tr>
-								</table>
-							</div>
-							<noscript>
-							<b>Javascript is needed for UserSearch</b>
-							</noscript>
+                            <td class='msgrow2' nowrap width='100%' align='left'>
+								  <div id='divsearch' style='width:50%; display:none;'>
+									<table cellspacing='0' cellpadding='0' width='100%' border='0'>
+									  <tr>
+										<td width='100%'><input type='text' id='insearch' name='search' size='15' style='width:100%;'></td><td>&nbsp;</td>
+										<td><input type='button' value='Suchen'></td>
+									  </tr>
+									</table>
+								  </div>
+								  <div id='divselect' style='width:50%; display:none;'>
+									<table cellspacing='0' cellpadding='0' width='100%' border='0'>
+									  <tr>
+										<td width='100%'><select id='inselect' name='user' style='width:100%'></select></td><td>&nbsp;</td>
+										<td><input type='button' value='X'></td>
+									 </tr>
+								   </table>
+								  </div>
+								  <b><font color='red'>{$error[nick]}</font></b>
+								  <script type='text/javascript'>
+<!--
 
-						<iframe frameborder='0' style='width:0px; height:0px;' src='about:blank' id='operasucks'></iframe>
-						<script type='text/javascript' src='/user/xmlusersearch.js'></script>
-						<script type='text/javascript'>
-						<!--
+$(document).keypress(function(event) {
+	if ((event.ctrlKey==true)&&(event.keyCode==10))
+		$('[name=prvmsg]').submit()
+	if ((event.shiftKey==true)&&(event.keyCode==13))
+		$('[name=prvmsg]').submit()
+	if ((event.altKey==true)&&(event.keyCode==73))
+		$('[name=prvmsg]').submit()
+});
 
-						// define variables needed by xmlusersearch.js
-						var inselect	= document.getElementById('inselect');
-						var divselect	= document.getElementById('divselect');
-						var insearch	= document.getElementById('insearch');
-						var divsearch	= document.getElementById('divsearch');
-						var xmllink	= '/user/?do=xmlsearch';
+$('[name=prvmsg]').submit(function() {
+	if($(dotUserSearch.insearch).val()) {
+		dotUserSearch.search();
+		return false;
+	}
+	if(!$(dotUserSearch.inselect).val()) {
+		alert('Es wurde kein Benutzer gewaehlt');
+		return false;
+	}
+	document.prvmsg.prvmsgsubmit.disabled = true;
+});
 
-						function checkSubmit()
-						{
-							if(insearch.value != '') {
-								searchUser();
-								return false;
-							}
-							if(inselect.length == 0 || inselect.options[0].value == '' || inselect.options[0].value == '0') {
-								alert('Es wurde kein Benutzer gewaehlt');
-								return false;
-							}
-						}
-
-						initUserSearch('0');
-
-						//-->
-						</script>
+$(document).ready(function(){
+	dotUserSearch.init({$touserid});
+});
 
 
-						<br />
+//-->
+</script>
 					</td>
                         </tr>
 						<!--start OwnerSelection-->

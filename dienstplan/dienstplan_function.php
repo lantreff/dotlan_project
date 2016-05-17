@@ -15,7 +15,7 @@ $month = strftime ("%m", $Timestamp);
 $Jahr = strftime (" %Y", $Timestamp);
 $Stunden = strftime ("%H", $Timestamp);
 $Minuten = strftime ("%M", $Timestamp);
-$Monatsnamen = array("Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember");
+$Monatsnamen = array("Januar","Februar","MÃ¤rz","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember");
 $month = $month - 1;
 $Monat = $Monatsnamen[$month];
 $Datum = $Tag.$Monat.$Jahr." | ".$Stunden.":".$Minuten;
@@ -74,14 +74,14 @@ else{
 }
 function sonderzeichen($string)
 {
- $string = str_replace("ä", "ae", $string);
- $string = str_replace("ü", "ue", $string);
- $string = str_replace("ö", "oe", $string);
- $string = str_replace("Ä", "Ae", $string);
- $string = str_replace("Ü", "Ue", $string);
- $string = str_replace("Ö", "Oe", $string);
- $string = str_replace("ß", "ss", $string);
- $string = str_replace("´", "", $string);
+ $string = str_replace("Ã¤", "ae", $string);
+ $string = str_replace("Ã¼", "ue", $string);
+ $string = str_replace("Ã¶", "oe", $string);
+ $string = str_replace("Ã„", "Ae", $string);
+ $string = str_replace("Ãœ", "Ue", $string);
+ $string = str_replace("Ã–", "Oe", $string);
+ $string = str_replace("ÃŸ", "ss", $string);
+ $string = str_replace("Â´", "", $string);
  return $string;
 }
 

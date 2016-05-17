@@ -12,7 +12,6 @@ include("../functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Leihsystem - Historie");
 
-$event_id = $EVENT->next;
 if (isset($_GET['event']))
 {
 $event_id = $_GET['event'];

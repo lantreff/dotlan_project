@@ -11,7 +11,7 @@ $MODUL_NAME = "catering_order";
 include_once("../../../global.php");
 include("../functions.php");
 $event_id = $EVENT->next;
-$product_group = 17; // Produktgruppe für Catering Bestellungen
+$product_group = 17; // Produktgruppe fÃ¼r Catering Bestellungen
 $num_orders = 10;
 $max_orders = 20;
 $debug = 0;
@@ -27,8 +27,8 @@ if ($_GET['action'] == "r4c" && is_numeric($_GET['order_id'])){
 	## 1 PM an User, dass die Bestellung nu abholbereit ist
 	$pmquery1 = $DB->query("SELECT * FROM catering_order_part WHERE order_id = '{$order_id}' AND catering_order_part.status = 4");
 	while($pm = $DB->fetch_array($pmquery1)) {
-		$subject = $global['sitename'].' - Statusänderung Bestellung Nr. '.$pm['order_id'].' - '.$pm['name'];
-		$message = "Der Status deiner Bestellung mit der Nr. ".$pm['order_id']." - ".$pm['name']." wurde soeben auf\n\n---> Abholbereit <---\n\ngeändert.\n\nFür weitere Infos stehen wir dir gerne zur Verfügung. Desweiteren kannst du den Status deiner Bestellung ebenfalls weiter im Intranet verfolgen.";
+		$subject = $global['sitename'].' - StatusÃ¤nderung Bestellung Nr. '.$pm['order_id'].' - '.$pm['name'];
+		$message = "Der Status deiner Bestellung mit der Nr. ".$pm['order_id']." - ".$pm['name']." wurde soeben auf\n\n---> Abholbereit <---\n\ngeÃ¤ndert.\n\nFÃ¼r weitere Infos stehen wir dir gerne zur VerfÃ¼gung. Desweiteren kannst du den Status deiner Bestellung ebenfalls weiter im Intranet verfolgen.";
 		$PRVMSG->generate_message($pm['user_id'],"INBOX",$pm['user_id'],0,$subject,$message);
 		## $PRVMSG->generate_message(1948,"INBOX",1948,0,"TEST Nachricht","<b>TEST</b>");
 	}
@@ -52,7 +52,7 @@ if ($debug == 1){
 	$output .= "foo";
 }
 $output .="<h1>Aktuelle wartenden Bestellungen</h1>";
-$output .= "<table class='msg2' cellspacing='1' cellpadding='2' border='0'><tbody><tr><td width='70' class='msghead'><b>BNr</b></td><td class='msghead'><b>Nr</b></td><td class='msghead'><b>Produktname</b></td><td class='msghead'><b>Benutzer</b></td><td class='msghead'><b>Sitz</b></td><td class='msghead'><b>Preis</b></td><td class='msghead'><b>Datum</b></td><td class='msghead'><b>Änderung</b></td><td class='msghead'><b>Status</b></td>";
+$output .= "<table class='msg2' cellspacing='1' cellpadding='2' border='0'><tbody><tr><td width='70' class='msghead'><b>BNr</b></td><td class='msghead'><b>Nr</b></td><td class='msghead'><b>Produktname</b></td><td class='msghead'><b>Benutzer</b></td><td class='msghead'><b>Sitz</b></td><td class='msghead'><b>Preis</b></td><td class='msghead'><b>Datum</b></td><td class='msghead'><b>Ã„nderung</b></td><td class='msghead'><b>Status</b></td>";
 if ($debug == 1){
 	$output .= "<td class='msghead'><b>Counter</b></td>";
 }
@@ -117,7 +117,7 @@ while($orders = $DB->fetch_array($oquery)){
 			}
 			$order_now .= '</td>';
 		} else {
-			$order_now = '<td style="border-top: 2px solid #aa0000;" rowspan="'.$num_init_values.'" align="center">Bestellung möglich, du hast allerdings keine Rechte!</td>';
+			$order_now = '<td style="border-top: 2px solid #aa0000;" rowspan="'.$num_init_values.'" align="center">Bestellung mÃ¶glich, du hast allerdings keine Rechte!</td>';
 		}
 		$lCounter = 1;
 	} elseif($orders['order_id'] > $order_id_pre && $lCounter > $num_orders){
@@ -152,7 +152,7 @@ while($orders = $DB->fetch_array($oquery)){
 
 $output .="</tbody></table>";
 
-$output .="<br><br><h1>Georderte Bestellungen - Ältere Bestellungen weiter oben</h1>";
+$output .="<br><br><h1>Georderte Bestellungen - Ã„ltere Bestellungen weiter oben</h1>";
 
 	$gquery = $DB->query("SELECT
 						catering_order_part.order_id,
@@ -170,7 +170,7 @@ $output .="<br><br><h1>Georderte Bestellungen - Ältere Bestellungen weiter oben<
 	if ($debug == 1){
 		$output .= "foo";
 	}
-	$output .= "<table class='msg2' cellspacing='1' cellpadding='2' border='0'><tbody><tr><td width='70' class='msghead'><b>BNr</b></td><td class='msghead'><b>Nr</b></td><td class='msghead'><b>Produktname</b></td><td class='msghead'><b>Benutzer</b></td><td class='msghead'><b>Sitz</b></td><td class='msghead'><b>Preis</b></td><td class='msghead'><b>Datum</b></td><td class='msghead'><b>Änderung</b></td><td class='msghead'><b>Status</b></td>";
+	$output .= "<table class='msg2' cellspacing='1' cellpadding='2' border='0'><tbody><tr><td width='70' class='msghead'><b>BNr</b></td><td class='msghead'><b>Nr</b></td><td class='msghead'><b>Produktname</b></td><td class='msghead'><b>Benutzer</b></td><td class='msghead'><b>Sitz</b></td><td class='msghead'><b>Preis</b></td><td class='msghead'><b>Datum</b></td><td class='msghead'><b>Ã„nderung</b></td><td class='msghead'><b>Status</b></td>";
 	$iCounter = 1;
 	$kCounter = 1;
 	$lCounter = 1;

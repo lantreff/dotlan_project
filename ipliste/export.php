@@ -11,7 +11,7 @@
 include_once("../../../global.php");
 include("../functions.php");
 
-$event_id = $EVENT->next;
+#$event_id = $EVENT->next;
 
 $sql_list_category = $DB->query("SELECT category FROM project_ipliste GROUP BY category  ORDER BY inet_aton(ip)");
 

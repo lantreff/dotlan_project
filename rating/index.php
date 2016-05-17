@@ -276,24 +276,24 @@ else
 
 						}
 						else
-						{		$läufer = 0;
+						{		$lÃ¤ufer = 0;
 								if($cat == "NOT")
 								{
-									if ($läufer == 0)
+									if ($lÃ¤ufer == 0)
 									{
 										$insert=$DB->query("INSERT INTO `rating_sektionen` (`Id`, `sektion`) VALUES (NULL, '".$cat1."')");
 										$output .= "SEL: ".$cat1."<br><br>";
 										$output .= "Neue Selektion eingetragen<br>";
-										$läufer ++;
+										$lÃ¤ufer ++;
 									}
-									if ($läufer == 1)
+									if ($lÃ¤ufer == 1)
 									{
 										$sektion_new = $DB->fetch_array($DB->query("SELECT * FROM rating_sektionen WHERE sektion = '".$cat1."'"));
 										$sektion_new_id = $sektion_new['id'];
 										$output .= "Neue Selektion ID geladen<br>";
-										$läufer ++;
+										$lÃ¤ufer ++;
 									}
-									if ($läufer == 2)
+									if ($lÃ¤ufer == 2)
 									{
 										$insert=$DB->query("INSERT INTO `rating_fragen` (Id, frage, vw_sektionen_id, position) VALUES (NULL, '".$frage."', ".$sektion_new_id.", '".$position."');");
 										$output .= "Daten wurden gesendet<br>";

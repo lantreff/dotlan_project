@@ -73,7 +73,7 @@ if($_GET['action'] == "close")
 Admin PAGE
 */
 
-if(!$ADMIN->check(GLOBAL_ADMIN)) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$ADMIN->check(GLOBAL_ADMIN)) $PAGE->error_die(html::template("error_nopermission"));
 
 else
 {

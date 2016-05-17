@@ -29,7 +29,7 @@ $sql_list_orga = $DB->query("
 Admin PAGE
 */
 
-if(!$DARF["view"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["view"]) $PAGE->error_die(html::template("error_nopermission"));
 
 else
 {
@@ -180,8 +180,8 @@ else
 					".$out_orga_queue1['name']."
 				</td>
 				<td>
-					<a href='?action=edit_".$out_orga_queue1['id']."&id=".$out_orga_queue1['id']."' target='_parent'><img src='../../images/16/edit.png' title='Bereich &auml;ndern' ></a>
-					<a href='?action=del_".$out_orga_queue1['id']."&id=".$out_orga_queue1['id']."' onClick='return confirm(\"Bereich ".$out_orga_queue1['name']." wirklich l&ouml;schen?\");'><img src='../../images/16/editdelete.png' title='Bereich ".$out_orga_queue1['name']." l&ouml;schen?' ></a>
+					<a href='?action=edit_".$out_orga_queue1['id']."&id=".$out_orga_queue1['id']."' target='_parent'><img src='/images/icons/pencil.png' title='Bereich &auml;ndern' ></a>
+					<a href='?action=del_".$out_orga_queue1['id']."&id=".$out_orga_queue1['id']."' onClick='return confirm(\"Bereich ".$out_orga_queue1['name']." wirklich l&ouml;schen?\");'><img src='/images/icons/delete.png' title='Bereich ".$out_orga_queue1['name']." l&ouml;schen?' ></a>
 				";
 			
 			if($_GET['action'] == "edit_".$out_orga_queue1['id']) { 

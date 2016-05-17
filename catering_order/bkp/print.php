@@ -89,8 +89,8 @@ echo "<html>\n<head>\n\t<title>"._("Catering System: Bestellungen drucken")."</t
 	## 1 PM an User, dass die Bestellung nu auf geordert steht.
 	$pmquery1 = $DB->query("SELECT * FROM catering_order_part WHERE order_id >= '{$min_order_id}' AND order_id <= '{$max_order_id}' AND catering_order_part.status = 2");
 	while($pm = $DB->fetch_array($pmquery1)) {
-		$subject = $global['sitename'].' - Statusänderung Bestellung Nr. '.$pm['order_id'].' - '.$pm['name'];
-		$message = "Der Status deiner Bestellung mit der Nr. ".$pm['order_id']." - ".$pm['name']." wurde soeben auf\n\n---> Geordert <---\n\ngeändert.\n\nFür weitere Infos stehen wir dir gerne zur Verfügung. Desweiteren kannst du den Status deiner Bestellung ebenfalls weiter im Intranet verfolgen.";
+		$subject = $global['sitename'].' - StatusÃ¤nderung Bestellung Nr. '.$pm['order_id'].' - '.$pm['name'];
+		$message = "Der Status deiner Bestellung mit der Nr. ".$pm['order_id']." - ".$pm['name']." wurde soeben auf\n\n---> Geordert <---\n\ngeÃ¤ndert.\n\nFÃ¼r weitere Infos stehen wir dir gerne zur VerfÃ¼gung. Desweiteren kannst du den Status deiner Bestellung ebenfalls weiter im Intranet verfolgen.";
 		$PRVMSG->generate_message($pm['user_id'],"INBOX",$pm['user_id'],0,$subject,$message);
 		## $PRVMSG->generate_message(1948,"INBOX",1948,0,"TEST Nachricht","<b>TEST</b>");
     }

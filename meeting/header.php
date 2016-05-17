@@ -44,7 +44,7 @@ $output .= "
 								$output .= "<td width='".$breite."' class='".$b."'> <a href='index.php?hide=1&action=add' class='".$b1."'>Neu Anlegen</a></td>";
 							}
 					$output .= "<td width='2' class='shortbarbitselect'>&nbsp;</td>";
-					$output .= "<td width='".$breite."' class='".$a."'><a href='".$dir."' class='".$a1."'>Übersicht</a></td>";
+					$output .= "<td width='".$breite."' class='".$a."'><a href='".$dir."' class='".$a1."'>Ãœbersicht</a></td>";
 					$output .= "								
 							</tr>
 						</tbody>

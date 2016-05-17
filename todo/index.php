@@ -7,7 +7,7 @@ include("todo_functions.php");
 include('header.php');
 
 // Sortierung //
-// Variablen für die Sortierfunktion
+// Variablen fÃ¼r die Sortierfunktion
 	$sort		= "bezeichnung"; // Standardfeld das zum Sortieren genutzt wird
 	$order		= "ASC"; // oder DESC | Sortierung aufwerts, abwerts
 	$sort_by	= "";
@@ -163,7 +163,7 @@ else
 								</td>
 							</tr>
 							<tr>
-								<td ><b>Priorität</b></td>
+								<td ><b>PrioritÃ¤t</b></td>
 								<td>
 									<select name="prio" >
 										<option value="0">Bitte w&auml;hlen</option>';
@@ -487,7 +487,7 @@ $output .= '	<table cellspacing="0" cellpadding="0" width="100%" border="0">
 								</td>
 							</tr>
 							<tr>
-								<td ><b>Priorität</b></td>
+								<td ><b>PrioritÃ¤t</b></td>
 								<td>
 									<select name="prio" >
 										<option value="0">Bitte w&auml;hlen</option>';
@@ -601,7 +601,7 @@ $output .= '	<table cellspacing="0" cellpadding="0" width="100%" border="0">
 						
 						$sql = list_todo_vorlagen();
 						$vorlage = 'check';
-			$output .= "<h3><b> Markierte Vorlagen in aktuelles Event übertragen!</b></h3>
+			$output .= "<h3><b> Markierte Vorlagen in aktuelles Event Ã¼bertragen!</b></h3>
 						<form method='post' action='index.php?hide1=1&hide=1&do=vorlagen&action=copy_vorlage&senden=ok' >
 						<br>
 							<table width='100%' cellspacing='1' cellpadding='2' border='0'>

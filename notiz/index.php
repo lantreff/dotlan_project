@@ -354,22 +354,20 @@ $output .= "
 									</td>
 								</tr>
 								<tr>
-									<td colspan='3' class='msgrow2'>
+									<td colspan='4' class='msgrow2'>
 										Notiz
 									</td>
 								</tr>
 								<tr>
-									<td colspan='3' class='msgrow2'>
-									<!-- ################################################ -->        
-									<div>
-									  <input type='hidden' id='text[content]' name='text[content]' value='' />
-									  <input type='hidden' id='text[content]___Config' value='SkinPath={BASEDIR}html/fck/editor/skins/silver/' />
-									  <iframe id='text[content]___Frame' src='{BASEDIR}html/fck/editor/fckeditor.html?InstanceName=text[content]&amp;Toolbar=dotlan' width='100%' height='450' frameborder='no' scrolling='no'></iframe>
-									</div>
-									<input type='hidden' name='text[html]' value='1' />
+									<td colspan='4' class='msgrow2'>
+									<!-- ################################################ -->
+
+									<textarea name='news[content]' class='ckeditor' cols='90' rows='25' height='450' style='width:100%;'></textarea>
+									<input type='hidden' name='news[html]' value='1' />
+									<script type='text/javascript' src='{BASEDIR}html/ckeditor/ckeditor.js'></script>
 
 									<!-- ################################################ -->
-									<!-- <textarea class='ckeditor' cols='80'  name='text' rows='10'></textarea> -->
+									<!-- <textarea class='ckeditor' cols='90'  name='text' rows='10'></textarea> -->
 									</td>
 								</tr>
 
@@ -490,22 +488,20 @@ $output .= "
 									</td>
 								</tr>
 								<tr>
-									<td colspan='3' class='msghead'>
+									<td colspan='4' class='msghead'>
 										Notiz
 									</td>
 								</tr>
 								<tr >
-									<td colspan='3' class='msgrow2'>
-									<!-- ################################################ -->        
-									<div>
-									  <input type='hidden' id='text[content]' name='text[content]' value='".$out_edit_note['text']."' />
-									  <input type='hidden' id='text[content]___Config' value='SkinPath={BASEDIR}html/fck/editor/skins/silver/' />
-									  <iframe id='text[content]___Frame' src='{BASEDIR}html/fck/editor/fckeditor.html?InstanceName=text[content]&amp;Toolbar=dotlan' width='100%' height='450' frameborder='no' scrolling='no'></iframe>
-									</div>
-									<input type='hidden' name='text[html]' value='1' />
+									<td colspan='4' class='msgrow2'>
+									<!-- ################################################ -->
+
+									<textarea name='news[content]' class='ckeditor' cols='90' rows='25' height='450' style='width:100%;'>".$out_edit_note['text']."</textarea>
+									<input type='hidden' name='news[html]' value='1' />
+									<script type='text/javascript' src='{BASEDIR}html/ckeditor/ckeditor.js'></script>
 
 									<!-- ################################################ -->
-									<!-- <textarea class='ckeditor' cols='80'  name='text' rows='10'>".$out_edit_note['text']."</textarea> -->
+									<!-- <textarea class='ckeditor' cols='90'  name='text' rows='10'>".$out_edit_note['text']."</textarea> -->
 									</td>
 								</tr>
 

@@ -42,7 +42,7 @@ $output .= "
 						$breite = "120";								
 $output .= "	
 								<td width='2' class='shortbarbitselect'>&nbsp;</td>
-								<td width='".$breite."' class='".$d."'><a href='index.php' class='".$d1."'>Turnierübersicht</a></td>
+								<td width='".$breite."' class='".$d."'><a href='index.php' class='".$d1."'>TurnierÃ¼bersicht</a></td>
 								
 							";
 						

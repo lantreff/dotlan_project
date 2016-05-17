@@ -1,7 +1,7 @@
 <?php
-
 function ticket_output_bereiche($uebergabe,$label,$sortierung,$eintraege_pro_seite){
-global $DB, $CURRENT_USER;
+global $DB, $CURRENT_USER, $global, $styles;
+$style = $global['defaultstyle'];
 ////////////////////////////////////////////////
 
 $seite = $_GET[$sortierung];  //Abfrage auf welcher Seite man ist
@@ -217,7 +217,7 @@ $sql_antwort1 =
 								<tr ";
 								$output .= ' onclick=" document.location = \'TicketZoom.php?ticketid='.$out_tickets_neu['id'].' \' ";  
 											';
-								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseover="this.style.background=\''.$styles[$style]['msg_over'].'\'; this.style.cursor=\'pointer\';" ';
 								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
 								$output .= ' title="Ticket anzeigen" class="'.$currentRowClass1.'">';
 								

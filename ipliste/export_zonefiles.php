@@ -19,7 +19,7 @@
 include_once("../../../global.php");
 include("../functions.php");
 
-$event_id = $EVENT->next;
+#$event_id = $EVENT->next;
 $datei = "hosts";
 $TTL = "\$TTL";
 if (file_exists($datei))

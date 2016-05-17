@@ -4,7 +4,7 @@ include_once("../../../global.php");
 include("../functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Anwesenheit");
-$event_id = $EVENT->next;
+#$event_id = $EVENT->next;
 $tage = array("Mittwoch","Donnerstag","Freitag","Samstag","Sonntag","Montag");
 
 if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));

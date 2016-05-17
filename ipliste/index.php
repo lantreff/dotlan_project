@@ -13,8 +13,6 @@ include("../functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("IP Liste");
 $id				= $_GET['id'];
-$event_id = $EVENT->next;
-$EVENT->getevent($event_id);
 
 $läufer =0;
 $läufer1 =0;

@@ -75,7 +75,7 @@ $output .= "
 							<td width='".$breite."' class='".$a."'> <a href='index.php' class='".$a1."'>Meine Aufgaben</a></td>
 							<td width='2' class='shortbarbitselect'>&nbsp;</td>
 							";
-			$output .= "	<td width='".$breite."' class='".$b."'> <a href='index.php?hide=1&do=uebersicht' class='".$b1."'>Übersicht</a></td>";
+			$output .= "	<td width='".$breite."' class='".$b."'> <a href='index.php?hide=1&do=uebersicht' class='".$b1."'>Ãœbersicht</a></td>";
 			
 			if($DARF["add"] )
 							{

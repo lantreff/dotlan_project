@@ -18,8 +18,8 @@ $iCounter = 0;
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Equipment");
 
-$event_id = $EVENT->next;
-$EVENT->getevent($event_id);
+#$event_id = $EVENT->next;
+#$EVENT->getevent($event_id);
 
 
 $bezeichnung		=  security_string_input($_POST['bezeichnung']);

@@ -135,13 +135,13 @@ $sql_user = $DB->query("SELECT * FROM user WHERE id = '".$u_id."'");
 $output .= "<form name='team' ACTION='new_maxlan_card.php?action=uploadpic' METHOD=POST enctype='multipart/form-data'>";
 while ($user = mysql_fetch_array($sql_user)){
 
-	$output .='<h3>Benutzerdaten für Karte</h3>';
+	$output .='<h3>Benutzerdaten fÃ¼r Karte</h3>';
 	$output .='<br><b>Benutzer:</b> '.$user['vorname'].' <i>"'.$user['nick'].'"</i> '.$user['nachname'];
 	$output .='<br><b>User-ID:</b> '.sprintf("%04d",$user['id']);
 	$output .='<br><b>Geburtstdatum:</b> '.birthday2german($user['geb']);
 }
-$output .= '<br><br><h3>Bild für Benutzer hochladen</h3>';
-$output .= '<i>Format für Bild 2:3 Format (Breite:Höhe), Größe optimal: 257px (Breite) x 386px (Höhe), größere Bilder werden automatisch verkleinert.<br><br>';
+$output .= '<br><br><h3>Bild fÃ¼r Benutzer hochladen</h3>';
+$output .= '<i>Format fÃ¼r Bild 2:3 Format (Breite:HÃ¶he), GrÃ¶ÃŸe optimal: 257px (Breite) x 386px (HÃ¶he), grÃ¶ÃŸere Bilder werden automatisch verkleinert.<br><br>';
 $output .= '<INPUT ID="Forms Edit Field8" TYPE="file" NAME="upload" VALUE="" SIZE=100 class="register_editbox"><br><br>';
 $output .= "<tr valign='top'><td class='rahmen_msg'><table width='100%' cellspacing='1' cellpadding='3' class='msg2'><tr class='msgrow2'><td colspan='2' align='center' width='100%'><br /><input type='submit' value='Bild hochladen' />&nbsp;&nbsp;<input type='reset' value=' Zur&uuml;cksetzen ' /><br /><br /></td></tr></table></td></tr>";
 $output .= '<INPUT TYPE = "HIDDEN" NAME = "user" VALUE = "'.$u_id.'">';
@@ -156,12 +156,12 @@ $file_name = upload_userpic($u_id);
 $output .= "<form name='team' ACTION='new_maxlan_card.php?action=createcard' METHOD=POST >";
 while ($user = mysql_fetch_array($sql_user)){
 
-	$output .='<h3>Benutzerdaten für Karte</h3>';
+	$output .='<h3>Benutzerdaten fÃ¼r Karte</h3>';
 	$output .='<br><b>Benutzer:</b> '.$user['vorname'].' <i>"'.$user['nick'].'"</i> '.$user['nachname'];
 	$output .='<br><b>User-ID:</b> '.sprintf("%04d",$user['id']);
 	$output .='<br><b>Geburtstdatum:</b> '.birthday2german($user['geb']);
 }
-$output .= '<br><br><h3>Bild für Benutzer</h3>';
+$output .= '<br><br><h3>Bild fÃ¼r Benutzer</h3>';
 $output .= '<img src ="./userpics/'.$file_name.'">';
 $output .= "<tr valign='top'><td class='rahmen_msg'><table width='100%' cellspacing='1' cellpadding='3' class='msg2'><tr class='msgrow2'><td colspan='2' align='center' width='100%'><br /><input type='submit' value='Karte neu bestellen' />&nbsp;&nbsp;<br /><br /></td></tr></table></td></tr>";
 $output .= '<INPUT TYPE = "HIDDEN" NAME = "user" VALUE = "'.$u_id.'">';
@@ -185,12 +185,12 @@ if (mysql_num_rows($card_query) == 0){
 $output .='<h2>Karte wurde bestellt</h2><br><br>';
 while ($user = mysql_fetch_array($sql_user)){
 
-	$output .='<h3>Benutzerdaten für Karte</h3>';
+	$output .='<h3>Benutzerdaten fÃ¼r Karte</h3>';
 	$output .='<br><b>Benutzer:</b> '.$user['vorname'].' <i>"'.$user['nick'].'"</i> '.$user['nachname'];
 	$output .='<br><b>User-ID:</b> '.sprintf("%04d",$user['id']);
 	$output .='<br><b>Geburtstdatum:</b> '.birthday2german($user['geb']);
 }
-$output .= '<br><br><h3>Bild für Benutzer</h3>';
+$output .= '<br><br><h3>Bild fÃ¼r Benutzer</h3>';
 $output .= '<img src ="./userpics/'.$filename.'">';
 $output .= '<meta http-equiv="refresh" content="5; URL=index.php">';
 $PAGE->render($output);

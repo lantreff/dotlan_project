@@ -103,7 +103,7 @@ if($_GET['action'] == "agent")
 Admin PAGE
 */
 
-if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
+if(!$DARF["edit"]) $PAGE->error_die(html::template("error_nopermission"));
 
 else
 {
