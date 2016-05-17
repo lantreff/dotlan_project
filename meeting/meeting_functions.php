@@ -186,8 +186,8 @@ $output .= '
 				<td class="anmeldung_typ" nowrap="nowrap"><b>Adresse</b>&nbsp;</td>
 				<td class="anmeldung_typ" nowrap="nowrap"><textarea class="editbox" wrap="hard" name="adresse" rows="2" cols="17">'.$adresse.'</textarea></td>
 			  </tr>
-			  <tr class="msgrow1">
-				<td class="anmeldung_typ" nowrap="nowrap"><b>Geplant</b>&nbsp;</td>
+			  <tr class="msgrow1"valign="top" >
+				<td class="anmeldung_typ" nowrap="nowrap"><b>Geplant*</b>&nbsp;</td>
 				<td class="anmeldung_typ" nowrap="nowrap"><textarea class="editbox"  wrap="hard" name="geplant" rows="10" cols="50">'.$geplant.'</textarea></td>
 			  </tr>
 			   <tr class="msgrow2">
@@ -195,7 +195,7 @@ $output .= '
 				<td class="anmeldung_typ" nowrap="nowrap">
 					<input type="checkbox" name="mail">
 					 an:
-						<select name="user_groups">
+						<select name="user_groups" onChange="document.meeting_input.mail.checked = true;">
 							<option value="">Gruppe w&auml;hlen</option>
 							<option value="all_orgas">alle Orgas</option>
 					';
@@ -209,12 +209,19 @@ $output .= '			</select>
 				</td>
 			  </tr>
 			   <tr class="msgrow1" valign="top">
-				<td class="anmeldung_typ" nowrap="nowrap"><b>Betreff <br> <br> E-Mail Text</b>&nbsp;</td>
+				<td class="anmeldung_typ" nowrap="nowrap"><b>Betreff* <br> <br> E-Mail Text*</b><br>(freier Text der oberhalb <br> der Mail eingetragen wird)&nbsp;</td>
 				<td class="anmeldung_typ" nowrap="nowrap">
 					<input class="editbox" type="text" name="betreff" size="30" value="'.ucfirst($global['sitename'])." neues Meeting ".$titel.'">
 					<br>
-					<textarea class="editbox"  wrap="hard" name="email_text" rows="10" cols="50"></textarea>
+					<textarea class="editbox"  wrap="hard" name="email_text" rows="10" cols="50">Hallo zusammen,</textarea>
 					</td>
+			  </tr>
+			  <tr>
+				<td colspan="2">
+					<b>
+						* Wird in die E-Mail eingetragen!
+					</b>
+				</td>
 			  </tr>
 			  <tr class="msgrow2">
 			   <input type="hidden" name="id" value="'.$_GET["id"].'">
@@ -523,14 +530,14 @@ else{
 function email($post)
 {
 				global $global,$CURRENT_USER;	
-				$betreff 		 = ucfirst($global['sitename'])." Neues Meeting ".$post['titel'];
+				$betreff 		 = ucfirst($global['sitename'])." Neues Meeting ".$post['titel']." am: ".time2german($post['datum']);
 				//$absender 	 = $global['email'];
 				$absender 		 = "info@maxlan.de";
 				$email_text		 = utf8_decode(utf8_encode( nl2br($post['email_text'])));
 				$email_text		.= utf8_decode(utf8_encode(
 															"<br>"
 															."<br>"
-															."Folgendes ist Geplant:"
+															."Folgendes ist am: ".time2german($post['datum'])." geplant:"
 															."<br>"
 															."<br>"
 															. nl2br($post['geplant'])
@@ -562,7 +569,7 @@ function email($post)
 							$out_mail_grp = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id ='".$out_orga_id['user_id']."'"));
 						
 							$empfaenger		= $out_mail_grp['email'];
-							//$empfaenger	= "christian@cegbers.de";
+							//$empfaenger	= "3gg3.ce@gmail.com";
 
 								######################################################################################################
 									mail($empfaenger, $betreff, $email_text, $header);

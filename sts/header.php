@@ -5,14 +5,12 @@ $sql_queue_count_my_tickets = $DB->query	("
 													*
 												FROM
 													`project_ticket_ticket`
+												LEFT JOIN
+													project_ticket_sperre ON project_ticket_ticket.sperre = project_ticket_sperre.sperre_id
 												WHERE
 													agent = ".$user_id ."
 												AND
-													 sperre = '2'
-												AND
-													( status <> 1 AND status <> 2 )
-
-
+													( status <> 1  AND  status <> 2 )
 											");
 	$count_my_ticket = mysql_num_rows($sql_queue_count_my_tickets);
 
@@ -73,7 +71,7 @@ $output .=
 <!--start Item-->
           <td valign='top' align='center' class='nav'>
             <div title='&Uuml;bersicht &uuml;ber alle Tickets in Bearbeitung'>
-            <a  href='TicketQueue.php'><img border='0' alt='Bereiche' src='../images/sts/ticket_queues.png'><br>Bereiche</a>
+            <a  href='TicketQueue.php?queueid=2'><img border='0' alt='Bereiche' src='../images/sts/ticket_queues.png'><br>Bereiche</a>
             </div>
           </td>
 <!--stop Item -->

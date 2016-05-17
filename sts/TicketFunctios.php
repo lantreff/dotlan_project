@@ -170,15 +170,46 @@ $sql1 = $DB->query($uebergabe);
 												WHERE
 													id = ".$out_tickets_neu['agent']."
 											")
+								);	
+$sql_antwort1 =
+				$DB->fetch_array(
+									$DB->query	("
+													SELECT
+														*
+													FROM
+														`project_ticket_antworten`
+													WHERE
+														ticket_id = ".$out_tickets_neu['id']."
+													AND
+														type <> 'notiz'
+													ORDER BY
+														erstellt DESC
+
+												")
 								);								
 	if($iCount1 % 2 == 0)
 								{
-									$currentRowClass1 = "msgrow2";
-
+									
+									if($sql_antwort1['gelesen'] != 1 && $out_tickets_neu['agent'] == $CURRENT_USER->id)
+									{
+										$currentRowClass1 = "msgrow2_B";
+									}
+									else
+									{
+										$currentRowClass1 = "msgrow2";
+									}
 								}
 								else
 								{
-									$currentRowClass1 = "msgrow1";
+									
+									if($sql_antwort1['gelesen'] != 1  && $out_tickets_neu['agent'] == $CURRENT_USER->id)
+									{
+										$currentRowClass1 = "msgrow1_B";
+									}
+									else
+									{
+										$currentRowClass1 = "msgrow1";
+									}
 								}
 
 							$output .= "
@@ -195,22 +226,7 @@ $sql1 = $DB->query($uebergabe);
 
 	";
 
-		$sql_antwort1 =
-				$DB->fetch_array(
-									$DB->query	("
-													SELECT
-														*
-													FROM
-														`project_ticket_antworten`
-													WHERE
-														ticket_id = ".$out_tickets_neu['id']."
-													AND
-														type <> 'notiz'
-													ORDER BY
-														erstellt DESC
-
-												")
-								);
+		
 
 		if( $sql_antwort1['gelesen'] == 1 ||   $sql_antwort1['gelesen'] == '' || $sql_antwort1['type'] == 'agent')
 		{

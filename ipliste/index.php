@@ -174,7 +174,7 @@ else
 				
 					$output .= "
 	
-				<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#99CC00;border-bottom-style:solid;border-bottom-width:2px;'>
+				<table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-bottom-color:#BC1D1D;border-bottom-style:solid;border-bottom-width:2px;'>
 					<tbody>
 						<tr>
 							<td>

@@ -64,7 +64,6 @@ include("queuelist.php");
 if(project_check_queue_view($queueid,$user_id))
 {
 
-
 $output .=
 "
 <table width='100%' cellspacing='0' cellpadding='3' border='0'>
@@ -114,7 +113,7 @@ if (IsSet ($_POST['suche'] ) ) // nur wenn im fled suchen etwas eingegeben wurde
 														project_ticket_sperre ON project_ticket_ticket.sperre = project_ticket_sperre.sperre_id
 													WHERE
 														(
-														`id` 			LIKE  '%".$_POST['suche']."%' OR
+														`id` 			LIKE  '".$_POST['suche']."' OR
 														`erstellt` 		LIKE  '%".$_POST['suche']."%' OR
 														`user`	 		LIKE  '%".$_POST['suche']."%' OR
 														`titel` 		LIKE  '%".$_POST['suche']."%' OR

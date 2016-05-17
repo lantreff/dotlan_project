@@ -1,5 +1,6 @@
 <?php
 
+
 $output .= 
 "
 <table width='100%' cellspacing='0' cellpadding='3' border='0'>
@@ -10,13 +11,9 @@ $output .=
 			<td class='menu'>
 			
 				Queues: 
-					<b>
-						Meine Tickets (".$count_my_ticket.")
-					</b>
-						
 ";
 $sql_queue = $DB->query("SELECT * FROM `project_ticket_queue`");
-	
+$i = 0;	
 while($out_queue = $DB->fetch_array($sql_queue))
 {	
 	if($_GET['new'] == 1)
@@ -55,14 +52,33 @@ while($out_queue = $DB->fetch_array($sql_queue))
 											
 	$count_ticket = mysql_num_rows($sql_queue_count_tickets);
 	
-
+	
 	if(project_check_queue_view($out_queue['id'],$user_id))
-	{
-		$output .= 
+	{	
+		$trenner = " - ";
+		if($i == 0)
+		{
+			$trenner = "";
+		}
+		
+		if($out_queue['id'] == $_GET['queueid'])
+		{
+			$output .= 
 		"		
-			- <a href='TicketQueue.php?queueid=".$out_queue['id']."' >".$out_queue['name']." (".$count_ticket.")</a>
+			$trenner <b> <a href='TicketQueue.php?queueid=".$out_queue['id']."' >".$out_queue['name']." (".$count_ticket.")</a></b>
 		";
+		}
+		else
+		{
+			$output .= 
+		"		
+			$trenner <a href='TicketQueue.php?queueid=".$out_queue['id']."' >".$out_queue['name']." (".$count_ticket.")</a>
+		";
+		}
+		
+		
 	}
+	$i++;
 }
 
 $output .= 

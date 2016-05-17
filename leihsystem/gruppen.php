@@ -54,7 +54,7 @@ else
 						//	$raus =	 debug_backtrace();
 
 			$output .= " gruppe wurde gespeichert! <br>";
-			//$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/sts/admin/'>";
+			$output .= "<meta http-equiv='refresh' content='0; URL=".$dir."gruppen.php?page=gruppen'>";
 			}
 		if($_GET['action'] == "add_gruppe") {
 

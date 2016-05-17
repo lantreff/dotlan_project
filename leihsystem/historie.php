@@ -50,7 +50,7 @@ $output .= "<form name='change_event' action='?seite=1' method='POST'>
 			<select name='event' onChange='document.change_event.submit()''>
 				<option value='1'>w&auml;hle das Event !</option>";
 				while($out_event_ids = $DB->fetch_array($sql_event_ids))
-				{// begin while Historie
+				{// begin While Historie
 					if	($out_event_ids['id'] == $event_id)
 					{
 		$output .= "					
@@ -97,7 +97,7 @@ $output .= "
 								</tr>";
 						$iCount = 0;
 						while($out_historie = $DB->fetch_array($sql_historie))
-						{// begin while Historie
+						{// begin While Historie
 						$background = "";
 						if($iCount % 2 == 0)
 							{
@@ -147,10 +147,10 @@ $output .= "
 $output .= "		
 									</td>
 									<td class='shortbarbit_left'>
-										".date($out_historie['leih_datum'], strtotime($out_historie['leih_datum']))."
+										".time2german($out_historie['leih_datum'])."
 									</td>
 									<td class='shortbarbit_left'>
-										".date($out_historie['rueckgabe_datum'], strtotime($out_historie['rueckgabe_datum']))."
+										".time2german($out_historie['rueckgabe_datum'])."
 									</td>
 									<td class='shortbarbit_left'>
 ";
@@ -166,7 +166,7 @@ $output .= "						</td>
 								</tr>";
 								
 								$iCount++;
-						} // while Historie ENDE
+						} // While Historie ENDE
 
 								
 $output .= "

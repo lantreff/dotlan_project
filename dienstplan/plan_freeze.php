@@ -20,10 +20,10 @@ else
 
 if($_GET["f"] == -1 || $_GET["f"] == 1){
   if($_GET["f"] == -1) $_GET["f"] = 0;
-  $DB->query("UPDATE project_dienstplan SET freeze = '".$_GET["f"]."' WHERE event_id = '".$event_id."'");
+  $DB->query("UPDATE project_dienstplan SET freeze = '".$_GET["f"]."' WHERE event_id = '".$selectet_event_id."'");
 }
 
-$freeze = mysql_result($DB->query("SELECT freeze FROM project_dienstplan WHERE event_id = '".$event_id."' LIMIT 1"),0,"freeze");
+$freeze = mysql_result($DB->query("SELECT freeze FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' LIMIT 1"),0,"freeze");
 
 $output .="<table class='maincontent'>";
 
@@ -35,7 +35,7 @@ $output .="<table class='maincontent'>";
 
 
 
-if(mysql_num_rows($DB->query("SELECT freeze FROM project_dienstplan WHERE event_id = '".$event_id."' LIMIT 1")) != 0)
+if(mysql_num_rows($DB->query("SELECT freeze FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' LIMIT 1")) != 0)
 {$output .="Freeze: ";
 	
 	if($freeze)	

@@ -11,7 +11,7 @@ $MODUL_NAME = "dienstplan";
 include_once("../../../global.php");
 include("../functions.php");
 include("dienstplan_function.php");
-//$output .= "TEST ".  $event_id;
+//$output .= "TEST ".  $selectet_event_id;
 
 include('header.php');
 
@@ -25,11 +25,11 @@ while($row = mysql_fetch_array($query)){
   $users[$row["id"]] = $row["nick"];
 }
 
-$query = mysql_query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."' GROUP BY plan_name ORDER BY plan_name");
+$query = mysql_query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' GROUP BY plan_name ORDER BY plan_name");
 $plan = array();
 while($row = mysql_fetch_array($query)) $plan[] = $row["plan_name"];
 
-$query = mysql_query("SELECT * FROM project_dienstplan WHERE event_id = '".$event_id."'");
+$query = mysql_query("SELECT * FROM project_dienstplan WHERE event_id = '".$selectet_event_id."'");
 while($row = mysql_fetch_array($query)){
   $plan_all[$row["plan_name"]][$row["tag"]][01] = $row["id_01"];
   $plan_all[$row["plan_name"]][$row["tag"]][02] = $row["id_02"];
@@ -84,24 +84,27 @@ $sum_vergeben = 0;
 $sum_offen = 0;
 foreach($plan as $p){
   // Doppelt erlaubte ueberspringen
-  if(mysql_result(mysql_query("SELECT doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$event_id."' AND plan_name = '$p'"),0,"doppelt_erlaubt") == 1) continue; 
+  //if(mysql_result(mysql_query("SELECT doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' AND plan_name = '".$p."'"),0,"doppelt_erlaubt") == 1) continue; 
   $count_gesamt = 0;
   $count_vergeben = 0;
   $count_offen = 0;
-  $query = mysql_query("SELECT * FROM project_dienstplan WHERE event_id = '".$event_id."' AND plan_name = '$p'");
+  $sum_gesamt = 0;
+  $sum_vergeben = 0;
+  $sum_offen = 0;
+  $query = mysql_query("SELECT * FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' AND plan_name = '".$p."'");
   while($row = mysql_fetch_array($query)){
     foreach($fields as $f){
       if(!is_numeric($row["id_".$f])){
         $tmp = explode(",",$row["id_".$f]);
         foreach($tmp as $val){
-          if($val != "0") $count_gesamt++;
-          if($val > "0") $count_vergeben++;
-          if($val == "-1") $count_offen++;
+          if($val != 0) $count_gesamt++;
+          if($val > 0) $count_vergeben++;
+          if($val == (-1)) $count_offen++;
         }
       }else{
-        if($row["id_".$f] != "0") $count_gesamt++;
-        if($row["id_".$f] > "0") $count_vergeben++;
-        if($row["id_".$f] == "-1") $count_offen++;
+        if($row["id_".$f] != 0) $count_gesamt++;
+        if($row["id_".$f] > 0) $count_vergeben++;
+        if($row["id_".$f] == (-1)) $count_offen++;
       }
     }
     $sum_gesamt += $count_gesamt;

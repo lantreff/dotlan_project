@@ -51,8 +51,10 @@ while($out_equip = $DB->fetch_array($sql))
 	$pdf->Cell(0,5,'',0,1); //<hr />
 	$pdf->Cell(0,0,'',1,1); //<hr />
 }
-
-	
+$pdf->Cell(0,5,'',0,1); //<hr />
+$pdf->Cell(0,5,'',0,1); //<hr />#
+$pdf->SetFont('Arial','B',16);
+$pdf->Cell(0,0, $daten['details']);
 
   
   # Barcode

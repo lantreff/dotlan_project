@@ -31,8 +31,8 @@ function equipment_add($daten)
 		$bezeichnung = $daten['bezeichnung'];
 	}
 	
-	$sql = "INSERT INTO `project_equipment` (id, invnr, bezeichnung, hersteller, category, besitzer, details, zusatzinfo, lagerort, kiste, ist_leihartikel, ist_kiste) 
-			VALUES 	(NULL, '".$daten['invnr']."', '".$bezeichnung."', '".$daten['hersteller']."', '".$category."', '".$daten['besitzer']."', '".nl2br($daten['details'])."', '".$daten['zusatzinfo']."', '".$daten['lagerort']."', '".$daten['kiste']."', '".$daten['ist_leihartikel']."', '".$daten['ist_kiste']."' );";
+	$sql = "INSERT INTO `project_equipment` (id, invnr, bezeichnung, seriennummer, hersteller, category, besitzer, details, zusatzinfo, lagerort, kiste, ist_leihartikel, ist_kiste) 
+			VALUES 	(NULL, '".$daten['invnr']."', '".$bezeichnung."', '".$daten['seriennummer']."', '".$daten['hersteller']."', '".$category."', '".$daten['besitzer']."', '".nl2br($daten['details'])."', '".$daten['zusatzinfo']."', '".$daten['lagerort']."', '".$daten['kiste']."', '".$daten['ist_leihartikel']."', '".$daten['ist_kiste']."' );";
 	$out =  mysql_query($sql);
 	
 	$meldung = "Die Daten wurde gespeichert!";
@@ -56,7 +56,7 @@ function equipment_edit($daten,$id)
 	{
 		$bezeichnung = $daten['bezeichnung'];
 	}
-	$sql = "UPDATE project_equipment SET  `invnr` = '".$daten['invnr']."', `bezeichnung` = '".$bezeichnung."', `besitzer` = '".$daten['besitzer']."', `details` = '".nl2br($daten['details'])."', `zusatzinfo` = '".$daten['zusatzinfo']."', `hersteller` = '".$daten['hersteller']."', `category` = '".$category."', `lagerort` = '".$daten['lagerort']."', `kiste` = '".$daten['kiste']."', `ist_leihartikel` = '".$daten['ist_leihartikel']."' WHERE `id` = ".$id." ";
+	$sql = "UPDATE project_equipment SET  `invnr` = '".$daten['invnr']."', `bezeichnung` = '".$bezeichnung."', `seriennummer` = '".$daten['seriennummer']."', `besitzer` = '".$daten['besitzer']."', `details` = '".nl2br($daten['details'])."', `zusatzinfo` = '".$daten['zusatzinfo']."', `hersteller` = '".$daten['hersteller']."', `category` = '".$category."', `lagerort` = '".$daten['lagerort']."', `kiste` = '".$daten['kiste']."', `ist_leihartikel` = '".$daten['ist_leihartikel']."' WHERE `id` = ".$id." ";
 	$out =  mysql_query( $sql); 	
 	
 	$meldung = "Die Daten wurde gespeichert!";
@@ -126,7 +126,7 @@ function show($group_by,$show_cat,$bezeichnung1,$DARF)
 												Besitzer
 											</td>
 											<td width='100' class='msghead'>
-												Lagerort
+												Lagerort/Beh&aumllter
 											</td>
 											<td width='50' class='msghead'>
 												Leihartikel?
@@ -196,15 +196,34 @@ $output .= "
 													<tr>
 														<td><b>Inventar-Nr.</b></td>
 														<td>eq".sprintf("%06d",$out_show_article['id'])."</td>
-													</tr>
-													<tr>
+													</tr>";
+												if($out_show_article['hersteller']){
+										$output .= "<tr>
 														<td><b>Hersteller</b></td>
 														<td>".$out_show_article['hersteller']."</td>
-													</tr>
-													<tr>
+													</tr>";
+												}
+												if($out_show_article['seriennummer']){
+										$output .= "<tr>
+														<td><b>Seriennummer</b></td>
+														<td>".$out_show_article['seriennummer']."</td>
+													</tr>";
+												}
+										/*		if($out_show_article['bezeichnung']){
+										$output .= "<tr>
 														<td><b>Beh&auml;lter:</b></td>
 														<td>".$out_kiste['bezeichnung']."</td>
-													</tr>
+													</tr>";
+												}
+										*/
+												if($out_show_article['zusatzinfo']){
+										$output .= "<tr>
+														<td><b>Zusatz Info</b></td>
+														<td>".$out_show_article['zusatzinfo']."</td>
+													</tr>";
+												}
+$output .= "			
+													
 												</tbody>
 										</table>
 									</td>
@@ -214,6 +233,8 @@ $output .= "
 									</td>
 									<td>
 										".$out_lagerort['bezeichnung']."
+										<br>
+										".$out_kiste['bezeichnung']."
 									</td>
 									<td align='center'>";
 									if($out_show_article['ist_leihartikel'] == 1)
@@ -609,6 +630,10 @@ $output .= "
 														<td><b>Beh&auml;lter:</b></td>
 														<td>".$out_kiste['bezeichnung']."</td>
 													</tr>
+													<!-- <tr>
+														<td><b>Zusatz Info</b></td>
+														<td>".$out_show_article['zusatzinfo']."</td>
+													</tr> -->
 												</tbody>
 										</table>
 									</td>

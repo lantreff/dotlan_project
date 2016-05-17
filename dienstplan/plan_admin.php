@@ -11,7 +11,7 @@ $MODUL_NAME = "dienstplan";
 include_once("../../../global.php");
 include("../functions.php");
 include("dienstplan_function.php");
-//$output .= "TEST ".  $event_id;
+//$output .= "TEST ".  $selectet_event_id;
 
 include('header.php');
 
@@ -19,12 +19,12 @@ if(!$DARF["view"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 else
 {// $module_admin_check
 
-if (mysql_num_rows($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."'")) != 0)
+if (mysql_num_rows($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$selectet_event_id."'")) != 0)
 {
 $plan = mysql_real_escape_string($_POST["plan_name"]);
 if(empty($plan)) $plan = mysql_real_escape_string($_GET["plan_name"]);
 if(empty($plan)){
-  $plan = mysql_result($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."' ORDER BY plan_name LIMIT 1"),0,"plan_name");
+  $plan = mysql_result($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' ORDER BY plan_name LIMIT 1"),0,"plan_name");
 }
 }
 else{
@@ -39,7 +39,7 @@ if($_GET["a"] == "add"){
 
   if(strlen($s) == 1) $s= "0$s";
 	if($freeze == 1) $output .= $freeze_meldung;
-	else $DB->query("UPDATE project_dienstplan SET id_$s= CONCAT(id_$s, ',-1') WHERE event_id = '".$event_id."' AND plan_name = '$plan' AND tag = '$t' LIMIT 1");
+	else $DB->query("UPDATE project_dienstplan SET id_$s= CONCAT(id_$s, ',-1') WHERE event_id = '".$selectet_event_id."' AND plan_name = '$plan' AND tag = '$t' LIMIT 1");
 }
 
 if(!empty($_POST["commit"])){
@@ -95,7 +95,7 @@ if(!empty($_POST["commit"])){
    id_21 = '".mysql_real_escape_string($_POST["freitag"][20])."',
    id_22 = '".mysql_real_escape_string($_POST["freitag"][21])."',
    id_23 = '".mysql_real_escape_string($_POST["freitag"][22])."',
-   id_24 = '".mysql_real_escape_string($_POST["freitag"][23])."' WHERE tag = '1' AND plan_name = '$plan' AND event_id = '".$event_id."'");
+   id_24 = '".mysql_real_escape_string($_POST["freitag"][23])."' WHERE tag = '1' AND plan_name = '$plan' AND event_id = '".$selectet_event_id."'");
 
     $DB->query("UPDATE project_dienstplan SET id_01 = '".mysql_real_escape_string($_POST["samstag"][0])."',
    id_02 = '".mysql_real_escape_string($_POST["samstag"][1])."',
@@ -120,7 +120,7 @@ if(!empty($_POST["commit"])){
    id_21 = '".mysql_real_escape_string($_POST["samstag"][20])."',
    id_22 = '".mysql_real_escape_string($_POST["samstag"][21])."',
    id_23 = '".mysql_real_escape_string($_POST["samstag"][22])."',
-   id_24 = '".mysql_real_escape_string($_POST["samstag"][23])."' WHERE tag = '2' AND plan_name = '$plan' AND event_id = '".$event_id."'");
+   id_24 = '".mysql_real_escape_string($_POST["samstag"][23])."' WHERE tag = '2' AND plan_name = '$plan' AND event_id = '".$selectet_event_id."'");
 
     $DB->query("UPDATE project_dienstplan SET id_01 = '".mysql_real_escape_string($_POST["sonntag"][0])."',
    id_02 = '".mysql_real_escape_string($_POST["sonntag"][1])."',
@@ -145,12 +145,12 @@ if(!empty($_POST["commit"])){
    id_21 = '".mysql_real_escape_string($_POST["sonntag"][20])."',
    id_22 = '".mysql_real_escape_string($_POST["sonntag"][21])."',
    id_23 = '".mysql_real_escape_string($_POST["sonntag"][22])."',
-   id_24 = '".mysql_real_escape_string($_POST["sonntag"][23])."' WHERE tag = '3' AND plan_name = '$plan' AND event_id = '".$event_id."'");
+   id_24 = '".mysql_real_escape_string($_POST["sonntag"][23])."' WHERE tag = '3' AND plan_name = '$plan' AND event_id = '".$selectet_event_id."'");
 	}
 }
 
 $tag = array();
-$query = $DB->query("SELECT * FROM project_dienstplan WHERE plan_name = '$plan' AND event_id = '".$event_id."'");
+$query = $DB->query("SELECT * FROM project_dienstplan WHERE plan_name = '$plan' AND event_id = '".$selectet_event_id."'");
 while($row = $DB->fetch_array($query)){
   $tag1 = $row["tag"];
   $tag[$tag1][0] = $row["id_01"];
@@ -207,10 +207,10 @@ $output .="<table width='750' class='maincontent'>";
      $output .="<table width='750'>";
 	$output .="<tr>";
           $output .="<td class='maintd'><b>Zeitpl&auml;ne zu Projekt ".$_SESSION['projekt_name'].":</b>";
-$output .="<form action='plan_admin.php?event=".$event_id."' method='POST'>";
+$output .="<form action='plan_admin.php?event=".$selectet_event_id."' method='POST'>";
 $output .="<select name='plan_name'>";
 
-  $query = $DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."' GROUP BY (plan_name) ORDER BY plan_name");
+  $query = $DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' GROUP BY (plan_name) ORDER BY plan_name");
   while($row = $DB->fetch_row($query)){
     $output .="<option value='".$row[0]."'";
     if($plan == $row[0]) $output .=" selected";

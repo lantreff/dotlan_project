@@ -1,5 +1,18 @@
 <?php
 
+if (isset($_POST['event']))
+{
+$selectet_event_id = $_POST['event'];
+}
+elseif(isset($_GET['event']))
+{
+$selectet_event_id = $_GET['event'];
+}
+else
+{
+$selectet_event_id = $event_id;
+}
+
 				$a = 'shortbarbit';
 				$a1 = 'shortbarlink';
 				$b = 'shortbarbit';
@@ -71,27 +84,27 @@ $output .= "
 						if($DARF["add"] )
 							{
 							$output .= "
-							<td width='".$breite."' class='".$b."'> <a href='plan_add.php' class='".$b1."'>Neu Anlegen / L&ouml;schen / &Auml;ndern</a></td>
+							<td width='".$breite."' class='".$b."'> <a href='plan_add.php?event=".$selectet_event_id."' class='".$b1."'>Neu Anlegen / L&ouml;schen / &Auml;ndern</a></td>
 							
 							";
 							}
 $output .= "	
 								<td width='2' class='shortbarbitselect'>&nbsp;</td>
-								<td width='".$breite."' class='".$d."'><a href='index.php' class='".$d1."'>Dienstplan</a></td>
-								<td width='".$breite."' class='".$a."'><a href='plan_overview.php' class='".$a1."'>Übersicht</a></td>
-								<td width='".$breite."' class='".$c."'><a href='plan_my.php' class='".$c1."'>Mein Plan</a></td>
+								<td width='".$breite."' class='".$d."'><a href='index.php?event=".$selectet_event_id."' class='".$d1."'>Dienstplan</a></td>
+								<td width='".$breite."' class='".$a."'><a href='plan_overview.php?event=".$selectet_event_id."' class='".$a1."'>Übersicht</a></td>
+								<td width='".$breite."' class='".$c."'><a href='plan_my.php?event=".$selectet_event_id."' class='".$c1."'>Mein Plan</a></td>
 							";
 						if($DARF["edit"] )
 						{
 							$output .= "
-							<td width='".$breite."' class='".$e."'> <a href='plan_admin.php' class='".$e1."'>Plan Zuweisung</a></td>
+							<td width='".$breite."' class='".$e."'> <a href='plan_admin.php?event=".$selectet_event_id."' class='".$e1."'>Plan Zuweisung</a></td>
 							
 							";
 							}
 						if($DARF["freeze"] )
 						{
 							$output .= "
-							<td width='".$breite."' class='".$ee."'> <a href='plan_freeze.php' class='".$ee1."'>Freeze</a></td>
+							<td width='".$breite."' class='".$ee."'> <a href='plan_freeze.php?event=".$selectet_event_id."' class='".$ee1."'>Freeze</a></td>
 							
 							";
 						}
@@ -102,20 +115,24 @@ $output .= "				</tr>
 					<hr>
 				";
 				
-if (isset($_GET['event']))
+if (isset($_POST['event']))
 {
-$event_id = $_GET['event'];
+$selectet_event_id = $_POST['event'];
 }
-if (isset($_POST['event']) )
+elseif(isset($_GET['event']))
 {
-$event_id = $_POST['event'];
+$selectet_event_id = $_GET['event'];
+}
+else
+{
+$selectet_event_id = $event_id;
 }
 $output .= "<form name='change_event' action='' method='POST'>				
 			<select name='event' onChange='document.change_event.submit()''>
 				<option value='1'>w&auml;hle das Event !</option>";
 				while($out_event_ids = $DB->fetch_array($sql_event_ids))
 				{// begin While Historie
-					if	($out_event_ids['id'] == $event_id)
+					if	($out_event_ids['id'] == $selectet_event_id)
 					{
 		$output .= "					
 					<option selected value='".$out_event_ids['id']."'>".$out_event_ids['name']."</option>";

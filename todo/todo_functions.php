@@ -195,7 +195,7 @@ function todo_copy_vorlage($ids,$event_id)
 ####### VORLAGEN ########
  
 ####### Table ###########
-function out_table($sql,$DARF){
+function out_table($sql,$DARF,$user_id){
 	if(mysql_num_rows($sql) > 0)
 	{
 		$output .='
@@ -206,11 +206,11 @@ function out_table($sql,$DARF){
 							Prio';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "prio" )
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=prio&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Prio" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=prio&order=DESC" > <img src="/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Prio" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=prio&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Prio" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=prio&order=ASC" > <img src="/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Prio" border="0" > </a>';
 							}
 			$output .= '
 						</td>
@@ -219,11 +219,11 @@ function out_table($sql,$DARF){
 							';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "status" )
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=status&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Fortschritt" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=status&order=DESC" > <img src="/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Fortschritt" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=status&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Fortschritt" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=status&order=ASC" > <img src="/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Fortschritt" border="0" > </a>';
 							}
 			$output .= '
 						</td>
@@ -232,11 +232,11 @@ function out_table($sql,$DARF){
 							';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "bezeichnung" )
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=bezeichnung&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Bezeichnung" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=bezeichnung&order=DESC" > <img src="/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Bezeichnung" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=bezeichnung&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Bezeichnung" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=bezeichnung&order=ASC" > <img src="/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Bezeichnung" border="0" > </a>';
 							}
 			$output .= '
 						</td>
@@ -245,11 +245,11 @@ function out_table($sql,$DARF){
 							';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "gruppe,bearbeiter" )
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=gruppe,bearbeiter&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Gruppe/Bearbeiter" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=gruppe,bearbeiter&order=DESC" > <img src="/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach Gruppe/Bearbeiter" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=gruppe,bearbeiter&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Gruppe/Bearbeiter" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=gruppe,bearbeiter&order=ASC" > <img src="/admin/projekt/images/16/minisort.gif" alt="Sortieren nach Gruppe/Bearbeiter" border="0" > </a>';
 							}
 			$output .= '
 						</td> 	 
@@ -258,11 +258,11 @@ function out_table($sql,$DARF){
 							';
 							if ( $_GET['order'] == "ASC" && $_GET['sort'] == "erstellt" )
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=DESC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=DESC" > <img src="/admin/projekt/images/16/minisort2.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
 							}
 							else
 							{
-								$output .= '<a href="http://www.maxlan.de/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=ASC" > <img src="http://www.maxlan.de/admin/projekt/images/16/minisort.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
+								$output .= '<a href="/admin/projekt/todo/?hide='.$_GET['hide'].'&do='.$_GET['do'].'&sort=erstellt&order=ASC" > <img src="/admin/projekt/images/16/minisort.gif" alt="Sortieren nach fällig bis" border="0" > </a>';
 							}
 							
 							$admin_breite = 36;
@@ -350,25 +350,25 @@ function out_table($sql,$DARF){
 						</td>
 						<td >';
 									
-									if($DARF["edit"] )
+									if($DARF["edit"] || $out['bearbeiter'] == $user_id)
 									{ //  Admin
 										$output .="
 										<a href='?hide=1&do=edit&id=".$out['id']."' target='_parent'>
-										<img src='http://www.maxlan.de/admin/projekt/images/16/edit.png' title='\"".$out['bezeichnung']."\" anzeigen/&auml;ndern' ></a>
+										<img src='/admin/projekt/images/16/edit.png' title='\"".$out['bezeichnung']."\" anzeigen/&auml;ndern' ></a>
 										";
 										}
 									if($DARF["del"] )
 									{ //  Admin
 										$output .="
 										<a href='?hide=1&do=del&id=".$out['id']."' target='_parent'>
-										<img src='http://www.maxlan.de/admin/projekt/images/16/editdelete.png' title='\"".$out['bezeichnung']."\" l&ouml;schen'></a>
+										<img src='/admin/projekt/images/16/editdelete.png' title='\"".$out['bezeichnung']."\" l&ouml;schen'></a>
 										";
 									}
-									if($DARF["remind"] )
+									if($DARF["remind"] && $status['id'] != "11")
 									{ //  Admin
 										$output .='
 										<a onClick= "return confSend();" href="?hide=1&do=remind&id='.$out['id'].'" target="_parent">
-										<img src="http://www.maxlan.de/admin/projekt/images/16/mail_send.png" title="Erinnerungsmail zur Aufgabe '.$out['bezeichnung'].' senden?"></a>
+										<img src="/admin/projekt/images/16/mail_send.png" title="Erinnerungsmail zur Aufgabe '.$out['bezeichnung'].' senden?"></a>
 										<br>
 										';
 									}
@@ -444,7 +444,7 @@ function send_mail($out,$new)
 	}
 	
 	
-	$email_text		= utf8_decode(utf8_encode(	$hallo
+	$email_text		=	$hallo
 												."Hier die Infos:"
 												."<br>"
 												."<br>"
@@ -457,9 +457,8 @@ function send_mail($out,$new)
 												."<br>"
 												."Hier gelangst du zur Aufgabe:"
 												."<br>"
-												." <a href='http://".$_SERVER["SERVER_NAME"]."/admin/projekt/todo/index.php?hide=1&do=edit&id=".$out['id']."'>http://".$_SERVER["SERVER_NAME"]."/admin/projekt/todo/index.php?hide=1&do=edit&=".$out['id']."</a>
-													")
-												);
+												." <a href='\http://".$_SERVER["SERVER_NAME"]."/admin/projekt/todo/index.php?hide&#61;1&do&#61;edit&id&#61;".$out['id']."'>http://".$_SERVER["SERVER_NAME"]."/admin/projekt/todo/index.php?hide&#61;1&do&#61;edit&id&#61;".$out['id']."</a>
+													";
 												
 				$betreff 		= ucfirst($global['sitename'])." Erinnerung an Aufgabe ".$out['bezeichnung'];
 				$absender 		= $global['email'];
@@ -483,7 +482,6 @@ function send_mail($out,$new)
 							$out_mail_grp = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id ='".$out_orga_id['user_id']."'"));
 						
 							$empfaenger		= $out_mail_grp['email'];
-							//$empfaenger		= "info@maxlan.de";
 
 								######################################################################################################
 									mail($empfaenger, $betreff, $email_text, $header);
@@ -496,7 +494,6 @@ function send_mail($out,$new)
 				{
 					
 					$empfaenger		= $user['email'];
-					//$empfaenger		= "info@maxlan.de";
 
 					######################################################################################################
 						mail($empfaenger, $betreff, $email_text, $header);
@@ -534,12 +531,12 @@ function send_mail_table($sql,$sql1)
 				$hallo = "Hallo "	.$name.","
 									."<br>"
 									."<br>"
-									."volgende Aufgabe/n ist/sind noch nicht erledigt!"
+									."folgende Aufgabe/n ist/sind noch nicht erledigt!"
 									."<br>"
 									."<br>"
-									."Bitte kümmeret euch darum, dass die Aufgaben pünktlich erledigt werden."
+									."Bitte kümmert euch darum, dass die Aufgaben pünktlich erledigt werden."
 									."<br>"
-									."Solltest Ihr Hilfe benötigen oder zu wenig Zeit haben, fragt bitte nach oder gebt bescheid."
+									."Solltest ihr Hilfe benötigen oder zu wenig Zeit haben, fragt bitte nach oder gebt bescheid."
 									."<br>"	
 									."<br>";		
 			}
@@ -553,12 +550,12 @@ function send_mail_table($sql,$sql1)
 				$hallo = "Hallo "	.$name.","
 									."<br>"
 									."<br>"
-									."volgende Aufgabe/n ist/sind noch nicht erledigt!"
+									."folgende Aufgabe/n ist/sind noch nicht erledigt!"
 									."<br>"
 									."<br>"
 									."Bitte kümmere dich darum, dass die Aufgabe pünktlich erledigt wird."
 									."<br>"
-									."Solltest Du Hilfe benötigen oder zu wenig Zeit haben, frag bitte nach oder gib bescheid."
+									."Solltest du Hilfe benötigen oder zu wenig Zeit haben, frag bitte nach oder gib bescheid."
 									."<br>"	
 									."<br>";				
 			}
@@ -567,8 +564,8 @@ function send_mail_table($sql,$sql1)
 	
 	$email_text		= utf8_decode(utf8_encode(	'<html>'
 												.'<head>'
-												.'<link rel="stylesheet" type="text/css" href="http://www.maxlan.de/styles/maxlan.css">'
-												.'<script type="text/javascript" src="http://www.maxlan.de/styles/Project.js"></script>'
+												.'<link rel="stylesheet" type="text/css" href="/styles/maxlan.css">'
+												.'<script type="text/javascript" src="/styles/Project.js"></script>'
 												.'
 												<style type="text/css">
 												#box div:hover {
@@ -668,7 +665,6 @@ function send_mail_table($sql,$sql1)
 												
 				$betreff 		= ucfirst($global['sitename'])." Erinnerung an Aufgabe/n";
 				$absender 		= $global['email'];
-				//$absender 		= "info@maxlan.de";
 				
 				$header  	 = "MIME-Version: 1.0\r\n";
 				$header 	.= "Content-type: text/html; charset=iso-8859-15\r\n";
@@ -689,7 +685,6 @@ function send_mail_table($sql,$sql1)
 							$out_mail_grp = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id ='".$out_orga_id['user_id']."'"));
 						
 							$empfaenger		= $out_mail_grp['email'];
-							//$empfaenger		= "christian.egbers@the-encounter.de";
 
 								######################################################################################################
 									mail($empfaenger, $betreff, $email_text, $header);
@@ -702,7 +697,6 @@ function send_mail_table($sql,$sql1)
 				{
 					
 					$empfaenger		= $user['email'];
-					//$empfaenger		= "christian.egbers@the-encounter.de";
 
 					######################################################################################################
 						//mail($empfaenger, $betreff, $email_text, $header);

@@ -55,75 +55,12 @@ if(!$DARF["edit"]) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 else
 {
 
-$sql_queue_count_my_tickets = $DB->query	("
-												SELECT
-													*
-												FROM
-													`project_ticket_ticket`
-												LEFT JOIN
-													project_ticket_sperre ON project_ticket_ticket.sperre = project_ticket_sperre.sperre_id
-												WHERE
-													agent = ".$user_id ."
-												AND
-													( status <> 1  AND  status <> 2 )
-											");
-	$count_my_ticket = mysql_num_rows($sql_queue_count_my_tickets);
-
 include("header.php");
 include("news.php");
-$output .=
-"
-<table width='100%' cellspacing='0' cellpadding='3' border='0'>
-    <tbody>
-
-<!--start OverviewNavBarMain-->
-		<tr>
-			<td class='menu'>
-
-				Queues:
-					<b>
-						Meine Tickets (".$count_my_ticket.")
-					</b>
-
-";
-$sql_queue = $DB->query("SELECT * FROM `project_ticket_queue`");
-
-while($out_queue = $DB->fetch_array($sql_queue))
-{
-	$sql_queue_count_tickets = $DB->query	("
-												SELECT
-													*
-												FROM
-													`project_ticket_ticket`
-												LEFT JOIN
-													project_ticket_sperre ON project_ticket_ticket.sperre = project_ticket_sperre.sperre_id
-												WHERE
-													queue = ".$out_queue['id']."
-												AND
-													( status <> 1  AND  status <> 2 )
-											");
-
-	$count_ticket = mysql_num_rows($sql_queue_count_tickets);
-
-$output .=
-"
-						- <a href='TicketQueue.php?queueid=".$out_queue['id']."' >".$out_queue['name']." (".$count_ticket.")</a>
-";
-}
-
-$output .=
-"
-			</td>
-		</tr>
-<!--stop OverviewNavBarMain -->
-
-	</tbody>
-</table>
-";
 
 
 $output .=
-"
+"<BR>
 <table width='100%' cellspacing='0' cellpadding='3' border='0'>
 	<tbody>
 		<tr align='left' class='contenthead'>
@@ -274,18 +211,53 @@ while($out_ticket_queue_list = $DB->fetch_array($sql_ticket_queue_list))
 													id = ".$out_ticket_queue_list['status']."
 											")
 								);
+	$sql_antwort1 =
+				$DB->fetch_array(
+									$DB->query	("
+													SELECT
+														*
+													FROM
+														`project_ticket_antworten`
+													WHERE
+														ticket_id = ".$out_ticket_queue_list['id']."
+													AND
+														type <> 'notiz'
+													ORDER BY
+														erstellt DESC
+
+												")
+								);
 							if($iCount % 2 == 0)
 							{
-								$currentRowClass = "msgrow2";
+								if($sql_antwort1['gelesen'] == 1)
+								{
+									$currentRowClass = "msgrow2";
+								}
+								else{
+									$currentRowClass = "msgrow2_B";
+								}
 
 							}
 							else
 							{
-								$currentRowClass = "msgrow1";
+								if($sql_antwort1['gelesen'] == 1)
+								{
+									$currentRowClass = "msgrow1";
+								}
+								else{
+									$currentRowClass = "msgrow1_B";
+								}
 							}
 $output .=
 "
-					<tr class='".$currentRowClass."'>
+					<tr ";
+								$output .= ' onclick=" document.location = \'TicketZoom.php?ticketid='.$out_ticket_queue_list['id'].' \' ";  
+											';
+								$output .= ' onmouseover="this.style.background=\'#c33333\'; this.style.cursor=\'pointer\';" ';
+								$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
+								$output .= ' title="Ticket anzeigen" class="'.$currentRowClass.'">';
+								
+								$output .= "
 						<td width='1%' title='Priorit&auml;t: ".$out_ticket_queue_list['prio']."' class='PriorityID-".$out_ticket_queue_list['prio']."'>&nbsp;&nbsp;</td>
                         <td>
                             <table width='100%' height='100%' cellspacing='0' cellpadding='0' border='0'>

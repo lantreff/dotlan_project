@@ -51,7 +51,7 @@ else
 while($out_equip = mysql_fetch_array($sql))
 {
 	
-
+$name = $out_equip ['bezeichnung'];
   $pdf->AddPage();
   # Barcode
   
@@ -123,7 +123,7 @@ while($out_equip = mysql_fetch_array($sql))
 	}
 
 }
-$pdf->Output();
+$pdf->Output("Barcode ".$name,I);
 
 }
 ?>

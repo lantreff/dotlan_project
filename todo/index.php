@@ -33,7 +33,7 @@ else
 			<br>';
 			
 			
-		$output .= out_table(list_my_insert_todo($user_id,$event_id,$sort_by),$DARF);
+		$output .= out_table(list_my_insert_todo($user_id,$event_id,$sort_by),$DARF,$user_id);
 						
 		$output .= '			
 			<br>
@@ -42,14 +42,14 @@ else
 			<br>';
 			
 			
-		$output .= out_table(list_my_todo($user_id,$event_id,$user_id,$sort_by),$DARF);
+		$output .= out_table(list_my_todo($user_id,$event_id,$user_id,$sort_by),$DARF,$user_id);
 						
 		$output .= '			
 			<br>
 			<h3> Meine Gruppen-Aufgaben </h3>
 			<br>';
 		
-			$output .=  out_table(list_my_group_todo($user_id,$event_id,$sort_by),$DARF);
+			$output .=  out_table(list_my_group_todo($user_id,$event_id,$sort_by),$DARF,$user_id);
 		
 		$output .= '
 			<br>
@@ -62,7 +62,7 @@ else
 			
 			if($_GET['do'] == "uebersicht")
 			{
-				$output .= out_table(list_todo($event_id,$sort_by),$DARF);				
+				$output .= out_table(list_todo($event_id,$sort_by),$DARF,$user_id);				
 			}
 			
 			
@@ -117,7 +117,7 @@ else
 							<tr>
 								<td nowrap="nowrap" ><b>Gruppe</b></td>
 								<td>
-									<select name="gruppe">
+									<select name="gruppe" onChange="document.addedit.bearbeiter.disabled=true;">
 										<option value="0">Bitte w&auml;hlen</option>';
 					
 										$sql_gruppe = list_groups();
@@ -142,7 +142,7 @@ else
 							<tr>
 								<td nowrap="nowrap" ><b>Teammitglied</b></td>
 								<td>
-									<select name="bearbeiter" >
+									<select name="bearbeiter" onChange="document.addedit.gruppe.disabled=true;">
 										<option value="0">Bitte w&auml;hlen</option>';
 					
 										$sql_gruppe = list_orgas();
@@ -441,7 +441,7 @@ $output .= '	<table cellspacing="0" cellpadding="0" width="100%" border="0">
 							<tr>
 								<td nowrap="nowrap" ><b>Gruppe</b></td>
 								<td>
-									<select name="gruppe">
+									<select name="gruppe" onChange="document.hh.bearbeiter.disabled=true;">
 										<option value="0">Bitte w&auml;hlen</option>';
 					
 										$sql_gruppe = list_groups();
@@ -466,7 +466,7 @@ $output .= '	<table cellspacing="0" cellpadding="0" width="100%" border="0">
 							<tr>
 								<td nowrap="nowrap" ><b>Teammitglied</b></td>
 								<td>
-									<select name="bearbeiter" >
+									<select name="bearbeiter" onChange="document.hh.gruppe.disabled=true;">
 										<option value="0">Bitte w&auml;hlen</option>';
 					
 										$sql_gruppe = list_orgas();

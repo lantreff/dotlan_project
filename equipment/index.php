@@ -187,7 +187,7 @@ $output .= "				<hr>
 												Details
 											</td>
 											<td width='10' class='msghead'>";
-											if($DARF["add"] && $_GET['group_by'] == "category")
+											if($DARF["add"] ) // && $_GET['group_by'] == "category"
 												{
 										$output .= "
 												<a href='?hide=1&action=add&add_cat=".$out_list_category[$group_by]."' >
@@ -400,6 +400,10 @@ $output .="
 										<td class='msgrow1'><input name='hersteller' value='".$out_edit_epuipment['hersteller']."' size='25' type='text' maxlength='50'></td>
 									</tr>
 									<tr>
+										<td class='msgrow1'><b>Seriennummer</b></td>
+										<td class='msgrow1'><input name='seriennummer' value='".$out_edit_epuipment['seriennummer']."' size='25' type='text' maxlength='50'></td>
+									</tr>
+									<tr>
 										<td><b>Kategorie</b></td>
 										<td class='msgrow1'>
 
@@ -460,11 +464,11 @@ $output .="
 										{// begin while
 													if($out_list_lagerort['id'] == $out_edit_epuipment['lagerort'])
 													{
-												$output .= "<option value='".$out_list_lagerort['id']."' selected>".$out_list_lagerort['bezeichnung']."</option>";
+												$output .= "<option value='".$out_list_lagerort['id']."' selected>".$out_list_lagerort['bezeichnung']." | ".$out_list_lagerort['zusatzinfo']."</option>";
 													}
 													else
 													{
-												$output .= "<option value='".$out_list_lagerort['id']."'>".$out_list_lagerort['bezeichnung']."</option>";
+												$output .= "<option value='".$out_list_lagerort['id']."'>".$out_list_lagerort['bezeichnung']." | ".$out_list_lagerort['zusatzinfo']."</option>";
 													}
 										}
 
@@ -474,7 +478,7 @@ $output .="
 									</tr>
 									<tr>
 										<td class='msgrow1'><b>Beh&auml;lter*</b></td>
-										<td class='msgrow1'>".$out_edit_epuipment['kiste']."
+										<td class='msgrow1'>
 											<select name='kiste'>
 											<option value=''>w&auml;hlen</option>";
 
@@ -483,11 +487,11 @@ $output .="
 											{// begin while
 														if($out_list_kiste['id'] == $out_edit_epuipment['kiste'])
 														{
-													$output .= "<option value='".$out_list_kiste['id']."' selected>".$out_list_kiste['bezeichnung']."</option>";
+													$output .= "<option value='".$out_list_kiste['id']."' selected>".$out_list_kiste['bezeichnung']." | ".$out_list_kiste['zusatzinfo']."</option>";
 														}
 														else
 														{
-													$output .= "<option value='".$out_list_kiste['id']."'>".$out_list_kiste['bezeichnung']."</option>";
+													$output .= "<option value='".$out_list_kiste['id']."'>".$out_list_kiste['bezeichnung']." | ".$out_list_kiste['zusatzinfo']."</option>";
 														}
 											}
 
@@ -1013,11 +1017,18 @@ if($_GET['action'] == 'kisten')
 							<td colspan='2' class='msghead'>
 							Beh&auml;lter
 							</td>
+							<td class='msghead'>
+								Anzahl in Beh&auml;lter
+							</td>
+							<td class='msghead'>
+							</td>
 						</tr>
 	";					
 						$sql_kisten = equipment_show_kisten();
 						while($out = mysql_fetch_array($sql_kisten))
 						{
+							$Anz_Artikel_in_Kiste = mysql_fetch_array( mysql_query("SELECT COUNT(kiste) AS Anzahl FROM `project_equipment` WHERE kiste = '".$out['id']."' ") );
+							
 	$output .= "
 								<tr ";
 								$output .= ' onclick="document.location = \'index.php?hide=1&action=anzeigen&id='.$out['id'].'\' ";  ';
@@ -1027,6 +1038,12 @@ if($_GET['action'] == 'kisten')
 $output .= "								
 							<td>
 								".$out['bezeichnung']."
+							</td>
+							<td>
+								".$out['zusatzinfo']."
+							</td>
+							<td>
+								".$Anz_Artikel_in_Kiste['Anzahl']." Artikel
 							</td>
 							<td>";
 							if($DARF["edit"] )

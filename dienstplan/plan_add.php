@@ -11,7 +11,7 @@ $MODUL_NAME = "dienstplan";
 include_once("../../../global.php");
 include("../functions.php");
 include("./dienstplan_function.php");
-//$output .= "TEST ".  $event_id;
+//$output .= "TEST ".  $selectet_event_id;
 
 include('header.php');
 
@@ -23,9 +23,9 @@ if($freeze != 1)
 {
 if(!empty($_POST["add"])){
   $name = mysql_real_escape_string($_POST["name"]);
-  $DB->query("INSERT INTO project_dienstplan (event_id, plan_name, tag, id_01, id_02, id_03, id_04, id_05, id_06, id_07, id_08, id_09, id_10, id_11, id_12, id_13, id_14, id_15, id_16, id_17, id_18, id_19, id_20, id_21, id_22, id_23, id_24) VALUES ('".$event_id."','$name','1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1')");
-  $DB->query("INSERT INTO project_dienstplan (event_id, plan_name, tag, id_01, id_02, id_03, id_04, id_05, id_06, id_07, id_08, id_09, id_10, id_11, id_12, id_13, id_14, id_15, id_16, id_17, id_18, id_19, id_20, id_21, id_22, id_23, id_24) VALUES ('".$event_id."','$name','2','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1')");
-  $DB->query("INSERT INTO project_dienstplan (event_id, plan_name, tag, id_01, id_02, id_03, id_04, id_05, id_06, id_07, id_08, id_09, id_10, id_11, id_12, id_13, id_14, id_15, id_16, id_17, id_18, id_19, id_20, id_21, id_22, id_23, id_24) VALUES ('".$event_id."','$name','3','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1')");
+  $DB->query("INSERT INTO project_dienstplan (event_id, plan_name, tag, id_01, id_02, id_03, id_04, id_05, id_06, id_07, id_08, id_09, id_10, id_11, id_12, id_13, id_14, id_15, id_16, id_17, id_18, id_19, id_20, id_21, id_22, id_23, id_24) VALUES ('".$selectet_event_id."','$name','1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1')");
+  $DB->query("INSERT INTO project_dienstplan (event_id, plan_name, tag, id_01, id_02, id_03, id_04, id_05, id_06, id_07, id_08, id_09, id_10, id_11, id_12, id_13, id_14, id_15, id_16, id_17, id_18, id_19, id_20, id_21, id_22, id_23, id_24) VALUES ('".$selectet_event_id."','$name','2','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1')");
+  $DB->query("INSERT INTO project_dienstplan (event_id, plan_name, tag, id_01, id_02, id_03, id_04, id_05, id_06, id_07, id_08, id_09, id_10, id_11, id_12, id_13, id_14, id_15, id_16, id_17, id_18, id_19, id_20, id_21, id_22, id_23, id_24) VALUES ('".$selectet_event_id."','$name','3','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1','-1')");
   $output .="<h2>Plan $name angelegt</h2>";
 }
 
@@ -35,17 +35,17 @@ if(!empty($_POST["del"])){
 
 if(!empty($_GET["del2"])){
   $name = mysql_real_escape_string($_GET["del2"]);
-  $DB->query("DELETE FROM project_dienstplan WHERE plan_name = '$name' AND event_id = '".$event_id."'");
+  $DB->query("DELETE FROM project_dienstplan WHERE plan_name = '$name' AND event_id = '".$selectet_event_id."'");
   $output .="$name wurde gel&ouml;scht";
 }
 
 if(!empty($_POST["doppel"])){
   $name = mysql_real_escape_string($_POST["name"]);
-  $DB->query("UPDATE project_dienstplan SET doppelt_erlaubt = IF(doppelt_erlaubt = 1,0,1) WHERE plan_name = '$name' AND event_id = '".$event_id."'");
+  $DB->query("UPDATE project_dienstplan SET doppelt_erlaubt = IF(doppelt_erlaubt = 1,0,1) WHERE plan_name = '$name' AND event_id = '".$selectet_event_id."'");
 }
 if(!empty($_POST["copy"])){
 	
-	copy_plan($event_id);
+	copy_plan($selectet_event_id);
 	$meldung = "Daten gesendet";
 	$PAGE->redirect("index.php",$PAGE->sitetitle,$meldung);
 }
@@ -84,7 +84,7 @@ $output .="<b>In den Doppel-Check aufnehmen?</b>";
 $output .="<form action='plan_add.php' method='POST'>";
 $output .="<select name='name'>";
 
-  $query = $DB->query("SELECT plan_name, doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$event_id."' GROUP by (plan_name) ORDER BY plan_name");
+  $query = $DB->query("SELECT plan_name, doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' GROUP by (plan_name) ORDER BY plan_name");
   while($row = $DB->fetch_row($query)){
     if($row[1] == 0) $d = "Ja";
     else $d = "Nein";
@@ -105,10 +105,10 @@ if($DARF['del'])
 	$output .="<tr>";
           $output .="<td class='msgrow2'><b>Zeitpl&auml;ne zu Projekt ".$_SESSION['projekt_name']." l&ouml;schen:</b>";
 
-$output .="<form action='plan_add.php?event=".$event_id."' method='POST'>";
+$output .="<form action='plan_add.php?event=".$selectet_event_id."' method='POST'>";
 $output .="<select name='name'>";
 
-  $query = $DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."' GROUP by (plan_name) ORDER BY plan_name");
+  $query = $DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' GROUP by (plan_name) ORDER BY plan_name");
   while($row = $DB->fetch_row($query)) $output .="<option value='".$row[0]."'>".$row[0]."</option>";
 
 $output .="</select>";

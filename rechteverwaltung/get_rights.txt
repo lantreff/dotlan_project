@@ -1,0 +1,28 @@
+// ########################################################################
+// # Laden der Projekt-Rechteverwaltung made by Christian Egbers          #
+// ########################################################################
+
+
+function projekt_check_rights($right,$user_id){
+	global $DB;
+
+ 	$sql_rights_name = $DB->query("
+									SELECT `r`.`name` 
+									FROM `project_rights_user_rights` AS `ur` 
+									LEFT OUTER JOIN `project_rights_rights` AS `r` ON `r`.`id`=`ur`.`right_id`
+									WHERE `ur`.`user_id`='".$user_id."';
+								");
+
+	while($out = $DB->fetch_array($sql_rights_name))
+	{ $laufer = 0;
+
+		$recht_name[$laufer] = $out['name'];
+		
+		if($recht_name[$laufer] == $right )
+		{
+			return TRUE ;
+		}
+	  $laufer ++;
+	}
+
+}

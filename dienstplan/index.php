@@ -20,12 +20,13 @@ else
 {// $module_admin_check
 
 
-if (mysql_num_rows($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."'")) != 0)
+
+if (mysql_num_rows($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$selectet_event_id."'")) != 0)
 {
 $plan = mysql_real_escape_string($_POST["plan_name"]);
 if(empty($plan)) $plan = mysql_real_escape_string($_GET["plan"]);
 if(empty($plan)){
-  $plan = mysql_result($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."' ORDER BY plan_name LIMIT 1"),0,"plan_name");
+  $plan = mysql_result($DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' ORDER BY plan_name LIMIT 1"),0,"plan_name");
 }
 }
 else{
@@ -38,7 +39,7 @@ if($_GET["a"] == "add"){
   if(strlen($id) == 1) $id = "0".$id;
 
   if($_GET["x"] > -1){
-    $alt = mysql_result(mysql_query("SELECT id_$id FROM project_dienstplan WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$event_id."'"),0,"id_$id");
+    $alt = mysql_result(mysql_query("SELECT id_$id FROM project_dienstplan WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$selectet_event_id."'"),0,"id_$id");
 
     $bla = explode(",",$alt);
     $bla[$_GET["x"]] = mysql_real_escape_string($user_id);
@@ -47,7 +48,7 @@ if($_GET["a"] == "add"){
 
   $sql = "UPDATE project_dienstplan SET ";
   $sql .= "id_".$id." = '".$neu."' ";
-  $sql .= " WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$event_id."'";
+  $sql .= " WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$selectet_event_id."'";
 
 	if($freeze == 1) $output .= $freeze_meldung;
 	else $DB->query($sql);
@@ -58,7 +59,7 @@ if($_GET["a"] == "del"){
   if(strlen($id) == 1) $id = "0".$id;
 
   if($_GET["x"] > -1){
-    $alt = mysql_result(mysql_query("SELECT id_$id FROM project_dienstplan WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$event_id."'"),0,"id_$id");
+    $alt = mysql_result(mysql_query("SELECT id_$id FROM project_dienstplan WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$selectet_event_id."'"),0,"id_$id");
 
     $bla = explode(",",$alt);
     $bla[$_GET["x"]] = "-1";
@@ -67,7 +68,7 @@ if($_GET["a"] == "del"){
 
   $sql = "UPDATE project_dienstplan SET ";
   $sql .= "id_".$id." = '$neu' ";
-  $sql .= " WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$event_id."'";
+  $sql .= " WHERE tag = '".mysql_real_escape_string($_GET["tag"])."' AND plan_name = '$plan' AND event_id = '".$selectet_event_id."'";
 
 
 	if($freeze == 1) $output .= $freeze_meldung;
@@ -75,7 +76,7 @@ if($_GET["a"] == "del"){
 }
 
 $tag = array();
-$query = $DB->query("SELECT * FROM project_dienstplan WHERE plan_name = '$plan' AND event_id = '".$event_id."'");
+$query = $DB->query("SELECT * FROM project_dienstplan WHERE plan_name = '$plan' AND event_id = '".$selectet_event_id."'");
 while($row =  $DB->fetch_array($query)){
 
   $tag1 = $row["tag"];
@@ -105,13 +106,13 @@ while($row =  $DB->fetch_array($query)){
   $tag[$tag1][23] = $row["id_24"];
 }
 
-function doppeleitrag_check($event_id){
+function doppeleitrag_check($selectet_event_id){
 global $DB;
   $doppelt = array();
   $d=0;
 
   for($tag=1;$tag<=3;$tag++){
-	$query = $DB->query("SELECT * FROM project_dienstplan WHERE event_id = '".$event_id."' AND tag = '".$tag."' AND doppelt_erlaubt = 0");
+	$query = $DB->query("SELECT * FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' AND tag = '".$tag."' AND doppelt_erlaubt = 0");
      while($row =  mysql_fetch_assoc($query)){
       for($std=1;$std<=24;$std++){
         if(strlen($std) == 1) $id = "0$std";
@@ -200,10 +201,10 @@ global $DB;
  $output .="<table>";
  $output .="<tr>";
  $output .="<td class='maintd'>";
- $output .="<form action='index.php' method='POST'>";
+ $output .="<form action='index.php?event=".$selectet_event_id."' method='POST'>";
  $output .="<select name='plan_name'>";
 
-  $query = $DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$event_id."' GROUP BY (plan_name) ORDER BY plan_name");
+  $query = $DB->query("SELECT plan_name FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' GROUP BY (plan_name) ORDER BY plan_name");
   while($row = $DB->fetch_array($query)){
     $output .="<option value='".$row[0]."'";
     if($plan == $row[0]) $output .=" selected";
@@ -225,7 +226,7 @@ function FensterOeffnen (Adresse) {
 
  $output .="<input type='submit' name='change' value='ausw&auml;hlen'>";
  $output .=" <a href='plan_csv_export.php?plan=".$plan."'><img width='16' height='16' title='CSV Export' alt='' src='../images/22/csv.png'></a>";
- $output .=" <a href='plan_druck.php?plan=".$plan."&event=".$event_id."' onclick='FensterOeffnen(this.href); return false '><img width='16' title='Drucken' height='16' alt='' src='/images/admin/icon_print.gif'></a> ";
+ $output .=" <a href='plan_druck.php?plan=".$plan."&event=".$selectet_event_id."' onclick='FensterOeffnen(this.href); return false '><img width='16' title='Drucken' height='16' alt='' src='/images/admin/icon_print.gif'></a> ";
  $output .="</form>";
  $output .="</td>";
 	$output .="</tr>";
@@ -405,7 +406,7 @@ $doppelt = array();
   $d=0;
 
   for($tag=1;$tag<=3;$tag++){
-	$query = $DB->query("SELECT * FROM project_dienstplan WHERE event_id = '".$event_id."' AND tag = '".$tag."' AND doppelt_erlaubt = 0");
+	$query = $DB->query("SELECT * FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' AND tag = '".$tag."' AND doppelt_erlaubt = 0");
      while($row =  mysql_fetch_assoc($query)){
       for($std=1;$std<=24;$std++){
         if(strlen($std) == 1) $id = "0$std";
@@ -498,7 +499,7 @@ if($doppelt)
 
   $userids = array();
   $in_plan = array();
-  $query = $DB->query("SELECT * FROM project_dienstplan WHERE event_id = '".$event_id."'");
+  $query = $DB->query("SELECT * FROM project_dienstplan WHERE event_id = '".$selectet_event_id."'");
   if(mysql_num_rows($query) != 0)
   {
   while($row = $DB->fetch_array($query)){

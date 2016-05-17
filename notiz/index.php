@@ -13,9 +13,6 @@ include("../functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Notizen");
 
-//$event_id = $EVENT->next; // in functions.php ausgelagert!
-$EVENT->getevent($event_id);
-
 $bezeichnung	= security_string_input($_POST['bezeichnung']);
 $text1	 		= $_POST['text'];
 $text	 		= $text1['content'];
@@ -24,6 +21,7 @@ $kat1 			= security_string_input($_POST['kategorie1']);
 $id 			= $_GET['id'];
 $user_historie = $CURRENT_USER->vorname." (".$CURRENT_USER->nick.") ".$CURRENT_USER->nachname;
 $note_global	= $_POST['note_global'];
+$form_event_id	= $_POST['form_event_id'];
 
 if($_POST['kategorie'] == 1)
 {
@@ -96,7 +94,7 @@ else
 				<tr>
 				<td align='right'>";
 
-				$sql_event_ids 				= $DB->query("SELECT * FROM events ORDER BY begin DESC");
+				$sql_event_ids 				= list_events();
 				$out_historie_event			= $DB->fetch_array($DB->query("SELECT * FROM events WHERE id = ".$selectet_event_id.""));						
 
 				$output .= "<form name='change_event' action='' method='POST'>				
@@ -139,8 +137,8 @@ else
 			if($_GET['hide'] != 1)
 			{ // hide
 
-				$sql_list_kategorie 		= $DB->query("SELECT kategorie FROM project_notizen WHERE event_id = ".$selectet_event_id." OR global = 1  GROUP BY kategorie ");
-	 			$sql_list_kategorie_dlink 	= $DB->query("SELECT kategorie FROM project_notizen WHERE event_id = ".$selectet_event_id." OR global = 1 GROUP BY kategorie");
+				$sql_list_kategorie 		= $DB->query("SELECT kategorie FROM project_notizen WHERE event_id = '".$selectet_event_id."' OR global = 1 GROUP BY kategorie ");
+	 			$sql_list_kategorie_dlink 	= $DB->query("SELECT kategorie FROM project_notizen WHERE event_id = '".$selectet_event_id."' OR global = 1 GROUP BY kategorie");
 
 			$output .= "
 
@@ -169,7 +167,7 @@ else
 				<a name='".$out_list_kategorie['kategorie']."'><b>".$out_list_kategorie['kategorie']."</b></a> - <a href='#top'>top</a>
 			</h1>";
 
-			$sql_list_note = $DB->query("SELECT * FROM project_notizen WHERE kategorie = '".$out_list_kategorie['kategorie']."' ORDER BY bezeichnung ASC");
+			$sql_list_note = $DB->query("SELECT * FROM project_notizen WHERE kategorie = '".$out_list_kategorie['kategorie']."' AND (event_id = '".$selectet_event_id."' OR global = 1) ORDER BY bezeichnung ASC");
 
 			$output .= "
 			<table width='100%' cellspacing='1' cellpadding='2' border='0'>
@@ -409,7 +407,7 @@ $output .= "
 	$sql_tmp_note = $DB->fetch_array($sql_insert_note);
 	
 	$insert=$DB->query("INSERT INTO `project_notizen_historie` (`notiz_id`, `action`, `user`, `datum`, `tmp` , `tmp_bezeichnung`, `tmp_kategorie`) VALUES ('".$id."', '".$_GET['action']."', '".$user_historie."', '".$datum."', '".$sql_tmp_note['text']."', '".$sql_tmp_note['bezeichnung']."', '".$sql_tmp_note['kategorie']."'); ");
-	$update=$DB->query(	"UPDATE project_notizen SET `event_id` = '".$selectet_event_id."', `bezeichnung` = '".$bezeichnung."', `text` = '".$text."', `kategorie` = '".$kategorie."', `last_work` = '".$date."', `global` = '".$insert_note."' WHERE `id` = ".$id.";");	
+	$update=$DB->query(	"UPDATE project_notizen SET `event_id` = '".$form_event_id."', `bezeichnung` = '".$bezeichnung."', `text` = '".$text."', `kategorie` = '".$kategorie."', `last_work` = '".$date."', `global` = '".$insert_note."' WHERE `id` = ".$id.";");	
 	
 	$output .= "<meta http-equiv='refresh' content='0; URL=/admin/projekt/notiz/'>";
 
@@ -428,8 +426,11 @@ $output .= "
 									<td width='40%'  class='msghead'>
 										Kategorie
 									</td>
-									<td width='20%'  class='msghead'>
+									<td width='15%'  class='msghead'>
 										Event &uuml;bergreifend
+									</td>
+									<td width='20%'  class='msghead'>
+										Eventzuordnung
 									</td>
 								</tr>
 								<tr >
@@ -464,6 +465,28 @@ $output .= "
 						$output .=" <input type='checkbox' name='note_global' value='1'> Global sichtbar!<br>";
 					}	
 						$output .="									
+									</td>
+									<td class='msgrow1'>
+									<select width='100%'  style='width:100%' name='form_event_id'>
+									<option value='1'>w&auml;hlen</option>";
+
+						$sql_list_event = list_events();
+						while($out_list_event = $DB->fetch_array($sql_list_event))
+					{// begin while
+									if	($out_list_event['id'] == $out_edit_note['event_id'])
+									{
+						$output .= "					
+									<option selected value='".$out_list_event['id']."'>".$out_list_event['name']."</option>";
+									
+									}else
+									{
+									
+					$output .= "					
+									<option value='".$out_list_event['id']."'>".$out_list_event['name']."</option>";
+									}
+								}
+								
+				$output .= "									
 									</td>
 								</tr>
 								<tr>

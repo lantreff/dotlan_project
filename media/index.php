@@ -38,13 +38,13 @@ Admin PAGE
 */
 if($_GET['hide'] != 1)
 {
-		$output .= list_turniere(17); // $event_id
+		$output .= list_turniere($event_id); // $event_id
 
 }	
 	if($_GET['hide'] == "1"){	
 	
 			if($_GET['action'] == "show"){
-			 $output .= list_begegnung($turnier_ids,17);// $event_id
+			 $output .= list_begegnung($turnier_ids,$event_id);// $event_id
 						
 			}
 	}

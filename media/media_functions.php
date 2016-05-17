@@ -3,12 +3,12 @@
 $MODUL_NAME = "media";
 
 // sql abfragen
-$sql_event_ids = $DB->query("SELECT * FROM events ORDER BY begin DESC");
+$sql_event_ids = mysql_query("SELECT * FROM events ORDER BY begin DESC");
 
 function list_turniere($event_id){
 global $DB;
 
-$sql_t_groups = $DB->query("SELECT * FROM `t_groups` WHERE `active` = '1' ORDER BY name ASC");
+$sql_t_groups = mysql_query("SELECT * FROM `t_groups` WHERE `active` = '1' ORDER BY name ASC");
 
 $output .=  " <form action='?hide=1&action=show' method='POST'>
 <table cellspacing='1' cellpadding='2' border='0' width='850'>
@@ -16,10 +16,10 @@ $output .=  " <form action='?hide=1&action=show' method='POST'>
 
  $iCount = 0;
 
- while($out_data = $DB->fetch_array($sql_t_groups))
+ while($out_data = mysql_fetch_array($sql_t_groups))
 					{// begin while
-//	$sql_t_turnier = $DB->query("SELECT * FROM `t_turnier` WHERE `teventid` = '".$event_id."' AND `tgroupid` = '".$out_data['id']."' AND `tactive` != '1' ORDER BY tname ASC");
-	$sql_t_turnier = $DB->query("SELECT * FROM `t_turnier` WHERE `teventid` = '".$event_id."' AND `tgroupid` = '".$out_data['id']."' ORDER BY tstart,tname ASC");
+//	$sql_t_turnier = mysql_query("SELECT * FROM `t_turnier` WHERE `teventid` = '".$event_id."' AND `tgroupid` = '".$out_data['id']."' AND `tactive` != '1' ORDER BY tname ASC");
+	$sql_t_turnier = mysql_query("SELECT * FROM `t_turnier` WHERE `teventid` = '".$event_id."' AND `tgroupid` = '".$out_data['id']."' ORDER BY tstart,tname ASC");
 
 
 					$output .=  "
@@ -29,7 +29,7 @@ $output .=  " <form action='?hide=1&action=show' method='POST'>
 						
 					 </tr>";
 					 
- while($out_data = $DB->fetch_array($sql_t_turnier))
+ while($out_data = mysql_fetch_array($sql_t_turnier))
 					{// begin while					 
 					 
 $output .=  "		 <tr>
@@ -67,9 +67,9 @@ global $DB;
 			$i=0;
 			foreach($t_ids as $tids){
 				
-				$t_contest = $DB->query("SELECT * FROM t_contest WHERE tid = ".$tids."  AND ( ready_a != '0000-00-00 00:00:00' AND ready_b != '0000-00-00 00:00:00') AND ( wins_a = 0 AND wins_b = 0) AND ( team_a != -1 AND team_b != -1) ORDER BY tcrunde,starttime DESC LIMIT 1 "); // LIMIT 1
-				//$t_contest = $DB->query("SELECT * FROM t_contest WHERE tid = ".$tids."  AND ( team_a != -1 AND team_b != -1) ORDER BY tcrunde,starttime DESC LIMIT 1 "); // LIMIT 1
-				$t_turnier = $DB->fetch_array( $DB->query("SELECT * FROM t_turnier WHERE tid = ".$tids." LIMIT 1"));
+				$t_contest = mysql_query("SELECT * FROM t_contest WHERE tid = ".$tids."  AND ( ready_a != '0000-00-00 00:00:00' AND ready_b != '0000-00-00 00:00:00') AND ( wins_a = 0 AND wins_b = 0) AND ( team_a != -1 AND team_b != -1) ORDER BY tcrunde,starttime DESC LIMIT 1 "); // LIMIT 1
+				//$t_contest = mysql_query("SELECT * FROM t_contest WHERE tid = ".$tids."  AND ( team_a != -1 AND team_b != -1) ORDER BY tcrunde,starttime DESC LIMIT 1 "); // LIMIT 1
+				$t_turnier = mysql_fetch_array( mysql_query("SELECT * FROM t_turnier WHERE tid = ".$tids." LIMIT 1"));
 				if(mysql_num_rows($t_contest) != 0)
 				{
 				
@@ -87,7 +87,7 @@ global $DB;
 								<td  nowrap=\"nowrap\"><b>Team B&nbsp;</b></td>
 								<td  nowrap=\"nowrap\"><b>Kommentare</b></td>
 							</tr>";
-				while ($turnier = $DB->fetch_array($t_contest)){
+				while ($turnier = mysql_fetch_array($t_contest)){
 				  $output.='<tr class="msgrow2">
 								<td>
 									'.get_round($t_turnier['tplaytype'],$turnier['tcrunde']).'
@@ -99,7 +99,7 @@ global $DB;
 												<td>
 													<a href="/turnier/?do=contest&amp;id='.$turnier['tcid'].'">';
 													
-													$team_a = $DB->fetch_array($DB->query("SELECT * FROM t_teilnehmer WHERE tnid = ".$turnier['team_a']." LIMIT 1"));
+													$team_a = mysql_fetch_array(mysql_query("SELECT * FROM t_teilnehmer WHERE tnid = ".$turnier['team_a']." LIMIT 1"));
 if($team_a['tnname'] != '')
 {													
 					$output.='						
@@ -109,7 +109,7 @@ if($team_a['tnname'] != '')
 }
 else
 {
-						$user_a_name = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = ".$team_a['tnleader']." LIMIT 1"));
+						$user_a_name = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id = ".$team_a['tnleader']." LIMIT 1"));
 					$output.='						
 													'.$user_a_name['nick'].'<br>
 													
@@ -122,8 +122,8 @@ else
 												</td>
 												<td align="right" class="small">
 												';
-													$tnleader_a = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = ".$team_a['tnleader']." "));
-													$sitz_a = $DB->fetch_array($DB->query("SELECT * FROM event_teilnehmer WHERE event_id = ".$event_id." AND user_id = ".$team_a['tnleader']." "));
+													$tnleader_a = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id = ".$team_a['tnleader']." "));
+													$sitz_a = mysql_fetch_array(mysql_query("SELECT * FROM event_teilnehmer WHERE event_id = ".$event_id." AND user_id = ".$team_a['tnleader']." "));
 													$sitznr_a = explode(" ",$sitz_a['sitz_nr']);
 					$output.='						
 													<b>Teamleader:</b> '.$tnleader_a['nick'].' &nbsp; <b>'.$sitznr_a[0].'</b> '.$sitznr_a[1].'
@@ -145,7 +145,7 @@ else
 												<td>
 													<a href="/turnier/?do=contest&amp;id='.$turnier['tcid'].'">';
 													
-													$team_b = $DB->fetch_array($DB->query("SELECT * FROM t_teilnehmer WHERE tnid = ".$turnier['team_b']." LIMIT 1"));
+													$team_b = mysql_fetch_array(mysql_query("SELECT * FROM t_teilnehmer WHERE tnid = ".$turnier['team_b']." LIMIT 1"));
 if($team_b['tnname'] != '')
 {													
 					$output.='						
@@ -155,7 +155,7 @@ if($team_b['tnname'] != '')
 }
 else
 {
-						$user_b_name = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = ".$team_b['tnleader']." LIMIT 1"));
+						$user_b_name = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id = ".$team_b['tnleader']." LIMIT 1"));
 					$output.='						
 													'.$user_b_name['nick'].'
 													
@@ -168,8 +168,8 @@ else
 												</td>
 												<td align="right" class="small">
 													';
-													$tnleader_b = $DB->fetch_array($DB->query("SELECT * FROM user WHERE id = ".$team_b['tnleader']." "));
-													$sitz_b = $DB->fetch_array($DB->query("SELECT * FROM event_teilnehmer WHERE event_id = ".$event_id." AND user_id = ".$team_b['tnleader']." "));
+													$tnleader_b = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE id = ".$team_b['tnleader']." "));
+													$sitz_b = mysql_fetch_array(mysql_query("SELECT * FROM event_teilnehmer WHERE event_id = ".$event_id." AND user_id = ".$team_b['tnleader']." "));
 													$sitznr_b = explode(" ",$sitz_b['sitz_nr']);
 					$output.='						
 													<b>Teamleader:</b> '.$tnleader_a['nick'].' &nbsp; <b>'.$sitznr_b[0].'</b> '.$sitznr_b[1].'
@@ -182,7 +182,7 @@ else
 										</tbody>
 									</table>
 								</td>';
-								$sql_postings =$DB->query("SELECT * FROM forum_thread WHERE ext_id = ".$turnier['tcid']."");
+								$sql_postings =mysql_query("SELECT * FROM forum_thread WHERE ext_id = ".$turnier['tcid']."");
 								if(mysql_num_rows($sql_postings) != 0)
 								{
 $output.='	

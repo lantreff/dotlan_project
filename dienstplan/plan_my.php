@@ -11,14 +11,14 @@ $MODUL_NAME = "dienstplan";
 include_once("../../../global.php");
 include("../functions.php");
 include("dienstplan_function.php");
-//$output .= "TEST ".  $event_id;
+//$output .= "TEST ".  $selectet_event_id;
 
 include('header.php');
 
 if(!$DARF["view"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 else
 {// $module_admin_check
-// $output .= $event_id.'<br><br>';
+// $output .= $selectet_event_id.'<br><br>';
 
 $output .="<table class='maincontent'>";
 
@@ -36,7 +36,7 @@ if ($DARF['edit']){
 
         $output .="<tr>";
           $output .="<td class='maintd'><b>User:</b>";
-$output .="<form action='plan_my.php?event=".$event_id."' method='POST'>";
+$output .="<form action='plan_my.php?event=".$selectet_event_id."' method='POST'>";
 $output .="<select name='userid' style='font-family: Courier;'>";
 
   //$query = $DB->query("SELECT id, nick, vorname, nachname FROM user ORDER BY vorname");
@@ -46,9 +46,9 @@ $output .="<select name='userid' style='font-family: Courier;'>";
     $count2 = 0;
     for($i=1;$i<=24;$i++){
       $num = sprintf("%02d",$i);
-      $count += $DB->num_rows($DB->query("SELECT event_id FROM project_dienstplan WHERE doppelt_erlaubt = 0 AND event_id = '".$event_id."' AND (id_$num = '".$row["id"]."' OR id_$num LIKE '".$row["id"].",%' OR id_$num LIKE '%,".$row["id"].",%' OR id_$num LIKE '%,".$row["id"]."')"));
-      $count2 += $DB->num_rows($DB->query("SELECT event_id FROM project_dienstplan WHERE doppelt_erlaubt = 1 AND event_id = '".$event_id."' AND (id_$num = '".$row["id"]."' OR id_$num LIKE '".$row["id"].",%' OR id_$num LIKE '%,".$row["id"].",%' OR id_$num LIKE '%,".$row["id"]."')"));
-#$output .="SELECT event_id FROM project_dienstplan WHERE event_id = '".$event_id."' AND id_$num = '".$row["id"]."' OR id_$num LIKE '".$row["id"].",%' OR id_$num LIKE '%,".$row["id"].",%' OR id_$num LIKE '%,".$row["id"]."'\n";
+      $count += $DB->num_rows($DB->query("SELECT event_id FROM project_dienstplan WHERE doppelt_erlaubt = 0 AND event_id = '".$selectet_event_id."' AND (id_$num = '".$row["id"]."' OR id_$num LIKE '".$row["id"].",%' OR id_$num LIKE '%,".$row["id"].",%' OR id_$num LIKE '%,".$row["id"]."')"));
+      $count2 += $DB->num_rows($DB->query("SELECT event_id FROM project_dienstplan WHERE doppelt_erlaubt = 1 AND event_id = '".$selectet_event_id."' AND (id_$num = '".$row["id"]."' OR id_$num LIKE '".$row["id"].",%' OR id_$num LIKE '%,".$row["id"].",%' OR id_$num LIKE '%,".$row["id"]."')"));
+#$output .="SELECT event_id FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' AND id_$num = '".$row["id"]."' OR id_$num LIKE '".$row["id"].",%' OR id_$num LIKE '%,".$row["id"].",%' OR id_$num LIKE '%,".$row["id"]."'\n";
     }
     $output .="<option value='".$row["id"]."'";
     if($userid == $row['id']) $output .=" selected";
@@ -71,7 +71,7 @@ $output .="</form>";
 $anwesend[1] = array();
 for($a1=0;$a1<24;$a1++)
 {
-	$ab_x = $DB->fetch_array($DB->query("SELECT ab_$a1 FROM project_anwesenheit WHERE event_id = '".$event_id."' AND user_id = '".$userid."' AND tag LIKE '%Freitag%'"));
+	$ab_x = $DB->fetch_array($DB->query("SELECT ab_$a1 FROM project_anwesenheit WHERE event_id = '".$selectet_event_id."' AND user_id = '".$userid."' AND tag LIKE '%Freitag%'"));
 	// $output .='<br><br>'.$ab_x['ab_'.$a1].'<br><br>';
 	if($ab_x['ab_'.$a1] == 1){
 		$anwesend[1][] = $a1;
@@ -82,7 +82,7 @@ for($a1=0;$a1<24;$a1++)
 $anwesend[2] = array();
 for($a2=0;$a2<24;$a2++)
 {
-	$ab_y = $DB->fetch_array( $DB->query("SELECT ab_$a2 FROM project_anwesenheit WHERE event_id = '".$event_id."' AND user_id = '".$userid."' AND tag LIKE '%Samstag%'"));
+	$ab_y = $DB->fetch_array( $DB->query("SELECT ab_$a2 FROM project_anwesenheit WHERE event_id = '".$selectet_event_id."' AND user_id = '".$userid."' AND tag LIKE '%Samstag%'"));
 	if($ab_y['ab_'.$a2] == 1){
 		$anwesend[2][] = $a2;
 	}
@@ -92,7 +92,7 @@ for($a2=0;$a2<24;$a2++)
 $anwesend[3] = array();
 for($a3=0;$a3<24;$a3++)
 {
-	$ab_z = $DB->fetch_array($DB->query("SELECT ab_$a3 FROM project_anwesenheit WHERE event_id = '".$event_id."' AND user_id = '".$userid."' AND tag LIKE '%Sonntag%'"));
+	$ab_z = $DB->fetch_array($DB->query("SELECT ab_$a3 FROM project_anwesenheit WHERE event_id = '".$selectet_event_id."' AND user_id = '".$userid."' AND tag LIKE '%Sonntag%'"));
 	if($ab_z['ab_'.$a3] == 1){
 		$anwesend[3][] = $a3;
 	}
@@ -117,7 +117,7 @@ $output .="<table>";
   $output .="</tr>";
 
 
-$projekt_von = @mysql_result($DB->query("SELECT UNIX_TIMESTAMP(begin) as von FROM events WHERE id = '".$event_id."' LIMIT 1"),0,"von");
+$projekt_von = @mysql_result($DB->query("SELECT UNIX_TIMESTAMP(begin) as von FROM events WHERE id = '".$selectet_event_id."' LIMIT 1"),0,"von");
 for($i=0;$i<24;$i++){
 	$test = $i;
   if(strlen($i) == 1) $std = "0".$i;
@@ -136,9 +136,9 @@ for($i=0;$i<24;$i++){
     $output .="<td $class><b>".$std.":00 - ".$std1.":00</b></td>";
 
   for($tag=1;$tag<=3;$tag++){
-      $query = $DB->query("SELECT plan_name, doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$event_id."' AND tag = '".$tag."' AND FIND_IN_SET('{$userid}',id_$std1)") or die(mysql_query());
-      //$query = $DB->query("SELECT plan_name, doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$event_id."'  AND tag = '".$tag."' AND id_$std1 LIKE '%".$userid."%' ");
-	  //$query = $DB->query("SELECT plan_name, doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$event_id."' AND tag = '".$tag."' AND  id_$std1 IN ('".$userid."') ");
+      $query = $DB->query("SELECT plan_name, doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' AND tag = '".$tag."' AND FIND_IN_SET('{$userid}',id_$std1)") or die(mysql_query());
+      //$query = $DB->query("SELECT plan_name, doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$selectet_event_id."'  AND tag = '".$tag."' AND id_$std1 LIKE '%".$userid."%' ");
+	  //$query = $DB->query("SELECT plan_name, doppelt_erlaubt FROM project_dienstplan WHERE event_id = '".$selectet_event_id."' AND tag = '".$tag."' AND  id_$std1 IN ('".$userid."') ");
     $plan = "";
     $color = "";
     $doppel = 0;

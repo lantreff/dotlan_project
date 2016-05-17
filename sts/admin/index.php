@@ -107,12 +107,12 @@ else
 									
 								FROM 
 									user_orga AS o
-								
 								LEFT JOIN
 									user AS u
 								ON 
-								
 								o.user_id=u.id
+								WHERE
+									o.display_team = 1								
 								ORDER BY 
 									u.vorname ASC
 								

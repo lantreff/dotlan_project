@@ -15,12 +15,13 @@ if($DARF["platzzettel"] || $DARF["verlosungszettel"]){
   $output .= "</ul>";
 }
 
-if($DARF["freeze"] || $DARF["gaesteserver"] || $DARF["turnier_kopie"]){
+if($DARF["freeze"] || $DARF["gaesteserver"] || $DARF["turnier_kopie"] || $DARF["orga_konten"]){
   $output .= "<h3>Sonstiges</h3>";
   $output .= "<ul>";
   if($DARF["turnier_kopie"])       $output .= "  <li><a href='turnier_kopie'>Turniere kopieren</a> (Kopiert bestimmte Turniere von einem Event in ein anderes)</li>";
   if($DARF["freeze"])       $output .= "  <li><a href='freeze'>Freeze</a> (DB-Funktionen die vor/nach dem Einspielen ins Intranet ausgef&uuml;hrt werden m&uuml;ssen)</li>";
   if($DARF["gaesteserver"]) $output .= "  <li><a href='gaesteserver'>G&auml;steserver Mails verschicken</a></li>";
+  if($DARF["orga_konten"]) $output .= "  <li><a href='orga_konten'>Orga Catering Konten</a></li>";
   $output .= "</ul>";
 }
 

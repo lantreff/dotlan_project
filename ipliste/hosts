@@ -15,8 +15,8 @@
 10.10.0.12		bjohannsen1.maxlan.de		#Bjoern Johannsen
 10.10.0.13		tamshove.maxlan.de		#Torsten Amshove
 10.10.0.14		tamshove1.maxlan.de		#Torsten Amshove
-10.10.0.15		tlakeberg.maxlan.de		#Thomas Lakeberg
-10.10.0.16		tlakeberg1.maxlan.de		#Thomas Lakeberg
+10.10.0.15		mbardenhorst.maxlan.de		#Marco Bardenhorst
+10.10.0.16		mbardenhorst1.maxlan.de		#Marco Bardenhorst
 10.10.0.17		lmonden.maxlan.de		#Lutz Monden
 10.10.0.18		lmonden1.maxlan.de		#Lutz Monden
 10.10.0.21		ahueser.maxlan.de		#André Hueser
@@ -33,8 +33,6 @@
 10.10.0.32		cegbers1.maxlan.de		#Christian Egbers
 10.10.0.33		cerdbrink.maxlan.de		#Christoph Erdbrink
 10.10.0.34		cerdbrink1.maxlan.de		#Christoph Erdbrink
-10.10.0.35		dgill.maxlan.de		#Daniel Gill
-10.10.0.36		dgill1.maxlan.de		#Daniel Gill
 10.10.0.37		jwester.maxlan.de		#Juergen Wester
 10.10.0.38		jwester1.maxlan.de		#Juergen Wester
 10.10.0.39		aringat.maxlan.de		#Arno Ringat
@@ -47,26 +45,23 @@
 10.10.0.46		npreuschoff1.maxlan.de		#Nils Preuschoff
 10.10.0.47		asommer.maxlan.de		#Andre Sommer
 10.10.0.48		asommer1.maxlan.de		#Andre Sommer
-10.10.0.49		rdamm.maxlan.de		#René Damm
-10.10.0.50		rdamm1.maxlan.de		#René Damm
-10.10.0.51		bmuys.maxlan.de		#Bennet Muys
-10.10.0.52		bmuys1.maxlan.de		#Bennet Muys
 10.10.0.99		broensnas.maxlan.de		#NAS Jens Broens
+#TEST
 #Drucker
 10.10.0.119		prt1.maxlan.de		#HP Laserjet 2420 TN (500 Blatt) Support
 10.10.0.120		prt2.maxlan.de		#HP Laserjet 2420 TN Checkin
 10.10.0.134		prt3.maxlan.de		#HP Color Laserjet CP1515n
 10.10.0.135		prt4.maxlan.de		#Brother HL1250 Catering
 #Telefone
-10.10.0.200		mxt002.maxlan.de		#220/120 - MXT002 - Cisco 7960 - WStephan/JBroens
+10.10.0.200		mxt002.maxlan.de		#220 - MXT002 - Cisco 7960 - WStephan
 10.10.0.202		mxt025.maxlan.de		#110/150 - MXT025 - Cisco 7960 - TAmshove/CEgbers
 10.10.0.204		mxt026.maxlan.de		#210 - MXT026 - Cisco 7960 - Counter Support
 10.10.0.205		mxt013.maxlan.de		#310 - MXT013 - Cisco 7960 - Media
-10.10.0.206		mxt003.maxlan.de		#600 - MXT003 - Cisco 7940 - Check In
-10.10.0.209		mxt027.maxlan.de		#140/170 - MXT027 - Cisco 7960 - CErdbrink/ARingat
-10.10.0.211		mxt028.maxlan.de		#230/250 - MXT028 - Cisco 7960 - FBethke / WSnieders
-10.10.0.215		mxt004.maxlan.de		#410 - MXT004 - Cisco 7940 - Theke
-10.10.0.222		mxt008.maxlan.de		#500 - MXT008 - Cisco 7940 - Hardware VK
+10.10.0.206		tel-checkin.maxlan.de		#600 - eq000285 - Check-In - CISCO 7940 *neu*
+10.10.0.209		tel-erd.maxlan.de		#140/130 - eq000291 / MXT027/  - Cisco 7960 - CErdbrink/MBardenhorst
+10.10.0.211		tel-sni.maxlan.de		#250 - eq000293 /MXT028/ - Cisco 7960 - WSnieders
+10.10.0.215		tel-theke.maxlan.de		#410 - eq000283 /MXT004/ - Cisco 7940 - Theke *NEU*
+10.10.0.222		tel-jens.maxlan.de		#500 - eq000290 - MXT008 - Cisco 7940 - Hardware VK
 #Thin Clients LTSP
 10.10.0.240		tetc02.maxlan.de		#TETC02
 10.10.0.241		tetc01.maxlan.de		#TETC01
@@ -77,11 +72,18 @@
 10.10.1.1		router.maxlan.de		#Router (eth0)
 10.10.1.3		proxy.maxlan.de		#nginx Cache
 10.10.1.110		dev.maxlan.de		#Entwicklungsserver
+10.10.1.130		lancache-steam.maxlan.de		#NGINX Steam IP
+10.10.1.131		lancache-riot.maxlan.de		#NGINX Riot IP
+10.10.1.132		lancache-blizzard.maxlan.de		#NGINX blizzard IP
+10.10.1.133		lancache-hirez.maxlan.de		#NGINX hirez IP
+10.10.1.134		lancache-origin.maxlan.de		#NGINX origin IP
+10.10.1.135		lancache-sony.maxlan.de		#NGINX sony IP
+10.10.1.230		nas.maxlan.de		#Maxlan NAS
+10.10.1.237		stream.maxlan.de		#Diensteserver alt - rtmp Steaming
 10.10.1.240		survail.maxlan.de		#MXS012 - Blade - Videoueberwachung - SURVAIL - 8843
 10.10.1.241		ltsp.maxlan.de		#LTSP
 10.10.1.245		xtube.maxlan.de		#xtube eth0
 10.10.1.247		www2.maxlan.de		#intranet alt mit apache
-10.10.1.248		dns.maxlan.de		#SNXS03 - Diensteserver neu - temp
 10.10.1.249		backup.maxlan.de		#Backup-Server
 10.10.1.250		ftp.maxlan.de		#xtube eth1 - Maxlan ftp Server
 10.10.1.251		net.maxlan.de		#Netzwerktool
@@ -89,7 +91,7 @@
 10.10.1.252		gswi.maxlan.de		#Intranet (Dotlan) NEU MIT NGINX
 10.10.1.253		dns.maxlan.de		#Dienste (DNS, WINS) - virtuelle IP vom Diensteserv
 10.10.1.253		wins.maxlan.de		#Dienste (DNS, WINS) - virtuelle IP vom Diensteserv
-10.10.1.254		dienste.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
+10.10.1.254		dienste2.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
 10.10.1.254		irc.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
 10.10.1.254		ts3.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
 10.10.1.254		asterisk.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
@@ -97,44 +99,50 @@
 10.10.1.254		mumble.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
 10.10.1.254		voice.maxlan.de		#Dienste (irc,asterisk,ftp,ts3,Voice,mumble etc.)
 #IPCam
-10.10.1.6		cam-theke1.maxlan.de		#MXN018 - Theke1 - Vilar
-10.10.1.50		cam-konsolen.maxlan.de		#MXN019 - Konsolen - Vilar IP Cam
-10.10.1.51		cam-theke2.maxlan.de		#MXN020 - Theke2 - Vilar
-10.10.1.52		cam-kueche.maxlan.de		#Kueche - Foscam FI8908W, weiss
-10.10.1.53		cam-saal-tuer.maxlan.de		#Eingang Saal, Foscam FI8908W, weiss
-10.10.1.55		cam-checkin.maxlan.de		#MXN028 - Checkin - Vilar IP Cam
+10.10.1.6		cam-theke1.maxlan.de		#eq000248 - Theke1 - Vilar *surv*
+10.10.1.50		cam-konsolen.maxlan.de		#eq000249 - Konsolen - Vilar IP Cam *surv*
+10.10.1.51		cam-theke2.maxlan.de		#eq000247 - Theke2 - Vilar *defekt - backup*
+10.10.1.52		cam-kueche.maxlan.de		#Kueche - Foscam FI8908W, weiss *surv*
+10.10.1.53		cam-saal-tuer.maxlan.de		#Eingang Saal, Foscam FI8908W, weiss *surv*
+10.10.1.55		cam-checkin.maxlan.de		#eq000246 - Checkin - Vilar IP Cam *backup*
 #Switch
-10.10.1.2		backbone.maxlan.de		#Black Diamond 6808
-10.10.1.4		backbone-bak.maxlan.de		#HP 5308XL (Backup - SNMP muss noch eingestellt werden)
+10.10.1.2		backbone-alt.maxlan.de		#Black Diamond 6808
 10.10.1.4		backbone.maxlan.de		#HP 2510-48G (temp! - wechsel auf 10.10.1.2 prod)
 10.10.1.17		backup1.maxlan.de		#Nortel BayStack 420-24T / MXN031 / BACKUP 1
 10.10.1.18		backup2.maxlan.de		#Nortel BayStack 420-24T / MXN032 / BACKUP 2
 10.10.1.19		backup3.maxlan.de		#Nortel BayStack 420-24T / MXN032 / BACKUP 3
-10.10.1.20		vip1.maxlan.de		#HP 1800-24G / CN839ZPH4C / CErdbrink (VIP1)
-10.10.1.21		vip2.maxlan.de		#HP 1810-24G / CN9522G1L3 / CErdbrink (VIP2)
-10.10.1.22		theke.maxlan.de		#HP 2524 / SG21962814 / CErdbrink (Theke)
-10.10.1.23		orga1.maxlan.de		#HP 2626 / CN624SE3B3 / CErdbrink (Orga)
-10.10.1.24		orga2.maxlan.de		#HP 2626 / CN717SE1BU / CErdbrink (Orga)
-10.10.1.25		blocka.maxlan.de		#HP 2626 / CN722SE0FY / CErdbrink / BLOCK A
-10.10.1.26		blockb.maxlan.de		#HP 2626 / CN629SE24Z / CErdbrink / BLOCK B
-10.10.1.27		checkin.maxlan.de		#HP 2524 / SG21401142 / CErdbrink (Check-In)
+10.10.1.20		vip1.maxlan.de		#HP 1800-24G / CN839ZPH4C / VIP
+10.10.1.23		orga1.maxlan.de		#HP 2626 / CN624SE3B3 (Orga 1)
+10.10.1.24		orga2.maxlan.de		#HP 2626 / CN717SE1BU (Orga 2)
+10.10.1.25		blocka.maxlan.de		#HP 2626 / CN722SE0FY (BLOCK A)
+10.10.1.26		blockb.maxlan.de		#HP 2626 / CN629SE24Z (BLOCK B)
+10.10.1.29		blockg.maxlan.de		#HP 2626 / CN718SE1Z0 / BLOCK G
+10.10.1.32		vip2.maxlan.de		#HP 1800-24G / CN715XL1M7 / Backup
 10.10.1.33		blockc.maxlan.de		#HP 2626 / TW542SE0GJ / BLOCK C
 10.10.1.34		blockd.maxlan.de		#HP 2626 / TW542SE1DZ / BLOCK D
-10.10.1.35		blocke.maxlan.de		#HP 2626 / CN712SE38E / BLOCK E
+10.10.1.35		backup.maxlan.de		#HP 2626 / CN712SE38E / backup
 10.10.1.36		blockf.maxlan.de		#HP 2626 / CN639SE1VJ / BLOCK F
-10.10.1.37		blockg.maxlan.de		#HP 2620-24 / CN44DRR2Y2 / BLOCK G
+10.10.1.38		blocke.maxlan.de		#HP 1810-24G v2 Switch / CN36FRT91W / BLOCK E
+10.10.1.40		theke.maxlan.de		#HP 2626 / J4900B / Theke
+10.10.1.41		konsole.maxlan.de		#HP 2626 / J4900B / Konsole
+10.10.1.42		kamp.maxlan.de		#Longshine 10 Zoll, Verteilung Saal
 #Accesspoint
-10.10.1.31		ap-voip-2.maxlan.de		#TP-Link TL-WR1043ND
+10.10.1.43		ap-voip-2.maxlan.de		#TP-Link TL-WR1043ND / EggEs Router DECT
 #Gameserver
-10.10.1.100		gmaster.maxlan.de		#Gamemaster / LS20
-10.10.1.101		game01.maxlan.de		#Game 01 / LS21
+10.10.1.100		gamemaster.maxlan.de		#Gamemaster / HS21
+10.10.1.101		game01.maxlan.de		#Game 01 / HS21
 10.10.1.102		game02.maxlan.de		#Game 02 / LS21
 10.10.1.103		game03.maxlan.de		#Game 03 / LS21
 10.10.1.104		game04.maxlan.de		#Game 04 / HS21
 10.10.1.105		game05.maxlan.de		#Game 05 / HS21
 10.10.1.106		game06.maxlan.de		#Game 06 / HS21
+10.10.1.107		game07.maxlan.de		#game07 / LS20
+10.10.1.109		gameone.maxlan.de		#gameone - HP DL 360 G5 (the-encounter)
+#Media
+10.10.1.160		mediarechner.maxlan.de		#Mediarechner
 #Bladecenter
-10.10.1.242		black.maxlan.de		#MGMT
+10.10.1.200		black2.maxlan.de		#MGMT AMM2
+10.10.1.242		black.maxlan.de		#MGMT AMM1
 10.10.1.243		black-eth0.maxlan.de		#Switch 1 Bladecenter
 10.10.1.244		black-eth1.maxlan.de		#Switch 2 Bladecenter
 #Block-A
@@ -356,3 +364,5 @@
 10.10.10.16		Platz-V-16.maxlan.de		#Platz V-16
 10.10.10.17		Platz-V-17.maxlan.de		#Platz V-17
 10.10.10.18		Platz-V-18.maxlan.de		#Platz V-18
+#Gästeserver
+10.10.15.1		guestserver1.maxlan.de		#Maria

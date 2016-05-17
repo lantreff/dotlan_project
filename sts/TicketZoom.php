@@ -163,7 +163,7 @@ if($_GET['action'] == "move")
 								`id` = '".$ticketid."'
 						");
 
-	//$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Das Tickets ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde verschoben!");
+	$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Das Tickets ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde verschoben!");
 }
 
 if($_GET['action'] == "sperren" || $_GET['action'] == "freigeben" )
@@ -301,43 +301,7 @@ if($_GET['action'] == "freigeben")
 
 if($_GET['action'] == "close")
 {
-	
-	$update=$DB->query(	"
-							UPDATE
-								`project_ticket_ticket`
-							SET
-								`status` = 2
-							WHERE
-								`id` = ".$ticketid."
-						");
-						
-	$insert=$DB->query	("
-													INSERT INTO
-														`project_ticket_antworten`
-															(
-																id,
-																user,
-																erstellt,
-																titel,
-																text,
-																ticket_id,
-																type,
-																gelesen
-															)
-													VALUES
-														(
-															NULL,
-															'".$user_id."',
-															'".$datum."',															
-															'Ticket geschlossen',
-															'',
-															'".$ticketid."',
-															'notitz',
-															'1'															
-														);"
-												);
-												
-	$out_ticket_show_ticketdata = 
+		$out_ticket_show_ticketdata = 
 							$DB->fetch_array(
 												$DB->query(	"
 																SELECT 
@@ -358,7 +322,47 @@ if($_GET['action'] == "close")
 																	WHERE
 																		id='".$out_ticket_show_ticketdata['user']."'
 																")
-												);											
+												);	
+												
+	
+	$update=$DB->query(	"
+							UPDATE
+								`project_ticket_ticket`
+							SET
+								`status` = 2
+							WHERE
+								`id` = ".$ticketid."
+						");
+						
+	$insert=$DB->query	("
+													INSERT INTO
+														`project_ticket_antworten`
+															(
+																id,
+																user,
+																erstellt,
+																titel,
+																text,
+																ticket_id,
+																prio,
+																type,
+																gelesen
+															)
+													VALUES
+														(
+															NULL,
+															'".$user_id."',
+															'".$datum."',															
+															'Ticket geschlossen',
+															'',
+															'".$ticketid."',
+															'".$out_ticket_show_ticketdata['prio']."',
+															'notitz',
+															'1'															
+														);"
+												);
+												
+										
 	$PAGE->redirect("{BASEDIR}admin/projekt/sts/TicketZoom.php?ticketid=".$ticketid."",$PAGE->sitetitle,"Das Ticket ".$out_ticket_show_ticketdata['titel']." f&uuml;r ".$out_ticket_show_userdata['vorname']." '".$out_ticket_show_userdata['nick']."' ".$out_ticket_show_userdata['nachname']." wurde geschlossen <br>Nachricht: <br> ".$text.".");
 }
 
@@ -764,14 +768,34 @@ $output .=
 						<!--start CustomerRow-->
 						  <tr>
 							<td>Nick:</td>
-							<td class='contentvalue'><div title='".$out_ticket_zoom_user['nick']."'>".$out_ticket_zoom_user['nick']."</div>
-							</td>
+							<td class='contentvalue'>";
+				$output .="		<div title='".$out_ticket_zoom_user['nick']."'>";
+				if($ADMIN && $ADMIN->check(ADMIN_TEILNEHMER)){
+				$output .="			<a target='_NEW' href='/admin/?do=event_guest_edit&id=".$out_ticket_zoom_user_sitz['id']."'>";
+				}
+				$output .="				".$out_ticket_zoom_user['nick']."";
+				if($ADMIN && $ADMIN->check(ADMIN_TEILNEHMER)){
+				$output .="			</a>";
+				}
+				$output .="		</div>";
+				$output .="	</td>
 						  </tr>
 						<!--stop CustomerRow -->
 						<!--start CustomerRow-->
 						  <tr>
-							<td>Sitzplatz:</td>
-							<td class='contentvalue'><div title='".$out_ticket_zoom_user_sitz['sitz_nr']."'>".$out_ticket_zoom_user_sitz['sitz_nr']."</div>
+							<td>Sitzplatz:</td> 
+							<td class='contentvalue'>
+								<div title='".$out_ticket_zoom_user_sitz['sitz_nr']."'>";
+				if($ADMIN && $ADMIN->check(ADMIN_SITZPLAN)){			
+				$output .="			<a target='_NEW' href='/admin/?do=sitzplan_edit&id=".$out_ticket_zoom_user_sitz['sitz_block']."'>";
+				}
+				
+				$output .="				".$out_ticket_zoom_user_sitz['sitz_nr']."";
+				
+				if($ADMIN && $ADMIN->check(ADMIN_SITZPLAN)){			
+				$output .="			</a>";
+				}
+				$output .="		</div>
 							</td>
 						  </tr>
 						<!--stop CustomerRow -->

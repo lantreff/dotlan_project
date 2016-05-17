@@ -311,12 +311,23 @@ $output .= "
 						$sql_list_status = $DB->query("SELECT * FROM project_ticket_status");
 						while($out_list_status = $DB->fetch_array($sql_list_status))
 					{// begin while
-									if($out_list_status['id'] == $out_ticket['status'])
+									
+									if($out_ticket['status'] == 2)
 									{
-									$output .= "
+										if($out_list_status['id'] == 3)
+										{
+										$output .= "
 
-									<option value='".$out_list_status['id']."' selected>".$out_list_status['name']."</option>
-									";
+										<option value='".$out_list_status['id']."' selected='selected' >".$out_list_status['name']."</option>
+										";
+										}
+									}
+									elseif($out_list_status['id'] == $out_ticket['status'])
+										{
+										$output .= "
+
+										<option value='".$out_list_status['id']."' selected='selected' >".$out_list_status['name']."</option>
+										";
 									}
 									else
 									{
