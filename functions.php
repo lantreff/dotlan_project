@@ -1,4 +1,7 @@
 <?php
+global $DB, $CURRENT_USER, $global, $styles;
+$style = $global['defaultstyle'];
+
 date_default_timezone_set('Europe/Berlin');
 $datum 	= date("Y-m-d H:i:s");
 $user_id = $CURRENT_USER->id;
@@ -7,18 +10,43 @@ $dir 		= dirname($_SERVER['PHP_SELF'])."/";
 global $global;
 $sitename = $global['sitename'];
 
-$event_id_next = $EVENT->next;
+$data_event = mysql_fetch_array( mysql_query("SELECT * FROM events ORDER BY id DESC LIMIT 1"));
 
-if($event_id_next == 0)
+$event_id_next = $EVENT->next_event_id;
+
+if($event_id_next != $data_event['id'] )
 {
-	$data_event = $DB->fetch_array( $DB->query("SELECT * FROM events ORDER BY id DESC LIMIT 1"));
-
 	$event_id = $data_event['id'];
+}
+elseif($event_id_next == 0)
+{
+$event_id = $data_event['id'];
+
 }
 else
 {
-$event_id = $EVENT->next;
+$event_id = $EVENT->next_event_id;
+}
 
+function list_events()
+{
+	$sql = "SELECT * FROM events ORDER BY begin DESC";
+	$out =  mysql_query($sql);
+	return $out;
+}
+
+function list_event_data($id)
+{
+	$sql = "SELECT * FROM events WHERE id = '".$id."' ";
+	$out = mysql_fetch_array ( mysql_query($sql) );
+	return $out;
+}
+
+function list_event_location_data($id)
+{
+	$sql = "SELECT * FROM event_location  WHERE id = '".$id."' ";
+	$out = mysql_fetch_array ( mysql_query($sql) );
+	return $out;
 }
 
 function list_orgas()
@@ -36,7 +64,7 @@ function list_user_groups_dotlan()
 }
 
 function umlaute_ersetzen($text){
-$such_array  = array ('ä', 'ö', 'ü', 'ß');
+$such_array  = array ('Ã¤', 'Ã¶', 'Ã¼', 'ÃŸ');
 $ersetzen_array = array ('ae', 'oe', 'ue', 'ss');
 $neuer_text  = str_replace($such_array, $ersetzen_array, $text);
 return $neuer_text;
@@ -46,7 +74,11 @@ function time2german($date2german){
 	$out =  substr(date("d.m.Y H:i:s",strtotime($date2german)), 0, -3);
 	return $out;
 }
+function date2german($date2german){
 
+	$out =  substr(date("d.m.Y",strtotime($date2german)), 0);
+	return $out;
+}
 function timestamp_mysql2german($date) {
 
     $stamp['date']    =    sprintf("%02d.%02d.%04d",
@@ -91,22 +123,22 @@ return $Datum;
 $DARF = project_get_rights($MODUL_NAME);
 ////////////////////////////////////////////////
 function project_get_rights($bereich){
-  global $DB, $CURRENT_USER;
+  global $CURRENT_USER;
 
   $rechte = array();
-  $query = $DB->query("SELECT * FROM project_rights_rights WHERE bereich = '".$bereich."'");
-  while($row = $DB->fetch_array($query)){
-    $query2 = $DB->query("SELECT * FROM project_rights_user_rights WHERE user_id = '".$CURRENT_USER->id."' AND right_id = '".$row["id"]."' LIMIT 1");
-    if($DB->num_rows($query2) < 1) $rechte[$row["recht"]] = false;
+  $query = mysql_query("SELECT * FROM project_rights_rights WHERE bereich = '".$bereich."'");
+  while($row = mysql_fetch_array($query)){
+    $query2 = mysql_query("SELECT * FROM project_rights_user_rights WHERE user_id = '".$CURRENT_USER->id."' AND right_id = '".$row["id"]."' LIMIT 1");
+    if(mysql_num_rows($query2) < 1) $rechte[$row["recht"]] = false;
     else $rechte[$row["recht"]] = true;
   }
   return $rechte;
 }
 
 function project_check_queue_view($queueid1,$user1_id){
-	global $DB,$ADMIN;
+	global  $ADMIN;
 
-	$out_agent_queue = $DB->query("SELECT * FROM `project_ticket_agent_queue` WHERE queueid = '".$queueid1."' AND user_id = '".$user1_id."' ") ;
+	$out_agent_queue = mysql_query("SELECT * FROM `project_ticket_agent_queue` WHERE queueid = '".$queueid1."' AND user_id = '".$user1_id."' ") ;
 
 	if(mysql_num_rows($out_agent_queue) > 0 )  // optional Globaler Admin darf alles!!!
 	{
@@ -163,9 +195,9 @@ function security_number_int_input($input_int, $min, $max)
 		#####################
 //							an		von				Betreff			Nachricht			Ticket_ID
 function info_mail(	$mail_von_id,	$mail_betreff,	$mail_betreff_zusatz, 	$mail_nachricht,	$mail_ticketid){
-global $DB, $global;
+global   $global;
 			$out_an 	= $global['email'];
-			$out_von	= $DB->fetch_array( $DB->query("SELECT * FROM user WHERE id = ".$mail_von_id." LIMIT 1 ") );
+			$out_von	= mysql_fetch_array( mysql_query("SELECT * FROM user WHERE id = ".$mail_von_id." LIMIT 1 ") );
 
 
 			$email_text		= 	"
@@ -190,11 +222,12 @@ global $DB, $global;
 			$absender		= $out_von["email"];
 			$mail_zusatz_betreff	= $mail_betreff_zusatz.$mail_betreff;
 
-			$header  	= "MIME-Version: 1.0\r\n";
-			$header 	.= "Content-type: text/html; charset=iso-8859-1\r\n";
+			$header  	 = "MIME-Version: 1.0\r\n";
+			$header 	.= "Content-Type: text/html; charset=UTF-8\r\n";
+			$header 	.= "Content-Transfer-Encoding: quoted-printable\r\n";
 			$header 	.= "From: $absender\r\n";
 			$header 	.= "Reply-To: $absender\r\n";
-			$header 	.= "X-Mailer: PHP ". phpversion();
+			$header 	.= "X-Mailer: PHP/".phpversion();
 
 
 			######################################################################################################
@@ -204,11 +237,12 @@ global $DB, $global;
 		return '';
 }
 function message(	$message_an_id,	$message_von_id,	$message_betreff,	$message_betreff_zusatz, 	$message_nachricht,	$message_ticketid){
-global $DB, $global;
+global   $global;
 
 	$out_pm_mail =
-						$DB->fetch_array(
-											$DB->query("
+						mysql_fetch_array(
+
+											mysql_query("
 															SELECT
 																*
 															FROM
@@ -235,9 +269,9 @@ global $DB, $global;
 		#############
 //							an		von				Betreff			Nachricht			Ticket_ID
 function user_mail(	$mail_an_id,	$mail_von_id,	$mail_betreff,	$mail_betreff_zusatz, 	$mail_nachricht,	$mail_ticketid){
-global $DB, $global;
-			$out_an 	= $DB->fetch_array( $DB->query("SELECT * FROM user WHERE id = ".$mail_an_id." LIMIT 1 ") );
-			$out_von	= $DB->fetch_array( $DB->query("SELECT * FROM user WHERE id = ".$mail_von_id." LIMIT 1 ") );
+global   $global;
+			$out_an 	= mysql_fetch_array( mysql_query("SELECT * FROM user WHERE id = ".$mail_an_id." LIMIT 1 ") );
+			$out_von	= mysql_fetch_array( mysql_query("SELECT * FROM user WHERE id = ".$mail_von_id." LIMIT 1 ") );
 
 
 			$email_text		= 	"
@@ -263,11 +297,12 @@ global $DB, $global;
 			$absender		= $global['email'];
 			$mail_zusatz_betreff	= $mail_betreff_zusatz.$mail_betreff;
 
-			$header  	= "MIME-Version: 1.0\r\n";
-			$header 	.= "Content-type: text/html; charset=iso-8859-1\r\n";
+			$header  	 = "MIME-Version: 1.0\r\n";
+			$header 	.= "Content-Type: text/html; charset=UTF-8\r\n";
+			$header 	.= "Content-Transfer-Encoding: quoted-printable\r\n";
 			$header 	.= "From: $absender\r\n";
 			$header 	.= "Reply-To: $absender\r\n";
-			$header 	.= "X-Mailer: PHP ". phpversion();
+			$header 	.= "X-Mailer: PHP/".phpversion();
 
 
 			######################################################################################################
@@ -285,12 +320,12 @@ global $DB, $global;
 		#############
 
 function user_pm(	$pm_an_id,	$pm_von_id,	$pm_betreff, $pm_betreff_zusatz,	$pm_nachricht,	$pm_ticketid){
-global $DB, $global;
+global   $global,$PRVMSG;
 $datum 	= date("Y-m-d H:i:s");
 
 
-		$out_an 	= $DB->fetch_array( $DB->query("SELECT * FROM user WHERE id = ".$pm_an_id." LIMIT 1 ") );
-		$out_von	= $DB->fetch_array( $DB->query("SELECT * FROM user WHERE id = ".$pm_von_id." LIMIT 1 ") );
+		$out_an 	= mysql_fetch_array( mysql_query("SELECT * FROM user WHERE id = ".$pm_an_id." LIMIT 1 ") );
+		$out_von	= mysql_fetch_array( mysql_query("SELECT * FROM user WHERE id = ".$pm_von_id." LIMIT 1 ") );
 		$pm_zusatz_betreff	= $pm_betreff_zusatz.$pm_betreff;
 
 		$pm_text		= 	strip_tags(
@@ -311,27 +346,27 @@ $datum 	= date("Y-m-d H:i:s");
 
 										);
 
-		$insert_p_message = $DB->query("
-										INSERT INTO
-											private_message(
-															folder,
-															userid,
-															touserid,
-															fromuserid,
-															subject,
-															message,
-															dateline
-															)
-													VALUES (
-															'INBOX',
-															".$pm_an_id.",
-															".$pm_an_id.",
-															'0',
-															'".$pm_zusatz_betreff."',
-															'".$pm_text."',
-															'".$datum."'
-															)
-										");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		$PRVMSG->generate_message($pm_an_id,"INBOX",$pm_an_id,0,$pm_zusatz_betreff,$pm_text);	
+
+
+
+
 
 		######################################################################################################
 
@@ -341,11 +376,11 @@ $datum 	= date("Y-m-d H:i:s");
 		######################################
 
 function agent_pm(	$pm_an_id,	$pm_von_id,	$pm_betreff, $pm_betreff_zusatz,	$pm_nachricht,	$pm_ticketid ){
-global $DB, $global;
+global   $global,$PRVMSG;
 $datum 	= date("Y-m-d H:i:s");
 
-		$out_an 	= $DB->fetch_array( $DB->query("SELECT * FROM user WHERE id = ".$pm_an_id." LIMIT 1 ") );
-		$out_von	= $DB->fetch_array( $DB->query("SELECT * FROM user WHERE id = ".$pm_von_id." LIMIT 1 ") );
+		$out_an 	= mysql_fetch_array( mysql_query("SELECT * FROM user WHERE id = ".$pm_an_id." LIMIT 1 ") );
+		$out_von	= mysql_fetch_array( mysql_query("SELECT * FROM user WHERE id = ".$pm_von_id." LIMIT 1 ") );
 		$pm_zusatz_betreff	= $pm_betreff_zusatz.$pm_betreff." durch ".$out_von['vorname']." ".$out_von['nachname'];
 
 		$pm_text		= 	strip_tags("Hallo ".$out_an['vorname']
@@ -358,33 +393,35 @@ $datum 	= date("Y-m-d H:i:s");
 							."\n"
 							."http://".$_SERVER["SERVER_NAME"].$global['admin_sts_path']."TicketZoom.php?ticketid=".$pm_ticketid);
 
-		$insert_p_message = $DB->query("
-										INSERT INTO
-											private_message(
-															folder,
-															userid,
-															touserid,
-															fromuserid,
-															subject,
-															message,
-															dateline
-															)
-													VALUES (
-															'INBOX',
-															".$pm_an_id.",
-															".$pm_an_id.",
-															'0',
-															'".$pm_zusatz_betreff."',
-															'".$pm_text."',
-															'".$datum."'
-															)
-										");
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		$PRVMSG->generate_message($pm_an_id,"INBOX",$pm_an_id,0,$pm_zusatz_betreff,$pm_text);	
+
+
+
+
+
+		
 		######################################################################################################
 
 }
 
-###
+
+##
 # Berechnung der IP aus dem Sitz
 ##
 function sitz_to_ip($sitz){
@@ -401,14 +438,14 @@ function sitz_to_ip($sitz){
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Funktion zum speichern der Änderungen der Standard Antwort
+// Funktion zum speichern der Ã„nderungen der Standard Antwort
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 function antwort_save_changes($id,$text){
   global $DB;
-  //$query = $DB->query("SELECT * FROM project_ticket_std_antworten WHERE id = '".$id."'");
-	$query = $DB->query("UPDATE  `project_ticket_std_antworten` SET  `std_antwort` =  '".$text."' WHERE  `id` = ".$id.";");
+  //$query = mysql_query("SELECT * FROM project_ticket_std_antworten WHERE id = '".$id."'");
+	$query = mysql_query("UPDATE  `project_ticket_std_antworten` SET  `std_antwort` =  '".$text."' WHERE  `id` = ".$id.";");
 	
 	$ausgabe = "Daten wurden gesendet.";
 	
@@ -416,7 +453,7 @@ return $ausgabe;
 }
 function antwort_save($antwort_titel_save,$text){
   global $DB;
- $insert_p_message = $DB->query("
+ $insert_p_message = mysql_query("
 										INSERT INTO  `project_ticket_std_antworten` (
 										`id` ,
 										`std_titel` ,
@@ -435,7 +472,7 @@ return $ausgabe;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ENDE Funktion zum speichern der Änderungen der Standard Antwort
+// ENDE Funktion zum speichern der Ã„nderungen der Standard Antwort
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
