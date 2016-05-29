@@ -7,6 +7,7 @@ $sql_event_ids = mysql_query("SELECT * FROM events ORDER BY begin DESC");
 ///////////////
 
 function meeting_list($DARF,$event_id){
+	$event_id = mysql_real_escape_string($event_id);
 global $DB;
 
 $query = mysql_query("SELECT * FROM project_meeting_liste WHERE event_id = '".$event_id."' ORDER BY datum DESC;");
@@ -235,29 +236,40 @@ return $output;
 }
 
 function meeting_insert($post,$event_id){
-
+	$event_id = mysql_real_escape_string($event_id);
+	
+	// Die werte von Post müssen noch geparsed werden.
+	// zuerst n test-system aufstellen hierzu.
+	// TODO
 	mysql_query("INSERT INTO project_meeting_liste SET event_id = '".$event_id."', titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."'") or die(mysql_error());
 	if($post['mail']) email($post);
 }
 
 function meeting_del($id){
+	$id = mysql_real_escape_string($id);
   mysql_query("DELETE FROM project_meeting_liste WHERE ID = $id ") or die(mysql_error());
   mysql_query("DELETE FROM project_meeting_anwesenheit WHERE meeting_id = $id") or die(mysql_error());
 }
 
 function meeting_update($post,$id){
 
+	$id = mysql_real_escape_string($id);
+	
+	// hier ist das mit der Post variable das gleiche wie bei meeting_insert!
 	mysql_query("UPDATE project_meeting_liste SET titel = '".$post["titel"]."', datum = '".$post["datum"]."', location = '".$post["location"]."', adresse = '".$post["adresse"]."', geplant = '".$post["geplant"]."' WHERE ID = ".$id.";");
 	if($post['mail']) email($post);
 }
 
 function meeting_chg_gewesen($id,$gewesen){
+	$id = mysql_real_escape_string($id);
+	$gewesen = mysql_real_escape_string($gewesen);
   mysql_query("UPDATE project_meeting_liste SET gewesen = $gewesen WHERE ID = $id;");
 }
 
 
 function meeting_showtext($id,$typ,$edit){
   if($typ == 1){
+	  $id = mysql_real_escape_string($id);
     $query = mysql_query("SELECT geplant,datum FROM project_meeting_liste WHERE ID = '".$id."' LIMIT 1;");
     $output .=  '<tr>
 					<td class="msghead" nowrap="nowrap">
@@ -288,6 +300,12 @@ function meeting_addprotokoll($kategorie,$bezeichnung,$text,$DARF,$event_id,$mee
 global $PAGE;	
 	if($DARF['add'])
 	{
+		$kategorie = mysql_real_escape_string($kategorie);
+		$bezeichnung = mysql_real_escape_string($bezeichnung);
+		$text = mysql_real_escape_string($text);
+		$event_id = mysql_real_escape_string($event_id);
+		$meeting_id = mysql_real_escape_string($meeting_id);
+		$date = mysql_real_escape_string($date);
 		$insert= mysql_query("INSERT INTO `project_notizen` (id, event_id, bezeichnung, text, kategorie, date, last_work) VALUES (NULL, '".$event_id."', '".$bezeichnung."', '".nl2br($text)."', '".$kategorie."', '".$date."', '".$date."');");
 		$query = mysql_query("SELECT id FROM project_notizen WHERE bezeichnung = '".$bezeichnung."' AND kategorie = '".$kategorie."' ");
 		
@@ -301,6 +319,7 @@ global $PAGE;
 
 function meeting_showchangetext($id,$typ,$edit,$event_id){
   if($typ == 1){
+	  $id = mysql_real_escape_string($id);
     $query = mysql_query("SELECT geplant,datum FROM project_meeting_liste WHERE ID = $id LIMIT 1;");
     $output .=  '<form action="meetings_texte.php?typ='.$typ.'&id='.$id.'" method="POST">';
     $output .=  '<tr><td class="msghead" nowrap="nowrap"><b>Geplant am '.mysql_result($query,0,"datum").'</b></td></tr><tr><td  nowrap="nowrap"><textarea class="editbox" name="geplant" rows="10" cols="50">'.mysql_result($query,0,"geplant").'</textarea></td></tr>';
@@ -372,12 +391,19 @@ $output .= '
 }
 
 function meeting_updatetext($id,$typ,$post){
-  if($typ == 1) mysql_query("UPDATE project_meeting_liste SET geplant = '".$post["geplant"]."' WHERE ID = $id;");
-  if($typ == 2)	mysql_query("UPDATE project_meeting_liste SET protokoll = '".$post["protokoll"]."' WHERE ID = $id;");
+  $id = mysql_real_escape_string($id);
+  if($typ == 1){
+	  $post["geplant"] = mysql_real_escape_string($post["geplant"]);
+	  mysql_query("UPDATE project_meeting_liste SET geplant = '".$post["geplant"]."' WHERE ID = $id;");
+  }
+  if($typ == 2) {
+	  $post["protokoll"] = mysql_real_escape_string($post["protokoll"]);
+	  mysql_query("UPDATE project_meeting_liste SET protokoll = '".$post["protokoll"]."' WHERE ID = $id;");
 }
 
 // Meeting - Anwesenheit
 function anw_liste($id,$gewesen,$admin){
+	$id = mysql_real_escape_string($id);
 	$meeting = mysql_fetch_array(mysql_query("SELECT * FROM project_meeting_liste WHERE ID = $id"));
   $output .=  '<br>
 				<tr>
@@ -462,24 +488,37 @@ if($admin) $output .=  '<td class="msghead" nowrap="nowrap">
 }
 
 function anw_chg_wahr($wahr,$id,$user_id){
+	$wahr = mysql_real_escape_string($wahr);
+	$id = mysql_real_escape_string($id);
+	$user_id = mysql_real_escape_string($user_id);
   mysql_query("UPDATE project_meeting_anwesenheit SET wahrscheinlichkeit = ".$wahr." WHERE meeting_id = $id AND user_id = '".$user_id."' ");
 }
 
 function anw_del($id,$user_id){
+	$id = mysql_real_escape_string($id);
+	$user_id  = mysql_real_escape_string($user_id);
   mysql_query("UPDATE project_meeting_anwesenheit SET wahrscheinlichkeit = '0' WHERE meeting_id = $id AND user_id = $user_id ") or die(mysql_error());
 }
 
 function anw_add($wahr,$id,$user_id){
+	$wahr = mysql_real_escape_string($wahr);
+	$id = mysql_real_escape_string($id);
+	$user_id = mysql_real_escape_string($user_id);
   mysql_query("INSERT INTO project_meeting_anwesenheit SET meeting_id = $id, user_id = $user_id, wahrscheinlichkeit = $wahr ") or die(mysql_error());
 }
 
 function anw_chg_anw($id,$user_id,$anw){
+	$id = mysql_real_escape_string($id);
+	$user_id = mysql_real_escape_string($user_id);
+	$anw = mysql_real_escape_string($anw);
   mysql_query("UPDATE project_meeting_anwesenheit SET anwesend = $anw WHERE meeting_id = $id AND user_id = $user_id ;");
 }
 
 
 function get_google_cal_link($typ,$id){
 global $global;
+
+	$id = mysql_real_escape_string($id);
 
   if($typ == "projekt"){
     $query = mysql_query("SELECT ad_level, name, location, DATE_FORMAT(von - INTERVAL 2 HOUR,'%Y%m%dT%H%i%sZ') AS von, DATE_FORMAT(bis - INTERVAL 1 HOUR,'%Y%m%dT%H%i%sZ') AS bis FROM projekte WHERE ID = '".$id."' LIMIT 1");
@@ -555,7 +594,7 @@ function email($post)
 				
 	if($post['user_groups'] == "all_orgas")	{ $orga_id =	mysql_query("SELECT * FROM user_orga WHERE display_team = '1' ");}
 	//if($post['user_groups'] == "all_orgas")	{ $orga_id =	mysql_query("SELECT * FROM user_orga WHERE id = '64' ");}
-	else{ 	$orga_id =	mysql_query("SELECT * FROM user_g2u WHERE group_id ='".$post['user_groups']."'");}
+	else{ $post["user_groups"] = mysql_real_escape_string($post["user_groups"]);	$orga_id =	mysql_query("SELECT * FROM user_g2u WHERE group_id ='".$post['user_groups']."'");}
 			
 						while($out_orga_id = mysql_fetch_array($orga_id))
 						{
