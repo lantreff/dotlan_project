@@ -390,9 +390,22 @@ function anw_liste($id,$gewesen,$admin){
 				<tr>
 					<td colspan="6" align="center">
 						<b>
-							<h3>
-								'.$meeting['titel'].'
-							</h3>
+							
+							<table>
+								<tr>
+									<td width="50" >Was:</td>
+									<td><h3>'.$meeting['titel'].'</h3></td>
+								</tr>
+								<tr>
+									<td>Wann: </td>
+									<td><h3>'. time2german($meeting['datum']).' Uhr</h3></td>
+								</tr>
+								<tr>
+									<td>Wo:</td>
+									<td><h3>'.$meeting['location'].'</h3></td>
+								</tr>
+							</table>
+							
 						</b>
 					</td>
 				</tr>
@@ -469,21 +482,52 @@ if($admin) $output .=  '<td class="msghead" nowrap="nowrap">
 }
 
 function anw_chg_wahr($wahr,$id,$user_id){
+global $PAGE;
+
   mysql_query("UPDATE project_meeting_anwesenheit SET wahrscheinlichkeit = ".$wahr." WHERE meeting_id = $id AND user_id = '".$user_id."' ");
+  $PAGE->redirect("{BASEDIR}admin/projekt/meeting/meetings_anwesenheitsliste.php?id=".$id,$PAGE->sitetitle,"Die Wahrscheinlichkeit wurde auf ".$wahr."% ge&auml;ndert");
+
 }
 
 function anw_del($id,$user_id){
+global $PAGE;
   mysql_query("UPDATE project_meeting_anwesenheit SET wahrscheinlichkeit = '0' WHERE meeting_id = $id AND user_id = $user_id ") or die(mysql_error());
+  $PAGE->redirect("{BASEDIR}admin/projekt/meeting/meetings_anwesenheitsliste.php?id=".$id,$PAGE->sitetitle,"Die Wahrscheinlichkeit ge&auml;ndert");
 }
 
 function anw_add($wahr,$id,$user_id){
-  mysql_query("INSERT INTO project_meeting_anwesenheit SET meeting_id = $id, user_id = $user_id, wahrscheinlichkeit = $wahr ") or die(mysql_error());
+global $PAGE;
+
+	$anwenend = check_user_anw($id,$user_id);
+	if($anwenend == "OK")
+	{
+		mysql_query("INSERT INTO project_meeting_anwesenheit SET meeting_id = $id, user_id = $user_id, wahrscheinlichkeit = $wahr ") or die(mysql_error());
+		$PAGE->redirect("{BASEDIR}admin/projekt/meeting/meetings_anwesenheitsliste.php?id=".$id,$PAGE->sitetitle,"Die Wahrscheinlichkeit wurde mit ".$wahr."% eingetragen");
+	}
+	else
+	{
+		$PAGE->redirect("{BASEDIR}admin/projekt/meeting/meetings_anwesenheitsliste.php?id=".$id,$PAGE->sitetitle,"Du bist bereits eingetragen!");
+	}
 }
 
 function anw_chg_anw($id,$user_id,$anw){
-  mysql_query("UPDATE project_meeting_anwesenheit SET anwesend = $anw WHERE meeting_id = $id AND user_id = $user_id ;");
-}
+global $PAGE;
 
+  mysql_query("UPDATE project_meeting_anwesenheit SET anwesend = $anw WHERE meeting_id = $id AND user_id = $user_id ;");
+  $PAGE->redirect("{BASEDIR}admin/projekt/meeting/meetings_anwesenheitsliste.php?id=".$id,$PAGE->sitetitle,"Die Anwesenheit ge&auml;ndert");
+}
+function check_user_anw($id,$user_id){
+	$query = mysql_query("SELECT * FROM  `project_meeting_anwesenheit` WHERE  `meeting_id` =$id AND user_id = $user_id  ; ") or die(mysql_error());
+	
+	if(mysql_fetch_array($query) != 0){
+		
+		return "NOK";
+	}
+	else{
+		
+		return "OK";
+	}
+}
 
 function get_google_cal_link($typ,$id){
 global $global;
