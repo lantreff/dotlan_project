@@ -388,96 +388,116 @@ function anw_liste($id,$gewesen,$admin){
 	$meeting = mysql_fetch_array(mysql_query("SELECT * FROM project_meeting_liste WHERE ID = $id"));
   $output .=  '<br>
 				<tr>
-					<td colspan="6" align="center">
-						<b>
-							
-							<table>
-								<tr>
-									<td width="50" >Was:</td>
-									<td><h3>'.$meeting['titel'].'</h3></td>
-								</tr>
-								<tr>
-									<td>Wann: </td>
-									<td><h3>'. time2german($meeting['datum']).' Uhr</h3></td>
-								</tr>
-								<tr>
-									<td>Wo:</td>
-									<td><h3>'.$meeting['location'].'</h3></td>
-								</tr>
-							</table>
-							
-						</b>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td class="msghead" nowrap="nowrap">
-						<b>Nick</b>
-					</td>
-					<td class="msghead" nowrap="nowrap">
-						<b>Vorname</b>
-					</td>
-					<td class="msghead" nowrap="nowrap">
-						<b>Nachname</b>
-					</td>
-					<td class="msghead" nowrap="nowrap">
-						<b>Wahrscheinlichkeit</b>
-					</td>';
-  if($gewesen == 1){
-    $output .=  '<td class="msghead" nowrap="nowrap">
-					<b>war anwesend</b>
-				</td>';
-if($admin) $output .=  '<td class="msghead" nowrap="nowrap">
-					<b>Action</b>
-				</td>';
-  }
-  $output .=  "</tr>";
-  $query = mysql_query("SELECT * FROM project_meeting_anwesenheit WHERE meeting_id = $id ORDER BY wahrscheinlichkeit DESC;");
-  while($row = mysql_fetch_array($query)){
-    $query2 = mysql_query("SELECT * FROM user WHERE id = ".$row["user_id"]." LIMIT 1;");
-	$style ='';
-		if($row["wahrscheinlichkeit"] == 100) $style =' background-color:GREEN;"';
-		if($row["wahrscheinlichkeit"] <  100) $style =' background-color:orange;"';
-		if($row["wahrscheinlichkeit"] == 0  ) $style =' background-color:RED;"';
-
-    $output .=  '<tr class="msgrow'.(($i%2)?1:2).'" >
 					<td>
-						'.show_avatar(mysql_result($query2,0,"id"),"20").'
-					</td>
-					<td  nowrap="nowrap">
-						'.mysql_result($query2,0,"nick").'
-					</td>
-					<td  nowrap="nowrap">
-						'.mysql_result($query2,0,"vorname").'
-					</td>
-					<td  nowrap="nowrap">
-						'.mysql_result($query2,0,"nachname").'
+						<table class="maincontent">
+							<tr>
+								<td colspan="6" align="center">
+									<b>
+								
+								<table>
+									<tr>
+										<td width="50" >Was:</td>
+										<td><h3>'.$meeting['titel'].'</h3></td>
+									</tr>
+									<tr>
+										<td>Wann: </td>
+										<td><h3>'. time2german($meeting['datum']).' Uhr</h3></td>
+									</tr>
+									<tr>
+										<td>Wo:</td>
+										<td><h3>'.$meeting['location'].'</h3></td>
+									</tr>
+								</table>
+								
+							</b>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td class="msghead" nowrap="nowrap">
+							<b>Nick</b>
+						</td>
+						<td class="msghead" nowrap="nowrap">
+							<b>Vorname</b>
+						</td>
+						<td class="msghead" nowrap="nowrap">
+							<b>Nachname</b>
+						</td>
+						<td class="msghead" nowrap="nowrap">
+							<b>Wahrscheinlichkeit</b>
+						</td>
+						';
+	  if($gewesen == 1){
+		$output .=  '<td class="msghead" nowrap="nowrap">
+						<b>war anwesend</b>
 					</td>';
-					
-					
-	$output .=  '	<td  nowrap="nowrap" style="text-align:center; '.$style.'">';
-	$output .=  		$row["wahrscheinlichkeit"].'%';
-	$output .=  '	</td>';
-	
-    if($gewesen == 1){
-      $output .=  '<td  nowrap="nowrap" style="text-align:center;">';
-					  if($row["anwesend"] == 0) $output .=  'k/A';
-					  elseif($row["anwesend"] == 1) $output .=  'ja';
-					  elseif($row["anwesend"] == 2) $output .=  'nein';
-      $output .=  '</td>';
+	if($admin) $output .=  '<td class="msghead" nowrap="nowrap">
+						<b>Action</b>
+					</td>';
+	  }
+	  $output .=  '<td class="msghead" nowrap="nowrap" width="250">
+							<b>geplant</b>
+						</td>
+	  </tr>';
+	  
+	  $query = mysql_query("SELECT * FROM project_meeting_anwesenheit WHERE meeting_id = $id ORDER BY wahrscheinlichkeit DESC;");
+	  $count_rows = mysql_num_rows($query);
+	  $i = 1;
+	  while($row = mysql_fetch_array($query)){
+		$query2 = mysql_query("SELECT * FROM user WHERE id = ".$row["user_id"]." LIMIT 1;");
+		$style ='';
+			if($row["wahrscheinlichkeit"] == 100) $style =' background-color:GREEN;"';
+			if($row["wahrscheinlichkeit"] <  100) $style =' background-color:orange;"';
+			if($row["wahrscheinlichkeit"] == 0  ) $style =' background-color:RED;"';
 
-		 if($admin){
-			$output .=  '<td nowrap="nowrap">
-							<a href="meetings_anwesenheitsliste.php?id='.$id.'&action=anw&user_id='.$row["user_id"].'">anwesend</a>
-							|
-							<a href="meetings_anwesenheitsliste.php?id='.$id.'&action=abw&user_id='.$row["user_id"].'">abwesend</a>
+		$output .=  '<tr class="msgrow'.(($i%2)?1:2).'" >
+						<td>
+							'.show_avatar(mysql_result($query2,0,"id"),"20").'
+						</td>
+						<td  nowrap="nowrap">
+							'.mysql_result($query2,0,"nick").'
+						</td>
+						<td  nowrap="nowrap">
+							'.mysql_result($query2,0,"vorname").'
+						</td>
+						<td  nowrap="nowrap">
+							'.mysql_result($query2,0,"nachname").'
 						</td>';
-		}
+						
+						
+		$output .=  '	<td  nowrap="nowrap" style="text-align:center; '.$style.'">';
+		$output .=  		$row["wahrscheinlichkeit"].'%';
+		$output .=  '	</td>';
+		
+		if($gewesen == 1){
+		  $output .=  '<td  nowrap="nowrap" style="text-align:center;">';
+						  if($row["anwesend"] == 0) $output .=  'k/A';
+						  elseif($row["anwesend"] == 1) $output .=  'ja';
+						  elseif($row["anwesend"] == 2) $output .=  'nein';
+		  $output .=  '</td>';
 
-    }
-    $output .=  '</tr>';
+			 if($admin){
+				$output .=  '<td nowrap="nowrap">
+								<a href="meetings_anwesenheitsliste.php?id='.$id.'&action=anw&user_id='.$row["user_id"].'">anwesend</a>
+								|
+								<a href="meetings_anwesenheitsliste.php?id='.$id.'&action=abw&user_id='.$row["user_id"].'">abwesend</a>
+							</td>';
+			}
+
+		}
+		if($i == 1){
+			$output .=  '
+				<td valign="top" rowspan="'.$count_rows.'" >						
+					'.$meeting['geplant'].'
+				</td>';
+		}
+		
+		$output .=  '</tr>
+				';
 	$i++;
   }
+  $output .='';
+				
   return $output;
 }
 

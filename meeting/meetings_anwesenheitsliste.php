@@ -53,7 +53,7 @@ $output .='
 ';
 }else $gewesen = 1;
  $output .='
-<table class="maincontent">
+<table class="maincontent" width="650">
 '.$meldung.'
 	'.anw_liste($_GET["id"],$gewesen,$DARF['edit']).'
  </table>
