@@ -11,8 +11,6 @@ include_once("../../../global.php");
 include("../functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Leihsystem");
-//$EVENT->getevent($event_id);
-$event_id = $EVENT->next;
 
 //$data = $DB->query_first("SELECT * FROM user WHERE id = '".$user_id."'  LIMIT 1");
 $leihID 	= $_GET['leihID'];
