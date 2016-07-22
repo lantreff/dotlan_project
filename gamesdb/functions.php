@@ -13,7 +13,7 @@ function out_game_stats()
 				 `project_gamesdb_user2game` u
 				ON g.id = u.game_id
 			GROUP BY g.id
-			ORDER BY stimmen DESC;";
+			ORDER BY g.name ASC;";
 	$out =  mysql_query($sql);
 	return $out;
 }
@@ -222,7 +222,7 @@ $output .= '<table cellpadding="5" cellspacing="0" border="0" width="100%">
 						<td class="msghead3" width="15%">
 						Name
 						</td>
-						<td class="msghead3" width="75%">
+						<td class="msghead3" width="580">
 						Beschreibung
 						</td>
 						';
@@ -459,7 +459,7 @@ function list_single_game_stats($id,$event_id,$user_id)
 						'.nl2br($game['beschreibung']).'
 					</td>
 				</tr>';
-				if(check_user_games($game['id'],$user_id,$event_id))				
+				if(check_user_games($game['id'],$user_id,$event_id) && check_user_angemeldet($user_id,$event_id))				
 				{
 $output .= '				
 				<tr>
@@ -471,7 +471,7 @@ $output .= '
 					</td>					
 				</tr>';
 				}
-				else				
+				elseif(!check_user_games($game['id'],$user_id,$event_id))				
 				{
 $output .= '				
 				<tr>
@@ -482,6 +482,7 @@ $output .= '
 					</td>					
 				</tr>';
 				}
+				else{}
 $output .= '				
 				<tr>
 					<td colspan="2">
@@ -568,6 +569,23 @@ function check_user_games($game_id,$user_id,$event_id)
 	else
 	{
 		return FALSE;
+	}
+	
+}
+
+function check_user_angemeldet($user_id,$event_id)
+{
+	$sql = "SELECT * FROM `event_teilnehmer` WHERE user_id = ".$user_id." AND event_id = ".$event_id."";
+	$out =  mysql_query($sql);
+	
+	if(mysql_num_rows($out) == 0)
+	{
+		return FALSE;
+		
+	}
+	else
+	{
+		return TRUE;
 	}
 	
 }
