@@ -813,7 +813,7 @@ if($_GET['action'] == 'show')
 								</a>
 							</td>
 							<td width='200' class='shortbarbit'>
-							<form name='".$_GET['action']."lagerort' action='index.php?hide=1&hide1=1&action=lagerort&do=print_lager' method='POST'> 
+							<form name='".$_GET['action']."lagerort' action='index.php?hide=1&hide1=1&action=lagerort&do=print_lager' target='_NEW' method='POST'> 
 								Lagerort mit Bezeichnung
 								<input name='lager' value='' size='10' type='text' maxlength='50'>
 								  in l&auml;nge
