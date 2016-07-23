@@ -16,7 +16,7 @@ global $global;
 if(!$DARF["view"] ) $PAGE->error_die($HTML->gettemplate("error_nopermission"));
 else
 {// $module_admin_check
-$URL = "http://".$_SERVER["SERVER_NAME"].$global['project_path'];
+$URL = "http://".$_SERVER["SERVER_NAME"]."/admin/projekt/";
 //echo $URL;
 $wo = "";
 if(isset($_GET['id'])){ 		$wo = " WHERE  id 		= '".$_GET['id']."' 		";}
@@ -35,9 +35,9 @@ else
 }
 if(isset($_GET['bezeichnung'])){ $sql = mysql_query("SELECT * FROM `project_equipment_lagerort` WHERE bezeichnung 	LIKE  '%".$_GET['bezeichnung']."%' ");} 
 
-if( ($_GET['size'] == 12 && $_GET['length'] == 60) ){
+if( ($_GET['size'] == 12 && $_GET['length']) ){
 	
-	$pdf= new FPDF('P','mm',array(60,12));
+	$pdf= new FPDF('P','mm',array($_GET['length'],12));
 }
 elseif($_GET['size'] == 12)
 {
@@ -103,7 +103,7 @@ $name = $out_equip ['bezeichnung'];
 		
 			if(!$out_equip['lagerort']){
 				$pdf->SetFont('Arial','B',5);
-				$pdf->text(4,10,"BehÃ¤lter");
+				$pdf->text(4,10,"Behälter");
 				$pdf->SetFont('Arial','',8);
 				$pdf->text(4,13,$kiste['bezeichnung']);
 			}
