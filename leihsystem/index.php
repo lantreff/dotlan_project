@@ -12,8 +12,39 @@ include("../functions.php");
 include("functions.php");
 
 $PAGE->sitetitle = $PAGE->htmltitle = _("Leihsystem");
+<<<<<<< HEAD
 /*
 if (isset($_POST['user_id']))
+=======
+
+//$data = $DB->query_first("SELECT * FROM user WHERE id = '".$user_id."'  LIMIT 1");
+$leihID 	= $_GET['leihID'];
+$id_leihe 	= $_POST['id_leihe'];
+// <daten des Gesuchten Users>
+	$u_id 		= security_number_int_input($_POST['team'],"","");
+	$nick  		= security_string_input($_POST['nick']);
+	$vorname  	= security_string_input($_POST['vorname']);
+	$nachname  	= security_string_input($_POST['nachname']);
+	$strasse  	= security_string_input($_POST['strasse']);
+	$plz  		= security_number_int_input($_POST['plz'],"","");
+	$ort  		= security_string_input($_POST['ort']);
+	$geb  		= security_number_int_input($_POST['geb'],"","");
+	$personr  	= security_number_int_input($_POST['personr'],"","");
+//</daten des gesuchten Users>
+$v_id 			= security_number_int_input($_POST['v_id'],"","");
+$besitzer 		= security_string_input($_POST['besitzer']);
+$id 			= security_number_int_input($_GET['id'],"","");
+$bezeichnung 	= security_string_input($_POST['bezeichnung']);
+$id_v_user		= security_number_int_input($_GET['v_id_user'],"","");
+$kat			= security_string_input($_POST['kategorie']);
+$kat1			= security_string_input($_POST['kategorie1']);
+$iCount = 0;
+
+
+$rueck_a_ids 	= $_POST["rueck_a_ids"];
+$rueck_g_ids	= $_POST["rueck_g_ids"];
+if($_POST['kategorie'] == 1)
+>>>>>>> refs/remotes/origin/master
 {
 $user_id = $_POST['user_id'];
 }
