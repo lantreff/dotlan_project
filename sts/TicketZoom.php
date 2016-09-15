@@ -743,7 +743,19 @@ $output .=
 						<!--start CustomerRow-->
 						  <tr>
 							<td>IP:</td>
-							<td class='contentvalue'><div title='".$out_ticket_zoom['ip']."'>".$out_ticket_zoom['ip']."</div>
+							<td class='contentvalue'>
+							";
+								$length = strlen($out_ticket_zoom['ip']);
+								if( $length > 15)
+								{
+								$output .="<div title='".$out_ticket_zoom['ip']."'>IPv6</div>";
+								}
+								else
+								{
+								$output .="<div title='".$out_ticket_zoom['ip']."'>IPv4</div>";
+								}
+								
+					$output .="
 							</td>
 						  </tr>
 						<!--stop CustomerRow -->
