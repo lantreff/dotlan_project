@@ -30,7 +30,12 @@ function list_user_games($user_id,$event_id)
 	$out =  mysql_query($sql);
 	return $out;
 }
-
+function list_user_duration($user_id,$game_id,$event_id)
+{
+	$sql = "SELECT * FROM `project_gamesdb_user2game` AS u2g WHERE u2g.event_id = ".$event_id." AND u2g.user_id = ".$user_id." AND u2g.game_id = '".$game_id."'; ";
+	$out =  mysql_fetch_array(mysql_query($sql));
+	return $out;
+}
 function list_images($image)
 {
 global  $global;
@@ -183,12 +188,48 @@ global $PAGE;
 	//{	
 	 if($anwesend)
 		{
+			if($_GET['action'] <> "add_duration")
+			{
 			$all_ids = $_POST['game_id'];
 			foreach($all_ids as $game_id)
 			{
 				$sql		= "INSERT INTO `project_gamesdb_user2game` (`id`, `user_id`, `game_id`, `event_id`) VALUES (NULL, '".$user_id."', '".$game_id."', '".$event_id."')";
 				$insert = mysql_query($sql);
 			}
+			}
+			else{
+				$game_id	= $DATA['game_id'];
+				$sql		= "INSERT INTO `project_gamesdb_user2game` (`id`, `user_id`, `game_id`, `event_id`) VALUES (NULL, '".$user_id."', '".$game_id."', '".$event_id."')";
+				$insert = mysql_query($sql);
+			}
+			//$sql		= "INSERT INTO `project_gamesdb_user2game` (`id`, `user_id`, `game_id`, `event_id`) VALUES (NULL, '".$user_id."', '".$id."', '".$event_id."')";
+			//$insert = mysql_query($sql);
+		}
+		else
+		{
+			$PAGE->error_die(html::template("error_nicht_auf_bezahlt"));
+		}
+	//}
+	//else
+	//{
+//		$PAGE->error_die(html::template("error_game_bereits_gewaehlt"));
+//	}
+}
+function add_gesuche_2_user($DATA,$user_id,$event_id)
+{
+global $PAGE;	
+	 $anwesend 				= check_user_bezahlt($user_id,$event_id);
+	// $game_bereits_gewaehlt = check_user_set_game($DATA);
+	 // error_game_bereits_gewaehlt
+	
+	//if($game_bereits_gewaehlt)
+	//{	
+	 if($anwesend)
+		{
+			$sql	= "UPDATE  `project_gamesdb_user2game` SET `add_time` = '".$DATA['add_time']."' WHERE  `game_id` ='".$DATA['game_id']."' AND user_id = '".$user_id."'  AND event_id = '".$event_id."';";
+			//	"INSERT INTO `project_gamesdb_user2game` (`id`, `user_id`, `game_id`, `event_id`) VALUES (NULL, '".$user_id."', '".$game_id."', '".$event_id."')";
+			$insert = mysql_query($sql);
+			
 			//$id			= $DATA['game_id'];
 			//$sql		= "INSERT INTO `project_gamesdb_user2game` (`id`, `user_id`, `game_id`, `event_id`) VALUES (NULL, '".$user_id."', '".$id."', '".$event_id."')";
 			//$insert = mysql_query($sql);
@@ -208,6 +249,24 @@ function count_game($id,$event_id)
 	// SELECT COUNT(user_id) AS count FROM project_gamesdb_user2game WHERE game_id = ".$id." AND event_id = ".$event_id."
 	$out = mysql_fetch_array(mysql_query(" SELECT COUNT(g.user_id) AS count FROM project_gamesdb_user2game  AS g  LEFT JOIN event_teilnehmer AS t ON g.user_id = t.user_id WHERE ( g.game_id = ".$id." AND g.event_id = ".$event_id." ) AND t.zahl_typ > 1 AND t.event_id = ".$event_id." "));
 	return $out['count'];
+}
+
+function count_suche($id,$event_id)
+{	
+	global $datum;
+	// SELECT COUNT(g.user_id) AS count FROM project_gamesdb_user2game  AS g  LEFT JOIN event_teilnehmer AS t ON g.user_id = t.user_id WHERE ( g.game_id = 2 AND g.event_id = 9 ) AND t.zahl_typ > 1 AND t.event_id = 9
+	// SELECT COUNT(user_id) AS count FROM project_gamesdb_user2game WHERE game_id = ".$id." AND event_id = ".$event_id."
+	$query = mysql_query("SELECT g.* FROM project_gamesdb_user2game AS g  WHERE  g.game_id = '".$id."' AND g.event_id = '".$event_id."' AND g.add_time <> '0000-00-00 00:00:00';");
+	$count_user = 0;
+	while($out_duration_validate =  mysql_fetch_array($query))
+	{
+		$test .= "<br>".date($out_duration_validate['add_time'])." ".date($datum);
+		
+		if( date($out_duration_validate['add_time']) > date($datum)) {
+			$count_user ++;
+		}
+	}
+	return $count_user;	
 }
 
 function out_table($SQL,$DARF,$GET,$user,$event_id)
@@ -394,42 +453,79 @@ function out_form($id,$ACTION)
 	
 	return $output;
 }
-
 function list_game_stats($event_id)
 {
-	global $styles, $global;
+	global $styles, $global, $datum, $user_id;
 	$style = $global['defaultstyle'];
 	$sql = out_game_stats();
 	//$sql = list_games();
-
 	$output .='<table cellpadding="6" cellspacing="1" border="0" width="100%" class="msg">
 				<tr>
-					<td class="msghead3" width="100%">Game</td>
-					<td class="msghead3">Stimmen</td>
+					<td class="msghead3" width="60%">Game</td>
+					';
+	$output .='		<td class="msghead3">Spielersuche eintragen</td>';
+	$output .='		<td class="msghead3">User auf Spielersuche</td>
+					<td class="msghead3">User haben Interesse</td>
 				</tr>	
 	';
 
 	while($out_data = mysql_fetch_array($sql)){
-		$out 		= list_single_game($out_data['id']);
-		$count_game = count_game($out_data['id'],$event_id);
-		
-		$output .= '<tr ';
+		$out 				= list_single_game($out_data['id']);
+		$count_game 		= count_game($out_data['id'],$event_id);
+		$count_suche 		= count_suche($out_data['id'],$event_id);
+		$out_user_duration 	= list_user_duration($user_id,$out_data['id'],$event_id);
+		if($count_game > 0)
+		{
+		$output .= '<tr  class="msgrow'.(($i%2)?1:2).'"" 
+		';
+			$output .= ' onmouseover="this.style.background=\''.$styles[$style]['msg_over'].'\'; this.style.cursor=\'pointer\';" ';
+			$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" >';
+			
+			$output .= '<td class="gemesdb" ';
 		$output .= ' onclick=" document.location = \'?hide=1&action=show&id='.$out['id'].' \' ";  
 					';
-			$output .= ' onmouseover="this.style.background=\''.$styles[$style]['msg_over'].'\'; this.style.cursor=\'pointer\';" ';
-			$output .= ' onmouseout="this.style.background=\''.$farbe.'\'" ';
-			$output .= ' title="Game anzeigen" class="msgrow'.(($i%2)?1:2).'"">';
-			
-			$output .= '<td class="gemesdb" >
-							'.$out['name'].'
+			$output .= ' title="Game anzeigen" >';
+			$output .= 		$out['name'].'
 							<span align="right">
 								<img align="right" src="../images/turnier_logo/'.$out['bild'].'"/>
 							</span>						
 						</td>
+						<td >';
+						if(date($out_user_duration['add_time']) > date($datum))
+						{
+							$startzeit = strtotime(date($datum));
+							$endzeit = strtotime($out_user_duration['add_time']);
+							 $dauerInMinuten = round(($endzeit - $startzeit)/60 );
+			$output .= 'Du bist noch '.$dauerInMinuten.' Minuten in der Suche!';
+						}
+						else{
+			$output .= '	<form name="add-duration" action="?hide=1&action=add_duration&comand=senden" method="POST" >
+								<select name="add_time">
+									<option value="0">Bitte dauer der Suche w&auml;hlen</option>
+									<option value="'.date("Y-m-d H:i:s", strtotime($date . "+30 minutes")).'">30 Min</option>
+									<option value="'.date("Y-m-d H:i:s", strtotime($date . "+60 minutes")).'">60 Min</option>
+									<option value="'.date("Y-m-d H:i:s", strtotime($date . "+120 minutes")).'">120 Min</option>
+								</select>
+								<input name="game_id" value="'.$out['id'].'" type="hidden">
+								<input name="senden" value="Suche eintragen" type="submit">
+							</form>
+						</td>';
+						}
+			$output .= '<td>';
+						if(	$count_suche > 0)
+						{
+			$output .= '<b>'.$count_suche.'</b>';
+						}
+						else
+						{
+			$output .= ''.$count_suche.'';
+						}
+			$output .= '</td>
 						<td >'.$count_game.'</td>
 					</tr>
 				';//$out_data['stimmen']
-	$i++;
+		$i++;
+		}
 	}
 	$output .= '</table>';
 	return $output;
@@ -459,7 +555,7 @@ function list_single_game_stats($id,$event_id,$user_id)
 						'.nl2br($game['beschreibung']).'
 					</td>
 				</tr>';
-				if(check_user_games($game['id'],$user_id,$event_id) && check_user_angemeldet($user_id,$event_id))				
+				if(check_user_games($game['id'],$user_id,$event_id) && check_user_angemeldet($user_id,$event_id) && $_GET['action'] != "show_beamer")				
 				{
 $output .= '				
 				<tr>
@@ -471,7 +567,7 @@ $output .= '
 					</td>					
 				</tr>';
 				}
-				elseif(!check_user_games($game['id'],$user_id,$event_id))				
+				elseif(!check_user_games($game['id'],$user_id,$event_id) && $_GET['action'] != "show_beamer")				
 				{
 $output .= '				
 				<tr>
@@ -540,22 +636,6 @@ $output .= '
 	$output .= '</table>';
 	return $output;	
 }
-function check_user_bezahlt($id,$event_id)
-{
-	$sql = "SELECT * FROM `event_teilnehmer` WHERE user_id = ".$id." AND event_id = ".$event_id."";
-	$out =  mysql_fetch_array( mysql_query($sql) );
-	
-	if($out['bezahlt'] == 1 || admin::check(IS_ADMIN))
-	{
-		return TRUE;
-		
-	}
-	else
-	{
-		return FALSE;
-	}
-	
-}
 function check_user_games($game_id,$user_id,$event_id)
 {
 	$sql = "SELECT * FROM `project_gamesdb_user2game` WHERE user_id = ".$user_id." AND game_id = ".$game_id." AND event_id = ".$event_id."";
@@ -569,23 +649,6 @@ function check_user_games($game_id,$user_id,$event_id)
 	else
 	{
 		return FALSE;
-	}
-	
-}
-
-function check_user_angemeldet($user_id,$event_id)
-{
-	$sql = "SELECT * FROM `event_teilnehmer` WHERE user_id = ".$user_id." AND event_id = ".$event_id."";
-	$out =  mysql_query($sql);
-	
-	if(mysql_num_rows($out) == 0)
-	{
-		return FALSE;
-		
-	}
-	else
-	{
-		return TRUE;
 	}
 	
 }

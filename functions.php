@@ -482,9 +482,43 @@ return $ausgabe;
 
 
 // BOXEN LEFT / RIGHT AUSBLENDEN !!!!!
-$output .="
-<style type='text/css'> #content_left { display:none } #content_right { display:none } </style>
-";
+$output .=" <style type='text/css'> #content_left { display:none } #content_right { display:none } </style>";
 // BOXEN LEFT / RIGHT AUSBLENDEN !!!!!
 
+########################################################################################################################
+## Eventbezogene Abfragen ##
+
+function check_user_bezahlt($id,$event_id)
+{
+	$sql = "SELECT * FROM `event_teilnehmer` WHERE user_id = ".$id." AND event_id = ".$event_id."";
+	$out =  mysql_fetch_array( mysql_query($sql) );
+	
+	if($out['bezahlt'] == 1 || admin::check(IS_ADMIN))
+	{
+		return TRUE;
+		
+	}
+	else
+	{
+		return FALSE;
+	}
+	
+}
+function check_user_angemeldet($user_id,$event_id)
+{
+	$sql = "SELECT * FROM `event_teilnehmer` WHERE user_id = ".$user_id." AND event_id = ".$event_id."";
+	$out =  mysql_query($sql);
+	
+	if(mysql_num_rows($out) == 0)
+	{
+		return FALSE;
+		
+	}
+	else
+	{
+		return TRUE;
+	}
+	
+}
+########################################################################################################################
 ?>
