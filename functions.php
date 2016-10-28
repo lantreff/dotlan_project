@@ -1,4 +1,7 @@
 <?php
+// my autoloader
+require_once 'lib/class.autoload.php';
+
 global $DB, $CURRENT_USER, $global, $styles;
 $style = $global['defaultstyle'];
 
