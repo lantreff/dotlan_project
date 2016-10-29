@@ -56,6 +56,22 @@ myApp.controller('MenuListCaption',function($scope,$http){
         $scope.lists = daten;
     });
 
+    $scope.infoboxs = function(number) {
+      switch(number) {
+          case 1:
+              $scope.infobox = "Wird angezeigt wenn ein Session excistiert. Ist in der Regel der Fall";
+              break;
+          case 2:
+              $scope.infobox = "Wird angezeigt wenn man als User auf der Website registriert ist";
+              break;
+          case 3:
+              $scope.infobox = "Menu eintrag wird nur angezeigt wenn man Admin ist";
+              break;
+          default:
+              $scope.infobox = "";
+
+      }
+    };
     $scope.isChecked = function(item){
         if(item == 0)
             return false;

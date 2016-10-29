@@ -15,15 +15,15 @@
         <dnd-nodrag>
             <div dnd-handle class="handle">:::</div>
             <div class="name">
-                <input type="text" ng-model="eintrag.name" class="form-control">
+                <input type="text" size="10" ng-model="eintrag.name" class="form-control">
                 <input type="hidden" ng-model="eintrag.dbid" class="form-control">
-                <input type="checkbox" ng-model="eintrag.param1"  ng-change="changeBox(eintrag.param1)" ng-checked="isChecked(eintrag.param1)" class="form-control">
-                <input type="checkbox" ng-model="eintrag.param2" ng-checked="isChecked(eintrag.param2)" class="form-control">
-                <input type="checkbox" ng-model="eintrag.param3" ng-checked="isChecked(eintrag.param3)" class="form-control">
+                <input ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(1)" type="checkbox" ng-model="eintrag.param1" ng-change="changeBox(eintrag.param1)" ng-checked="isChecked(eintrag.param1)" class="form-control">
+                <input ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(2)" type="checkbox" ng-model="eintrag.param2" ng-checked="isChecked(eintrag.param2)" class="form-control">
+                <input ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(3)" type="checkbox" ng-model="eintrag.param3" ng-checked="isChecked(eintrag.param3)" class="form-control">
             </div>
         </dnd-nodrag>
     </li>
     <li class="dndPlaceholder">
-        Drop any items here
+        Packe hier hin
     </li>
 </ul>
