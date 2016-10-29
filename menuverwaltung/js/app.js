@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created by damia on 27.10.2016.
  */
 var myApp = angular.module('menuVerwaltung',['dndLists','ngCookies','ngRoute']);
@@ -50,10 +50,15 @@ myApp.controller('MenuListCaption',function($scope,$http){
 
     $http({
         method: 'GET',
-        url: 'http://localhost/admin/projekt/menuverwaltung/backend/main.php'
+        url: 'http://localhost/admin/projekt/menuverwaltung/backend/main.php',
+        headers: {
+            'Accept' : 'application/json; charset=UTF-8',
+            'Accept-Charset' : 'charset=utf-8'
+        }
     }).then(function(response) {
         var daten = response.data;
         $scope.lists = daten;
+        console.log(daten);
     });
 
     $scope.infoboxs = function(number) {

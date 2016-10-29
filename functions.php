@@ -2,6 +2,13 @@
 // my autoloader
 require_once 'lib/class.autoload.php';
 
+// boolval wrapper
+if(!function_exists('boolval')) {
+	function boolval($var) {
+		return (bool)$var;
+	}
+}
+
 global $DB, $CURRENT_USER, $global, $styles;
 $style = $global['defaultstyle'];
 

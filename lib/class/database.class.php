@@ -4,6 +4,7 @@ class DataBase {
 	private $user;
 	private $pass;
 	private $data;
+	private $charset;
 	
 	private $pdo = null;
 	public function __construct($host,$user,$pass,$data)
@@ -12,6 +13,7 @@ class DataBase {
 		$this->user = $user;
 		$this->pass = $pass;
 		$this->data = $data;
+		$this->charset = "utf8";
 		
 		$this->connectToServer();
 	}
@@ -20,7 +22,7 @@ class DataBase {
 	{
 		$dsn = sprintf('mysql:host=%s;dbname=%s',$this->host,$this->data);
 		try {
-			$this->pdo = new PDO($dsn,$this->user,$this->pass);
+			$this->pdo = new PDO($dsn,$this->user,$this->pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 		} 
 		catch(PDOException $ex)
 		{

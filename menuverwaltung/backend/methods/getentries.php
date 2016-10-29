@@ -1,4 +1,5 @@
 <?php
+mb_internal_encoding("utf-8");
 
 if(isset($_GET['menu']))
 {
@@ -30,6 +31,7 @@ else
 		{
 			
 			$titel = $nrow['titel'];
+			
 			$dbid  = $nrow['id'];
 			$param1 = boolval($nrow['param1']);
 			$param2 = boolval($nrow['param2']);
