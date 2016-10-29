@@ -1,4 +1,7 @@
 <div ng-controller="MenuListCaption">
+    <button ng-click="saveitems()" class="btn btn-primary">Speichern</button>
+    <pre>{{debug}}</pre>
+
     <div ng-repeat="list in lists" class="col-md-4">
         <div class="panel-heading">
             <h3 class="panel panel-info">List of {{list.label}}</h3>
@@ -7,7 +10,7 @@
     </div>
     <div class="row">
         <div class="panel-body">
-            <pre class="code">{{modelAsJson}}</pre>
+           <!-- <pre class="code">{{modelAsJson}}</pre>-->
         </div>
     </div>
 </div>

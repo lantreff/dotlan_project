@@ -1,5 +1,4 @@
 <?php
-$db = $datenbank->getPDO();
 
 if(isset($_GET['menu']))
 {
@@ -48,6 +47,3 @@ else
 	echo json_encode($returnarr);
 	
 }
-//print_r($d);
-
-//echo json_encode($d);

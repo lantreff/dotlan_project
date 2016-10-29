@@ -63,6 +63,32 @@ myApp.controller('MenuListCaption',function($scope,$http){
             return true;
     };
 
+    $scope.$watch('lists',function(lists) {
+        $scope.modelAsJson = angular.toJson(lists,true);
+    },true);
+
+
+    $scope.saveitems = function(lists) {
+        $http({
+            method: 'POST',
+            url: 'http://localhost/admin/projekt/menuverwaltung/backend/main.php?method=save',
+            data: {
+                user:$scope.lists
+                //lists
+            },
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).success(function(data) {
+            $scope.debug = data;
+        });
+      //$http.post('http://localhost/admin/projekt/menuverwaltung/backend/main.php?method=save',{user:$scope.lists}).success(
+         // function(data) {
+         //     $scope.debug = data
+         // }
+
+    };
+
     $scope.changeBox = function (item) {
         //console.log(item);
     };
@@ -90,9 +116,6 @@ myApp.controller('MenuListCaption',function($scope,$http){
 
    ];
     */
-    $scope.$watch('lists',function(lists) {
-        $scope.modelAsJson = angular.toJson(lists,true);
-    },true);
 
 
 });
