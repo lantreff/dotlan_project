@@ -1,7 +1,7 @@
 <div ng-controller="MenuListCaption">
     <button ng-click="saveitems()" class="btn btn-primary">Speichern</button>
-    <div>Infobox:{{infobox}}</div>
 
+    <div id="infobox">Infobox:{{infobox}}</div>
     <div>{{speicherung}}</div>
     <div ng-repeat="list in lists" class="col-md-4">
         <div class="panel-heading">
@@ -10,6 +10,7 @@
         <div class="panel-body" ng-include="'views/menus.html'"></div>
 
     </div>
+
     <div class="row">
         <div class="panel-body">
            <!-- <pre class="code">{{modelAsJson}}</pre>-->

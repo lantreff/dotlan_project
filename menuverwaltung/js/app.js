@@ -79,6 +79,7 @@ myApp.controller('MenuListCaption',function($scope,$http){
     });
 
     $scope.infoboxs = function(number) {
+
       switch(number) {
           case 1:
               $scope.infobox = "Wird angezeigt wenn ein Session excistiert. Ist in der Regel der Fall";
@@ -93,6 +94,16 @@ myApp.controller('MenuListCaption',function($scope,$http){
               $scope.infobox = "";
 
       }
+
+/*
+      var bodyRect = document.body.getBoundingClientRect();
+
+      var infobos = document.getElementById('box1');
+        var _rect = infobos.getBoundingClientRect();
+
+        var offset = _rect.top - bodyRect.top;
+        console.log(offset);
+*/
     };
     $scope.isChecked = function(item){
         if(item == 0)
