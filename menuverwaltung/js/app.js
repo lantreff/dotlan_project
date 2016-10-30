@@ -32,7 +32,7 @@ myApp.run(function ($rootScope,$timeout,$location,$http) {
 
         $http({
             method: 'GET',
-            url: 'http://localhost/admin/projekt/menuverwaltung/backend/main.php?method=checkright'
+            url: 'backend/main.php?method=checkright'
         }).then(function(response) {
             console.log(response.data);
             erlaubt = response.data.login;
@@ -67,7 +67,7 @@ myApp.controller('MenuListCaption',function($scope,$http){
 
     $http({
         method: 'GET',
-        url: 'http://localhost/admin/projekt/menuverwaltung/backend/main.php',
+        url: 'backend/main.php',
         headers: {
             'Accept' : 'application/json; charset=UTF-8',
             'Accept-Charset' : 'charset=utf-8'
@@ -120,7 +120,7 @@ myApp.controller('MenuListCaption',function($scope,$http){
     $scope.saveitems = function(lists) {
         $http({
             method: 'POST',
-            url: 'http://localhost/admin/projekt/menuverwaltung/backend/main.php?method=save',
+            url: 'backend/main.php?method=save',
             data: {
                 user:$scope.lists
                 //lists
