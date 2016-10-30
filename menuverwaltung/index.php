@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 // hier immer der in den Bereichen verwendete name angeben, damit das System wei�� um welches Modul es geht :-D
 $MODUL_NAME = "MenuVerwaltung";
 
