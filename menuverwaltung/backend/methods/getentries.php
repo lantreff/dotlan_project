@@ -1,5 +1,5 @@
 <?php
-mb_internal_encoding("utf-8");
+//mb_internal_encoding("utf-8");
 
 if(isset($_GET['menu']))
 {
@@ -37,7 +37,7 @@ else
 			$param2 = boolval($nrow['param2']);
 			$param3 = boolval($nrow['param3']);
 			$eintrag = array();
-			$eintrag['name'] = utf8_encode($titel);
+			$eintrag['name'] = $titel;
 			$eintrag['dbid'] = utf8_encode($dbid);
 			$eintrag['param1'] = $param1;
 			$eintrag['param2'] = $param2;

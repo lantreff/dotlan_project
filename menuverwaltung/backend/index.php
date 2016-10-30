@@ -1,12 +1,10 @@
 <?php
-error_reporting(5);
+include_once("../../../../global.php");
+require_once './../../functions.php';
 
-$array = json_decode($input,true);
-echo json_last_error_msg();
-$array = $array["user"];
 
-foreach($array as $eintrag)
-{
-	print_r($eintrag);
-	echo "<hr>";
-}
+$rechtemanagment = new rechtesystem($_SESSION);
+
+echo "<hr>";
+
+print_r($ADMIN);

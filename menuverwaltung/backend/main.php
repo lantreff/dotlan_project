@@ -1,6 +1,8 @@
 <?php
 //session_start();
 
+header('Content-Type: application/json;charset=utf-8');
+
 error_reporting(5);
 
 require_once './../../lib/class/database.class.php';
