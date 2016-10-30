@@ -530,5 +530,21 @@ function check_user_angemeldet($user_id,$event_id)
 	}
 	
 }
+function check_user_anwesend($id,$event_id)
+{
+	$sql = "SELECT * FROM `event_teilnehmer` WHERE user_id = ".$id." AND event_id = ".$event_id."";
+	$out =  mysql_fetch_array( mysql_query($sql) );
+
+	if($out['anwesend'] <> "0000-00-00 00:00:00" || admin::check(IS_ADMIN))
+	{
+		return TRUE;
+
+	}
+	else
+	{
+		return FALSE;
+	}
+
+}
 ########################################################################################################################
 ?>
