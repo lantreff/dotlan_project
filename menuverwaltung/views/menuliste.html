@@ -1,6 +1,8 @@
 <div ng-controller="MenuListCaption">
     <button ng-click="saveitems()" class="btn btn-primary">Speichern</button>
     <div>Infobox:{{infobox}}</div>
+
+    <div>{{speicherung}}</div>
     <div ng-repeat="list in lists" class="col-md-4">
         <div class="panel-heading">
             <h3 class="panel panel-info">Menueintrag {{list.label}}</h3>

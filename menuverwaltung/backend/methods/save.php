@@ -1,12 +1,10 @@
 <?php
 
-if(isset($_GET['method']))
+if((isset($_GET['method'])) && ($rechtemanagment->CheckRecht('menuverwaltung', 'save')))
 {
 	$array =  file_get_contents('php://input');
 	$array = json_decode($array,true);
 	$array = $array['user'];
-	
-	
 	
 	foreach($array as $menueintraege)
 	{
@@ -45,9 +43,14 @@ if(isset($_GET['method']))
 			$stmt->bindValue(':order_int', $counter);
 			$stmt->bindValue(':id', $dbid);
 			$stmt->execute();
-			
 		}
-		
 	}
-	
+	$action['erfolg'] = true;
+	$action['response'] = "Menu gespeichert";
 }
+else
+{
+	$action['erfolg'] = false;
+	$action['response'] = "Sie haben keine Berechtigung zum Speichern";	
+}
+echo json_encode($action);

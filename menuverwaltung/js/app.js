@@ -7,14 +7,14 @@ var myApp = angular.module('menuVerwaltung',['dndLists','ngCookies','ngRoute']);
 myApp.config(function($routeProvider) {
    $routeProvider
        .when('/', {
-          templateUrl: 'views/denied.html'
+          templateUrl: 'views/main.html'
        })
        .when('/menuliste', {
            templateUrl: 'views/menuliste.html',
            controller: 'MenuListCaption'
        })
        .when('/denied', {
-           templateUrl: 'views/denied.html',
+           templateUrl: 'views/denied.html'
        });
 });
 
@@ -32,16 +32,33 @@ myApp.run(function ($rootScope,$timeout,$location,$http) {
 
         $http({
             method: 'GET',
-            url: 'http://localhost/admin/projekt/menuverwaltung/backend/'
+            url: 'http://localhost/admin/projekt/menuverwaltung/backend/main.php?method=checkright'
+        }).then(function(response) {
+            console.log(response.data);
+            erlaubt = response.data.login;
+            console.log(erlaubt);
+
+            if(erlaubt) {
+                if(angular.isObject(current.$$route)) {
+                    if(current.$$route.orginalPath !== '/denied') {
+                        $location.path('/menuliste');
+                    }
+                }
+            }
+            else
+            {
+                $location.path('/denied');
+            }
         });
 
-        if(false) {
+
+       /* if(false) {
             if (angular.isObject(current.$$route)) {
                 if (current.$$route.orginalPath !== '/denied') {
                     $location.path('/denied');
                 }
             }
-        }
+        }*/
     });
 
 });
@@ -101,7 +118,15 @@ myApp.controller('MenuListCaption',function($scope,$http){
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).success(function(data) {
-            $scope.debug = data;
+            if(data.erfolg == true)
+            {
+                $scope.speicherung = data.response;
+            }
+            else
+            {
+                $scope.speicherung = data.response;
+            }
+
         });
       //$http.post('http://localhost/admin/projekt/menuverwaltung/backend/main.php?method=save',{user:$scope.lists}).success(
          // function(data) {

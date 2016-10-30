@@ -11,6 +11,8 @@ class rechtesystem {
 	{
 		$this->session = $session;
 		$this->pdo = $datenbankpdo;
+		
+
 
 		$this->getUserStruct();
 		$this->getProjectRechte();
@@ -48,7 +50,6 @@ class rechtesystem {
 			return false;
 		else 
 		{
-			//$tmp_array = $this->rechte[$method];
 			return array_key_exists($action, $this->rechte[$method]);
 		}
 		

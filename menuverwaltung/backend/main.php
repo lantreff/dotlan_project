@@ -15,6 +15,10 @@ $config = $global['database'];
 $datenbank = new DataBase($config['server'], $config['username'], $config['password'], $config['database']);
 $db = $datenbank->getPDO();
 
+
+$rechtemanagment = new rechtesystem($db, $_SESSION);
+
+
 if(isset($_GET['method']))
 {
 	$method = $_GET['method'];
@@ -32,5 +36,17 @@ switch($method)
 		break;
 	case "save":
 		require("methods/save.php");
+		break;
+	case "checkright":
+		
+		if($rechtemanagment->CheckRecht('menuverwaltung', 'show'))
+		{
+			$arr['login'] = true;
+		}
+		else 
+		{
+			$arr['login'] = false;
+		}
+		echo json_encode($arr);
 		break;
 }

@@ -1,7 +1,7 @@
 <?php
 //mb_internal_encoding("utf-8");
 
-if(isset($_GET['menu']))
+/*if(isset($_GET['menu']))
 {
 	$menu = $_GET['menu'];
 	
@@ -13,7 +13,9 @@ if(isset($_GET['menu']))
 	
 	$d = $stmt->fetchAll();
 }
-else 
+else
+*/
+if($rechtemanagment->CheckRecht('menuverwaltung', 'show'))
 {
 	$returnarr = array();
 	$stmt = $db->prepare("SELECT DISTINCT(menu) as menu FROM project_menu");
@@ -47,5 +49,4 @@ else
 		
 	}
 	echo json_encode($returnarr);
-	
 }
