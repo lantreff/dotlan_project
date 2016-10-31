@@ -14,7 +14,10 @@ if((isset($_GET['method'])) && (isset($_GET['id'])) && ($rechtemanagment->CheckR
 					`titel` = :name, 
 					`param1`=:param1,
 					`param2` =:param2,
-					`param3` =:param3
+					`param3` =:param3,
+					`view_recht` =:recht,
+					`url` = :url
+			
 			WHERE `id` = :id ");
 	
 	$query = $db->prepare($sql);
@@ -23,7 +26,8 @@ if((isset($_GET['method'])) && (isset($_GET['id'])) && ($rechtemanagment->CheckR
 	$query->bindValue(':param1', $array['param1']);
 	$query->bindValue(':param2', $array['param2']);
 	$query->bindValue(':param3', $array['param3']);
-	
+	$query->bindValue(':recht', $array['recht']);
+	$query->bindValue(':url', $array['url']);
 	$query->execute();
 	
 	$returnarr['debug'] = $query->errorInfo();
