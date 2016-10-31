@@ -1,20 +1,4 @@
 <?php
-//mb_internal_encoding("utf-8");
-
-/*if(isset($_GET['menu']))
-{
-	$menu = $_GET['menu'];
-	
-	$stmt = $db->prepare("SELECT * FROM project_menu WHERE menu=:menu");
-	$stmt->bindValue(':menu', $menu);
-	
-	$stmt->execute();
-	
-	
-	$d = $stmt->fetchAll();
-}
-else
-*/
 if($rechtemanagment->CheckRecht('menuverwaltung', 'show'))
 {
 	$returnarr = array();
@@ -31,19 +15,11 @@ if($rechtemanagment->CheckRecht('menuverwaltung', 'show'))
 		$subquery->execute();
 		foreach($subquery->fetchAll() as $nrow)
 		{
-			
 			$titel = $nrow['titel'];
-			
 			$dbid  = $nrow['id'];
-			$param1 = boolval($nrow['param1']);
-			$param2 = boolval($nrow['param2']);
-			$param3 = boolval($nrow['param3']);
 			$eintrag = array();
 			$eintrag['name'] = $titel;
 			$eintrag['dbid'] = utf8_encode($dbid);
-			$eintrag['param1'] = $param1;
-			$eintrag['param2'] = $param2;
-			$eintrag['param3'] = $param3;
 			$returnarr[$menueintrag]['eintrage'][] = $eintrag;
 		}
 		

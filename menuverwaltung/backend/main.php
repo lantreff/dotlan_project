@@ -25,17 +25,23 @@ if(isset($_GET['method']))
 }
 else 
 {
-	$method = "getentries";
+	$method = "getmenus";
 }
 
 
 switch($method)
 {
-	case "getentries":
-		require("methods/getentries.php");
+	case "getmenus":
+		require("methods/getmenus.php");
 		break;
-	case "save":
-		require("methods/save.php");
+	case "getentry":
+		require("methods/getentry.php");
+		break;
+	case "saveanordnung":
+		require("methods/saveanordnung.php");
+		break;
+	case "saveeintrag":
+		require("methods/saveeintrag.php");
 		break;
 	case "checkright":
 		

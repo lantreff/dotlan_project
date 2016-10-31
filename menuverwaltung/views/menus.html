@@ -15,15 +15,12 @@
         <dnd-nodrag>
             <div dnd-handle class="handle">:::</div>
             <div class="name">
-                <input type="text" size="10" ng-model="eintrag.name" class="form-control">
-                <input type="hidden" ng-model="eintrag.dbid" class="form-control">
-                <input id="box1" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(1)" type="checkbox" ng-model="eintrag.param1" ng-checked="isChecked(eintrag.param1)" class="form-control">
-                <input id="box_2" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(2)" type="checkbox" ng-model="eintrag.param2" ng-checked="isChecked(eintrag.param2)" class="form-control">
-                <input id="box_3" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(3)" type="checkbox" ng-model="eintrag.param3" ng-checked="isChecked(eintrag.param3)" class="form-control">
+                <h5>{{eintrag.name}}
+                <button ng-click="settings(eintrag.dbid)">Bearbeiten</button></h5>
             </div>
         </dnd-nodrag>
     </li>
     <li class="dndPlaceholder">
-        Packe hier hin
+        Packe hier hin!!
     </li>
 </ul>

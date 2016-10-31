@@ -16,10 +16,6 @@ if((isset($_GET['method'])) && ($rechtemanagment->CheckRecht('menuverwaltung', '
 	
 		$sql = ("UPDATE `project_menu` 
 					SET 
-						`titel` = :name, 
-						`param1`=:param1,
-						`param2` =:param2,
-						`param3` =:param3,
 						`order_int` = :order_int
 				WHERE `id` = :id ");
 
@@ -30,15 +26,6 @@ if((isset($_GET['method'])) && ($rechtemanagment->CheckRecht('menuverwaltung', '
 			$counter++;
 			//print_r($menuitems);
 			$dbid = $menuitems['dbid'];
-			$name   = $menuitems['name'];
-			$param1 = $menuitems['param1'];
-			$param2 = $menuitems['param2'];
-			$param3 = $menuitems['param3'];
-			
-			$stmt->bindValue(':name', $name);
-			$stmt->bindValue(':param1', $param1);
-			$stmt->bindValue(':param2', $param2);
-			$stmt->bindValue(':param3', $param3);
 			
 			$stmt->bindValue(':order_int', $counter);
 			$stmt->bindValue(':id', $dbid);

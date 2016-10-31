@@ -1,0 +1,31 @@
+<html>
+<head>
+</head>
+<body>
+<div class="modal-header">
+    <h3 class="modal-title">{{menudaten.titel}}</h3>
+</div>
+<div class="modal-body">
+    <div id="infobox">{{infobox}}</div><br />
+    <div id="checkboxcontent">
+        <input id="box1" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(1)" type="checkbox" ng-model="menudaten.param1" ng-checked="isChecked(eintrag.param1)">
+        <input id="box2" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(2)" type="checkbox" ng-model="menudaten.param2" ng-checked="isChecked(eintrag.param2)">
+        <input id="box3" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(3)" type="checkbox" ng-model="menudaten.param3" ng-checked="isChecked(eintrag.param3)">
+    </div>
+
+    <div id="mainfrount">
+        <input type="text" ng-model="menudaten.titel">
+        <input type="text" value="MenuID" disabled>
+    </div>
+</div>
+<div class="modal-footer">
+
+    <button class="btn" type="button" ng-click="saveandquit()">Speichern und Beenden</button>
+    <button class="btn" type="button" ng-click="save()">Speichern</button>
+    <button class="btn btn-warning" type="button"
+            ng-click="close()">Close</button>
+</div>
+
+<div ng-init="init()"></div>
+</body>
+</html>

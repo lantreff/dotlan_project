@@ -101,6 +101,10 @@
     margin-left: 20px;
 }
 
+#settingsbox
+{
+    visibility: hidden;
+}
 
 #infobox {
     position: fixed;
