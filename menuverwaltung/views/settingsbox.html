@@ -14,8 +14,22 @@
     </div>
 
     <div id="mainfrount">
-        <input type="text" ng-model="menudaten.titel">
-        <input type="text" value="MenuID" disabled>
+        <table>
+            <tr>
+                <td>Titel</td>
+                <td><input type="text" ng-model="menudaten.titel"></td>
+            </tr>
+            <tr>
+                <td>Ben&ouml;tigte Recht</td>
+                <td><input type="text" ng-model="menudaten.recht"></td>
+            </tr>
+            <tr>
+                <td>AufrufUrl</td>
+                <td><input type="text" ng-model="menudaten.url" size="50"> </td>
+            </tr>
+        </table>
+
+        <!--<input type="text" value="MenuID" disabled>-->
     </div>
 </div>
 <div class="modal-footer">

@@ -6,7 +6,10 @@
         <div>{{speicherung}}</div>
         <div ng-repeat="list in lists" class="col-md-4">
             <div class="panel-heading">
-                <h3 class="panel panel-info">Menueintrag {{list.label}} &nbsp; {{infobox}}</h3>
+                <div class="panel panel-info">
+                    <h3 class="panel">Menueintrag {{list.label}}</h3>
+                    <button type="button" ng-click="insertnewelement(list.label)">Add</button>
+                    </div>
             </div>
             <div class="panel-body" ng-include="'views/menus.html'"></div>
 

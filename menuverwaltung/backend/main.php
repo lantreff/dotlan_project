@@ -43,6 +43,9 @@ switch($method)
 	case "saveeintrag":
 		require("methods/saveeintrag.php");
 		break;
+	case "insertmenu":
+		require("methods/insertmenu.php");
+		break;
 	case "checkright":
 		
 		if($rechtemanagment->CheckRecht('menuverwaltung', 'show'))

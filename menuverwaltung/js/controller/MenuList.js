@@ -23,6 +23,23 @@ myApp.controller('MenuList', function($scope,$uibModal,$log,$http) {
         });
     }
 
+    function insertmenuelement(menu)
+    {
+        $http({
+            method: 'GET',
+            url: 'backend/main.php?method=insertmenu&menu='+menu.toString()
+        })
+        .then(function(response){
+
+            sid = response.data;
+            if(sid.response == "ok")
+            {
+                einstellungen(sid.lastid);
+            }
+            console.log(sid);
+        });
+    }
+
     $scope.saveitems = function(lists) {
         $scope.speicherung = 'Menu wird gespeichert. Bitte Warten';
         console.log('Save');
@@ -50,18 +67,24 @@ myApp.controller('MenuList', function($scope,$uibModal,$log,$http) {
         });
     };
 
-    $scope.settings = function(dbid,size) {
-      var modalInstance = $uibModal.open({
-          templateUrl: 'views/settingsbox.html',
-          controller: 'SettingsBox',
-          size:size,
-          resolve: {
-              items: function() {
-                  return dbid;
-              }
-          }
-      });
+    $scope.insertnewelement = function(menueintrag) {
 
+        //alert(menueintrag);
+        insertmenuelement(menueintrag);
+    };
+
+    function einstellungen(dbid,size)
+    {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/settingsbox.html',
+            controller: 'SettingsBox',
+            size:size,
+            resolve: {
+                items: function() {
+                    return dbid;
+                }
+            }
+        });
 
         modalInstance.result.then(function(editedItem) {
             alert(editedItem);
@@ -71,6 +94,11 @@ myApp.controller('MenuList', function($scope,$uibModal,$log,$http) {
             $scope.lists = '';
             loadmenuListe();
         })
+    }
+
+    $scope.settings = function(dbid,size) {
+
+        einstellungen(dbid,size);
     };
 
 });
