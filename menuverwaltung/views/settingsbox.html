@@ -6,12 +6,26 @@
     <h3 class="modal-title">{{menudaten.titel}}</h3>
 </div>
 <div class="modal-body">
-    <div id="infobox">{{infobox}}</div><br />
+    <div></div><br />
     <div id="checkboxcontent">
-        <input id="box1" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(1)" type="checkbox" ng-model="menudaten.param1" ng-checked="isChecked(eintrag.param1)">
-        <input id="box2" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(2)" type="checkbox" ng-model="menudaten.param2" ng-checked="isChecked(eintrag.param2)">
-        <input id="box3" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(3)" type="checkbox" ng-model="menudaten.param3" ng-checked="isChecked(eintrag.param3)">
+        <!--        <input id="box1" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(1)" type="checkbox" ng-model="menudaten.param1" ng-checked="isChecked(eintrag.param1)">
+                <input id="box2" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(2)" type="checkbox" ng-model="menudaten.param2" ng-checked="isChecked(eintrag.param2)">
+                <input id="box3" ng-mouseleave="infoboxs(99)" ng-mouseover="infoboxs(3)" type="checkbox" ng-model="menudaten.param3" ng-checked="isChecked(eintrag.param3)">
+        -->
+        <table>
+            <tr>
+                <td>Session</td>
+                <td><input type="checkbox" ng-model="menudaten.param1" ng-checked="isChecked(eintrag.param1)"></td>
+            </tr><tr>
+            <td>Users Only</td>
+            <td><input type="checkbox" ng-model="menudaten.param2" ng-checked="isChecked(eintrag.param2)"></td>
+        </tr><tr>
+            <td>Admins Only</td>
+            <td><input type="checkbox" ng-model="menudaten.param3" ng-checked="isChecked(eintrag.param3)"></td>
+        </tr>
+        </table>
     </div>
+
 
     <div id="mainfront">
         <table>

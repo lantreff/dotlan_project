@@ -46,6 +46,9 @@ switch($method)
 	case "insertmenu":
 		require("methods/insertmenu.php");
 		break;
+	case "deleteentry":
+		require("methods/deleteentry.php");
+		break;
 	case "checkright":
 		
 		if($rechtemanagment->CheckRecht('menuverwaltung', 'show'))

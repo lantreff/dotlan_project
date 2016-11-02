@@ -10,7 +10,7 @@ if($rechtemanagment->CheckRecht('menuverwaltung', 'show'))
 	{
 		$menueintrag = utf8_encode($row['menu']);
 		$returnarr[$menueintrag]['label']=$menueintrag;
-		$subquery = $db->prepare("SELECT titel,id,param1,param2,param3 FROM project_menu WHERE menu=:menueintrag");
+		$subquery = $db->prepare("SELECT titel,id,param1,param2,param3 FROM project_menu WHERE menu=:menueintrag ORDER BY order_int");
 		$subquery->bindValue(':menueintrag', $menueintrag);
 		$subquery->execute();
 		foreach($subquery->fetchAll() as $nrow)

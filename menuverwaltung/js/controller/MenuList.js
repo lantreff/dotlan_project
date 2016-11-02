@@ -40,6 +40,23 @@ myApp.controller('MenuList', function($scope,$uibModal,$log,$http) {
         });
     }
 
+    $scope.delete = function(dbid,name) {
+        var r = confirm('Wollen Sie '+name.toString()+' Wirklich löschen?');
+        if(r == true) {
+            console.log(dbid);
+            loeschen(dbid);
+        }
+    };
+
+    function loeschen(dbid) {
+        $http({
+            method: 'GET',
+            url: 'backend/main.php?method=deleteentry&id='+dbid.toString()
+        }).then(function(response) {
+            loadmenuListe();
+        });
+    }
+
     $scope.saveitems = function(lists) {
         $scope.speicherung = 'Menu wird gespeichert. Bitte Warten';
         console.log('Save');

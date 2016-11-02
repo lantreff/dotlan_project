@@ -7,8 +7,9 @@
         <div ng-repeat="list in lists" class="col-md-4">
             <div class="panel-heading">
                 <div class="panel panel-info">
-                    <h3 class="panel">Menueintrag {{list.label}}</h3>
-                    <button type="button" ng-click="insertnewelement(list.label)">Add</button>
+                    <h3 class="panel">{{list.label}}&nbsp;&nbsp;<img ng-click="insertnewelement(list.label)" src="img/add.png" width="10%" height="10%" /></h3>
+                    <!--<button type="button" ng-click="insertnewelement(list.label)">Add</button>-->
+
                     </div>
             </div>
             <div class="panel-body" ng-include="'views/menus.html'"></div>
