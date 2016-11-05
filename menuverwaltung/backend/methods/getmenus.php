@@ -2,27 +2,35 @@
 if($rechtemanagment->CheckRecht('menuverwaltung', 'show'))
 {
 	$returnarr = array();
-	$stmt = $db->prepare("SELECT DISTINCT(menu) as menu FROM project_menu");
-	$stmt->execute();
 	
-	//$introw = $stmt->fetchAll();
-	foreach($stmt->fetchAll() as $row)
+	if(!(isset($_GET['menueeintrag'])))
 	{
-		$menueintrag = utf8_encode($row['menu']);
-		$returnarr[$menueintrag]['label']=$menueintrag;
-		$subquery = $db->prepare("SELECT titel,id,param1,param2,param3 FROM project_menu WHERE menu=:menueintrag ORDER BY order_int");
-		$subquery->bindValue(':menueintrag', $menueintrag);
-		$subquery->execute();
-		foreach($subquery->fetchAll() as $nrow)
+		$stmt = $db->prepare("SELECT DISTINCT(menu) as menu FROM project_menu");
+		$stmt->execute();
+		
+		foreach($stmt->fetchAll( ) as $row)
 		{
-			$titel = $nrow['titel'];
-			$dbid  = $nrow['id'];
+			$menueintrag = utf8_encode($row['menu']);
+			$returnarr[$menueintrag]['label'] = $menueintrag;
+		}
+	}
+	else
+	{
+		$menueintrag = $_GET['menueeintrag'];
+		
+		$stmt = $db->prepare("SELECT titel,id,param1,param2,param3 FROM project_menu WHERE menu=:menueintrag ORDER BY order_int");
+		$stmt->bindValue(':menueintrag', $menueintrag);
+		$stmt->execute();
+		
+		foreach($stmt->fetchAll() as $row)
+		{
+			$titel = $row['titel'];
+			$dbid = $row['id'];
 			$eintrag = array();
 			$eintrag['name'] = $titel;
-			$eintrag['dbid'] = utf8_encode($dbid);
-			$returnarr[$menueintrag]['eintrage'][] = $eintrag;
+			$eintrag['dbid'] = $dbid;
+			$returnarr['eintrage'][] = $eintrag;
 		}
-		
 	}
 	echo json_encode($returnarr);
 }

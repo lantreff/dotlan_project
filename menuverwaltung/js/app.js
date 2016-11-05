@@ -7,8 +7,12 @@ myApp.config(['$routeProvider',
                 templateUrl: 'views/MenuList.html',
                 controller: 'MenuList'
             })
+            .when('/menu/:eintrag', {
+                templateUrl: 'views/menus.html',
+                controller: 'Menus'
+            })
             .when('/denied', {
-                templateUrl: 'vies/denied.html'
+                templateUrl: 'views/denied.html'
             })
             .otherwise({
                 redirectTo: '/'
@@ -34,7 +38,7 @@ myApp.run(function($rootScope,$timeout,$location,$http) {
             if(erlaubt) {
                 if(angular.isObject(current.$$route)) {
                     if(current.$$route.orginalPath !== '/denied') {
-                        $location.path('/');
+                        //$location.path('/');
                     }
                 }
             }

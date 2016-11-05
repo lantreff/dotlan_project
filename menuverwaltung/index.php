@@ -17,7 +17,7 @@ include("../functions.php");
 
 // seitentietel wird im Tab des Browsers angezeigt
 $PAGE->sitetitle = $PAGE->htmltitle = _(ucfirst($MODUL_NAME));
-include("header.php");
+//include("header.php");
 
 $wrapper = new dotlanWrapper("index.html");
 $output .= $wrapper->GetFileContent();

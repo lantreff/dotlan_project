@@ -1,30 +1,24 @@
+<!--<div ng-controller="Menus">-->
 
-<ul dnd-list="list.eintrage"
-    dnd-allowed-types="list.allowedTypes"
-    dnd-disable-if="lists.eintrag.lenght >= list.max"
->
+<button ng-click="saveitems()"  class="btn btn-primary">Speichern</button>
+<button ng-click="insertitem()" class="btn btn-primary" >Eintrag hinzuf&uuml;gen</button>&nbsp;&nbsp;
 
-    <li ng-repeat="eintrag in list.eintrage"
-        dnd-draggable="eintrag"
-        dnd-type="eintrag.type"
-        dnd-disable-if="eintrag.type == 'unknown'"
-        dnd-moved="list.eintrage.splice($index,1)"
-        dnd-effect-allowed="move"
+<div>{{speicherung}}</div>
 
-    >
+<br><br><br><br>
+
+<ul dnd-list="list.eintrage" dnd-disable-if="list.eintrag.length >= list.max">
+    <li ng-repeat="eintrag in list.eintrage" dnd-draggable="eintrag" dnd-moved="list.eintrage.splice($index,1)" dnd-effect-allowed="move">
         <dnd-nodrag>
             <div dnd-handle class="handle">:::</div>
             <div class="name">
-                <div id="menueintrag">
-                    <p> 
-                        <span id="eintragname">{{eintrag.name}}</span>&nbsp;&nbsp;
-                        <img ng-click="settings(eintrag.dbid)" src="img/editbtn.png" width="10%" height="10%" style="float:right;"/> &nbsp;
-                        <img ng-click="delete(eintrag.dbid,eintrag.name)" src="img/trash.png" width="10%" height="10%" style="float:right;" />
-                   </p>
+                <div class="menueeintrag">
+                    <p>
+                        <span class="eintragname">{{eintrag.name}}</span>
+                        <img ng-click="settings(eintrag.dbid)" src="img/editbtn.png" width="20px" height="20px" style="float:right;" /> &nbsp;
+                        <img ng-click="delete(eintrag.dbid,eintrag.name)" src="img/trash.png" width="20px" height="20px" style="float:right;" />
+                    </p>
                 </div>
-                
-                <!--<button ng-click="settings(eintrag.dbid)">Bearbeiten</button></h5>-->
-                    <!--<div id="einstellung" ng-click="settings(eintrag.dbid)">Bearbeiten</div>-->
             </div>
         </dnd-nodrag>
     </li>

@@ -16,16 +16,26 @@
     <script src="./../lib/angular/angular-drag-and-drop-lists.js"></script>
     <script src="./../lib/angular/ui-bootstrap-tpls-0.14.3.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/hauptmenuservice.js"></script>
     <script src="js/controller/MenuList.js"></script>
     <script src="js/controller/SettingsBox.js"></script>
+    <script src="js/controller/Menus.js"></script>
 
 
 </head>
 <body>
+<div class="typesDemo">
+    <table class='msg2' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
+        <a href='{BASEDIR}admin/projekt'>Projekt</a>
+        &raquo;
+        <a href='#'>MenuVerwaltung</a>
 
-<div ng-view>
+        &raquo;
+        <br>
+    </table>
 
-
+    <navigation></navigation>
+    <div ng-view></div>
 </div>
 
 </body>
