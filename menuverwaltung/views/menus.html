@@ -16,12 +16,13 @@
             <div dnd-handle class="handle">:::</div>
             <div class="name">
                 <div id="menueintrag">
-                    <p>
+                    <p> 
                         <span id="eintragname">{{eintrag.name}}</span>&nbsp;&nbsp;
-                        <img ng-click="settings(eintrag.dbid)" src="img/editbtn.png" width="10%" height="10%" /> &nbsp;
-                        <img ng-click="delete(eintrag.dbid,eintrag.name)" src="img/trash.png" width="10%" height="10%" />
-                    </p>
+                        <img ng-click="settings(eintrag.dbid)" src="img/editbtn.png" width="10%" height="10%" style="float:right;"/> &nbsp;
+                        <img ng-click="delete(eintrag.dbid,eintrag.name)" src="img/trash.png" width="10%" height="10%" style="float:right;" />
+                   </p>
                 </div>
+                
                 <!--<button ng-click="settings(eintrag.dbid)">Bearbeiten</button></h5>-->
                     <!--<div id="einstellung" ng-click="settings(eintrag.dbid)">Bearbeiten</div>-->
             </div>
